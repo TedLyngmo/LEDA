@@ -1,0 +1,27 @@
+#-----------------------------------------------------------------------------
+# OS2  EMX g++
+#-----------------------------------------------------------------------------
+
+LIB    = ../../$(L).a
+CFLAGS = -O
+ARLIB  = ar r $(LIB) $?
+RANLIB = ranlib $(LIB)
+o      = .o
+
+.c.o:
+	gcc -xc++ -I../../incl $(CFLAGS) $(DFLAGS) -c $*.c
+
+.s.o:
+	as -o $*.o $*.s
+
+all: $(LIB)
+
+include Make.lst
+
+$(LIB): $(OBJECTS)
+	$(ARLIB)
+	$(RANLIB)
+
+clean:
+	rm -f $(OBJECTS)
+

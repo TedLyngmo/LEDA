@@ -1,0 +1,65 @@
+
+                                 LEDA 
+
+           A Platform for Combinatorial and Geometric Computing
+
+ 
+                             Kurt Mehlhorn 
+                   Max-Planck-Institut fuer Informatik
+                  Im Stadtwald, 66123 Saarbruecken, FRG     
+
+
+                             Stefan Naeher
+                   Fachbereich Mathematik und Informatik
+                Martin-Luther Universitaet Halle-Wittenberg
+                  Weinbergweg 17, 06120 Halle(Saale), FRG
+
+
+
+LEDA (Library of Efficient Data types and Algorithms) is a platform for 
+combinatorial and geometric computing. The main features are:
+
+    LEDA provides a sizable collection of data types and algorithms in a form 
+    which allows them to be used by non-experts. This collection includes most 
+    of the data types and algorithms described in the text books of the area. 
+
+    LEDA gives a precise and readable specification for each of the data types 
+    and algorithms mentioned above.  The specifications are short (typically, 
+    not more than a page), general (so as to allow several implementations), 
+    and abstract (so as to hide all details of the implementation). 
+
+    For many efficient data structures access by position is important. In 
+    LEDA, we use an item concept to cast positions into an abstract form. We 
+    mention that most of the specifications given in the LEDA manual use this 
+    concept, i.e., the concept is adequate for the description of many data 
+    types. 
+
+    LEDA contains efficient implementations for each of the data types, e.g., 
+    Fibonacci heaps for priority queues, red-black trees and dynamic perfect 
+    hashing for dictionaries, ...
+
+
+    LEDA contains a comfortable data type graph. It offers the standard 
+    iterations such as ``for all nodes v of a graph G do'' or ``for all 
+    neighbors w of v do'', it allows to add and delete vertices and edges 
+    and it offers arrays and matrices indexed by nodes and edges,...  
+    The data type graph allows to write programs for graph problems in a 
+    form close to the typical text book presentation.
+
+
+    LEDA is implemented by a C++ class library. It can be used with almost
+    any C++ compiler that supports templates.
+
+
+    LEDA is not in the public domain, but can be used freely for academic
+    research and teaching. It is available by anonymous ftp from 
+    ftp.mpi-sb.mpg.de /pub/LEDA. Commercial licenses are distributed by the 
+    LEDA Software GmbH.
+
+   Write to leda@mpi-sb.mpg.de or subsribe to the news group comp.lang.c++.leda
+   to get more information.
+
+    
+
+
+

@@ -1,0 +1,291 @@
+
+------------------------------------------------------------------------------
+ LEDA  3.2.3  (18.9.95)
+------------------------------------------------------------------------------
+
+- bug in sweep_segments fixed
+
+- missing initialization in function template "Convert"
+
+- bug in string::operator[] fixed
+
+- bug in integer cmp fixed
+
+- node_pq::member  returned always true  (fixed).
+   
+- rat_segment::intersection(rat_segment)
+
+- missing copy constructor for array2
+
+- ugraph::first_adj_edge(node v)
+
+- ugraph::last_adj_edge(node v)
+
+- h_array: empty array now has default-size of 1 (instead of 512)
+
+- missing destructor for handle_base
+
+- bug forall - macro 
+
+- list::split operation 
+
+- iteration for constant sets
+
+- bug in MIN_CUT graph algorithm 
+
+- bug in orientation(segment,point) 
+
+- polygon::intersection and polygon::inside rewritten
+
+- bug in window grid drawing
+
+
+------------------------------------------------------------------------------
+ LEDA  3.2    (7.7.95)
+------------------------------------------------------------------------------
+
+
+- SEGMENT_INTERSECTION
+
+            now also works in case of "degenerate" input
+
+- graphs
+            graph::cyclic_in_succ, graph::cyclic_in_pred,
+            graph::first_adj_edge, and graph::last_adj_edge fixed
+
+            new_edge(e1,e2,dir1,dir2) fixed
+
+            copy constructor and assingment now preserve order of 
+            adjacency lists
+
+            missing implementation of graph::in_edges(v) included
+
+            bug in copy constructor of node/edge_array and node/edge_map fixed
+
+            b_node_pq: first insert now initalizes minimum correctly
+
+            planar_map::split_edge fixed
+  
+
+
+- param_types
+             one-word class types
+             64 bit architectures
+
+- h_array
+            iteration (forall_defined) now works
+
+- set
+           copy constructor and operator=
+           (bug in bin_tree::copy_tree fixed)
+
+
+- map<I,E>  destructor now deletes E's
+            bug in rehash fixed
+
+- array
+            array::read(istream in) replaced by  array::read(istream& in)
+
+- panel
+            panel("...",w,h)   now creates a panel with width w and height h
+
+ 
+- skiplist  change_inf now destroys old and copies new information
+ 
+- matrix    memory leak in triang fixed
+
+
+
+
+------------------------------------------------------------------------------
+Version 3.1.2       (3.02.95)
+------------------------------------------------------------------------------
+
+-list.h:   made list_item list::operator[](int i)  const
+-string.h: made operator+ a friend function
+-map.h:    replace int(x)   by  int(Convert(x))
+-graph.h:  replace in line 258 and 268 "next_power(i)"  by "next_power(i+1)"
+-integer.c: replace line 1752 { cout << "0"; by { out << "0";
+            replace line 1769 if (x.PTR->sign == NEGATIVE) cout << "-";
+-real.c: many changes
+
+SUNPRO C++ (use 4.0.1 NOT 4.0, use -pto flag )
+- do not use assembler code in _string.c
+- define __svr4__ if __SVR4 is defined
+- use format_string variant of string constructor
+- changes to avoid some of the "something hides something" warnings
+
+------------------------------------------------------------------------------
+Version 3.1.1       (27.01.95)
+------------------------------------------------------------------------------
+
+ array.h:     operator[] now calls gen_array::entry (instead of inf)
+ edge_set.h:  node_array<list_item> replaced by edge_array<list_item>
+ list.h:      cmp_ptr set to nil in list::search()
+ list.h:      missing app - function inserted.
+ node_pq.h    print_inf  now prints index of node
+ dlist.h:     replaced EOF by char(EOF) (problems with EOF <0)
+ _g_inout.c:  read & write for user defined node/edge types fixed
+ _g_update.c: infinite loop in insert_reverse_edges eliminated
+ _skiplist.c: locate_succ, locate fixed
+ _integer.c:  memory leak in integert:integer(double) fixed
+ _real.c:     special floating point functions calls replaced
+ _random.c:   BSD Code for random/srandom included 
+ _basic.c:    usleep replaced by sleep
+ _g_map.c:    table is deleted only if table_size > 0
+ _bin_tree.c: copy constructor now sets corr-pointer of rightmost leaf
+ Type_Name function defined for basic LEDA types (point,string, ...)
+
+ Makefiles: _sparc.s will be assembled only on sparc machines
+
+------------------------------------------------------------------------------
+Version 3.1
+------------------------------------------------------------------------------
+
+16.01.95    array::operator=  fixed
+
+13.01.95    graph::read and graph::write did not work for unparameterized
+            graphs, fixed. 
+
+13.01.95    node_set edge_set rewritten
+            int_set: hard coded word size replaced by sizeof-call
+
+ 6.01.95    list<T>::sort(cmp_func), list<T>::bucket_sort(ord_func)
+            list<T>::min(cmp_func), list<T>::max(cmp_func), 
+            list<T>::apply(app_func) did not work for types with
+            sizof(T) > sizeof(void*); bug is fixed.
+
+            array::sort(cmp_func), array::sort(l,h,cmp_func)
+            array::binary_search(cmp_func), same problem as in lists fixed
+
+21.11.94    bug in vector::operator=(const vector&) fixed
+            (old (d) and new (n) dimensions exchanged)
+
+17.11.94    bug in rs_tree (set<T>) copy constructor fixed
+
+15.11.94    LEDA_MEMORY: operator new & delete now use the size argument 
+
+07.10.94    bug in array copy constructor fixed
+            memory leak in list::assign() fixed
+            polygon CONVEX_HULL(list<point>)  new algorithm (Graham's Scan)
+            bugs in segment::intersection() and line::intersection() fixed
+        
+29.09.94    bug in binary heaps (negative integer keys) fixed
+
+28.09.94    UGRAPH::assign(node/edge,...) fixed
+
+ 6.09.94    bug in list<node> graph::adj_nodes() (undirected graphs) fixed 
+
+ 8.08.94    Iteration (forall_defined) for h_arrays 
+
+ 4.08.94    some problems in _leda_panel.c fixed (slider items, buttons, ...)
+
+11.07.94    Multi-definition problem with read_mouse(window, ...) and g++ fixed
+
+22.03.94    bug in skiplist copy constructor fixed
+
+22.12.93    memory leaks in leda panels 
+
+21.12.93    nested forall-loops
+
+17.12.93    string::read now can read strings of arbitrary length
+
+11.10.93    made dlist::bucket_sort stable
+            corrected return value of COMPUTE_CORRESPONDENCE 
+
+08.09.93    memory bug in dp_hash (dynamic perfect hashing) fixed
+
+12.08.93    k_heap::del_item fixed 
+
+25.06.93    made rs_tree::change_inf (dictionary) clear old and copy new 
+            information 
+
+16.06.93    dlist::search (replaced != by call of virtual cmp function)
+
+07.06.93    line::intersection (used to report intersection of parallel lines)
+
+01.06.93    fixed bug in queue::append (replaced Convert by Copy)
+
+05.05.93    bugs in MAX_WEIGHT_BIPARTITE_MATCHING fixed (by M. Paul)
+
+05.04.93    prio.h: added missing ostream argument cout to Print calls
+
+12.03.93    stack::push(x)    replaced Convert(x) by Copy(x)
+
+09.03.93    segment::angle()  returns zero for segments of length zero
+
+05.03.93    memory leak in draw_(filled_)polygon fixed
+
+25.01.93    bug in ab_tree::clear() fixed (forgot to set counter to zero)
+
+30.12.92    made dlist update operations protected
+
+20.12.92    changed type "SIG_PF" in basic.h to "LEDA_SIG_PF"
+
+07.12.92    missing operation ugraph::read(istream&) inserted
+
+
+
+------------------------------------------------------------------------------
+Version 3.0
+------------------------------------------------------------------------------
+
+09.11.92    Convert and Access for parameter types of size smaller than 
+            pointers (e.g. char, short) fixed
+
+16.07.92    bug with colinear points in delaunay_tree, VORONOI, point_set, ...
+            fixed
+
+27.05.92    MAX_WEIGHT_BIPARTITE_MATCHING(double) (_mwb_matching.c)
+            fixed precicision problem that caused a negative loop in DIJKSTRA
+
+19.05.92    list::sort now works for lists of length 1
+
+12.05.92    type conversion for "char" (Copy,Convert,Access, ...)  fixed
+
+
+------------------------------------------------------------------------------
+Version 2.2
+------------------------------------------------------------------------------
+
+27.04.92    matrix::operator=(const matrix&) 
+            matrix::triang()
+
+17.04.92    lost memory bug in string::operator+ fixed   (Nicolas Caillaud)
+
+16.04.92    made all destructors virtual
+
+13.04.92    bug in GRAPH::assign(node/edge,vtype/etype) fixed
+            made operator<< and operator>> for circles reverse ops
+
+11.04.92    copy-bug in graph::operator=() and graph(const graph&) fixed
+
+
+------------------------------------------------------------------------------
+Version 2.1
+------------------------------------------------------------------------------
+
+16.12.91    fixed Copy bug for list, GRAPH, and UGRAPH
+
+10.12.91    defined read(write)_node(edge)_entry for UGRAPH
+
+
+28.11.91    made void*-functions (append,push, ....) in dlist, graph
+            and ugraph protected
+
+12.11.91    vector/matrix subtypes for arrays
+            operator=  & operator== now may be called for objects with
+            differnt dimensions
+
+
+11.11.91    Copy(vector&) ---> Copy(const vector&)
+            Copy(matrix&) ---> Copy(const matrix&)
+
+
+31.10.91    string& string::operator=(const char* s)
+            Bug: Zugriff auf deallocierten Speicher fuer p->s = s
+
+
+28.10.91    in bool line::operator==(const line&)
+            Bug: funktionierte nicht fuer 2 vertikale Linien
+

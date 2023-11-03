@@ -1,0 +1,9 @@
+
+OBJECTS = \
+_delaunay$o \
+_float_hull$o \
+_rat_hull$o \
+_float_sweep$o \
+_rat_sweep$o \
+_triang$o \
+_voronoi$o

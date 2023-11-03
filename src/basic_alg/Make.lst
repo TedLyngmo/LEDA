@@ -1,0 +1,4 @@
+
+OBJECTS = \
+_select$o \
+_simplex$o

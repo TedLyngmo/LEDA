@@ -1,0 +1,14 @@
+#!/bin/csh -f
+
+set source = ../incl/LEDA
+
+\rm -r -f extract
+
+mkdir extract
+
+foreach f ($source/*.h)
+set t = `basename $f .h`.tex
+echo "$t"
+gawk -f extman.awk  $f > extract/$t
+end
+

@@ -1,0 +1,28 @@
+#-----------------------------------------------------------------------------
+# DOS  EMX  g++
+#-----------------------------------------------------------------------------
+
+LIB    = ../../$(L).a
+CFLAGS = -O
+o      = .o
+.c.o:
+	gcc -I../../incl $(CFLAGS) $(DFLAGS) -c -xc++ $*.c -xnone
+	@echo $*.o >> ar.lst
+
+
+all: $(LIB)
+
+
+include Make.lst
+
+
+$(LIB): $(OBJECTS)
+	@type ar.lst
+	ar r $(LIB) @ar.lst
+        @del ar.lst > NUL
+	@ar d $(LIB) __.SYMDEF
+	ar s $(LIB)
+
+clean:
+	rm -f $(OBJECTS)
+

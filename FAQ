@@ -1,0 +1,561 @@
+
+                        The  Leda FAQ File
+			------------------
+			------------------
+
+
+This is the monthly posting of the Frequently Asked Questions about
+LEDA and the `comp.lang.c++.leda' newsgroup.
+
+Newsgroup: comp.lang.c++.leda
+
+Date: 07/07/95
+
+Number: 4
+
+Contents
+--------
+
+   I) Introduction
+
+    1. What is LEDA?
+    2. From where can i get information about LEDA?
+    3. How can i get LEDA?
+  ! 4. What is the current version of LEDA?
+
+  II) Bugs
+   
+    1. What can i do if i find a bug?
+    2. Where can i find information about bugs and fixes?
+
+ III) Platforms
+ 
+  ? 1. On what platforms and with which compilers can LEDA be used?
+    2. Can LEDA be used with other programming languages? 
+    3. Will LEDA take care of name conflicts with other packages?
+    4. Is there still a non-template version of LEDA available?
+    5. Why does LEDA not use standard templates to realize parameterized
+       data types?
+    6. Is an on-line user manual available?
+    7. The manual seems to be typeset for european paper size (A4)
+       how can I print it on the standard us paper?
+    8. Where can I read more about the internals (e.g. realization of
+       parameterized data types)?
+
+ 
+  IV) Basics
+
+    1. How do I delete entries in a d_array?
+    2. Why are modifications in forall-loops not allowed ?
+    3. Are preconditions checked or not (is there a way to control this)
+    4. What is the LEDA item concept?
+    5. Does LEDA support persistent data structures
+ 
+   V) Graphs
+
+    1. Why does LEDA complain when i try to insert an edge between two
+       nodes of a graph G into a copy of graph G?
+    2. There seems to be a subgraph type, however, it is not mentioned 
+       in the manual?
+    3. Node and edge arrays work only for static graphs, what do I 
+       do if the node/edge set changes dynamically?
+  ! 4. What graph/network algorithms are available in LEDA?
+    5. Can I derive my own node/edge type from the LEDA type "node" 
+       ("edge")?
+    6. How can I search for a particular edge (v,w) in a Graph?
+ 
+  VI) GRAPHICS
+
+    1. Does the LEDA graphics work on platforms other than X11?
+
+ VII) Geometry
+
+    1. Will there be three-dimensional geometry?
+
+VIII) Problems
+
+  ! 1. What does it mean if i get a runtime error : "compare undefined" 
+       or"Hash undefined"?
+  ! 2. Why does the compiler instantiate the predefined function
+       template compare (Hash) although i have defined my own?
+  ! 3. Why do i get the runtime error "compare undefined" when calling
+       the list::search function.
+    4. What does it mean if the compiler complains about the functions
+       Clear, Convert and Copy?
+  + 5. Why does the g++ 2.7.0 compiler complain about undefined integer 
+       variables in old programs that did work with the previous 
+       compiler version (or when compiling an old LEDA version)?
+
+IX) General questions
+
+    1. What is the run time/space overhead compared to programs written 
+       in C?
+
+  +: new item
+  !: changed
+  ?: additional information would be appreciated
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+I) Introduction
+---------------
+
+1. What is LEDA?
+
+
+
+                                  LEDA
+
+             A Library of Efficient Data Types and Algorithms
+
+
+                   Max-Planck-Institut fuer Informatik
+               Im Stadtwald, D-66123 Saarbruecken, Germany   
+
+                        (leda@mpi-sb.mpg.de)
+  
+
+LEDA is a library of the data types and algorithms of combinatorial
+computing. 
+
+The main features are:
+1)  LEDA provides a sizable collection of data types and algorithms in a
+    form which allows them to be used by non-experts. In the current 
+    version, this collection includes most of the data types and 
+    algorithms described in the text books of the area.  
+    
+
+2)  LEDA gives a precise and readable specification for each of the data
+    types and algorithms mentioned above.  The specifications are short 
+    (typically not more than a page), general (so as to allow several 
+    implementations), and abstract (so as to hide all details of the 
+    implementation). 
+
+3)  For many efficient data structures access by position is important. 
+    In LEDA, we use an item concept to cast positions into an abstract 
+    form. We mention that most of the specifications given in the LEDA 
+    manual use this concept, i.e., the concept is adequate for the 
+    description of many data types.
+    
+
+4)  LEDA contains efficient implementations for each of the data types, 
+    e.g., Fibonacci heaps for priority queues, red-black trees and 
+    dynamic perfect hashing for dictionaries, ...
+
+
+5)  LEDA contains a comfortable data type graph. It offers the standard 
+    iterations such as ``for all nodes v of a graph G do'' or ``for all 
+    neighbors w of v do'', it allows to add and delete vertices and  
+    edges and it offers arrays and matrices indexed by nodes and edges,
+    ... The data type graph allows to write programs for graph problems 
+    in a form close to the typical text book presentation.
+
+
+6)  LEDA is implemented by a C++ class library. It can be used with 
+    many C++ compilers (cfront2.1, cfront3.0, g++, SunPro ...).
+
+
+7)  LEDA is not in the public domain, but can be used freely for 
+    academic research and teaching (this does not include research
+    within a company or state/government departement).
+    For information concerning a commercial license please contact
+    leda@mpi-sb.mpg.de.
+
+
+
+2. From where can i get information about LEDA?
+
+World Wide Web:
+
+            http://www.mpi-sb.mpg.de/LEDA/leda.html
+
+anonymous ftp:
+
+            ftp.mpi-sb.mpg.de    in   pub/LEDA
+
+
+
+email:      leda@mpi-sb.mpg.de
+
+
+Fax:        +49 681 / 302 5401
+
+
+
+Phone:      +49 681 / 302 5354
+
+Address:
+            Christian Uhrig
+            Max-Planck-Institut fuer Informatik
+            Im Stadtwald
+
+            66123 Saarbruecken
+            Germany
+
+
+3. How can i get LEDA?
+
+The LEDA version for academic research is available
+by anonymous ftp from 
+
+    ftp.mpi-sb.mpg.de        pub/LEDA
+
+or via WWW from
+
+    http://www.mpi-sb.mpg.de/LEDA/leda.html
+
+4. What is the current version of LEDA?
+
+The current version of LEDA is LEDA-R 3.2.
+The version LEDA 3.2 is the commercial version.
+
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+II) Bugs
+--------
+
+1. What can i do if i find a bug.
+
+Send an email to leda@mpi-sb.mpg.de. This email should contain
+a) the platform you`re using (machine, operating system + version, 
+compiler + version)
+b) a description of the problem (for instance compiler messages)
+c) a short example program (with description what it is supposed to do,
+please).
+
+
+2. Where can i find information about bugs and fixes?
+
+On the directory pub/LEDA at ftp.mpi-sb.mpg.de there is a file
+  BUGS-x.x.x 
+where x.x.x is the current version number. In this file
+the known Bugs of the current version are listed together with the
+fixes (if known).
+From time to time the LEDA version is replaced by a new one where the
+fixes are incorporated. Then the BUGS file is cleared and a
+diff file is made available.
+
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+III) Platforms (Operating Systems, Compilers, ...)
+--------------------------------------------------
+
+1. On what platforms and with which compilers can LEDA be used?
+ 
+We tested it with
+
+SunOs 4.1.3                     g++, AT&T cfront, SunPro 4.0.1, lcc 3.1
+Solaris                         g++, SunPro 4.0.1, lcc 3.1
+IBM                             xlC (CSet++, Aix)
+Linux                           g++
+SGI                             SGI CC, g++
+Dos                             Watcom 10.0, Borland 4.5, Zortech 3.1, emx
+
+Other people use it with
+
+several HP machines             HP-UX C++, g++
+Dec Alpha                       Dec C++, gcc, cxx
+
+We would like to know 
+
+- whether there are more platforms where LEDA is in use
+- which problems did arise there
+- which modification had to be made 
+
+Thank you very much.
+
+
+2. Can LEDA be used with other programming languages?  
+
+No. LEDA only works with C++.
+
+3. Will LEDA take care of name conflicts with other packages?
+
+Currently not, but it is planned to use c++ name spaces.
+
+4. Is there still a non-template version of LEDA available?
+
+No.
+
+5. Why does LEDA not use standard templates to realize parameterized
+   data types?
+
+LEDA uses templates only on the top most level to derive a parameterized
+data type from the implementation class. Thus the convenience of 
+templates is saved. Using C++ templates on each level has the effect
+that a large amount of code has to be (re)compiled when
+instantiating a parameterized data type, e.g., dictionary<K,I> D
+would cause a re-compilation of the underlying data structure
+(e.g. skiplist) with actual key parameter K and information parameter I.
+When using several instances of the same data types with different 
+actual type parameters this leads also to code duplication. LEDA
+tries to encapsulate those parts of the code that depend on the
+type parameters in small (inlined) virtual functions (e.g. the
+cmp_key function for dictionaries). Then only these small parts
+have to be recompiled. Most of the code is type-independent and
+is never looked at by the compiler when compiling an application
+program. This is achieved by internally using (generic) pointers to 
+the data to be stored in container types. Details of the implementation 
+will be described in the LEDA book that will appear at the end of 1995.
+
+
+6. Is an on-line user manual available?
+ 
+Yes. There is a command "tman" which gives you the contents of the
+manual pages for the type "typename" which is given as argument. 
+Example:   tman array 
+
+7. The manual seems to be typeset for european paper size (A4)
+   how can I print it on the standard us paper?
+
+You have to change the parameters in the beginning of the
+MANUAL.mac file.
+
+8. Where can I read more about the internals (e.g. realization of
+   parameterized data types)?
+
+Kurt Mehlhorn and Stefan N"aher are writing a book that will appear
+in the second half of the year and contains many details about
+the realization of LEDA.
+
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+IV) Basics
+---------
+
+1. How do I delete entries in a d_array?
+
+In the current version deletion of entries in d_arrays is not supported
+but will be the next version.
+
+
+2. Why are modifications in forall-loops not allowed ?
+
+A forall-statement should iterate over all elements contained in a  
+collection at the time of the beginning of the iteration.  This, however
+is hard to implement or very costly if the contents of the collection is
+allowed to be changed inside the body of the loop. Therefore, we decided
+not to allow it. This condition is not checked (would be too expensive) 
+and  this causes some problems. A typical problem occurs if you want to 
+make a graph bidirected by inserting a reverse edge for every edge of 
+the graph. The following piece
+of code will cause an endless loop
+
+forall_edges(e,G) G.new_edge(target(e),source(e));
+
+Two possible ways of doing it right
+
+ i) make a copy (expensive)
+    list<edge> L = G.all_edges();
+    forall(e,L) G.new_edge(target(e),source(e));
+
+ii) implement iteration with G.first_edge(),G.last_edge(), and  G.succ_edge() 
+    edge last_e = G.last_edge();
+    for(e=G.first_edge(); e!=last_e; e = G.succ_edge(e) ) G.new_edge ...
+    if (last_e) G.new_edge(target(last_e),source(last_e));
+
+A similar proble can arise if you delete the current element in an
+iteration loop from its collection.
+
+
+
+3. Are preconditions checked or not (is there a way to control this)
+
+Currently only a few preconditions are checked. In the future it there
+will be two classes of preconditions. Class 1 will be always checked.
+The checking of class 2 will be controlled by a compiler option.
+
+4. What is the LEDA item concept?
+
+The item concept in LEDA allows access by position in a clean and controlled
+way. All container data types are defined as collection of certain items.
+These items are created by insert operations and can be returned by access
+operations (e.g. lookup). This enables the application program to access
+the information associated the the item directly and in constant time without
+any search operation beeing involved. This access, however, is restricted.
+For instance, you can change the information of a dictionary item by a 
+change_inf operation, but there is no way to change its key - because
+this would corrupt the underlying data structure. See the LEDA manual, 
+for a detailed description and for examples.
+
+5. Does LEDA support persistent data structures
+
+In the current version LEDA does not support persistency. However,
+it is possible, to save and restore the contents of many data types
+(e.g. graphs) by special read/write functions.
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+V) Graphs
+---------
+
+1. Why does LEDA complain when i try to insert an edge between two
+   nodes of a graph G into a copy of graph G?
+
+Each copy of a graph has its own set ofnodes and each node does belong 
+to at most one graph. Thus one has to insert the edge between the copies
+of the nodes.
+
+2. There seems to be a subgraph type, however, it is not mentioned in the manual?
+
+Subgraphs are experimental at the moment, they will be fully implemented
+in the future.
+
+3. Node and edge arrays work only for static graphs, what do I do if the node/edge
+set changes dynamically.
+
+Use node_map/edge_map instead.
+
+4. What graph/network algorithms are available in LEDA
+
+The following is the list of the algorithms. See the manual for the
+names of the procedures.
+
+All pairs shortest paths.
+Bellman Ford algorithm.
+Breadth first search.
+Connected Components.
+Depth first search.
+Dijkstra's algorithm.
+Maximal cardinality matching.
+Maximal cardinality bipartite matching.
+! Minimum cut.
+Maximum flow algorithm.
+Maximum weighted bibartite matching.
+! Maximum weighted matching.
+Minimum spanning tree.
+Planarity test.
+Spanning tree.
+Straight line embedding of planar graphs.
+Strongly connected components.
+Topological sorting.
+Transitive closure of graphs.
+Triangulating planar maps.
+
+5. Can I derive my own node/edge type from the LEDA type "node" ("edge")?
+
+No, node and edge are item types (implemented by pointers).
+
+6. How can I search for a particular edge (v,w) in a Graph?
+
+This operation is not supported efficiently at the moment, you can use
+a node_matrix with n^2 space; it will be implemented by two-dimensionl
+maps in the future.
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+
+VI) GRAPHICS
+------------
+
+1. Does the LEDA graphics work on platforms other than X11?
+
+There are planned commercial version that work on MS-DOS, OS2
+and Windows.
+
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+VII) Geometry
+-------------
+
+1. Will there be three-dimensional geometry?
+
+Yes. In future versions  there at least will be
+three-dimensional basic objects like points, segments, lines, ...
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+VIII) Problems
+-------------
+
+1. What does it mean if i get a runtime error: "compare undefined" or
+   "Hash undefined"?
+
+If you use a class as type parameter than several parameterized types
+require a linearly ordered subtype
+(i.e. dictionary, sorted sequence, priority queue) 
+or a hashed type (i.e. dictionary with hashing implementation, hashing
+arrays). These functions are predefined for simple data types (char,
+short, int, long, float, double, string, point) and pointer types. 
+For all other types
+in case that compare is called, a function template compare (hash) is 
+instantiated that stops the program with the error message above, 
+telling you that you have to define a function 
+
+            int compare(const T&, const T&)
+
+resp.
+
+            int Hash(const T&)
+
+
+for the parameter type T.
+
+2. Why does the compiler instantiate the predefined function template 
+   compare (Hash) although i have defined my own.
+
+With high probability you're using g++ 2.6.3. This version cannot
+handle specialications of function templates correctly. It usually
+helps to declare the compare (hash) function inline.
+
+3. Why do i get the runtime error "compare undefined" when calling
+   the list::search function.
+
+The search function for lists
+is realized using of the compare function if the parameter type
+(which has to be defined
+for list parameters since the list::sort() function is available).
+
+
+4. What does it mean if the compiler complains about the functions
+   Clear, Convert and Copy?
+
+These functions are necessary when using a data type as parameter
+of some class type.
+Maybe you're using g++ versions older than 2.5.8. For later compiler
+versions the functions mentioned above are generated automatically.
+If not, you should call a macro
+
+              LEDA_TYPE_PARAMETER(typename)
+
+immediately after the definition of class typename. We suggest of course
+to upgrade the compiler version.
+
+5. Why does the g++ 2.7.0 compiler complain about undefined integer 
+   variables in old programs that did work with the previous 
+   compiler version (or when compiling an old LEDA version)?
+
+The scope of a variable defined in a for statement
+
+for (int i = 0; i < 10; i++);
+
+from now on is restricted to the loop body. g++ 2.7.0 follows that
+rule.
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+IX) General questions
+---------------------
+
+1. What is the run time/space overhead compared to programs written in 
+   C?
+
+Dr. Ulrich Lauther from the Siemens AG made a couple of experiemts and
+compared LEDA graph algorithms with his own hand-coded and well-tuned 
+C-programs. The running time of LEDA programs are typically slower by a 
+factor between 2 and 5. The space requirement of the LEDA graph data s
+structures is larger by a factor of about 2. 
+

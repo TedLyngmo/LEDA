@@ -1,0 +1,6 @@
+OBJECTS = \
+_doswin$o \
+_xbasic$o
+
+_xbasic.o : _xbasic.c _vga.c _wcc.c
+

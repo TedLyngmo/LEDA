@@ -1,0 +1,6 @@
+
+OBJECTS = \
+_bigfloat$o \
+_integer$o \
+_rational$o \
+_real$o

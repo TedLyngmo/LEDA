@@ -1,0 +1,15 @@
+PROGS = \
+blue$e \
+clock$e \
+color$e \
+defcolor$e \
+draw$e \
+event$e \
+hilbert$e \
+inside$e \
+interval_set$e \
+leda$e \
+polyhedron$e \
+rand_point$e \
+windows$e \
+zoom$e

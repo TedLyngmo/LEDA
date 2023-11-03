@@ -1,0 +1,6 @@
+#!/bin/csh -f
+
+set f = `basename $1 .h`
+
+gawk -f /LEDA/SRC/man/extman.awk $f.h > extman.man
+

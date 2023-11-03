@@ -1,0 +1,57 @@
+
+{\bf Program 1}:
+Using a dictionary array to count the number of occurences of the elements in a 
+sequence of strings.
+\bigskip
+
+\#include $<$LEDA/d\_array.h$>$
+
+main()
+
+$\{$
+
+\hspace*{.5cm}d\_array\<string,int\> $N(0)$;
+
+\hspace*{.5cm}string $s$;
+
+\smallskip
+\hspace*{.5cm}{\bf while} (cin \>\> $s$) $N[s]++$;
+
+\smallskip
+\hspace*{.5cm}{\bf forall\_defined}($s,N$) 
+            cout \<\< $s$ \<\< ``  " \<\< $N[s]$ \<\< endl;
+
+\smallskip
+ $\}$\\
+
+
+\bigskip
+{\bf Program 2}:
+Using a d\_array to realize an english/german dictionary.
+\bigskip
+
+\#include $<$LEDA/d\_array.h$>$
+
+main()
+
+$\{$
+
+\smallskip
+\hspace*{.5cm}d\_array\<string,string\> $trans$;
+
+\smallskip
+\hspace*{.5cm}$trans$[``hello"]\hspace{.13cm}= ``hallo";\\
+\hspace*{.5cm}$trans$[``world"]= ``Welt";\\
+\hspace*{.5cm}$trans$[``book"]\hspace{.13cm}= ``Buch";\\
+\hspace*{.5cm}$trans$[``key"]\hspace{.37cm}= ``Schluessel";
+
+\smallskip
+\hspace*{.5cm}string $s$;
+
+\hspace*{.5cm}{\bf forall\_defined}($s,trans$) 
+              cout \<\< $s$ \<\< ``  " \<\< $trans[s]$ \<\< endl;
+
+\smallskip
+$\}$
+
+

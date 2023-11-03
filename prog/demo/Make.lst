@@ -1,0 +1,29 @@
+PROGS = \
+bin_tree$e \
+ch_hull$e \
+color5$e \
+convex_hull$e \
+delaunay$e \
+dtriang_demo$e \
+embedding$e \
+ged$e \
+graph_alg$e \
+line_arrange$e \
+map$e \
+matching$e \
+p_sweep$e \
+panel_demo$e \
+plan_demo$e \
+point_set$e \
+polygon$e \
+seg_arrange$e \
+seg_intersect$e \
+seg_set$e \
+strongcomp$e \
+sweep_demo$e \
+sweep_segments$e \
+topsort$e \
+triang$e \
+triang_demo$e \
+voronoi$e \
+voronoi_seg$e

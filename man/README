@@ -1,0 +1,15 @@
+
+1. To create MANUAL.ps just type  "make".
+   If it does not work on you system check/modify "Makefile".
+
+2. "Lman" is a simple script for displaying LEDA manual pages
+   on normal terminal screens. It calls "gawk" (GNU awk) and
+   reads the awk script "AWK". 
+
+
+3. "tman" extracts the manual page from the corresponding header
+   file, prepares it with latex, and diplays it using xdvi.
+
+
+You have to change the path names in "tman" and "Lman" in order
+to make it work on your system.

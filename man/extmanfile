@@ -1,0 +1,6 @@
+#!/bin/csh -f
+
+set f = `basename $1 .h`
+
+gawk -f extman.awk /LEDA/SRC/incl/LEDA/$f.h > /LEDA/SRC/man/extract/$f.tex
+

@@ -1,0 +1,73 @@
+#!/bin/csh -f
+
+# set LEDA_HOME = your LEDA home directory
+set LEDA_HOME = /LEDA/SRC
+
+# LEDA include directory
+set INCL = $LEDA_HOME/incl/LEDA
+
+# LEDA manual directory
+set MAN = $LEDA_HOME/man
+
+# tmporary tex file
+set tmpfile = tman$$ #.tex
+
+
+if ("$1" == "-x") then
+set XDVI = 0
+shift
+else
+set XDVI = 1
+endif
+
+if (! -d $INCL) then
+echo ""
+echo Cannot find LEDA include directory: $INCL
+exit
+endif
+
+if ($1 == "") then
+echo ""
+echo usage: tman \[-x\] \<LEDA data type\>
+exit
+endif
+
+if (! -f $INCL/$1.h) then
+echo ""
+echo Cannot find LEDA header file: $INCL/$1.h
+exit
+endif
+
+echo ""
+echo "extracting manual page from $INCL/$1.h  ..."
+
+echo "\documentstyle[11pt]{book}" 	>  $tmpfile.tex
+echo "\textwidth 15.4cm " 		>> $tmpfile.tex
+echo "\textheight 23 cm" 		>> $tmpfile.tex
+echo "\topmargin -14mm       " 		>> $tmpfile.tex
+echo "\evensidemargin 3mm " 		>> $tmpfile.tex
+echo "\oddsidemargin 3mm" 		>> $tmpfile.tex
+echo "\sloppy" 				>> $tmpfile.tex
+echo "" 				>> $tmpfile.tex
+echo "\input $MAN/MANUAL.mac"           >> $tmpfile.tex
+echo ""					>> $tmpfile.tex
+echo "\parindent0em"			>> $tmpfile.tex
+echo "\setlength{\parskip}{1ex minus 0.9ex}" >> $tmpfile.tex
+echo ""					>> $tmpfile.tex
+echo "\begin{document}"                 >> $tmpfile.tex
+echo "\chapter{ }"			>> $tmpfile.tex
+gawk -f $MAN/extman.awk $INCL/$1.h      >> $tmpfile.tex
+echo "\end{document}"			>> $tmpfile.tex
+
+
+echo "preparing  manual page with LaTeX  ..."
+latex $tmpfile.tex
+
+if ($XDVI) then
+echo "starting xdvi previewer ... "
+xdvi -s 3 $tmpfile.dvi
+else
+mv $tmpfile.dvi $1.dvi
+endif
+
+\rm -f $tmpfile.* 

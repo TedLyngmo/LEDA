@@ -1,0 +1,82 @@
+
+Using a persistent dictionary (cf.~section~\ref{Persistent Dictionaries}) for planar point location 
+(sweep line algorithm).
+
+\medskip
+
+\#include \<LEDA/plane.h\>\\
+\#include \<LEDA/prio.h\>\\
+\#include \<LEDA/sortseq.h\>\\
+\#include \<LEDA/p\_dictionary.h\>\\
+
+double $X\_POS$;  // current position of sweep line
+
+int compare(segment $s1$,segment $s2$)\\
+$\{$\\
+\hspace*{.5cm}line $l1(s1)$;\\
+\hspace*{.5cm}line $l2(s2)$;
+
+\hspace*{.5cm}double $y1 = l1.y\_proj(X\_POS)$;\\
+\hspace*{.5cm}double $y2 = l2.y\_proj(X\_POS)$;
+
+\hspace*{.5cm}\Return compare($y1,y2$);\\
+$\}$
+
+
+typedef priority\_queue\<segment,point\> X\_structure;\\
+typedef p\_dictionary\<segment,int\>     Y\_structure;
+
+sortseq\<double,Y\_structure\>  HISTORY;
+
+void SWEEP(list\<segment\>\& $L$)
+
+$\{$\\
+\hspace*{.5cm}// Precondition: L is a list of non-intersecting\\
+\hspace*{.5cm}// from left to right directed line segments
+
+\hspace*{.5cm}X\_structure    $X$;\\
+\hspace*{.5cm}Y\_structure    $Y$;\\           
+\hspace*{.5cm}segment        $s$;
+
+\hspace*{.5cm}\Forall(s,L)\hspace*{4.8cm}// initialize the X\_structure\\
+\hspace*{1cm}$\{$ X.insert($s,s$.start());\\
+\hspace*{1.25cm}X.insert(s,s.end());\\
+\hspace*{1cm}$\}$
+
+\hspace*{.5cm}HISTORY.insert(-MAXDOUBLE,$Y$); // insert empty Y\_structure at -infinity
+
+\hspace*{.5cm}\While( ! $X$.empty() )\\
+\hspace*{1cm}$\{$ point   $p$;\\ 
+\hspace*{1.25cm}segment $s$;\\
+\hspace*{1.25cm}$X$.del\_min($s,p$);\hspace*{3cm}// next event: endpoint p of segment s\\
+\hspace*{1.25cm}$X\_POS = p.xcoord()$;
+
+\hspace*{1.25cm}{\bf if} ($s$.start()$==p$)\\             
+\hspace*{1.5cm}$Y = Y$.insert($s$,0);\hspace*{2.25cm}// p is left end of s 
+
+\hspace*{1.25cm}\Else\\
+\hspace*{1.5cm}$Y = Y$.del($s$);\hspace*{3cm}// p is right end of s
+
+\hspace*{1.25cm}HISTORY.insert($X\_POS,Y$);\hspace*{.5cm}// insert Y into history sequence\\ 
+\hspace*{.5cm}$\}$
+
+\hspace*{.5cm}HISTORY.insert(MAXDOUBLE,$Y$);  // insert empty Y\_structure at +infinity\\
+$\}$
+
+
+
+segment LOCATE(point $p$)
+
+$\{$\\
+\hspace*{.5cm}$X\_POS = p.xcoord()$;\\
+\hspace*{.5cm}Y\_structure $Y$ = HISTORY.inf(HISTORY.pred($X\_POS$));\\
+\hspace*{.5cm}p\_dic\_item $pit = Y$.succ(segment($p,0,1$));
+
+\hspace*{.5cm}\If ($pit != nil$)\\ 
+\hspace*{.75cm}\Return $Y$.key($pit$);
+
+\hspace*{.5cm}\Else\\
+\hspace*{.75cm}\Return segment(0);\\
+$\}$
+
+

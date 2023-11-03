@@ -1,0 +1,244 @@
+%!PS-Adobe-2.0 EPSF
+%%Title: /tmp/xfig-fig009813
+%%Creator: fig2dev
+%%CreationDate: Mon Sep  6 09:31:08 1993
+%%For: esser@mpii01026 (Andrea &)
+%%BoundingBox: 0 0 214 424
+%%Pages: 0
+%%EndComments
+/$F2psDict 200 dict def 
+$F2psDict begin
+$F2psDict /mtrx matrix put
+/l {lineto} bind def
+/m {moveto} bind def
+/s {stroke} bind def
+/n {newpath} bind def
+/gs {gsave} bind def
+/gr {grestore} bind def
+/clp {closepath} bind def
+/graycol {dup dup currentrgbcolor 4 -2 roll mul 4 -2 roll mul
+4 -2 roll mul setrgbcolor} bind def
+/col-1 {} def
+/col0 {0 0 0 setrgbcolor} bind def
+/col1 {0 0 1 setrgbcolor} bind def
+/col2 {0 1 0 setrgbcolor} bind def
+/col3 {0 1 1 setrgbcolor} bind def
+/col4 {1 0 0 setrgbcolor} bind def
+/col5 {1 0 1 setrgbcolor} bind def
+/col6 {1 1 0 setrgbcolor} bind def
+/col7 {1 1 1 setrgbcolor} bind def
+ /DrawEllipse {
+	/endangle exch def
+	/startangle exch def
+	/yrad exch def
+	/xrad exch def
+	/y exch def
+	/x exch def
+	/savematrix mtrx currentmatrix def
+	x y translate xrad yrad scale 0 0 1 startangle endangle arc
+	savematrix setmatrix
+	} def
+
+ /DrawSplineSection {
+	/y3 exch def
+	/x3 exch def
+	/y2 exch def
+	/x2 exch def
+	/y1 exch def
+	/x1 exch def
+	/xa x1 x2 x1 sub 0.666667 mul add def
+	/ya y1 y2 y1 sub 0.666667 mul add def
+	/xb x3 x2 x3 sub 0.666667 mul add def
+	/yb y3 y2 y3 sub 0.666667 mul add def
+	x1 y1 lineto
+	xa ya xb yb x3 y3 curveto
+	} def
+
+	end
+/$F2psBegin {$F2psDict begin /$F2psEnteredState save def} def
+/$F2psEnd {$F2psEnteredState restore end} def
+%%EndProlog
+
+$F2psBegin
+0 setlinecap 0 setlinejoin
+-13.0 433.0 translate 0.900 -0.900 scale
+0.500 setlinewidth
+n 238.961 135.810 m 238.000 144.000 l 234.994 136.321 l gs 2 setlinejoin col-1 s gr
+n 156.122 154.551 82.555 174.126 -7.343 arc
+gs col-1 s gr
+n 156.022 397.927 82.079 2.844 177.854 arc
+gs col-1 s gr
+% Ellipse
+n 156 135 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 156 195 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 156 334 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 156 244 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 156 383 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 157 16 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 157 72 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 157 52 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 157 38 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 157 301 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 157 289 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 157 275 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 157 45 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 135 m 247 115 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 135 m 67 165 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 195 m 247 167 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 195 m 245 222 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 195 m 67 209 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 67 179 m 156 195 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 244 m 247 235 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 244 m 247 263 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 244 m 67 227 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 244 m 67 272 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 334 m 247 314 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 334 m 247 350 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 334 m 67 320 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 334 m 67 352 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 383 m 247 364 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 383 m 247 402 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 383 m 66 371 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 383 m 67 402 l gs 0.00 setgray fill gr
+gs col-1 s gr
+n 157 312 m 157 312 l gs col-1 s gr
+% Polyline
+n 157 383 m 157 312 l gs col-1 s gr
+% Polyline
+n 157 263 m 157 61 l gs col-1 s gr
+% Polyline
+n 157 31 m 157 16 l gs col-1 s gr
+n 155.000 24.000 m 157.000 16.000 l 159.000 24.000 l gs 2 setlinejoin col-1 s gr
+% Polyline
+n 238 170 m 238 399 l gs col-1 s gr
+% Polyline
+n 74 399 m 74 180 l gs col-1 s gr
+n 72.000 188.000 m 74.000 180.000 l 76.000 188.000 l gs 2 setlinejoin col-1 s gr
+% Polyline
+n 156 135 m 67 115 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 156 135 m 247 145 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Interpolated spline
+n 157 16 m
+	104.166 17.769 81.424 23.572 67 38 curveto
+	19.815 86.038 15.565 195.936 16 249 curveto
+	16.227 289.881 7.314 377.863 58 413 curveto
+	84.539 431.399 125.050 419.818 148 403 curveto
+	151.990 399.381 153.622 388.702 155 383 curveto
+	156.475 375.302 156.959 362.891 156 334 curveto
+gs col-1 s gr
+n 154.267 342.062 m 156.000 334.000 l 158.264 341.929 l gs 2 setlinejoin col-1 s gr
+% Open spline
+n 86.000 206.000 m 84.500 200.000 l
+	84.500 200.000 83.000 194.000 84.500 189.000 DrawSplineSection
+	86.000 184.000 l gs col-1 s gr
+n 81.786 191.088 m 86.000 184.000 l 85.617 192.237 l gs 2 setlinejoin col-1 s gr
+% Open spline
+n 86.000 266.000 m 84.500 257.000 l
+	84.500 257.000 83.000 248.000 84.500 239.500 DrawSplineSection
+	86.000 231.000 l gs col-1 s gr
+n 82.640 238.531 m 86.000 231.000 l 86.579 239.226 l gs 2 setlinejoin col-1 s gr
+% Open spline
+n 86.000 348.000 m 84.500 341.500 l
+	84.500 341.500 83.000 335.000 84.500 329.000 DrawSplineSection
+	86.000 323.000 l gs col-1 s gr
+n 82.119 330.276 m 86.000 323.000 l 86.000 331.246 l gs 2 setlinejoin col-1 s gr
+% Open spline
+n 87.000 399.000 m 85.000 392.000 l
+	85.000 392.000 83.000 385.000 84.500 379.500 DrawSplineSection
+	86.000 374.000 l gs col-1 s gr
+n 81.966 381.192 m 86.000 374.000 l 85.825 382.244 l gs 2 setlinejoin col-1 s gr
+% Open spline
+n 86.000 158.000 m 86.000 148.500 l
+	86.000 148.500 86.000 139.000 89.500 130.000 DrawSplineSection
+	93.000 121.000 l gs col-1 s gr
+n 88.236 127.731 m 93.000 121.000 l 91.964 129.181 l gs 2 setlinejoin col-1 s gr
+n 229.849 135.798 m 229.000 144.000 l 225.889 136.363 l gs 2 setlinejoin col-1 s gr
+% Open spline
+n 229.000 144.000 m 228.000 137.000 l
+	228.000 137.000 227.000 130.000 224.000 125.000 DrawSplineSection
+	221.000 120.000 l gs col-1 s gr
+n 232.193 338.397 m 229.000 346.000 l 228.240 337.789 l gs 2 setlinejoin col-1 s gr
+% Open spline
+n 229.000 346.000 m 230.000 339.500 l
+	230.000 339.500 231.000 333.000 230.000 325.500 DrawSplineSection
+	229.000 318.000 l gs col-1 s gr
+n 232.111 389.363 m 229.000 397.000 l 228.151 388.798 l gs 2 setlinejoin col-1 s gr
+% Open spline
+n 229.000 397.000 m 230.000 390.000 l
+	230.000 390.000 231.000 383.000 230.500 376.000 DrawSplineSection
+	230.000 369.000 l gs col-1 s gr
+n 234.399 209.487 m 231.000 217.000 l 230.463 208.771 l gs 2 setlinejoin col-1 s gr
+% Open spline
+n 231.000 217.000 m 233.000 206.000 l
+	233.000 206.000 235.000 195.000 233.000 183.500 DrawSplineSection
+	231.000 172.000 l gs col-1 s gr
+n 236.399 251.487 m 233.000 259.000 l 232.463 250.771 l gs 2 setlinejoin col-1 s gr
+% Open spline
+n 233.000 259.000 m 234.000 253.500 l
+	234.000 253.500 235.000 248.000 234.000 242.000 DrawSplineSection
+	233.000 236.000 l gs col-1 s gr
+$F2psEnd
+

@@ -1,0 +1,273 @@
+\chapter{Introduction} \label{Introduction}
+\pagenumbering{arabic}
+
+One of the major differences between combinatorial computing
+and other areas of computing such as statistics, numerical
+analysis and linear programming is the use of complex data types. 
+Whilst the built-in types, such as integers, reals, vectors, and matrices,
+usually suffice in the other areas, combinatorial computing relies heavily 
+on types like stacks, queues, dictionaries, sequences, sorted sequences, 
+priority queues, graphs, points, segments, $\ldots$
+In the fall of 1988, we started a project (called {\bf LEDA} for Library of
+Efficient Data types and Algorithms) to build a small, but growing library 
+of data types and algorithms in a form which allows them to be used by 
+non-experts. We hope that the system will narrow the gap between algorithms
+research, teaching, and implementation. The main features of LEDA are:
+
+\begin{enumerate}
+\item 
+    LEDA provides a sizable collection of data types and algorithms in a form 
+    which allows them to be used by non-experts. In the current version, this
+    collection includes most of the data types and algorithms described in the 
+    text books of the area. 
+
+\item 
+    LEDA gives a precise and readable specification for each of the data types 
+    and algorithms mentioned above.  The specifications are short (typically, 
+    not more than a page), general (so as to allow several implementations), 
+    and abstract (so as to hide all details of the implementation). 
+
+\item
+    For many efficient data structures access by position is important. In 
+    LEDA, we use an item concept to cast positions into an abstract form. We 
+    mention that most of the specifications given in the LEDA manual use this 
+    concept, i.e., the concept is adequate for the description of many data 
+    types. 
+
+\item
+    LEDA contains efficient implementations for each of the data types, e.g., 
+    Fibonacci heaps for priority queues, skip lists and dynamic perfect 
+    hashing for dictionaries, ...
+
+
+\item
+    LEDA contains a comfortable data type graph. It offers the standard 
+    iterations such as ``for all nodes v of a graph G do'' or ``for all 
+    neighbors w of v do'', it allows to add and delete vertices and edges 
+    and it offers arrays and matrices indexed by nodes and edges,...  
+    The data type graph allows to write programs for graph problems in a 
+    form close to the typical text book presentation.
+
+
+\item 
+    LEDA is implemented by a \CC class library. It can be used with almost
+    any \CC compiler that supports templates. 
+
+
+\item
+    {LEDA is available by anonymous ftp from {\bf ftp.mpi-sb.mpg.de} in
+    directory /pub/LEDA. The distribution contains all sources, installation 
+    instructions, a technical report, and the user manual.}
+
+
+\item
+    LEDA is not in the public domain, but can be used freely for research 
+    and teaching. Information on a commercial license is available from the 
+    author or leda@mpi-sb.mpg.de.
+
+\end{enumerate}
+
+This manual contains the specifications of all data types and algorithms 
+currently available in LEDA. Users should be familiar with the \CC 
+programming language (see \cite{S91} or \cite{Li89}).  The manual 
+is structured as follows: In chapter one, which is a prerequisite for all
+other chapters, we discuss the basic concepts and notations used in LEDA.
+The other chapters define the data types and algorithms available in
+LEDA and give examples of their use. These chapters can be consulted
+independently from one another.
+
+\bigskip
+\bigskip
+{\large\bf Version 3.0}
+
+The most important changes with respect to previous versions are
+
+\begin{enumerate}
+\item 
+Parameterized data types are realized by \CC templates. In particular, 
+{\it declare} macros used in previous versions are now obsolete and the 
+syntax for a parameterized data type $D$ with type parameters $T_1,\dots,T_k$ 
+is $D\<T_1,\dots,T_k\>$ (cf. section \ref{Specifications}). 
+
+\item
+Arbitrary data types (not only pointer and simple types) can be used as
+actual type parameters (cf. section \ref{Specifications}). 
+
+\item
+For many of the parameterized data types (in the current version: dictionary, 
+priority queue, d\_array, and sortseq) there exist variants taking an additional
+data structure parameter for choosing a particular implementation 
+(cf. section \ref{Implementation Parameters}).
+
+\item
+The LEDA memory management system can be customized for user-defined classes
+(cf. section \ref{Memory Management}).
+
+\item
+The efficiency of many data types and algorithms has been improved.
+\end{enumerate}
+
+See also the ``Changes" file in the LEDA root directory.
+
+
+\newpage
+{\large\bf Version 3.1}
+
+Many changes were made to make LEDA work with new compilers (\gg-2.6.3,
+Lucid \CC, Watcom \CC Sunpro \CC, ...) and on more platforms (Silicon 
+Graphics, IBM, HP, Solaris-2.3, Linux, ...). All reported bugs of version
+3.0 we were able to find and understand have been fixed (see LEDA/Fixes
+for a list). Several new data types and algorithms (especially in the graph 
+and window section) have been included.
+
+
+
+\bigskip
+{\bf Manual Pages}
+
+  All manual pages have been incorporated into the corresponding
+  header files. There are tools (in the directory man) to extract and
+  typeset the new user manual from these files. A postscript
+  version of the manual is available on the ftp server.
+
+
+\bigskip
+{\bf Parameterized Data Types}
+
+  The  LEDA\_TYPE\_PARAMETER macro that had to be called for type
+  arguments in parameterized data types when using the \gg compiler
+  is not needed anymore for \gg versions $>=$ 2.6.3.
+
+
+\bigskip
+{\bf Linear Orders, I/O, and Hashing}
+
+  $compare$, $Hash$, $Read$ and $Print$ functions only have to be 
+  defined for type parameters of a parameterized data type if they are 
+  actually used by operations of the data type. If one of these function 
+  is called and has not been defined explicitely, a default version giving
+  an error message is instantiated from a function template.
+  Except for the built-in types and some basic LEDA types ($string$ and
+  $point$) there are no predefined versions of these functions any more.
+  In particular, they are not predefined for arbitrary pointer types. 
+  You will notice the effect of this change, for instance, when calling 
+  the sort operation on a list of pointers $list\<T*\>$ without a definition 
+  of a compare function for $T*$.  Previous LEDA 
+  releases sorted the list by increasing addresses of the pointers in 
+  this case. In version~3.1 the program will exit with the exception
+  ``no compare function defined for $T*$". Operations based on functions
+  $Hash$, $Read$, or $Print$ show a similar behavior.
+
+\bigskip
+{\bf Nested Forall Loops }
+
+   The limitation of previous versions that {\bf forall}-loops (e.g.
+   on lists) could not be nested is no longer valid.
+
+
+
+\bigskip
+{\bf Graphs}
+
+The distinction in directed and undirected graphs is not as strict as
+in previous versions. Data type $graph$ represents both directed and
+undirected graphs. Directed and undirected graphs only differ in the
+definition of adjacent edges or nodes. Now, two lists of edges are 
+associated with every node $v$: the list
+$out\_edges(v) = \{\ e \in E\ | source(e) = v\ \}$ of edges starting in $v$,
+and the list $in\_edges(v) = \{\ e \in E\ | target(e) = v\ \}$ of
+edges ending in $v$. 
+A graph is either {\em directed} or {\em undirected}.
+In a directed graph an edge is adjacent to its source and in an undirected
+graph it is adjacent to its source and target. In a directed graph a node $w$
+is adjacent to a node $v$ if there is an edge $(v,w) \in E$; in an undirected
+graph $w$ is adjacent to $v$ if there is an edge $(v,w)$ or $(w,v)$ in the
+graph.  There are iteration macros allowing to iterate over the list of
+starting, ending or adjacent edges (cf. \ref{Graphs} for details).
+
+
+\bigskip
+{\bf New Data Types}
+
+The old priority queue type $priority\_queue\<K,I\>$ caused
+a lot of confusion because of the non-standard semantics of the type 
+parameters $K$ and $I$ (the meaning of {\em key} and {\em information} 
+was exchanged compared to most text book presentations of priority queues).
+To eliminate this confusion we introduced a new priority queue type
+$p\_queue\<P,I\>$. Now $P$ is called the priority type of the queue.
+
+The basic library has been extended by several numerical data types
+including an arbitrary length integer type ($integer$), a type of
+rational numbers ($rational$), and two filter types $floatf$ and
+$real$. Together with the new types $rat\_point$ (points with rational 
+coordinates) and $rat\_segments$ (segments with rational coordinates) 
+they are especially useful in geometric computations. Note, that the
+geometric part of LEDA will be extended by more basic objects and
+algorithms based on exact arithmetic in the near future.
+
+The temporarily (in LEDA-3.1c) introduced data types $node\_data$,
+$node\_stack$, $node\_queue$ are no longer available. Please use $node\_map$, 
+$edge\_map$, $stack\<node\>$ and $queue\<node\>$ instead.
+
+A list of the new data types:\\
+\begin{itemize}
+\item
+priority queues     ($p\_queue\<P,I\>$) (cf. \ref{Priority Queues})
+\item
+singly linked lists ($slist\<T\>$)     (cf. \ref{Singly Linked Lists})
+\item
+big integers        ($integer$)        (cf. \ref{Integers of Arbitrary Length})
+\item
+rational numbers    ($rational$)       (cf. \ref{Rational Numbers})
+\item
+rational points     ($rat\_point$)     (cf. \ref{Rational Points})
+\item
+rational segments   ($rat\_segment$)   (cf. \ref{Rational Segments})
+\item
+floating point filter ($floatf$)       (cf. \ref{A Floating Point Filter})
+\item
+random sources      ($random\_source$) (cf. \ref{Random Sources})
+\item
+real numbers        ($real$)           (cf. \ref{Real Numbers})
+\item
+maps                ($map\<I,E\>$)     (cf. \ref{Maps})
+\item
+node  maps          ($node\_map\<T\>$) (cf. \ref{Node Maps})
+\item
+edge maps           ($edge\_map\<T\>$) (cf. \ref{Edge Maps})
+\item
+node lists          ($node\_list$)     (cf. \ref{Lists of Nodes})
+\item
+bounded node priority queues $b\_node\_pq\<n\>$ (cf. \ref{Bounded Node Priority Queues}).
+
+\end{itemize}
+
+
+\bigskip
+{\bf Graph Generators and Algorithms}
+
+LEDA now offers more generators for different types of graphs (see 
+\ref{Graph Generators} for a complete list).
+The planarity test $PLANAR$ has been re-implemented and
+now has a boolean flag parameter $embed$. An embedding of the graph
+is computed only if $embed = true$ (the default value is $false$). A second variant of $PLANAR$
+computes a Kuratowsky-subgraph in the case of non-planarity.
+A new graph algorithm is $MIN\_COST\_MAX\_FLOW$ computing
+a maximal flow with minimal cost. 
+
+
+\bigskip
+{\bf Windows and Panels}
+
+The window and panel data types  now are based on a plain X11 implementation.
+New features include\\
+-- opening more than one window or panel\\
+-- positioning, displaying, and closing of panels and windows\\
+-- changing the label of windows and panels\\
+-- 16 predefined colors\\
+-- accessing colors from the X11 data base by name\\
+-- drawing arcs, arc edges, and arc arrows\\
+-- changing the default fonts, \\
+-- reading and handling X11 events\\
+-- a simple graph editor (cf. \<LEDA/graph\_edit.h\>)\\
+

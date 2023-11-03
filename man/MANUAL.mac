@@ -1,0 +1,289 @@
+%\hoffset=-0.5truemm
+%\voffset=0.5truecm
+
+%\hsize=16truecm
+%\vsize=23.5truecm
+
+%\hsize=13.3truecm
+%\vsize=19.8truecm
+
+\baselineskip 14pt
+\spaceskip  .4em plus .25em minus .25em
+\xspaceskip .65em
+\parskip 11pt plus 1pt minus 1pt
+\parindent 0pt
+
+
+\def\manual{\footnotesize}
+
+\def\3{\ss{}}
+
+\def\boxit#1{\vbox{\hrule\hbox{\vrule\kern3pt\vbox{#1}\kern3pt\vrule}\hrule}}
+
+
+\def\co{\hbox{\tt //\ }}
+\def\'{\hbox{\tt "}}
+\def\<{\hbox{\tt <}}
+\def\>{\hbox{\tt >}}
+\def\CC{C\raise.08ex\hbox{\tt ++\ }}
+\def\CCC{C\raise.08ex\hbox{\tt ++}}
+\def\gg{g\hbox{\tt ++\ }}
+\def\nat{\hbox{\rm\vrule\kern-0.045em N}}
+\def\real{\hbox{\rm\vrule\kern-0.035em R}}
+\def\tildeop{\tilde{}}
+\def\'{^\prime}
+\def\+{$+$}
+
+
+\newdimen\typewidth
+\typewidth=2.5cm
+
+\newdimen\callwidth
+\callwidth=4.5cm
+
+\newdimen\callwidthl
+\callwidthl=\textwidth 
+\advance\callwidthl -\typewidth
+\advance\callwidthl -0.5cm
+
+\newdimen\createwidth
+\createwidth=\textwidth
+\advance\createwidth -1cm
+
+\newdimen\createtextwidth
+\createtextwidth=\textwidth
+\advance\createtextwidth -3cm
+
+\newdimen\descriptwidth
+\descriptwidth=\textwidth
+\advance\descriptwidth -\typewidth
+\advance\descriptwidth -\callwidth
+\advance\descriptwidth -0.5cm
+
+\def\setopdims #1 #2   {\typewidth=#1cm
+                        \callwidth=#2cm
+                        \descriptwidth=\textwidth
+                        \advance\descriptwidth-\typewidth
+                        \advance\descriptwidth-\callwidth
+                        \advance\descriptwidth-0.5cm
+                        \callwidthl=\textwidth 
+                        \advance\callwidthl-\typewidth
+                        \advance\callwidthl-0.5cm
+                        }
+
+\def\manpage #1 #2 #3 {\section{#3 (#1)} \label{#3}%
+                       \def\params{#2}\ifx\params\empty%
+                       \gdef\name{\hbox{$#1$}}%
+                       \else\gdef\name{\hbox{$#1${\tt <}$#2${\tt >}}}%
+                       \fi }
+
+
+\def\definition       {\bigskip\pagebreak[1]
+                       {\bf 1. Definition}
+                       \par\nopagebreak }
+
+
+
+\def\creation #1      {\gdef\var {$#1$}
+                       \bigskip\pagebreak[1]
+                       {\bf 2. Creation}
+                       \par\nopagebreak }
+
+
+
+\def\operations #1 #2 {\bigskip\pagebreak[1]
+                       {\bf 3. Operations}
+                       \setopdims #1 #2
+                       \par\nopagebreak }
+
+
+
+\def\implementation   {\bigskip\pagebreak[1]
+                       {\bf 4. Implementation}
+                       \par\nopagebreak }
+
+
+
+\def\example          {\bigskip\pagebreak[1]
+                       {\bf 5. Example}
+                       \par\nopagebreak }
+
+
+
+\def\create #1 #2     { \mbox{\name\ \ \var$#1$;}\par
+                       \hspace*{1cm}\hfill
+		       \parbox[t]{\createtextwidth}{\sloppy #2}\par
+                       \bigskip }
+
+
+
+\def\op #1 #2 #3 #4    {\smallskip
+                       \parbox[t]{\typewidth}{\sloppy $#1$}
+		       \parbox[t]{\callwidth}{\sloppy \var.#2$#3$}\hfill
+                       \parbox[t]{\descriptwidth}{\sloppy #4}\hfill\par
+                       \smallskip}
+
+\def\opl #1 #2 #3 #4   {\smallskip
+                       \parbox[t]{\typewidth}{\sloppy $#1$}
+		       \parbox[t]{\callwidthl}{\sloppy \var.#2$#3$}\hfill\par
+                       \hspace*{1cm}\hfill
+		       \parbox[t]{\descriptwidth}{\sloppy #4}\hfill\par
+                       \smallskip}
+
+\def\func #1 #2 #3 #4  {\smallskip
+                       \parbox[t]{\typewidth}{\sloppy $#1$}
+		       \parbox[t]{\callwidth}{\sloppy #2$#3$}\hfill
+		       \parbox[t]{\descriptwidth}{\sloppy #4}\hfill\par
+                       \smallskip}
+
+\def\funcl #1 #2 #3 #4 {\smallskip
+                       \parbox[t]{\typewidth}{\sloppy $#1$}
+		       \parbox[t]{\callwidthl}{\sloppy #2$#3$}\hfill\par
+                       \hspace*{1cm}\hfill
+		       \parbox[t]{\descriptwidth}{\sloppy #4}\hfill\par
+                       \smallskip}
+
+
+%binary operator function
+\def\binopfunc #1 #2 #3{\smallskip
+                       \parbox[t]{\typewidth}{\sloppy $#1$}
+		       \parbox[t]{\callwidthl}{\sloppy $#2$}\hfill\par
+                       \hspace*{1cm}\hfill
+		       \parbox[t]{\descriptwidth}{\sloppy #3}\hfill\par
+                       \smallskip}
+
+
+
+
+%binary operator
+\def\binop #1 #2 #3 #4 {\smallskip
+                        \parbox[t]{\typewidth}{\sloppy $#1$}
+		        \parbox[t]{\callwidth}{\sloppy \var\ \ $#2\ \ #3$}\hfill
+                        \parbox[t]{\descriptwidth}{\sloppy #4}\hfill\par
+                        \smallskip}
+
+
+%unary operator
+\def\unop #1 #2 #3    {\smallskip
+                        \parbox[t]{\typewidth}{\sloppy $#1$}
+		        \parbox[t]{\callwidth}{\sloppy $#2$\ \var}\hfill
+                        \parbox[t]{\descriptwidth}{\sloppy \sloppy #3}\hfill\par
+                        \smallskip}
+
+\def\postunop #1 #2 #3 {\smallskip
+                        \parbox[t]{\typewidth}{\sloppy $#1$}
+		        \parbox[t]{\callwidth}{\sloppy \var\ $#2$}\hfill
+                        \parbox[t]{\descriptwidth}{\sloppy \sloppy #3}\hfill\par
+                        \smallskip}
+
+
+%operator[]
+\def\arrop #1 #2 #3    {\smallskip
+                        \parbox[t]{\typewidth}{\sloppy $#1$}
+		        \parbox[t]{\callwidth}{\sloppy \var\ $[#2]$}\hfill
+                        \parbox[t]{\descriptwidth}{\sloppy #3}\hfill\par
+                        \smallskip}
+
+
+%%operator()
+\def\funop #1 #2 #3    {\smallskip
+                        \parbox[t]{\typewidth}{\sloppy $#1$}
+		        \parbox[t]{\callwidth}{\sloppy \var\ $(#2)$}\hfill
+                        \parbox[t]{\descriptwidth}{\sloppy #3}\hfill\par
+                        \smallskip}
+
+
+%stream operator
+\def\strop #1 #2 #3 #4 {\smallskip
+                        \parbox[t]{\typewidth}{\sloppy $#1$}
+		        \parbox[t]{\callwidth}{\sloppy $#3\ \ #2$\ \ \var}\hfill
+                        \parbox[t]{\descriptwidth}{\sloppy #4}\hfill\par
+                        \smallskip}
+
+
+
+\let\Manpage           \manpage
+\let\Mdefinition       \definition
+\let\Mcreation         \creation
+
+\let\Moperations       \operations
+\let\Mimplementation   \implementation
+\let\Mexample          \example
+
+\let\Mcreate           \create
+
+\let\Mop               \footnotesize
+\let\Mopl              \footnotesize
+\let\Mfunc             \footnotesize
+\let\Mfuncl            \footnotesize
+\let\Mbinop            \footnotesize
+\let\Marrop            \footnotesize
+\let\Mfunop            \footnotesize
+\let\Munop             \footnotesize
+\let\Mbinopfunc        \footnotesize
+\let\Munopfunc         \footnotesize
+
+
+\def\precond {{\it Precondition}: }
+
+
+\def\If       {{\bf if} }
+\def\Fi       {{\bf fi} }
+\def\Then     {{\bf then} }
+\def\Else     {{\bf else} }
+\def\Do       {{\bf do} }
+\def\Od       {{\bf od} }
+\def\For      {{\bf for} }
+\def\While    {{\bf while} }
+\def\Return   {{\bf return} }
+\def\Break    {{\bf return} }
+\def\Continue {{\bf continue} }
+\def\Case     {{\bf case} }
+\def\Switch   {{\bf switch} }
+\def\Class    {{\bf class} }
+\def\Struct   {{\bf struct} }
+\def\Public   {{\bf public} }
+\def\Friend   {{\bf friend} }
+\def\Typedef  {{\bf typedef} }
+
+\def\n {\backslash n}
+
+\def\Labs  #1  {\hbox{$|#1|$}}
+\def\Litem #1  {\hbox{{\tt <}$#1${\tt >}\ }}
+\def\Lvert {|}
+
+
+% LEDA macros:
+
+\def\Forall         {{\bf forall} }
+\def\Forallnodes    {{\bf forall\_nodes} }
+\def\Foralledges    {{\bf forall\_edges} }
+\def\Foralladjnodes {{\bf forall\_adj\_nodes} }
+\def\Foralladjedges {{\bf forall\_adj\_edges} }
+
+
+% verbatim
+
+\font\ttbig= cmtt10 scaled \magstephalf
+
+\chardef\other=12
+\def\ttverbatim {
+\parskip 5pt
+\catcode`\&=\other \catcode`\{=\other \catcode`\}=\other
+%\catcode'\\=\other 
+\catcode`\$=\other \catcode`\&=\other
+\catcode`\#=\other \catcode`\%=\other \catcode`\~=\other
+\catcode`\_=\other \catcode`\^=\other
+\obeyspaces \obeylines}
+
+% usage:
+%
+%\begingroup
+% \ttbig
+% {\obeyspaces\gdef {\ }}
+% \ttverbatim
+%
+% ...
+%
+%\endgroup
+

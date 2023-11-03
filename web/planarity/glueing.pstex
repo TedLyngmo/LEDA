@@ -1,0 +1,138 @@
+%!PS-Adobe-2.0 EPSF
+%%Title: /tmp/xfig-fig009849
+%%Creator: fig2dev
+%%CreationDate: Mon Sep  6 09:50:55 1993
+%%For: esser@mpii01026 (Andrea &)
+%%BoundingBox: 0 0 368 257
+%%Pages: 0
+%%EndComments
+/$F2psDict 200 dict def 
+$F2psDict begin
+$F2psDict /mtrx matrix put
+/l {lineto} bind def
+/m {moveto} bind def
+/s {stroke} bind def
+/n {newpath} bind def
+/gs {gsave} bind def
+/gr {grestore} bind def
+/clp {closepath} bind def
+/graycol {dup dup currentrgbcolor 4 -2 roll mul 4 -2 roll mul
+4 -2 roll mul setrgbcolor} bind def
+/col-1 {} def
+/col0 {0 0 0 setrgbcolor} bind def
+/col1 {0 0 1 setrgbcolor} bind def
+/col2 {0 1 0 setrgbcolor} bind def
+/col3 {0 1 1 setrgbcolor} bind def
+/col4 {1 0 0 setrgbcolor} bind def
+/col5 {1 0 1 setrgbcolor} bind def
+/col6 {1 1 0 setrgbcolor} bind def
+/col7 {1 1 1 setrgbcolor} bind def
+ /DrawEllipse {
+	/endangle exch def
+	/startangle exch def
+	/yrad exch def
+	/xrad exch def
+	/y exch def
+	/x exch def
+	/savematrix mtrx currentmatrix def
+	x y translate xrad yrad scale 0 0 1 startangle endangle arc
+	savematrix setmatrix
+	} def
+
+	end
+/$F2psBegin {$F2psDict begin /$F2psEnteredState save def} def
+/$F2psEnd {$F2psEnteredState restore end} def
+%%EndProlog
+
+$F2psBegin
+0 setlinecap 0 setlinejoin
+-10.0 284.0 translate 0.900 -0.900 scale
+0.500 setlinewidth
+n 334.777 54.590 m 341.000 60.000 l 332.963 58.155 l gs 2 setlinejoin col-1 s gr
+n 326.500 88.500 31.977 -63.034 -170.096 arcn
+gs col-1 s gr
+n 365.884 79.726 m 362.000 87.000 l 362.004 78.754 l gs 2 setlinejoin col-1 s gr
+n 343.841 82.451 18.720 14.064 -80.285 arcn
+gs col-1 s gr
+n 75.777 63.379 m 84.000 64.000 l 76.452 67.321 l gs 2 setlinejoin col-1 s gr
+n 87.159 82.451 18.720 165.936 -99.715 arc
+gs col-1 s gr
+n 136.594 74.775 m 136.000 83.000 l 132.654 75.463 l gs 2 setlinejoin col-1 s gr
+n 104.500 88.500 31.977 -116.966 -9.904 arc
+gs col-1 s gr
+% Ellipse
+n 324 91 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 324 120 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 107 91 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 107 122 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 107 237 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Ellipse
+n 324 237 2 2 0 360 DrawEllipse gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 356 29 m 324 91 l gs col-1 s gr
+% Polyline
+n 324 91 m 241 71 l gs col-1 s gr
+% Polyline
+n 107 91 m 107 278 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 75 29 m 107 91 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 324 91 m 324 278 l gs 0.00 setgray fill gr
+gs col-1 s gr
+n 90.000 136.000 m 92.000 128.000 l 94.000 136.000 l gs 2 setlinejoin col-1 s gr
+% Polyline
+n 92 128 m 92 224 l gs col-1 s gr
+n 90.000 250.000 m 92.000 242.000 l 94.000 250.000 l gs 2 setlinejoin col-1 s gr
+% Polyline
+n 92 242 m 92 315 l gs col-1 s gr
+n 297.000 151.000 m 299.000 143.000 l 301.000 151.000 l gs 2 setlinejoin col-1 s gr
+% Polyline
+n 299 143 m 299 299 l gs col-1 s gr
+% Polyline
+n 107 93 m 190 73 l gs 0.00 setgray fill gr
+gs col-1 s gr
+% Polyline
+n 356 113 m 356 209 l gs col-1 s gr
+n 358.000 201.000 m 356.000 209.000 l 354.000 201.000 l gs 2 setlinejoin col-1 s gr
+% Polyline
+n 127 143 m 127 299 l gs col-1 s gr
+n 129.000 291.000 m 127.000 299.000 l 125.000 291.000 l gs 2 setlinejoin col-1 s gr
+% Polyline
+n 356 217 m 356 290 l gs col-1 s gr
+n 358.000 282.000 m 356.000 290.000 l 354.000 282.000 l gs 2 setlinejoin col-1 s gr
+% Interpolated spline
+n 324 91 m
+	362.560 86.462 375.017 86.462 376 91 curveto
+	378.477 98.231 365.328 105.846 324 122 curveto
+gs col-1 s gr
+% Interpolated spline
+n 107 91 m
+	69.100 85.798 56.124 85.798 55 91 curveto
+	52.820 97.733 65.796 105.521 107 122 curveto
+gs col-1 s gr
+% Interpolated spline
+n 324 91 m
+	351.487 55.308 367.404 44.923 387 50 curveto
+	411.695 56.692 420.000 90.615 418 112 curveto
+	415.156 148.769 391.626 179.923 324 237 curveto
+gs col-1 s gr
+% Interpolated spline
+n 106 93 m
+	78.677 56.840 62.927 46.590 43 52 curveto
+	18.498 58.653 10.055 92.590 12 114 curveto
+	15.291 150.230 38.791 181.480 106 239 curveto
+gs col-1 s gr
+$F2psEnd
+

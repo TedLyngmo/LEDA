@@ -1,0 +1,28 @@
+Using a sorted sequence to list all elements in a sequence of strings lying
+lexicographically between two given search strings.
+
+\#include $<$LEDA/sortseq.h$>$
+main()
+
+$\{$ 
+
+\hspace*{.5cm}sortseq\<string,int\> $S$;
+
+\hspace*{.5cm}string $s_1,s_2$;
+
+\smallskip
+\hspace*{.5cm}\While ( cin $>>$ $s_1$ \&\&  $s_1$ != ``stop'' )  $S$.insert($s_1,0$);
+
+\smallskip
+\hspace*{.5cm}\While ( cin $>>$ $s_1$ $>>$ $s_2$ )
+
+\hspace*{1.5cm}$\{$ seq\_item $stop = S$.locate($s_2$);
+
+\smallskip
+\hspace*{1.8cm}\For (seq\_item $it = S$.locate($s_1$); $it$ != $stop$; $it = S$.succ($it$))\\
+\hspace*{2.6cm}cout $<<$ $S$.key($it$) $<<$ ``$\backslash$"; 
+
+\hspace*{1.5cm}$\}$
+
+\smallskip
+$\}$

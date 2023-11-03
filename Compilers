@@ -1,0 +1,32 @@
+
+
+Compiler        ID      cmd    Recommended Flags     Limitations/Problems
+--------------------------------------------------------------------------------
+
+GNU  2.5.8  __GNUC__    g++                          no function templates
+GNU  2.6.3  __GNUC__    g++                          template specializations 
+GNU  2.7.0  __GNUC__    g++                        
+
+
+SunPro 4.00 __SUNPRO_CC CC     -pto                  MANY BUGS 
+SunPro 4.01 __SUNPRO_CC CC     -pto                
+ 
+AT&T cfront   --        CC     -D__ATTCFRONT__       no template arguments as 
+                                                     base class
+
+Lucid 3.1/3.2 __lucid   lcc     -XF                  no template arguments as
+                                                     base class
+
+MIPSpro C++             CC            
+DELTA   C++   __DELTA   DCC
+
+CSet++ (AIX)            xlC -+
+ 
+HP-UX C++               CC     (problems with -O)    no template arguments as 
+                                                     base class
+
+DEC C++      __DECCXX   cxx    -YPOSIX -Olimit 2000  no switch for C++, files 
+                                                     must end with C, cc, cxx
+                                                     no function templates
+
+

@@ -1,0 +1,89 @@
+From naeher@infsn.informatik.uni-halle.de Mon Jul 17 09:27:49 1995
+Posted-Date: Mon, 17 Jul 1995 09:27:19 +0200
+Received-Date: Mon, 17 Jul 1995 09:27:19 +0200
+From: Prof. Dr. Stefan Naeher <naeher@infsn.informatik.uni-halle.de>
+Subject:              
+To: stefan@mpi-sb.mpg.de
+Content-Length: 2725
+X-Lines: 79
+
+\input latex.mac
+
+\begin{document}
+
+\centerline{\Large Algorithmen zum Zeichnen von Graphen}
+\vspace{1cm}
+\centerline{\bf Arbeitsplan f\"ur Halle }
+\vspace{1cm}
+Die Arbeitsgruppe in Halle (zur Zeit nur Stefan N\"aher und
+Mike Brunzlow) sieht Ihre Aufgabe in dem Projekt vor allem
+in der Erweiterung von LEDA um grundlegende Datentypen und Algorithmen,
+die zum Zeichnen von Graphen erforderlich oder n\"utzlich sind.
+Im einzelnen planen wir 1995/96 folgende Implementierungsarbeiten
+
+Beachte, da\ss{} die folgende Liste nicht vollst\"andig ist und sich 
+dynamisch an die jeweiligen Erfordernisse (insbesondere der Projektpartner)
+anpassen wird.
+
+\begin{enumerate}
+
+\item Grundlegende Datenstrukturen
+
+Au\ss{}er den Grunddatypen f\"ur Graphen enth\"alt LEDA zur Zeit
+sehr wenige Datenstrukturen zur Unterst\"utzung des Projekts. 
+Wir wollen diese L\"ucke (zumindest teilweise) schlie\ss{}en. Insbesondere
+sollen folgende Datenstruktutren implementiert werden:\\
+- Planar Graphs and Maps  (teilweise vorhanden)\\
+- PQ-Trees (Projektarbeit, Brunzlow)\\
+- Hierarchische Graphen\\
+\dots
+
+
+\item Grundlegende Algorithmen
+
+LEDA soll um eine Sammlung von Grundalgorithmen erweitert werden,
+die oft beim Zeichnen von Graphen angewendet werden. Beispiele sind:\\
+- planarity test (teilweise vorhanden)\\
+- $st$-numbering (Projektarbeit)\\
+- coloring (teilweise vorhanden)\\
+- expansion sequences (Projektarbeit)\\
+- planarization\\
+\dots
+
+
+\item Einfache Einbettungsalgorithmen 
+
+Basierend auf der oben beschriebenen Bibliothek von Grundalgorithmen sollen
+einfache Einbettungalgorithmen implementiert werden.  Dies dient unter anderem 
+auch dazu die einfache Verwendbarkeit und Eleganz der LEDA Typen und
+Algorithmen zu demonstrieren. Insbesondere sollen hier Algorithmen zum
+Zeichnen planarer Graphen (Fary,baryzentrische Koordinaten,konvexe Zeichnungen),
+von Ba\"umen und Spring-Embedder f\"ur allgemeine Graphen implementiert
+werden.
+
+
+\item Unterst\"utzung von Grapheneditoren
+
+Implementierung einer Fileschnittstelle zum GraphEd (Mike Brunzlow),
+evtl. \"Ubernahme der Exterdarstellung von GraphEd.
+Beachtung der Wunschlisten von Himsolt und Lauer, dementsprechende
+Modifikation bzw. Erweiterung der Graphtypen. Eventuell auch Erweiterung
+und Anpassung der Graphikschnittstelle von LEDA an die Erfordernisse
+der Editoren (z.B. Animation).
+
+
+\item Anwendungen
+
+Ich habe mit Dr. Lauther von Siemens gesprochen. Er will dabei
+helfen Kontakte herzustellen. Insbesondere geht es hierbei
+um ein Liste wichtiger (und evtl. interessanter) Probleme 
+die bei Graphvisualierungen auftauchen. Ideal waere es,
+wenn wir ein St\"uck Software produzieren k\"onnten,
+das dann bei Siemens wirklich eingesetzt wird.
+
+\end{enumerate}
+
+
+\end{document}
+
+

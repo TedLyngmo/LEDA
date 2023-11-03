@@ -1,0 +1,26 @@
+#-----------------------------------------------------------------------------
+# OS2 IBM C++  
+#-----------------------------------------------------------------------------
+
+.SUFFIXES: .obj .c
+
+LIB    = ..\\..\\$(L).lib
+CFLAGS = -O
+ARLIB  = 
+RANLIB = 
+o      = .obj
+.c.obj:
+	icc -q -Tdp -I../../incl $(CFLAGS) $(DFLAGS) -c $*.c
+	lib /quiet /noignorecase $(LIB) -+ $*.obj,,;
+
+all: $(LIB)
+
+include Make.lst
+
+$(LIB): $(OBJECTS)
+	$(ARLIB)
+	$(RANLIB)
+
+clean:
+	rm -f $(OBJECTS)
+

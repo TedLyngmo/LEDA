@@ -1,0 +1,30 @@
+Using a dictionary to count the number of occurrences of the elements in 
+a sequence of strings, terminated by string ``stop''.
+
+\smallskip
+\#include \<LEDA/dictionary.h\>
+
+\smallskip
+main()\\
+$\{$
+
+\hspace*{.5cm} dictionary\<string,int\> $D$;
+
+\smallskip
+\hspace*{.5cm} string $s$;\\
+\hspace*{.5cm} dic\_item $it$;
+
+\smallskip
+\hspace*{.5cm} {\bf while} (cin \>\> $s$)
+
+\hspace*{1.5cm} $\{$\  $it = D$.lookup($s$);\\
+\hspace*{1.85cm} if ($it==nil$) $D$.insert($s,1$);\\
+\hspace*{1.85cm} else $D$.change\_inf($it$,$D$.inf($it$)+1);\\
+\hspace*{1.5cm} $\}$
+
+\smallskip
+\hspace*{.5cm} {\bf forall\_items}($it,D$) 
+cout \<\< $D$.key($it$) \<\< `` : " \<\<  $D$.inf($it$) \<\< endl;\\
+\smallskip
+$\}$\\
+

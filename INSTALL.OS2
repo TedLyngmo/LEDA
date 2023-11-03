@@ -1,0 +1,90 @@
+*******************************************************************************
+*                                                                             *
+*                        LEDA  for OS/2                                       *
+*                                                                             *
+*                         (WCC or EMX)                                        *
+*                                                                             *
+*******************************************************************************
+
+
+  In this file I use <LEDA> to denote the path name of the LEDA main 
+  directory. It should contain the following files and subdirectories: 
+  
+  readme                    information about LEDA
+  install.os                this file
+  changes  (please read !)  most recent changes
+  compiler (please read !)  list of compilers, problems, and required flags
+  fixes                     bug fixes since last release
+  incl\                     LEDA include directory
+  src\                      LEDA source files
+  prog\                     example programs
+  man\                      user manual (TeX)
+  config\                   configuration directory
+
+
+  LEDA has been successfully compiled unter OS/2 with Watcom C++ (wcc), 
+  and EMX (g++).
+
+
+
+1. Configure Makefiles
+----------------------
+  Go to the <LEDA> directory and call the "config.bat" batch file
+  to configure the make files to work with your compiler:
+  watcom:  config wcc
+  emx:     config emx
+
+
+2. Compiling the Libraries
+--------------------------
+   You have to make the following libraries:
+
+   libl.lib      main   library (libL.a )
+   libg.lib      graph  library (libG.a )
+   libp.lib      plane  library (libP.a )
+   libwx.lib     graphics library (libWx.a)
+
+   Go to <LEDA> and call the batch file "make_lib".  
+
+
+3. Installation of Headers and Libraries
+----------------------------------------
+  All LEDA header files are in the directory  "<LEDA>\incl\leda". You have 
+  to create a directory "leda" in the C++ default include directory and 
+  copy all files and subdirectories from "<LEDA>\incl\leda" to this directory.
+  Then move all libraries <LEDA>\lib*.lib to the C++ default library directory.
+
+
+4. Compiling and Linking Application Programs
+---------------------------------------------
+   Use the libraries as follows to compile and link programs
+   (see section 1.9 of the user manual):
+
+   For programs using basic data types (<LEDA>\prog\basic):
+
+   wcl386 -cc++ -zq -x -k32k  prog.c libl.lib 
+   gcc    -xc++               prog.c -lL -lm -liostream
+
+
+   For programs using graph data types (<LEDA>\prog\graph):
+
+   wcl386 -cc++ -zq -x -k32k  prog.c libg.lib libl.lib 
+   gcc    -xc++               prog.c -lG -lL -lm -liostream
+
+
+   For programs using geometric data types (<LEDA>\prog\plane):
+
+   wcl386 -cc++ -zq -x -k32k  prog.c libp.lib libg.lib libl.lib 
+   gcc    -xc++               prog.c -lP -lG -lL -lm -liostream
+
+
+
+   For programs using geometric data types and windows (<LEDA>\prog\demo):
+
+   wcl386 -cc++ -zq -x -k32k  prog.c libp.lib libg.lib libl.lib libwx.lib 
+   rc leda.res prog.exe
+
+   gcc  -xc++ -zq -k32k -bt=os2v2_pm  prog.c -lP -lG -lL -lWx -lm -liostream
+   emxbind -bpq -rleda.res /emx/bin/emxl prog.pm
+
+

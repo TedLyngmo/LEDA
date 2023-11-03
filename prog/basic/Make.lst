@@ -1,0 +1,19 @@
+
+PROGS  =\
+array$e \
+bigint$e \
+col2$e \
+fib$e \
+Int$e \
+list$e \
+ltest$e \
+matrix$e \
+matrix1$e \
+order$e \
+pair$e \
+param$e \
+seg_inter$e \
+sort_test$e \
+stream$e \
+string$e \
+vec$e

@@ -1,0 +1,173 @@
+*******************************************************************************
+*                                                                             *
+*                              LEDA 3.2                                       *
+*                                                                             *
+*                            INSTALLATION                                     *
+*                                                                             *
+*******************************************************************************
+
+
+In this file I use <LEDA> to denote the path name of the LEDA main 
+directory. It should contain the following files and subdirectories: 
+
+README                    information about LEDA
+INSTALL                   this file
+Changes  (please read !)  most recent changes
+Compiler (please read !)  list of compilers, problems, and required flags
+Fixes                     bug fixes since last release
+Makefile                  make script
+incl/                     LEDA include directory
+src/                      LEDA source files
+prog/                     example programs
+web/                      some cweb sources
+man/                      user manual (TeX)
+
+
+LEDA should be usable with any C++ compiler that supports templates.
+
+
+1. COMPILING
+-------------
+
+   You have to make the following libraries (cf. user manual section 1.9) :
+
+   libL.a             main  library
+   libG.a             graph library
+   libP.a             plane library
+   libWx.a            X11 window library  (optional)
+
+
+   a)  go to the LEDA main directory
+       cd <LEDA>
+
+   b)  Create a symbolic link "c++" to your C++ compiler
+          ln -s /usr/local/bin/g++  c++  
+       or ln -s /bin/CC  c++
+
+       If using g++ (version > 2) you also have to make a link "gcc" to the 
+       GNU C compiler: 
+          ln -s /usr/local/bin/gcc gcc
+
+   c)  Type "make".
+
+
+REMARKS:
+
+i) Some compilers can compile the LEDA sources only if particular flags
+   are used. Examples are
+     sunpro c++ :   CC  -pto 
+     lucid  c++ :   lcc -XF
+
+   On other systems there seems to be a problem with calling the compiler 
+   through a sumbolic link as described above. 
+
+   In both cases you should create a shell-script "c++" instead of a symbolic
+   link in the LEDA main directory that calls the compiler with all supplied 
+   arguments and the required additional flags. Here is an example for sunpro
+   c++ using the default (Bourne) shell.
+
+     #!/bin/sh -f
+     CC -pto $*
+
+
+ii) The graphics library libWx.a is based on X11. It can be made only if
+    the main X11 include directory is located in one of the standard include 
+    directories of your compiler (e.g. /usr/include/X11). If this is
+    not the case you have to tell the compiler where it is by using the 
+    -I option. Here as an example working on most SUN workstations.
+  
+    #!/bin/sh -f
+    CC -pto -I/usr/openwin/include $*
+  
+  
+iii) Currently, the make scripts assume that the "ranlib" command is required 
+     to create a table of contents for every library. This is not true
+     for many operating systems. On such systems you will receive a lot of 
+     error messages "ranlib: command not found". You can simply ignore
+     these messages or remove the ranlib calls from <LEDA>/src/Make.src
+     
+   
+
+
+
+2. INSTALLATION 
+----------------
+
+a) Header Files
+  
+   All LEDA header files are contained in "<LEDA>/incl/LEDA".
+   You have to copy this directory to the C++ default include 
+   directory, e.g., 
+
+   AT&T CC:  cp -r <LEDA>/incl/LEDA /usr/include/CC
+
+   GNU g++:  cp -r <LEDA>/incl/LEDA /usr/local/lib/g++-include     
+
+
+
+b) Libraries
+
+   Copy the libraries to /usr/lib  or /usr/local/lib 
+   and run ranlib (if required by your system), e.g.,  
+
+   AT&T CC: cp <LEDA>/lib*.a /usr/lib
+            ranlib /usr/lib/lib[L,G,P,W]*.a
+
+   GNU g++: cp <LEDA>/lib*.a /usr/local/lib
+            ranlib /usr/local/lib/lib[L,G,P,W]*.a
+ 
+
+
+   Then the -l option  can be used to compile and link programs
+   (see section 1.9 of the user manual):
+
+   CC (g++)  ... -lL -lm
+   CC (g++)  ... -lG -lL -lm      (for programs using graph data types)
+   CC (g++)  ... -lP -lG -lL -lm  (for programs using geometric data types)
+
+   for programs using windows:
+   CC (g++)  ... -lP -lG -lL -lWx -lX11 -lm
+
+
+
+   If you cannot write "/usr/(local/)include" and "/usr/(local/)lib"
+   on your system, you have to use the -I and -L compiler flags to 
+   compile and link LEDA programs:
+
+   CC (g++) -I<LEDA>/incl -L<LEDA>  ...
+
+
+
+
+3. EXAMPLE PROGRAMS
+-------------------
+
+   Example programs can be found on  <LEDA>/prog, to compile them 
+   you have to use the following libraries:
+
+   <LEDA>/prog/basic:    -lL
+   <LEDA>/prog/graph:    -lG -lL
+   <LEDA>/prog/plane:    -lP -lG -lL -lm
+   <LEDA>/prog/window:   -lP -lG -lL -lWx -lX11 -lm 
+   <LEDA>/prog/demo:     -lP -lG -lL -lWx -lX11 -lm 
+
+
+4. GRAPH ALGORITHMS
+-------------------
+
+   The source code for all graph algorithms (included in libG.a) can be 
+   found on <LEDA>/src/graph_alg
+
+
+5. USER MANUAL
+--------------
+
+   All manual pages have been incorporated into the corresponding header
+   files. LEDA provides tools (see LEDA/manual/README) to extract and
+   typeset the user manual from these files. Postscript and LaTeX versions 
+   of the manual are available on the ftp server (ftp.mpi-sb.mpg.de).
+   The man directory also contains a simple interactive manual reader tman.
+   To use it you must have installed "gawk" or "nawk", LaTeX, and xdvi.
+   Probably, you have to change some path names in the "tman" script file.
+
+

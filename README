@@ -1,0 +1,58 @@
+
+                             LEDA-R 3.2  
+
+The new LEDA version available on our ftp server is "LEDA-R 3.2". The "R" 
+stands for research and has been added to make it distinguishable from 
+the commercial version (LEDA 3.2) distributed by LEDA Software GmbH. 
+The new release is mainly a bug-fix release, however it also contains some 
+new algorithms for graphs and computational geometry. The implementation of 
+parameterized data types (<LEDA/param_types.h>) has been re-written to make 
+it more readable and stable. It now should work with all c++ compilers 
+supporting template functions and on all architectures, in particular, 
+64 bit machines (details can be found in <LEDA/param_types.h>.
+
+LEDA-R 3.2 can be used freely for academic research and teaching.
+Licenses for the commercial version "LEDA 3.2" are distributed by the 
+LEDA Software GmbH.
+
+
+DIFFERENCES BETWEEN LEDA 3.2 AND LEDA-R 3.2
+
+The only difference between LEDA-R and LEDA is that the research version 
+may contain additional data types, algorithms or other features which are 
+  - experimental (not tested enough or not working on all platforms)
+  - of interest only for particular research
+  - temporary (may be removed or changed in future versions)
+The commercial version  will never contain data types, algorithms or 
+features of this kind. It is supposed to stay backward consistent in 
+the sense that old programs should work with new versions of LEDA. 
+
+
+WHO NEEDS A LICENSE?
+
+- Every organization that uses LEDA and is not an academic research
+  institute or school.
+
+- Everyone who sells programs that are developped using LEDA.
+
+- Everyone who delivers programs that are developped using LEDA to
+  non-academic organisations.
+
+Holders of a licence for the commerical version are free to also 
+use the research version for commercial use.
+
+
+
+
+Please write to leda@mpi-sb.mpg.de if you want to
+* send bug reports or suggestions
+* get information on the commerical license 
+* be on our mailing list
+
+
+Subscribe to the LEDA newsgroup comp.lang.c++.leda 
+
+
+
+
+K. Mehlhorn, S. Naeher, C. Uhrig

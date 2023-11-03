@@ -1,0 +1,456 @@
+{\bf Depth First Search}
+
+\#include \<LEDA/graph.h\>\\
+\#include \<LEDA/stack.h\>
+
+list\<node\> DFS($graph\&$ $G$, $node$ $v$, $node\_array\<bool\>\&$ $reached$)
+
+$\{$ 
+
+\hspace*{.5cm}list\<node\>  $L$;\\
+\hspace*{.5cm}stack\<node\> $S$;\\
+\hspace*{.5cm}node $w$;
+
+\smallskip
+\hspace*{.5cm}\If ( !$reached[v]$ )\\
+\hspace*{.70cm}$\{$\  $reached[v]$ = true;\\
+\hspace*{1cm}$S$.push($v$);\\
+\hspace*{.70cm} $\}$
+
+\smallskip
+\hspace*{.5cm}{\bf while} ( !$S$.empty() )\\
+\hspace*{1.5cm}$\{$ $v = S$.pop();\\ 
+\hspace*{1.85cm}$L$.append($v$);\\
+\hspace*{1.85cm}{\bf forall\_adj\_nodes}($w,v$)\\ 
+\hspace*{2.25cm}{\bf if} ( !$reached[w]$ )\\ 
+\hspace*{2.5cm}$\{$ $reached[w]$ = true;\\
+\hspace*{2.75cm}$S$.push($w$);\\
+\hspace*{2.5cm}$\}$
+
+\smallskip
+\hspace*{1.5cm}$\}$
+
+\smallskip
+\hspace{.5cm}return $L$;
+
+\smallskip
+$\}$
+
+\bigskip
+\bigskip
+
+{\bf Breadth First Search}
+
+\bigskip
+\#include \<LEDA/graph.h\>\\ 
+\#include \<LEDA/queue.h\>
+
+void BFS($graph\&\ G,\ node\ v,\ node\_array\<int\>\&\ dist$)
+
+$\{$
+
+\hspace*{.5cm}queue\<node\> $Q$;\\
+\hspace*{.5cm}node $w$;
+
+\smallskip
+\hspace*{.5cm}{\bf forall\_nodes}($w,G$) $dist[w] = -1$;
+
+\smallskip
+\hspace*{.5cm}$dist[v] = 0$;\\
+\hspace*{.5cm}$Q$.append($v$);
+
+\smallskip
+\hspace*{.5cm}{\bf while} ( !$Q$.empty() )\\
+\hspace*{1.5cm}$\{$ $v = Q$.pop();\\
+\hspace*{1.75cm}{\bf forall\_adj\_nodes}($w,v$)\\
+\hspace*{2.25cm}{\bf if} ($dist[w] < 0$)\\ 
+\hspace*{2.5cm}$\{$ $Q$.append($w$);\\ 
+\hspace*{2.75cm}$dist[w] = dist[v]+1$;\\
+\hspace*{2.5cm}$\}$\\
+\hspace*{1.5cm}$\}$
+
+\smallskip
+$\}$
+
+\bigskip
+\bigskip
+\bigskip
+{\bf Connected Components}
+
+\bigskip
+\#include \<LEDA/graph.h\>
+
+int COMPONENTS($ugraph\&$ $G$, $node\_array<int>\&$ $compnum$)
+
+$\{$
+
+\hspace*{.5cm}node $v,w$;\\
+\hspace*{.5cm}list\<node\> $S$;\\
+\hspace*{.5cm}int $count = 0$;
+
+\smallskip
+\hspace*{.5cm}node\_array(bool) $reached(G,false)$;
+
+\smallskip
+\hspace*{.5cm}\Forallnodes($v,G$)
+
+\hspace*{1cm}\If ( !$reached[v]$ )\\ 
+\hspace*{1.25cm}$\{$ $S$ = DFS($G,v,reached$);\\
+\hspace*{1.5cm}\Forall($w,S$) $compnum[w] = count$;\\
+\hspace*{1.5cm}$count++$;\\ 
+\hspace*{1.25cm}$\}$
+
+\smallskip
+\hspace*{.5cm}\Return $count$;\\
+$\}$
+
+
+\newpage
+{\bf Depth First Search Numbering}
+
+\bigskip
+\#include \<LEDA/graph.h\>
+
+int $dfs\_count1,\ dfs\_count2$;
+
+void 
+\parbox[t]{14cm}{d\_f\_s($node$ $v$,$node\_array\<bool\>\&$ $S$,
+                                        $node\_array\<int\>\&$ $dfsnum$, 
+                                        $node\_array\<int\>\&$ $compnum$,
+                                        $list\<edge\>$ $T$ )}
+
+$\{$\ // recursive DFS
+
+\smallskip
+\hspace*{.5cm}node $w$;\\
+\hspace*{.5cm}edge $e$;
+
+\smallskip
+\hspace*{.5cm}$S[v] = true$;\\
+\hspace*{.5cm}$dfsnum[v] = ++dfs\_count1$;
+
+\smallskip
+\hspace*{.5cm}\Foralladjedges($e,v$)\\ 
+\hspace*{1cm}$\{$ $w = G$.target(e);\\
+\hspace*{1.25cm}\If ( !$S[w]$ ) \\
+\hspace*{1.5cm}$\{$ $T$.append($e$);\\
+\hspace*{1.75cm}d\_f\_s($w,S,dfsnum,compnum,T$);\\
+\hspace*{1.5cm}$\}$\\
+\hspace*{1cm}$\}$
+
+\smallskip
+\hspace*{.5cm}$compnum[v] = ++dfs\_count2$;\\
+$\}$ 
+
+\bigskip
+\bigskip
+list\<edge\> DFS\_NUM($graph\&\ G,\ node\_array\<int\>\&\ dfsnum,\ node\_array\<int\>\&\ compnum$ )
+
+$\{$ \\
+\hspace*{.5cm}list\<edge\> $T$;\\
+\hspace*{.5cm}node\_array\<bool\> $reached(G,false)$;\\
+\hspace*{.5cm}node $v$;\\
+\hspace*{.5cm}$dfs\_count1 = dfs\_count2 = 0$;\\
+\hspace*{.5cm}\Forallnodes($v,G$) \\
+\hspace*{1cm}\If ( !$reached[v]$ ) d\_f\_s($v,reached,dfsnum,compnum,T$);\\
+\hspace*{.5cm}\Return $T$;\\
+$\}$\\
+
+\newpage
+
+
+{\bf Topological Sorting}
+
+\#include \<LEDA/graph.h\>
+
+bool TOPSORT($graph\&\ G,\ node\_array\<int\>\& ord$)
+
+$\{$\\ 
+\hspace*{.5cm}node\_array\<int\> INDEG($G$);\\
+\hspace*{.5cm}list\<node\> ZEROINDEG;
+
+\smallskip
+\hspace*{.5cm}int $count=0$;\\
+\hspace*{.5cm}node $v,w$;\\
+\hspace*{.5cm}edge $e$;
+
+\smallskip
+\hspace*{.5cm}{\bf forall\_nodes}($v,G$)\\
+\hspace*{1cm}{\bf if} ((INDEG[$v$]=$G$.indeg($v$))==0) ZEROINDEG.append($v$); 
+
+\smallskip
+\hspace*{.5cm}{\bf while} (!ZEROINDEG.empty())\\
+\hspace*{1cm}$\{$ $v$ = ZEROINDEG.pop();\\
+\hspace*{1.25cm}$ord[v] = ++count$;
+
+\smallskip
+\hspace*{1.25cm}{\bf forall\_adj\_nodes}($w,v$) \\
+\hspace*{1.75cm}{\bf if} ($--$INDEG[$w$]==0) ZEROINDEG.append($w$);\\
+\hspace*{1cm} $\}$
+
+\smallskip
+\hspace*{.5cm}{\bf return} (count==G.number\_of\_nodes()); 
+
+\smallskip
+$\}$\\
+
+\bigskip
+//TOPSORT1 sorts node and edge lists according to the topological ordering:
+
+\bigskip
+$bool$ TOPSORT1($graph\&\ G$)
+
+\smallskip
+{$\{$\\ 
+\hspace*{.5cm}node\_array\<int\> node\_ord($G$);\\
+\hspace*{.5cm}edge\_array\<int\> edge\_ord($G$);
+
+\smallskip
+\hspace*{.5cm}{\bf if} (TOPSORT(G,node\_ord))\\
+\hspace*{.75cm}$\{$ edge $e$;\\
+\hspace*{1cm}{\bf forall\_edges}($e,G$) edge\_ord[$e$]=node\_ord[$target(e)$];\\
+\hspace*{1cm}$G$.sort\_nodes(node\_ord);\\
+\hspace*{1cm}$G$.sort\_edges(edge\_ord);\\
+\hspace*{1cm}{\bf return} true;\\
+\hspace*{.75cm}$\}$\\
+\hspace*{.5cm}{\bf return} false;\\
+$\}$\\
+
+
+
+
+
+\newpage
+
+{\bf Strongly Connected Components}
+
+\#include \<LEDA/graph.h\>\\
+\#include \<LEDA/array.h\>
+
+\medskip
+int STRONG\_COMPONENTS($graph\&\ G,\ node\_array\<int\>\&\ compnum$)\\
+$\{$\\
+\hspace*{.5cm}node $v,w$;\\
+\hspace*{.5cm}int $n = G$.number\_of\_nodes();\\
+\hspace*{.5cm}int $count = 0$;\\
+\hspace*{.5cm}int $i$;
+
+\smallskip
+\hspace*{.5cm}array\<node\> $V(1,n)$;\\
+\hspace*{.5cm}list\<node\> $S$;\\
+\hspace*{.5cm}node\_array\<int\>  $dfs\_num(G), compl\_num(G)$;\\
+\hspace*{.5cm}node\_array\<bool\> $reached(G,false)$;
+
+\smallskip
+\hspace*{.5cm}DFS\_NUM($G,dfs\_num,compl\_num$);
+
+\smallskip
+\hspace*{.5cm}\Forallnodes($v,G$) $V[compl\_num[v]] = v$;
+
+\smallskip
+\hspace*{.5cm}$G$.rev();
+
+\smallskip
+\hspace*{.5cm}\For($i=n;\ i>0;\ i--$)\\
+\hspace*{1cm}\If ( !$reached[V[i]]$ ) \\
+\hspace*{1.25cm}$\{$ $S$ = DFS($G,V[i],reached$);\\
+\hspace*{1.5cm}Forall($w,S$) $compnum[w] = count$;\\
+\hspace*{1.5cm}$count++$;\\
+\hspace*{1.25cm}$\}$
+
+\smallskip
+\hspace*{.5cm}\Return $count$;
+
+\smallskip
+$\}$\\
+
+
+
+\newpage
+
+
+{\bf Dijkstra's Algorithm}
+
+
+\#include \<LEDA/graph.h\>\\ 
+\#include \<LEDA/node\_pq.h\>
+
+\medskip
+void DIJKSTRA( graph\& $G$, node $s$, edge\_array\<int\>\& $cost$, \\
+\hspace*{1cm}node\_array\<int\>\& $dist$, node\_array\<edge\>\& $pred$ )
+
+$\{$\\ 
+\hspace*{.5cm}node\_pq\<int\> $PQ(G)$;
+
+\smallskip
+\hspace*{.5cm}int $c$;\\
+\hspace*{.5cm}node $u,v$;\\
+\hspace*{.5cm}edge $e$;
+
+\smallskip
+\hspace*{.5cm}{\bf forall\_nodes}($v,G$)\\
+\hspace*{1cm}$\{$ $ pred[v] = 0$;\\
+\hspace*{1.25cm}$dist[v] = infinity$;\\
+\hspace*{1.25cm}$PQ$.insert($v,dist[v])$;\\
+\hspace*{1cm}$\}$
+
+\smallskip
+\hspace*{.5cm}$dist[s] = 0$;\\
+\hspace*{.5cm}$PQ$.decrease\_inf($s,0)$;
+
+\smallskip
+\hspace*{.5cm}{\bf while} ( ! $PQ$.empty())\\
+\hspace*{1cm}$\{$ $u = PQ$.del\_min();
+
+\smallskip
+\hspace*{1.25cm}{\bf forall\_adj\_edges}($e,u$)\\
+\hspace*{1.75cm}$\{$ $v = G.target(e) $;\\ 
+\hspace*{2cm}$c = dist[u] + cost[e] $;\\
+\hspace*{2cm}{\bf if} ( $c < dist[v] $)\\
+\hspace*{2.25cm}$\{$ $dist[v] = c$;\\
+\hspace*{2.5cm}$pred[v] = e$;\\
+\hspace*{2.5cm}$PQ$.decrease\_inf($v,c$);\\
+\hspace*{2.25cm}$\}$\\
+\hspace*{1.75cm}$\}$ /$*$ forall\_adj\_edges $*$
+
+\smallskip
+\hspace*{1cm}$\}$ /$*$ while $*$/
+
+\smallskip
+$\}$\\
+
+\newpage
+{\bf Bellman/Ford Algorithm}
+
+\#include \<LEDA/graph.h\>\\
+\#include \<LEDA/queue.h\>
+
+\medskip
+bool BELLMAN\_FORD($graph\&\ G,\ node\ s,\ edge\_array\<int\>\&\ cost$,\\
+\hspace*{1cm}$node\_array\<int\>\&\ dist,\ node\_array\<edge\>\&\ pred$)
+
+$\{$\\ 
+\hspace*{.5cm}node\_array\<bool\> $in\_Q(G,false)$;\\
+\hspace*{.5cm}node\_array\<int\>  $count(G,0)$;
+
+\smallskip
+\hspace*{.5cm}int $n = G$.number\_of\_nodes();\\
+\hspace*{.5cm}queue\<node\> $Q(n)$;
+
+\smallskip
+\hspace*{.5cm}node $u,v$;\\
+\hspace*{.5cm}edge $e$;\\
+\hspace*{.5cm}int  $c$;
+
+\smallskip
+\hspace*{.5cm}\Forallnodes($v,G$)\\
+\hspace*{1cm}$\{$ $pred[v] = 0$;\\
+\hspace*{1.25cm}$dist[v] =  infinity$; \\
+\hspace*{1cm}$\}$\\
+\hspace*{.5cm}$dist[s] = 0$;\\
+\hspace*{.5cm}$Q$.append($s$);\\
+\hspace*{.5cm}$in\_Q[s] = true$;
+
+\smallskip
+\hspace*{.5cm}{\bf while} (!$Q$.empty())\\
+\hspace*{1cm}$\{$ $u = Q$.pop();\\
+\hspace*{1.25cm}$in\_Q[u] = false$;
+
+\smallskip
+\hspace*{1.25cm}\If ($++count[u] > n$)  {\bf return} false;\quad //negative cycle
+
+\smallskip
+\hspace*{1.25cm}\Foralladjedges($e,u$) \\
+\hspace*{1.75cm}$\{$ $v$ = $G$.target($e$);\\
+\hspace*{2cm}$c = dist[u] + cost[e]$;
+
+\smallskip
+\hspace*{2cm}\If ($c < dist[v]$) \\
+\hspace*{2.25cm}$\{$ $dist[v] = c$; \\
+\hspace*{2.5cm}$pred[v] = e$;\\
+\hspace*{2.5cm}\If (!$in\_Q[v]$)  \\
+\hspace*{2.75cm}$\{$ $Q$.append($v$);\\
+\hspace*{3cm}$in\_Q[v]=true$;\\
+\hspace*{2.75cm}$\}$\\
+\hspace*{2.25cm}$\}$\\
+\hspace*{1.75cm}$\}$ /$*$ forall\_adj\_edges $*$/\\
+\hspace*{1cm}$\}$ /$*$ while $*$/\\
+\hspace*{.5cm}{\bf return} true;\\
+$\}$\\
+
+\newpage
+{\bf All Pairs Shortest Paths}
+
+\#include \<LEDA/graph.h\>
+
+void all\_pairs\_shortest\_paths(graph\& $G$, edge\_array\<double\>\& $cost$,\\
+\hspace*{1cm}node\_matrix\<double\>\& $DIST$)\\
+$\{$\\
+\hspace*{.5cm}// computes for every node pair $(v,w)$ $DIST(v,w)$ = cost of the least cost\\
+\hspace*{.5cm}// path from $v$ to $w$, the single source shortest paths algorithms BELLMAN\_FORD\\
+\hspace*{.5cm}// and DIJKSTRA are used as subroutines
+
+\smallskip
+\hspace*{.5cm}edge $e$;\\
+\hspace*{.5cm}node $v$;\\
+\hspace*{.5cm}double $C = 0$;
+
+\smallskip
+\hspace*{.5cm}{\bf forall\_edges}($e,G$) $C += fabs(cost[e]$);\\
+\hspace*{.5cm}node $s = G$.new\_node(); \hspace{3cm} // add $s$ to $G$\\
+\hspace*{.5cm}{\bf forall\_nodes}($v,G$) $G$.new\_edge($s,v$); \hspace{.75cm} // add edges ($s,v$) to $G$
+
+\smallskip
+\hspace*{.5cm}node\_array\<double\> $dist1(G)$;\\
+\hspace*{.5cm}node\_array\<edge\>   $pred(G)$;\\
+\hspace*{.5cm}edge\_array\<double\> $cost1(G)$;\\
+\hspace*{.5cm}{\bf forall\_edges}($e,G$) 
+$cost1[e] = (G$.source$(e)==s)$ ? $C : cost[e]$;
+
+\smallskip
+\hspace*{.5cm}BELLMAN\_FORD($G,s,cost1,dist1,pred$);
+
+\smallskip
+\hspace*{.5cm}$G$.del\_node($s$); \hspace{4.75cm}// delete $s$ from $G$\\
+\hspace*{.5cm}edge\_array(double) $cost2(G)$;\\
+\hspace*{.5cm}{\bf forall\_edges}($e,G$) $cost2[e] = dist1[G.source(e)] + cost[e] - dist1[G.target(e)]$;
+
+\smallskip
+\hspace*{.5cm}{\bf forall\_nodes}($v,G$)  DIJKSTRA($G,v,cost2,DIST[v],pred$);
+
+\smallskip
+\hspace*{.5cm}{\bf forall\_nodes}($v,G$)\\
+\hspace*{1cm}\bf forall\_nodes}($w,G$) $DIST(v,w) = DIST(v,w) - dist1[v] + dist1[w]$;\\
+$\}$
+
+\newpage
+
+{\bf Minimum Spanning Tree}
+
+
+\#include \<LEDA/graph.h\>\\
+\#include \<LEDA/node\_partition.h\>
+
+\medskip
+void MIN\_SPANNING\_TREE(graph\& $G$, edge\_array\<double\>\& $cost$, list\<edge\>\& $EL$)\\
+$\{$\\
+\hspace*{.5cm}node $v,w$;\\
+\hspace*{.5cm}edge $e$;\\
+\hspace*{.5cm}node\_partition $Q(G)$;
+
+\smallskip
+\hspace*{.5cm}$G$.sort\_edges($cost$);
+
+\smallskip
+\hspace*{.5cm}$EL$.clear();\\
+\hspace*{.5cm}{\bf forall}\_edges($e,G$)\\
+\hspace*{.75cm}$\{$ $v = G.source(e)$;\\
+\hspace*{1cm}$w = G.target(e)$;\\
+\hspace*{1cm}{\bf if} ($!(Q$.same\_block($v,w$))\\
+\hspace*{1.25cm}$\{$  $Q$.union\_blocks($v,w$);\\
+\hspace*{1.5cm}$EL$.append($e$);\\
+\hspace*{1.25cm}$\}$\\
+\hspace*{.75cm}$\}$\\
+$\}$\\
+
+\newpage

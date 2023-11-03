@@ -1,0 +1,17 @@
+
+OBJECTS = \
+_array$o \
+_basic$o \
+_dlist$o \
+_error$o \
+_leda$o \
+_matrix$o \
+_memory$o \
+_olist$o \
+_partition$o \
+_random$o \
+_slist$o \
+_string$o \
+_tree_collect$o \
+_vector$o \
+_version$o 

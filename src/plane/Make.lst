@@ -1,0 +1,18 @@
+
+OBJECTS = \
+_point$o \
+_segment$o \
+_line$o \
+_circle$o \
+_polygon$o \
+_delaunay_tree$o \
+_point_set$o \
+_iv_tree$o \
+_ps_tree$o \
+_range_tree$o \
+_rat_point$o \
+_rat_segment$o \
+_seg_set$o \
+_seg_tree$o \
+_subdivision$o
+

@@ -1,0 +1,211 @@
+
+\chapter{Implementations}
+
+\label{Implementations}
+
+\section{List of data structures}
+
+\label{List of data structures}
+
+This section lists the data structures for dictionaries, dictionary
+arrays, priority queues, and geometric data types currently contained in LEDA. 
+For each of the data structures its name and type, the list of LEDA data types 
+it can implement, and a literature reference are given.
+Before using a data structures $xyz$ the corresponding header file
+\<LEDA/impl/$xyz$.h\> has to be included (cf. section \ref{Specifications} for an example).
+
+\subsection{Dictionaries}
+
+\label{Implementations Dictionaries}
+
+\begin{tabular}{llll}
+$ab\_tree$    &a-b tree     &dictionary, d\_array, {\bf sortseq}&\cite{BC72}\\
+$avl\_tree$   &AVL tree     &dictionary, d\_array   &\cite{AVL62}\\
+$bb\_tree$    &BB[$\alpha$] tree&dictionary, d\_array, sortseq&\cite{BM80}\\
+$ch\_hashing$ &hashing with chaining&dictionary, d\_array&\cite{M84}\\
+$dp\_hashing$ &dyn. perf. hashing&{\bf h\_array}    &\cite{DKMMRT88}, \cite{We92}\\
+$pers\_tree$  &persistent   tree&{\bf p\_dictionary}&\cite{DSST89}\\
+$rb\_tree$    &red-black tree&dictionary, d\_array, sortseq&\cite{GS78}\\
+$rs\_tree$    &rand. search tree&{\bf dictionary}, {\bf d\_array}, sortseq&\cite{AS89}\\
+$skiplist$    &skip lists   &dictionary, d\_array, sortseq&\cite{Pu90}
+\end{tabular}
+
+\subsection{Priority Queues}
+\label{Implementations Priority Queues}
+
+\begin{tabular}{llll}
+$f\_heap$  &Fibonnacci heap    &{\bf priority\_queue} &\cite{FT87}\\
+$p\_heap$  &pairing heap       &priority\_queue       &\cite{SV87}\\
+$k\_heap$  &k-nary heap        &priority\_queue       &\cite{M84}\\
+$m\_heap$  &monotonic heap     &priority\_queue       &\cite{M84}\\
+$eb\_tree$ &Emde-Boas tree     &priority\_queue       &\cite{EKZ77}, \cite{We92}
+\end{tabular}
+
+\subsection{Geometry}
+
+\begin{tabular}{llll}
+$range\_tree$ &range tree     &{\bf d2\_dictionary}, {\bf point\_set}&\cite{Wi85}, \cite{Lu78}\\
+$seg\_tree$   &segment tree         &{\bf seg\_set}      &\cite{B79}, \cite{Ed82}\\
+$ps\_tree$    &priority search tree &---             &\cite{MC81}\\
+$iv\_tree$    &interval tree        &{\bf interval\_set} &\cite{MC80}, \cite{Ed82}\\
+$delaunay\_tree$ &delaunay tree     &{\bf point\_set}    &\cite{De92}
+\end{tabular}
+
+\newpage
+
+\section{User Implementations}
+
+\label{User Implementations}
+
+In addition to the data structures listed in the previous section user-defined 
+data structures can also be used as actual implementation parameters provided 
+they fulfill certain requirements.
+
+\subsection{Dictionaries}
+
+\label{User Implementations Dictionaries}
+
+Any class $dic\_impl$ that provides the following operations can be used as 
+actual implementation parameter for the $\_dictionary\<K,I,dic\_impl\>$ 
+and the $\_d\_array\<I,E,dic\_impl\>$ data types (cf. sections \ref{Dictionaries} and \ref{Dictionary Arrays}).
+
+typedef ... dic\_impl\_item;
+
+class dic\_impl $\{$
+
+\hspace*{.5cm}virtual int  cmp(GenPtr, GenPtr) const = 0;\\
+\hspace*{.5cm}virtual int  int\_type()\hspace*{2.3cm}const = 0;\\
+\hspace*{.5cm}virtual void clear\_key(GenPtr\&)\hspace*{.35cm}const = 0;\\
+\hspace*{.5cm}virtual void clear\_inf(GenPtr\&)\hspace*{.45cm}const = 0;\\
+\hspace*{.5cm}virtual void copy\_key(GenPtr\&)\hspace*{.35cm}const = 0;\\
+\hspace*{.5cm}virtual void copy\_inf(GenPtr\&)\hspace*{.5cm}const = 0;
+
+public:
+
+\hspace*{.5cm}dic\_impl();\\
+\hspace*{.5cm}dic\_impl(const dic\_impl\&);\\
+\hspace*{.5cm}virtual ~dic\_impl();
+
+\hspace*{.5cm}dic\_impl\& operator=(const dic\_impl\&);
+
+\hspace*{.5cm}GenPtr key(dic\_impl\_item)  const;\\
+\hspace*{.5cm}GenPtr inf(dic\_impl\_item)  \ const;
+
+\hspace*{.5cm}dic\_impl\_item insert(GenPtr,GenPtr);\\
+\hspace*{.5cm}dic\_impl\_item lookup(GenPtr)  const;\\
+\hspace*{.5cm}dic\_impl\_item first\_item()\hspace*{1cm}const;\\
+\hspace*{.5cm}dic\_impl\_item next\_item(dic\_impl\_item) const;
+
+\hspace*{.5cm}dic\_impl\_item item(void$*$ $p$) const $\{$ return dic\_impl\_item($p$); $\}$
+
+\hspace*{.5cm}void change\_inf(dic\_impl\_item,GenPtr);\\
+\hspace*{.5cm}void del\_item(dic\_impl\_item);\\
+\hspace*{.5cm}void del(GenPtr);\\
+\hspace*{.5cm}void clear();
+
+\hspace*{.5cm}int size() const;\\
+$\}$;
+
+\newpage
+
+\subsection{Priority Queues}
+
+\label{User Implementations Priority Queues}
+
+Any class $prio\_impl$ that provides the following operations can be used as 
+actual implementation parameter for the $\_priority\_queue\<K,I,prio\_impl\>$
+data type (cf. section \ref{Priority Queues}).
+
+typedef ... prio\_impl\_item;
+
+class prio\_impl { 
+
+\hspace*{.5cm}virtual int  cmp(GenPtr, GenPtr) const = 0;\\
+\hspace*{.5cm}virtual int  int\_type()\hspace*{2.3cm}const = 0;\\
+\hspace*{.5cm}virtual void clear\_key(GenPtr\&)\hspace*{.35cm}const = 0;\\
+\hspace*{.5cm}virtual void clear\_inf(GenPtr\&)\hspace*{.45cm}const = 0;\\
+\hspace*{.5cm}virtual void copy\_key(GenPtr\&)\hspace*{.35cm}const = 0;\\
+\hspace*{.5cm}virtual void copy\_inf(GenPtr\&)\hspace*{.5cm}const = 0;
+
+public:
+
+\hspace*{.5cm}prio\_impl();\\
+\hspace*{.5cm}prio\_impl(int);\\
+\hspace*{.5cm}prio\_impl(int,int);\\
+\hspace*{.5cm}prio\_impl(const prio\_impl\&);\\
+\hspace*{.5cm}virtual ~prio\_impl();
+
+\hspace*{.5cm}prio\_impl\& operator=(const prio\_impl\&);
+
+\hspace*{.5cm}prio\_impl\_item insert(GenPtr,GenPtr);\\
+\hspace*{.5cm}prio\_impl\_item find\_min() \ const;\\
+\hspace*{.5cm}prio\_impl\_item first\_item() const;\\
+\hspace*{.5cm}prio\_impl\_item next\_item(prio\_impl\_item) const;
+
+\hspace*{.5cm}prio\_impl\_item item(void$*$ $p$) const $\{$ return prio\_impl\_item(p); $\}$
+ 
+\hspace*{.5cm}GenPtr key(prio\_impl\_item) const;\\
+\hspace*{.5cm}GenPtr inf(prio\_impl\_item) \ const;
+
+\hspace*{.5cm}void del\_min();\\
+\hspace*{.5cm}void del\_item(prio\_impl\_item);\\
+\hspace*{.5cm}void decrease\_key(prio\_impl\_item,GenPtr);\\
+\hspace*{.5cm}void change\_inf(prio\_impl\_item,GenPtr);\\
+\hspace*{.5cm}void clear();
+  
+\hspace*{.5cm}int  size()  const;\\
+$\}$;
+
+\newpage
+
+\subsection{Sorted Sequences}
+
+\label{User Implementations Sorted Sequences}
+
+Any class $seq\_impl$ that provides the following operations can be used as 
+actual implementation parameter for the $\_sortseq\<K,I,seq\_impl\>$ data
+type (cf. section \ref{Sorted Sequences}).
+
+typedef ... seq\_impl\_item;
+
+class seq\_impl  $\{$
+
+\hspace*{.5cm}virtual int  cmp(GenPtr, GenPtr) const = 0;\\
+\hspace*{.5cm}virtual int  int\_type()\hspace*{2.25cm}const = 0;\\
+\hspace*{.5cm}virtual void clear\_key(GenPtr\&)\hspace*{.3cm}const = 0;\\
+\hspace*{.5cm}virtual void clear\_inf(GenPtr\&)\hspace*{.4cm}const = 0;\\
+\hspace*{.5cm}virtual void copy\_key(GenPtr\&)\hspace*{.3cm}const = 0;\\
+\hspace*{.5cm}virtual void copy\_inf(GenPtr\&)\hspace*{.45cm}const = 0;
+
+public:
+
+\hspace*{.5cm}seq\_impl();\\
+\hspace*{.5cm}seq\_impl(const seq\_impl\&);\\
+\hspace*{.5cm}virtual ~seq\_impl();
+
+\hspace*{.5cm}seq\_impl\& operator=(const seq\_impl\&);\\
+\hspace*{.5cm}seq\_impl\& conc(seq\_impl\&);
+ 
+\hspace*{.5cm}seq\_impl\_item insert(GenPtr,GenPtr);\\
+\hspace*{.5cm}seq\_impl\_item insert\_at\_item(seq\_impl\_item,GenPtr,GenPtr);\\
+\hspace*{.5cm}seq\_impl\_item lookup(GenPtr)\hspace*{.9cm}const;\\
+\hspace*{.5cm}seq\_impl\_item locate(GenPtr)\hspace*{1.05cm}const;\\
+\hspace*{.5cm}seq\_impl\_item locate\_pred(GenPtr) const;\\
+\hspace*{.5cm}seq\_impl\_item succ(seq\_impl\_item)\hspace*{.25cm}const;\\
+\hspace*{.5cm}seq\_impl\_item pred(seq\_impl\_item)\hspace*{.05cm} const;\\
+\hspace*{.5cm}seq\_impl\_item item(void$*$ $p$) const $\{$ return seq\_impl\_item($p$); $\}$
+ 
+\hspace*{.5cm}GenPtr key(seq\_impl\_item) const;\\
+\hspace*{.5cm}GenPtr inf(seq\_impl\_item) \ const;
+ 
+\hspace*{.5cm}void del(GenPtr);\\ 
+\hspace*{.5cm}void del\_item(seq\_impl\_item);\\ 
+\hspace*{.5cm}void change\_inf(seq\_impl\_item,GenPtr);\\
+\hspace*{.5cm}void split\_at\_item(seq\_impl\_item,seq\_impl\&,seq\_impl\&);\\
+\hspace*{.5cm}void reverse\_items(seq\_impl\_item,seq\_impl\_item);\\ 
+\hspace*{.5cm}void clear();
+ 
+\hspace*{.5cm}int  size()  const;\\
+$\}$;
+
+
