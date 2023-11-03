@@ -5,9 +5,9 @@
 +  _mcmflow.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -19,11 +19,11 @@
 //
 // Algorithm: successive shortest path augmentation + capacity scaling
 //
-// Based on:  J. Edmonds and R. M. Karp: 
-//            "Theoretical Improvements in Algorithmic Efficiency for Network 
+// Based on:  J. Edmonds and R. M. Karp:
+//            "Theoretical Improvements in Algorithmic Efficiency for Network
 //            Flow Problems", Journal of the  ACM, Vol. 19, No. 2, 1972
 //
-//            R.K. Ahuja, T.L. Magnanti, J.B. Orlin: 
+//            R.K. Ahuja, T.L. Magnanti, J.B. Orlin:
 //            "Network Flows", Section 10.2, Prentice Hall Publ. Company, 1993
 //
 //
@@ -34,7 +34,7 @@
 #include <LEDA/node_pq.h>
 
 
-static node DIJKSTRA_IN_RESIDUAL(const graph& G, node s, int delta, 
+static node DIJKSTRA_IN_RESIDUAL(const graph& G, node s, int delta,
                                  const edge_array<num_type>& cost,
                                  const edge_array<num_type>& cap_minus_flow,
                                  const edge_array<num_type>& flow,
@@ -44,15 +44,15 @@ static node DIJKSTRA_IN_RESIDUAL(const graph& G, node s, int delta,
 {
    /*  Computes a shortest path from node s until a node t with excess <= -delta
        is reached in the delta-residual graph of network G. Edges are traversed
-       in both directions using the forall_in/out_edges iteration macros.The 
-       residual capacity of an edge e is cap_minus_flow[e] if e is used from 
+       in both directions using the forall_in/out_edges iteration macros.The
+       residual capacity of an edge e is cap_minus_flow[e] if e is used from
        source(e) to target(e) and flow[e] otherwise. The reduced cost of an
-       edge e = (u,v) is equal to cost[e] + pi[u] - pi[v] if it is used from 
+       edge e = (u,v) is equal to cost[e] + pi[u] - pi[v] if it is used from
        u and -cost[e] + pi[v] - pi[u] if it is used from v.
 
-       precondition: every edge in the delta-residual network has non-negative 
+       precondition: every edge in the delta-residual network has non-negative
                      reduced cost.
-       
+
        returns t (nil,if there is no path from s to a node with excess<-delta)
 
        and
@@ -82,14 +82,14 @@ static node DIJKSTRA_IN_RESIDUAL(const graph& G, node s, int delta,
 
     perm_labeled.append(u);
 
-    if (excess[u] <= -delta) 
+    if (excess[u] <= -delta)
     { t = u;
       break;
      }
 
-    num_type du = dist[u] + pi[u]; 
+    num_type du = dist[u] + pi[u];
 
-    forall_out_edges(e,u) 
+    forall_out_edges(e,u)
       if (cap_minus_flow[e] >= delta)  // e in delta-residual graph
       { v = target(e);
         num_type c = du - pi[v] + cost[e];
@@ -103,7 +103,7 @@ static node DIJKSTRA_IN_RESIDUAL(const graph& G, node s, int delta,
          }
        }
 
-    forall_in_edges(e,u) 
+    forall_in_edges(e,u)
       if (flow[e] >= delta)  // e in delta-residual graph
       { v = source(e);
         num_type c = du - pi[v] - cost[e];
@@ -133,7 +133,7 @@ num_type MIN_COST_MAX_FLOW(graph& G, node src, node sink,
                                               const edge_array<num_type>& cap0,
                                               const edge_array<num_type>& cost0,
                                               edge_array<num_type>& flow0)
-{ 
+{
   double n = G.number_of_nodes();
   double m = G.number_of_edges();
 
@@ -162,9 +162,9 @@ num_type MIN_COST_MAX_FLOW(graph& G, node src, node sink,
   // add artificial edges to guarantee existence of a path of infinite
   // capacity (MAXINT) and huge cost (C) between any pair of nodes  (v,w)
   // with b(v) > 0 and b(w) < 0
-   
-  //forall_nodes(v,G) 
-  //if (v != src) 
+
+  //forall_nodes(v,G)
+  //if (v != src)
   //{ art_edges.append(G.new_edge(v,src));
   //  art_edges.append(G.new_edge(src,v));
   // }
@@ -198,7 +198,7 @@ num_type MIN_COST_MAX_FLOW(graph& G, node src, node sink,
   excess[sink] = -supply;
 
 
-  // eliminate negative cost edges by edge reversals 
+  // eliminate negative cost edges by edge reversals
   // (Ahuja/Magnanti/Orlin, section 2.4)
 
   forall(e,neg_edges)
@@ -209,7 +209,7 @@ num_type MIN_COST_MAX_FLOW(graph& G, node src, node sink,
     cost[e] = -cost[e];
     G.rev_edge(e);
   }
- 
+
   int delta = 1;
 
   double delta_max = supply * m/(n*n);  // seems to be a good choice
@@ -218,10 +218,10 @@ num_type MIN_COST_MAX_FLOW(graph& G, node src, node sink,
 
   while (delta > 0)  // delta scaling phase
   {
-    forall_edges(e,G)  
+    forall_edges(e,G)
     { // Saturate all edges entering the delta residual network which have
       // a negative reduced edge cost. Then only the reverse edge (with positive
-      // reduced edge cost) will stay in the residual network. 
+      // reduced edge cost) will stay in the residual network.
 
       node u = source(e);
       node v = target(e);
@@ -245,30 +245,30 @@ num_type MIN_COST_MAX_FLOW(graph& G, node src, node sink,
 
 
     // As long as there is a node s with excess >= delta compute a minimum
-    // cost augmenting path from s to a sink node t with excess <= -delta in 
-    // the delta-residual network and augment the flow by at least delta units 
+    // cost augmenting path from s to a sink node t with excess <= -delta in
+    // the delta-residual network and augment the flow by at least delta units
     // along P (if there are nodes with excess > delta and excess < -delta
-    // respectively, the existence of P is guaranteed by the artificial edges 
+    // respectively, the existence of P is guaranteed by the artificial edges
     // inserted at the begining of the algorithm)
 
     node s;
     node t;
-  
+
     forall_nodes(s,G)
     while (excess[s] >= delta)
-    { 
+    {
       count++;
-  
+
       t = DIJKSTRA_IN_RESIDUAL(G,s,delta,cost,cap_minus_flow,flow,excess,pi,pred);
       if (t == nil) break; // there is no node with excess < -delta
-  
+
       // compute maximal amount f of flow that can be pushed through P
-  
+
       num_type f = excess[s];
-  
-      v = t; 
+
+      v = t;
       while (v != s)
-      { e = pred[v]; 
+      { e = pred[v];
         num_type rcap;
         if (v==target(e))
            { rcap = cap_minus_flow[e];
@@ -280,15 +280,15 @@ num_type MIN_COST_MAX_FLOW(graph& G, node src, node sink,
             }
         if (rcap < f) f = rcap;
        }
-  
+
       if (f > -excess[t]) f = -excess[t];
-  
-  
-      // add f units of flow along the augmenting path 
-  
-      v = t; 
+
+
+      // add f units of flow along the augmenting path
+
+      v = t;
       while (v != s)
-      { e = pred[v]; 
+      { e = pred[v];
         if (v==target(e))
            { flow[e] += f;
              cap_minus_flow[e] -= f;
@@ -300,35 +300,35 @@ num_type MIN_COST_MAX_FLOW(graph& G, node src, node sink,
              v = target(e);
             }
        }
-  
+
        excess[s] -= f;
        excess[t] += f;
-  
+
     } // end of delta-phase
-  
+
    delta /= 2;
-  
+
   } // end of scaling
-  
+
 
 
   edge x;
 
   // restore negative edges
-  forall(x,neg_edges) 
+  forall(x,neg_edges)
   { flow[x] = cap[x] - flow[x];
     G.rev_edge(x);
    }
 
   // delete artificial edges
-  forall(x,art_edges) G.del_edge(x); 
+  forall(x,art_edges) G.del_edge(x);
 
   // total flow  = total flow out of the source node
   forall_out_edges(x,src) total_flow += flow[x];
 
   forall_edges(x,G) flow0[x] = flow[x];
 
-  //cout << "count = " << count << endl;
+  //cout << "count = " << count << std::endl;
 
   return total_flow;
 }

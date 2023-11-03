@@ -5,9 +5,9 @@
 +  _mw_matching.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -89,11 +89,11 @@ class blossom {
 };
 
 #if !defined(__TEMPLATE_FUNCTIONS__)
-void Print(const blossom&, ostream&) {}
-void Read(blossom&, istream&) {}
-int compare(const blossom&, const blossom&) 
-{ error_handler(1,"no compare for blossoms"); 
-  return 0; 
+void Print(const blossom&, std::ostream&) {}
+void Read(blossom&, std::istream&) {}
+int compare(const blossom&, const blossom&)
+{ error_handler(1,"no compare for blossoms");
+  return 0;
 }
 LEDA_TYPE_PARAMETER(blossom)
 #endif
@@ -228,8 +228,8 @@ static DUALER_TYP bestimme_z
 
 
 
-list <edge >MAX_WEIGHT_MATCHING (const ugraph &G, 
-                                 const edge_array <GEWICHT_TYP > &gewicht) 
+list <edge >MAX_WEIGHT_MATCHING (const ugraph &G,
+                                 const edge_array <GEWICHT_TYP > &gewicht)
 {
 
   edge_array <bool >gematcht;
@@ -1991,23 +1991,23 @@ static void matchingtest(const ugraph &G, const edge_array <bool >&gematcht)
 	knoten_betrachtet[i] = true;
 
       else {
-	cout << "Knoten ";
+          std::cout << "Knoten ";
 	G.print_node(i);
-	cout << " ist Endknoten mehrerer gematchter Kanten!!!\n";
+        std::cout << " ist Endknoten mehrerer gematchter Kanten!!!\n";
       }
 
       if (knoten_betrachtet[j] == false)
 	knoten_betrachtet[j] = true;
 
       else {
-	cout << "Knoten ";
+          std::cout << "Knoten ";
 	G.print_node(j);
-	cout << " ist Endknoten mehrerer gematchter Kanten!!!\n";
+        std::cout << " ist Endknoten mehrerer gematchter Kanten!!!\n";
       }
     }
   }
 
-  cout << "Test auf Matching abgeschlossen!\n";
+  std::cout << "Test auf Matching abgeschlossen!\n";
   return;
 }
 
@@ -2022,9 +2022,9 @@ static void bed1test(const ugraph &G, const edge_array <GEWICHT_TYP > &gewicht, 
 
   forall_nodes (i, G) {
     if (u[i] < 0) {
-      cout << "Die duale Variable von Knoten ";
+      std::cout << "Die duale Variable von Knoten ";
       G.print_node(i);
-      cout << " ist negativ\n";
+      std::cout << " ist negativ\n";
     }
   }
 
@@ -2051,9 +2051,9 @@ static void bed1test(const ugraph &G, const edge_array <GEWICHT_TYP > &gewicht, 
     DUALER_TYP pi = u[i] + u[j] - gewicht[e] + z;
 
     if (pi < 0) {
-      cout << "pi<0 fuer Kante ";
+      std::cout << "pi<0 fuer Kante ";
       G.print_edge(e);
-      cout << endl;
+      std::cout << std::endl;
     }
   }
 
@@ -2065,7 +2065,7 @@ static void bed1test(const ugraph &G, const edge_array <GEWICHT_TYP > &gewicht, 
 
     while (lit != nil) {
       if (blossomliste[lit].z < 0) {
-	cout << "Es gibt ein z<0\n";
+          std::cout << "Es gibt ein z<0\n";
       }
 
       lit = blossomliste.succ(lit);
@@ -2079,7 +2079,7 @@ static void bed1test(const ugraph &G, const edge_array <GEWICHT_TYP > &gewicht, 
 
     while (lit != nil) {
       if (unterblossomliste[lit].z < 0) {
-	cout << "Es gibt ein z<0\n";
+          std::cout << "Es gibt ein z<0\n";
       }
 
       lit = unterblossomliste.succ(lit);
@@ -2090,7 +2090,7 @@ static void bed1test(const ugraph &G, const edge_array <GEWICHT_TYP > &gewicht, 
 
 
 
-  cout << "Test von Bedingung (1) abgeschlossen!\n";
+  std::cout << "Test von Bedingung (1) abgeschlossen!\n";
   return;
 }
 
@@ -2120,14 +2120,14 @@ static void bed2test(const ugraph &G, const edge_array <GEWICHT_TYP > &gewicht, 
       DUALER_TYP pi = u[i] + u[j] - gewicht[e] + z;
 
       if (pi > 0) {
-	cout << "Kante ";
+          std::cout << "Kante ";
 	G.print_edge(e);
-	cout << " ist gematcht, aber pi ist positiv\n";
+        std::cout << " ist gematcht, aber pi ist positiv\n";
       }
     }
   }
 
-  cout << "Test von Bedingung (2) abgeschlossen!\n";
+  std::cout << "Test von Bedingung (2) abgeschlossen!\n";
   return;
 }
 
@@ -2141,14 +2141,14 @@ static void bed3test(const ugraph &G, const node_array <DUALER_TYP > &u, const
   forall_nodes (i, G) {
     if (u[i] > 0) {
       if (gematchte_kante[i] == nil) {
-	cout << "Die duale Variable des freien Knotens ";
+          std::cout << "Die duale Variable des freien Knotens ";
 	G.print_node(i);
-	cout << " ist positiv\n";
+        std::cout << " ist positiv\n";
       }
     }
   }
 
-  cout << "Test von Bedingung (3) abgeschlossen!\n";
+  std::cout << "Test von Bedingung (3) abgeschlossen!\n";
   return;
 }
 
@@ -2192,7 +2192,7 @@ static void bed4test(const ugraph &G, const list <blossom > &blossomliste, const
 	}
 
 	if (anzknoten != (2 * anzgematchtekanten + 1)) {
-	  cout << "Bedingung (4) ist verletzt!!!\n";
+	  std::cout << "Bedingung (4) ist verletzt!!!\n";
 	}
 
 
@@ -2247,7 +2247,7 @@ static void bed4test(const ugraph &G, const list <blossom > &blossomliste, const
 	}
 
 	if (anzknoten != (2 * anzgematchtekanten + 1)) {
-	  cout << "Bedingung (4) ist verletzt!!!\n";
+	  std::cout << "Bedingung (4) ist verletzt!!!\n";
 	}
 
 
@@ -2259,7 +2259,7 @@ static void bed4test(const ugraph &G, const list <blossom > &blossomliste, const
 
 
 
-  cout << "Test von Bedingung (4) abgeschlossen!\n";
+  std::cout << "Test von Bedingung (4) abgeschlossen!\n";
   return;
 }
 

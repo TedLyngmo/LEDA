@@ -1,7 +1,7 @@
 #include <LEDA/graph_alg.h>
 
 
-main(int argc,char** argv)
+int main(int argc,char** argv)
 {
 
 
@@ -19,20 +19,20 @@ cout << "Planarity Test ... " << flush;
 
 float T = used_time();
 
-bool plan = PLANAR(G);  
+bool plan = PLANAR(G);
 
-cout << string(" time = %.2f sec", used_time(T)) << endl;
+cout << string(" time = %.2f sec", used_time(T)) << std::endl;
 
-if (plan)  
-    cout << "Graph is planar" << endl;
+if (plan)
+    std::cout << "Graph is planar" << std::endl;
 else
-   { cout << "Graph is not planar." << endl;
-     cout << "I compute a a Kuratowsky Subgraph ..." << endl;
+   { std::cout << "Graph is not planar." << std::endl;
+     std::cout << "I compute a a Kuratowsky Subgraph ..." << std::endl;
      list<edge> L;
      edge e;
 
-     PLANAR(G,L);  
-     forall(e,L) 
+     PLANAR(G,L);
+     forall(e,L)
      { G.print_edge(e);
        newline;
       }

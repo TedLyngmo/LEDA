@@ -1,8 +1,8 @@
 #include <LEDA/plane.h>
 #include <LEDA/window.h>
-#include <math.h>
+#include <cmath>
 
-main()
+int main()
 {
   window W;
   W.init(-100000000, 100000000, -100000000);
@@ -10,7 +10,7 @@ main()
   int n =  W.read_int("n = ");
 
   list<segment> L;
- 
+
   point c(0,0);
   segment s;
 
@@ -39,4 +39,4 @@ main()
 
   return 0;
 }
-  
+

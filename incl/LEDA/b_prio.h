@@ -5,16 +5,16 @@
 +  b_prio.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_BPRIO_H
 #define LEDA_BPRIO_H
 
 //------------------------------------------------------------------------------
-// b_priority_queues: bounded priority queues implemented by b_heaps 
+// b_priority_queues: bounded priority queues implemented by b_heaps
 //------------------------------------------------------------------------------
 
 #include <LEDA/impl/b_heap.h>
@@ -23,12 +23,12 @@
 
 typedef b_heap_item b_pq_item;
 
-template<class K> 
+template<class K>
 
-class b_priority_queue : public b_heap 
+class b_priority_queue : public b_heap
 {
 
-/*{\Mdefinition 
+/*{\Mdefinition
 An instance $Q$ of the parameterized data type \name\ is a
 priority\_queue (cf. section \ref{Priority Queues}) whose information type is a
 fixed interval $[a..b]$ of integers.}*/
@@ -39,7 +39,7 @@ public:
 
 b_priority_queue(int a, int b): (a,b)  {}
 
-/*{\Mcreate creates an instance \var\ of type \name\ with information type 
+/*{\Mcreate creates an instance \var\ of type \name\ with information type
             $[a..b]$ and initializes it with the empty priority queue. }*/
 
 
@@ -72,7 +72,7 @@ int empty()                { return (find_min()==0) ? true : false; }
 
 };
 
- 
+
 /*{\Mimplementation
 Bounded priority queues are implemented by arrays of linear lists.
 Operations insert, find\_min, del\_item, decrease\_inf, key, inf,

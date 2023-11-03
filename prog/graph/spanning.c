@@ -2,7 +2,7 @@
 #include <LEDA/graph_alg.h>
 
 
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 
 GRAPH<int,int>  G;
@@ -28,7 +28,7 @@ el = SPANNING_TREE(G);
 cout << string(" %5.2f sec   |T| = %d",used_time(T),el.length());
 newline;
 
-if (Yes("Print tree edges ? ")) 
+if (Yes("Print tree edges ? "))
  forall(x,el) { G.print_edge(x); newline; }
 
 el.clear();
@@ -44,7 +44,7 @@ forall(x,el)  total1 += cost1[x];
 
 cout << string("   total cost %d\n",total1);
 
-if (Yes("Print tree edges ? ")) 
+if (Yes("Print tree edges ? "))
  forall(x,el) { G.print_edge(x); newline; }
 
 
@@ -61,7 +61,7 @@ forall(x,el)  total1 += cost1[x];
 
 cout << string("   total cost %d\n",total1);
 
-if (Yes("Print tree edges ? ")) 
+if (Yes("Print tree edges ? "))
  forall(x,el) { G.print_edge(x); newline; }
 
 
@@ -77,7 +77,7 @@ forall(x,el)  total2 += cost2[x];
 
 cout << string("   total cost %f\n",total2);
 
-if (Yes("Print tree edges ? ")) 
+if (Yes("Print tree edges ? "))
  forall(x,el) { G.print_edge(x); newline; }
 
 

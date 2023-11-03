@@ -5,9 +5,9 @@
 +  x_basic.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_X_BASIC_H
@@ -29,7 +29,7 @@ int  display_depth(void);
 
 /* windows */
 
-Window open_window(int x,int y,int width,int height,int bg_col, 
+Window open_window(int x,int y,int width,int height,int bg_col,
                    const char* header, const char* label);
 void close_window(Window win);
 void clear_window(Window win);

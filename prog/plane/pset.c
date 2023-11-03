@@ -3,38 +3,38 @@
 
 
 
-main()
+int main()
 {
 
   point_set<string> S;
 
   list<ps_item> L;
   ps_item       it=nil;
-  point         p; 
+  point         p;
   char          ch;
 
 
 
   while (ch != 'q')
-  { 
-    cout << "(r/s/f/n/i/d/D/l/q): ";
+  {
+    std::cout << "(r/s/f/n/i/d/D/l/q): ";
     cin  >> ch;
 
     float T  = used_time();
-     
+
     switch(ch) {
 
-    case 'i':  { cout << "insert point: ";
+    case 'i':  { std::cout << "insert point: ";
                  cin >> p;
                  S.insert(p,string("x = %f",p.xcoord()));
                  break;
                 }
 
-     case 'n': { cout << "nearest neighbor: ";
+     case 'n': { std::cout << "nearest neighbor: ";
 	         cin >> p;
                  it = S.nearest_neighbor(p);
-                 if (it!=nil) cout << S.key(it);
-                 else cout << "Empty point set.\n";	
+                 if (it!=nil) std::cout << S.key(it);
+                 else std::cout << "Empty point set.\n";
                  newline;
                  break;
                }
@@ -46,7 +46,7 @@ main()
                    double y = rand_int(1,1000)/100.0;
                    S.insert(point(x,y),string("x = %f",x));
                   }
-                 cout << string("time: %6.2f\n",used_time(T));
+                 std::cout << string("time: %6.2f\n",used_time(T));
                  break;
                 }
 
@@ -54,18 +54,18 @@ main()
                 double b=read_real("x1=");
                 double c=read_real("y0=");
                 double d=read_real("y1=");
-  
+
                 L = S.range_search(a,b,c,d);
-  
-                forall(it,L) cout << S.key(it) << " " << S.inf(it) << "\n";
+
+                forall(it,L) std::cout << S.key(it) << " " << S.inf(it) << "\n";
                 newline;
-              
-                cout << string("time: %6.2f\n",used_time(T));
+
+                std::cout << string("time: %6.2f\n",used_time(T));
                 break;
               }
 
 
-    case 'd': { cout << "delete point: ";
+    case 'd': { std::cout << "delete point: ";
 	        cin >> p;
                 S.del(p);
                 break;
@@ -75,33 +75,33 @@ main()
                 double b=read_real("x1=");
                 double c=read_real("y0=");
                 double d=read_real("y1=");
-  
+
                 L = S.range_search(a,b,c,d);
-  
-                forall(it,L) 
+
+                forall(it,L)
                 { point p = S.key(it);
-                  cout << "delete: " << p <<"\n";
+                  std::cout << "delete: " << p <<"\n";
                   S.del(p);
                  }
                 newline;
-              
-                cout << string("time: %6.2f\n",used_time(T));
+
+                std::cout << string("time: %6.2f\n",used_time(T));
                 break;
               }
 
 
-    case 'f': { cout << "find point: ";
+    case 'f': { std::cout << "find point: ";
 	        cin >> p;
-                if (S.lookup(p) != nil) cout << "yes";
-                else cout << "no";
+                if (S.lookup(p) != nil) std::cout << "yes";
+                else std::cout << "no";
                 newline;
                 break;
                }
 
 
     case 'l': { L = S.all_items();
-                forall(it,L) 
-                  cout << S.key(it) << " " << S.inf(it) << "\n";
+                forall(it,L)
+                  std::cout << S.key(it) << " " << S.inf(it) << "\n";
                 newline;
                 break;
                }

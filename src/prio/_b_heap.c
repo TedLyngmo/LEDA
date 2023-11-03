@@ -5,9 +5,9 @@
 +  _b_heap.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/impl/b_heap.h>
@@ -27,15 +27,15 @@ void b_heap::clear()
   for (i=low;i<=high;i++) T[i]->clear();
   min = high+1;
   max = low-1;
-} 
+}
 
-b_heap_item b_heap::insert(int key, GenPtr info) 
-{ if (key<low || key>high) 
+b_heap_item b_heap::insert(int key, GenPtr info)
+{ if (key<low || key>high)
   error_handler(1,string("insert: illegal key %d\n",key));
   if (key<min) min = key;
   if (key>max) max = key;
   b_heap_item it = new  b_heap_node(key,info);
-  it->loc = T[key]->append(it); 
+  it->loc = T[key]->append(it);
   return it;
 }
 
@@ -50,7 +50,7 @@ b_heap_item b_heap::find_max()
 }
 
 GenPtr b_heap::del_min()
-{ if (min>high) 
+{ if (min>high)
        error_handler(1,"b_heap del_min: heap is empty");
   b_heap_item p = T[min]->pop();
   GenPtr res = p->info;
@@ -77,7 +77,7 @@ b_heap_item b_heap::decrease_key(b_heap_item it, int k)
   T[it->key]->del(it->loc);
   while ((max >= low) && (T[max]->empty())) max--;
   it->key = k;
-  it->loc = T[k]->append(it); 
+  it->loc = T[k]->append(it);
   if (k<min) min = k;
   return it;
 }
@@ -89,26 +89,26 @@ b_heap_item b_heap::increase_key(b_heap_item it, int k)
   T[it->key]->del(it->loc);
   while ((min <= high) && (T[min]->empty())) min++;
   it->key = k;
-  it->loc = T[k]->append(it); 
+  it->loc = T[k]->append(it);
   if (k>max) max = k;
   return it;
 }
 
 
-void b_heap::delete_item(b_heap_item it) 
+void b_heap::delete_item(b_heap_item it)
 { if (it==0) error_handler(1,"delete_item: item = nil\n");
   if (it->loc==0) error_handler(1,"delete_item: item not found\n");
-  T[it->key]->del(it->loc); 
+  T[it->key]->del(it->loc);
   while ((min <= high) && (T[min]->empty())) min++;
   while ((max >= low) && (T[max]->empty())) max--;
   delete it;
 }
 
 void b_heap::print()
-{ for (int i=low;i<=high;i++) 
-  { cout << i << ": ";
+{ for (int i=low;i<=high;i++)
+  { std::cout << i << ": ";
     T[i]->print();
-    cout << "\n";
+    std::cout << "\n";
    }
  }
 

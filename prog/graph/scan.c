@@ -1,6 +1,6 @@
 #include <LEDA/graph.h>
 
-main()
+int main()
 {
   GRAPH<int,int> G;
 
@@ -19,7 +19,7 @@ main()
 
   forall_nodes(v,G)
     forall_adj_edges(e,v) N += G[e];
-  cout << string(" time = %5.2f sec\n", used_time(T));
+  std::cout << string(" time = %5.2f sec\n", used_time(T));
 
   node v_stop = G.last_node() + 1;
 
@@ -29,9 +29,9 @@ main()
     e_stop++;
        for(e=G.first_adj_edge(v); e != e_stop; e++) N += G[e];
    }
-  cout << string(" time = %5.2f sec\n", used_time(T));
+  std::cout << string(" time = %5.2f sec\n", used_time(T));
 
-  cout << N << endl;
+  std::cout << N << std::endl;
   newline;
 
 }

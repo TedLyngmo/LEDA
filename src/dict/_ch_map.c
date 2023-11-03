@@ -5,9 +5,9 @@
 +  _ch_map.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -29,13 +29,13 @@
 ch_map_elem ch_map::STOP;
 
 
-ch_map::ch_map(int sz, int n) 
-{ 
+ch_map::ch_map(int sz, int n)
+{
   shift = 0;
   while (sz >>= 1) shift++;
 
   if (n < 512)
-     init_table(512); 
+     init_table(512);
   else
    { int ts = 1;
      while (ts < n) ts <<= 1;
@@ -65,9 +65,9 @@ GenPtr ch_map::access(unsigned long x) const
 
 
 GenPtr& ch_map::access1(ch_map_item p, unsigned long x)
-{ 
+{
   STOP.k = x;
-  ch_map_item q = p->succ; 
+  ch_map_item q = p->succ;
   while (q->k != x) q = q->succ;
   if (q != &STOP) return q->i;
 
@@ -95,21 +95,21 @@ GenPtr& ch_map::access1(ch_map_item p, unsigned long x)
 
 
 
-void ch_map::clear_entries() 
+void ch_map::clear_entries()
 { for(ch_map_item p = table; p < free; p++)
     if (p->k != NIL) clear_inf(p->i);
  }
 
 
 void ch_map::init_table(int T)
-{ 
+{
   table_size = T;
   table_size_1 = T-1;
   table = new ch_map_elem[2*T];
   free = table + T;
   table_end = free + T/2;
 
-  for (ch_map_item p=table; p < free; p++) 
+  for (ch_map_item p=table; p < free; p++)
   { p->k = NIL;
     p->succ = &STOP;
    }
@@ -132,11 +132,11 @@ void ch_map::init_table(int T)
 
 
 void ch_map::rehash()
-{ 
+{
   ch_map_item old_table = table;
   ch_map_item old_table_mid = table+table_size;
   ch_map_item old_table_end = table_end;
-  
+
   //init_table(2*table_size);
   init_table(4*table_size);
 
@@ -176,10 +176,10 @@ bool ch_map::next_index(unsigned long& p)
 
 
 ch_map::ch_map(const ch_map& D)
-{ 
+{
   init_table(D.table_size);
 
-  for(ch_map_item p = D.table; p < D.table_end; p++) 
+  for(ch_map_item p = D.table; p < D.table_end; p++)
   { if (p->k != NIL)
     { INSERT(p->k,p->i);
       D.copy_inf(p->i);
@@ -189,13 +189,13 @@ ch_map::ch_map(const ch_map& D)
 
 
 ch_map& ch_map::operator=(const ch_map& D)
-{ 
+{
   clear_entries();
   delete[] table;
 
   init_table(D.table_size);
 
-  for(ch_map_item p = D.table; p < D.table_end; p++) 
+  for(ch_map_item p = D.table; p < D.table_end; p++)
   { if (p->k != NIL)
     { INSERT(p->k,p->i);
       copy_inf(p->i);
@@ -206,17 +206,17 @@ ch_map& ch_map::operator=(const ch_map& D)
 
 
 void ch_map::print()
-{ cout << "shift = " << shift << endl;
+{ std::cout << "shift = " << shift << std::endl;
   for (int i=0; i<table_size; i++)
   { ch_map_item p = table + i;
     if (p->k != NIL)
     { int l = 0;
       while(p != &STOP)
-      { l++; 
+      { l++;
         p = p->succ;
        }
-      cout << string("L(%d) = %d",i,l) << endl;
+      std::cout << string("L(%d) = %d",i,l) << std::endl;
      }
    }
 }
-  
+

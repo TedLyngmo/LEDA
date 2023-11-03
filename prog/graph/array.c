@@ -7,7 +7,7 @@
 #include <LEDA/d_array.h>
 #include <LEDA/dph_array.h>
 
-main()
+int main()
 {
 
    graph G;
@@ -31,60 +31,60 @@ main()
 
    int count = 0;
 
-   cout << "node_array: " <<flush;
-   forall_nodes(v,G) 
+   std::cout << "node_array: " <<flush;
+   forall_nodes(v,G)
    { A[v] = count++;
      sum += A[v];
     }
-    cout << string("%5.2f sec",used_time(T)) << endl;
+    std::cout << string("%5.2f sec",used_time(T)) << std::endl;
 
    count = 0;
-   cout << "map:        " <<flush;
-   forall_nodes(v,G) 
+   std::cout << "map:        " <<flush;
+   forall_nodes(v,G)
    { M[v] = count++;
      sum += M[v];
     }
-    cout << string("%5.2f sec",used_time(T)) << endl;
+    std::cout << string("%5.2f sec",used_time(T)) << std::endl;
 
 
    count = 0;
-   cout << "node_map:   " <<flush;
-   forall_nodes(v,G) 
+   std::cout << "node_map:   " <<flush;
+   forall_nodes(v,G)
    { NM[v] = count++;
      sum += NM[v];
     }
-    cout << string("%5.2f sec",used_time(T)) << endl;
+    std::cout << string("%5.2f sec",used_time(T)) << std::endl;
 
 
    count = 0;
-   cout << "h_array:    " <<flush;
-   forall_nodes(v,G) 
+   std::cout << "h_array:    " <<flush;
+   forall_nodes(v,G)
    { C[v] = count++;
      sum += C[v];
     }
-   cout << string("%5.2f sec",used_time(T)) << endl;
+   std::cout << string("%5.2f sec",used_time(T)) << std::endl;
 
 
    count = 0;
-   cout << "d_array:    " <<flush;
-   forall_nodes(v,G) 
+   std::cout << "d_array:    " <<flush;
+   forall_nodes(v,G)
    { D[v] = count++;
      sum += D[v];
     }
-   cout << string("%5.2f sec",used_time(T)) << endl;
+   std::cout << string("%5.2f sec",used_time(T)) << std::endl;
 
 
    count = 0;
-   cout << "dph_array:  " <<flush;
-   forall_nodes(v,G) 
+   std::cout << "dph_array:  " <<flush;
+   forall_nodes(v,G)
    { E[v] = count++;
      sum += E[v];
     }
-   cout << string("%5.2f sec",used_time(T)) << endl;
+   std::cout << string("%5.2f sec",used_time(T)) << std::endl;
 
 
    newline;
-   cout << sum << endl;
+   std::cout << sum << std::endl;
 
   return 0;
 }

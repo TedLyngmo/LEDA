@@ -18,21 +18,21 @@ void plot(double new_x, double new_y)
 
 
 void A(int i)
-{ 
+{
   if (i > 0)
   { D(i-1); plot(x-dx,y);
     A(i-1); plot(x,y-dy);
-    A(i-1); plot(x+dx,y); 
+    A(i-1); plot(x+dx,y);
     B(i-1);
    }
  }
 
 void B(int i)
-{ 
+{
   if (i > 0)
   { C(i-1); plot(x,y+dy);
     B(i-1); plot(x+dx,y);
-    B(i-1); plot(x,y-dy); 
+    B(i-1); plot(x,y-dy);
     A(i-1);
    }
  }
@@ -40,21 +40,21 @@ void B(int i)
 
 
 void C(int i)
-{ 
+{
   if (i > 0)
   { B(i-1); plot(x+dx,y);
     C(i-1); plot(x,y+dy);
-    C(i-1); plot(x-dx,y); 
+    C(i-1); plot(x-dx,y);
     D(i-1);
    }
  }
 
 void D(int i)
-{ 
+{
   if (i > 0)
   { A(i-1); plot(x,y-dy);
     D(i-1); plot(x-dx,y);
-    D(i-1); plot(x,y+dy); 
+    D(i-1); plot(x,y+dy);
     C(i-1);
    }
  }
@@ -84,8 +84,8 @@ void hilbert()
 
   }
 
-main()
-{   
+int main()
+{
  panel P("hilbert curve");
  P.int_item("n = ",n,1,10);
 
@@ -97,6 +97,6 @@ main()
    hilbert();
    W.read_mouse();
   }
- 
+
   return 0;
 }

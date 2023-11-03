@@ -1,8 +1,8 @@
 #include <LEDA/matrix.h>
 
-main()
+int main()
 
-{ 
+{
   int d = read_int("dimension = ");
 
   matrix       A(d,d);
@@ -17,19 +17,19 @@ main()
   float T = used_time();
 
 
-  cout << "A.inv():  ";
-  cout.flush();
+  std::cout << "A.inv():  ";
+  std::cout.flush();
   I =  A.inv();
-  cout << string("%5.2f sec\n",used_time(T));
+  std::cout << string("%5.2f sec\n",used_time(T));
 
-  cout << "A.det():  ";
-  cout.flush();
+  std::cout << "A.det():  ";
+  std::cout.flush();
   det = A.det();
-  cout << string("%5.2f sec \n",used_time(T));
+  std::cout << string("%5.2f sec \n",used_time(T));
   newline;
 
 /*
-  cout << "A*A.inv() = \n" << A*I << "\n";
+  std::cout << "A*A.inv() = \n" << A*I << "\n";
   newline;
 */
 
@@ -38,14 +38,14 @@ main()
     vector v(d), x(d), y(d);
 
     for(int i=0;i<d;i++) v[i] = double(rand_int(-1000,1000))/100;
-    
+
     used_time(T);
     x = A.solve(v);
-    cout << string("time for solve:  %5.2f \n",used_time(T));
+    std::cout << string("time for solve:  %5.2f \n",used_time(T));
     newline;
 
-    cout << "v   = " << v   << "\n";
-    cout << "A*x = " << A*x << "\n";
+    std::cout << "v   = " << v   << "\n";
+    std::cout << "A*x = " << A*x << "\n";
     newline;
   }
 

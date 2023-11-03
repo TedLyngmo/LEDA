@@ -5,10 +5,10 @@ bool intersection(integer s1x1, integer s1y1, integer s1x2, integer s1y2,
                   integer s2x1, integer s2y1, integer s2x2, integer s2y2,
                   integer& X, integer& Y, integer& W)
 
-{ 
-  // decides whether |s| and |this| segment intersect and, if so, 
-  // returns the intersection in |I|. It is assumed that both segments 
-  // have non-zero length 
+{
+  // decides whether |s| and |this| segment intersect and, if so,
+  // returns the intersection in |I|. It is assumed that both segments
+  // have non-zero length
 
   integer dx1 = s1x2 - s1x1;
   integer dy1 = s1y2 - s1y1;
@@ -26,13 +26,13 @@ bool intersection(integer s1x1, integer s1y1, integer s1x2, integer s1y2,
 
   /* The underlying lines intersect in a point $p = (x,y,w)$.
      We still have to test whether $p$ lies on both segments.
-     $p$ lies on $s$ ($this$)if its x-coordinate $x$ compares 
+     $p$ lies on $s$ ($this$)if its x-coordinate $x$ compares
      diffently with the x-coordinates of the two endpoints of $s$ ($this).
    */
 
   X = c2*dx1-c1*dx2;
 
-  if (sign(X-s1x1*W) == sign(X-s1x2*W) || 
+  if (sign(X-s1x1*W) == sign(X-s1x2*W) ||
       sign(X-s2x1*W) == sign(X-s2x2*W )) return false;
 
   Y = c2*dy1-c1*dy2;
@@ -42,7 +42,7 @@ bool intersection(integer s1x1, integer s1y1, integer s1x2, integer s1y2,
 }
 
 
-main()
+int main()
 {
 
 
@@ -73,6 +73,6 @@ main()
                     integer(x1[j]),integer(x2[j]),integer(y1[j]),integer(y2[j]),
                     x,y,w)) s++;
    }
-   cout << string("integer:    s = %3d    time = %5.2f",s,used_time(T)) << endl;
+   std::cout << string("integer:    s = %3d    time = %5.2f",s,used_time(T)) << std::endl;
    return 0;
 }

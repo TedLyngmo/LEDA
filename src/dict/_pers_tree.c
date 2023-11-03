@@ -5,9 +5,9 @@
 +  _pers_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/impl/pers_tree.h>
@@ -51,10 +51,10 @@ void pers_rb_tree::c_rbclear(C_pers_tree_node* p)
 F_pers_tree_node* pers_rb_tree::f_rbsearch(F_pers_tree_node* p, Version i)
 {
   F_pers_tree_node *q;
-  
+
   q = f_rchild(p);
   while (!(f_isleaf(q)))
-  {  
+  {
     if (i == q->ver_stamp || vless(i, q->ver_stamp))
       q = f_lchild(q);
     else
@@ -66,7 +66,7 @@ F_pers_tree_node* pers_rb_tree::f_rbsearch(F_pers_tree_node* p, Version i)
 C_pers_tree_node* pers_rb_tree::c_rbsearch(C_pers_tree_node* p, Version i)
 {
   C_pers_tree_node *q;
-  
+
   q = c_rchild(p);
   while (!(c_isleaf(q)))
   {
@@ -146,7 +146,7 @@ C_pers_tree_node* pers_rb_tree::c_nnode(C_pers_tree_node* c1, C_pers_tree_node* 
   }
   c_parent(c1) = c_parent(c2) = result;
   result->vers_stamp = (c_lchild(result))->vers_stamp;
-  result->col_value = 0;  
+  result->col_value = 0;
   return(result);
 }
 
@@ -364,11 +364,11 @@ int pers_rb_tree::c_insert(C_pers_tree_node* head, int newvalue, Version i)
 
 
 
-/* insert the new version in the appropriate position and update the 
+/* insert the new version in the appropriate position and update the
  * version list
  */
 
-void pers_rb_tree::del_version(Version) 
+void pers_rb_tree::del_version(Version)
 { if (--v_list->count ==0) del_tree(); }
 
 Version pers_rb_tree::copy_version(Version i) { return new_version(i); }
@@ -377,12 +377,12 @@ Version pers_rb_tree::new_version(Version i)
 {
 
   Version succ = v_list->vl.succ(i);
-  
+
   ver_node p = new VER_pers_tree_node;
 
   if (succ != nil)
      p->ser_num = (v_list->vl[i]->ser_num + v_list->vl[succ]->ser_num) / 2.0;
-  else 
+  else
      p->ser_num = v_list->vl[i]->ser_num + 1000;
 
 
@@ -393,11 +393,11 @@ Version pers_rb_tree::new_version(Version i)
 }
 
 /* implementation of the update step (change of left or right child)
- * for a specific persistent node and update operation 
+ * for a specific persistent node and update operation
  */
- 
+
 void pers_rb_tree::update(F_pers_tree_node* p, pers_tree_node* newvalue, Version i)
-{ 
+{
   F_pers_tree_node *p1, *i1, *i2;
 
   Version ip = v_list->vl.succ(i);
@@ -441,16 +441,16 @@ la: while (p1 != f_rchild(p) && p1->f_right)
   if (i2 == NULL || vless(ip, i2->ver_stamp))
      f_insert(p, i1->poin_value, ip);
 }
-   
+
 
 /* implementation of the update step (change of color) for a specific
- * persistent node and update operation 
+ * persistent node and update operation
  */
- 
+
 void pers_rb_tree::up_col(C_pers_tree_node* p, int newvalue, Version i)
-{ 
+{
   C_pers_tree_node *p1, *i1, *i2;
-  
+
   Version ip = v_list->vl.succ(i);
 
   if (c_insert(p, newvalue, i) == 1) return;
@@ -492,16 +492,16 @@ ma: while (p1->c_right == 0)
   if (i2 == NULL || vless(ip, i2->vers_stamp))
      c_insert(p, i1->col_value, ip);
 }
-   
 
-/* implementation of the access step for a specific persistent node 
- * and version 
+
+/* implementation of the access step for a specific persistent node
+ * and version
  */
 
 pers_tree_node * pers_rb_tree::acc_step(F_pers_tree_node *head, Version i)
 {
   F_pers_tree_node *q, *i1;
- 
+
   q = f_rbsearch(head, i);
   if (q->ver_stamp == i)
     return(q->poin_value);
@@ -525,17 +525,17 @@ pers_tree_node * pers_rb_tree::acc_step(F_pers_tree_node *head, Version i)
   }
 t:return(i1->poin_value);
 }
-  
 
 
-/* find out whether a given persistent node is red or not in a 
- * specific version 
+
+/* find out whether a given persistent node is red or not in a
+ * specific version
  */
 
 int pers_rb_tree::isred(pers_tree_node* p, Version i)
 {
   C_pers_tree_node *head, *q, *i1;
-  
+
   if (isleaf(p))
     return(0);
   head = p->red;
@@ -545,7 +545,7 @@ int pers_rb_tree::isred(pers_tree_node* p, Version i)
   if (vless(q->vers_stamp, i))
     return(q->col_value);
   if (q->c_right)
-  {  
+  {
      i1 = c_lchild(c_parent(q));
      if (c_isleaf(i1))
        goto s;
@@ -563,20 +563,20 @@ int pers_rb_tree::isred(pers_tree_node* p, Version i)
 s:return(i1->col_value);
 }
 
- 
+
 /* create a new leaf and initialize the fields with the appropriate values */
- 
+
 pers_tree_node* pers_rb_tree::newleaf(void* val, void* inf, pers_tree_node* pred, pers_tree_node* succ, Version i)
 {
   pers_tree_node *result;
   F_pers_tree_node *res1, *res2;
   C_pers_tree_node *res3;
-  
+
   result = new pers_tree_node;
   res1   = new F_pers_tree_node;
   res2   = new F_pers_tree_node;
   res3   = new C_pers_tree_node;
-   
+
     result->key = val;
     result->info = inf;
     result->parent = NULL;
@@ -596,8 +596,8 @@ pers_tree_node* pers_rb_tree::newleaf(void* val, void* inf, pers_tree_node* pred
     res1->f_right = res2->f_right = res3->c_right = 1;
     res1->f_color = res2->f_color = res3->c_color = 0;
 
-    res1->poin_value = res2->poin_value = NULL; 
-    res3->col_value = 0;  
+    res1->poin_value = res2->poin_value = NULL;
+    res3->col_value = 0;
 
     f_insert(res1, pred, i);
     f_insert(res2, succ, i);
@@ -611,9 +611,9 @@ pers_tree_node* pers_rb_tree::newleaf(void* val, void* inf, pers_tree_node* pred
 }
 
 /* create a new persistent node and initialize its fields with the
- * appropriate values 
+ * appropriate values
  */
- 
+
 pers_tree_node* pers_rb_tree::newnode(pers_tree_node* c1, pers_tree_node* c2, Version i)
 {
   // c1 and c2 are leaves
@@ -621,7 +621,7 @@ pers_tree_node* pers_rb_tree::newnode(pers_tree_node* c1, pers_tree_node* c2, Ve
   pers_tree_node *result;
   F_pers_tree_node *res1, *res2,  *res4;   // s.n. : res4 pointer to leaf (copy)
   C_pers_tree_node *res3;
-  
+
   result = new pers_tree_node;
   res1   = new F_pers_tree_node;
   res2   = new F_pers_tree_node;
@@ -643,8 +643,8 @@ pers_tree_node* pers_rb_tree::newnode(pers_tree_node* c1, pers_tree_node* c2, Ve
     res1->f_right = res2->f_right = res3->c_right = res4->f_right = 1;
     res1->f_color = res2->f_color = res3->c_color = res4->f_color = 0;
 
-    res1->poin_value = res2->poin_value = res4->poin_value = NULL; 
-    res3->col_value = 1;  
+    res1->poin_value = res2->poin_value = res4->poin_value = NULL;
+    res3->col_value = 1;
 
     c_insert(res3, 1, i);
 
@@ -672,7 +672,7 @@ pers_tree_node* pers_rb_tree::newnode(pers_tree_node* c1, pers_tree_node* c2, Ve
     return(result);
 }
 
-  
+
 /* implementation of the single rotation for the fully persistent
  * red-black tree
  */
@@ -680,7 +680,7 @@ pers_tree_node* pers_rb_tree::newnode(pers_tree_node* c1, pers_tree_node* c2, Ve
 pers_tree_node* pers_rb_tree::single_rot(pers_tree_node* top_node, int dir, Version i)
 {
   pers_tree_node *temp, *q, *newroot;
-  
+
   newroot = NULL;
   q = child(1 - dir, top_node, i);
   temp = child(dir, q, i);
@@ -702,7 +702,7 @@ pers_tree_node* pers_rb_tree::single_rot(pers_tree_node* top_node, int dir, Vers
 pers_tree_node* pers_rb_tree::double_rot(pers_tree_node* top_node, int dir, Version i)
 {
   pers_tree_node *q, *r, *temp, *newroot;
-  
+
   newroot = NULL;
   q = child(1 - dir, top_node, i);
   r = child(dir, q, i);
@@ -759,7 +759,7 @@ pers_tree_node* pers_rb_tree::search(void *val, pers_tree_node*& copy, Version i
   pers_tree_node *p, *q;
 
   copy = NULL;
-  
+
   if ((p = v_list->vl[i]->acc_pointer) == NULL)
     return(NULL);
 
@@ -788,13 +788,13 @@ pers_tree_node* pers_rb_tree::search(void *val, pers_tree_node*& copy, Version i
 }
 
 
- 
+
 Version  pers_rb_tree::del(void *val, Version i1)
 {
   pers_tree_node *pos_del, *par1, *par2, *root, *newroot, *temp, *copy;
 
   Version i  = new_version(i1);
-  
+
   if ((pos_del = search(val, copy, i1)) == NULL) return i; //empty tree
 
   if (cmp_keys(pos_del->key, val) != 0) return i;  // key not found
@@ -835,7 +835,7 @@ Version  pers_rb_tree::del(void *val, Version i1)
     update(copy->copy, pred, i);
 
    }
-  
+
 
   if (isred(par1, i))
     goto end;
@@ -919,7 +919,7 @@ end:
 
 Version pers_rb_tree::insert(void *val, void* info, Version i1)
 {
-  int aux_bool; 
+  int aux_bool;
   pers_tree_node *p, *q, *r, *aux_node, *root, *newroot, *temp;
 
   Version i = new_version(i1);
@@ -930,7 +930,7 @@ Version pers_rb_tree::insert(void *val, void* info, Version i1)
 
   copy_key(val);
   copy_inf(info);
-  
+
   if (p == NULL)   // empty tree
   { p = newleaf(val, info, nil, nil, i);
     v_list->vl[i]->acc_pointer = p;
@@ -940,13 +940,13 @@ Version pers_rb_tree::insert(void *val, void* info, Version i1)
 
   (v_list->vl[i]->popul)++;
 
-  if (cmp_keys(val, p->key) > 0)   // new rightmost leaf 
-    { q = newleaf(val,info, p, nil, i);   
+  if (cmp_keys(val, p->key) > 0)   // new rightmost leaf
+    { q = newleaf(val,info, p, nil, i);
       update(p->link[1], q, i);
      }
-  else // new  leaf before  p 
+  else // new  leaf before  p
     { pers_tree_node * pred = child(0,p,i);
-      q = newleaf(val,info, pred, p, i);   
+      q = newleaf(val,info, pred, p, i);
       update(p->link[0], q, i);
       if (pred) update(pred->link[1], q, i);
      }
@@ -1016,7 +1016,7 @@ Version pers_rb_tree::change_inf(pers_tree_node* p, void* info, Version i1)
   pers_tree_node* succ = child(1,p,i);
 
   copy_inf(info);
-  pers_tree_node* q = newleaf(p->key,info, pred, succ, i);   
+  pers_tree_node* q = newleaf(p->key,info, pred, succ, i);
 
 
   if (pred) update(pred->link[1],q,i);
@@ -1036,30 +1036,30 @@ pers_tree_node* pers_rb_tree::min(Version v)
   if (r == nil) return nil;
   while ( ! isleaf(r)) r = child(0,r,v);
   return r;
-}  
+}
 
 pers_tree_node* pers_rb_tree::max(Version v)
 { pers_tree_node* r = v_list->vl[v]->acc_pointer;
   if (r == nil) return nil;
   while ( ! isleaf(r)) r = child(1,r,v);
   return r;
-}  
+}
 
 void pers_rb_tree::print(pers_tree_node *p, Version v)
 { if (p)
-  { if (isleaf(p))  
+  { if (isleaf(p))
     { print_key(p->key);
-      cout << " ";
+      std::cout << " ";
      }
     else
      { print(child(0, p, v), v);
        print(child(1, p, v), v);
       }
    }
-}  
+}
 
 void pers_rb_tree::del_tree()
-{ 
+{
   while (v_list->used)
   { pers_tree_node* p = v_list->used;
     v_list->used = v_list->used->next;
@@ -1091,7 +1091,7 @@ void pers_rb_tree::del_tree()
    forall(q, v_list->vl) delete q;
 
    delete v_list;
- }  
+ }
 
 
 pers_tree_node*  pers_rb_tree::lookup(void *val,Version v)
@@ -1116,11 +1116,11 @@ pers_tree_node* pers_rb_tree::locate_pred(void *val,Version v)
 
 
 void pers_rb_tree::draw(DRAW_NODE_FCT draw_node,
-                        DRAW_EDGE_FCT draw_edge, 
-                        Version v, pers_tree_node* r, 
-                        double x1, double x2, double y, 
+                        DRAW_EDGE_FCT draw_edge,
+                        Version v, pers_tree_node* r,
+                        double x1, double x2, double y,
                         double ydist, double last_x)
-{ 
+{
 
   double x = (x1+x2)/2;
 
@@ -1128,7 +1128,7 @@ void pers_rb_tree::draw(DRAW_NODE_FCT draw_node,
 
   if (last_x != 0) draw_edge(last_x,y+ydist,x,y);
 
-  if (isleaf(r)) 
+  if (isleaf(r))
      draw_node(x,y,r->key);
   else
     { draw_node(x,y,get_key(r,v));
@@ -1138,6 +1138,6 @@ void pers_rb_tree::draw(DRAW_NODE_FCT draw_node,
 }
 
 void pers_rb_tree::draw(DRAW_NODE_FCT draw_node,
-                        DRAW_EDGE_FCT draw_edge, 
+                        DRAW_EDGE_FCT draw_edge,
                         Version v, double x1, double x2, double y, double ydist)
 { draw(draw_node,draw_edge,v,v_list->vl[v]->acc_pointer,x1,x2,y,ydist,0); }

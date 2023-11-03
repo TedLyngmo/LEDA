@@ -5,9 +5,9 @@
 +  _bicomponents.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -33,9 +33,9 @@ static void bcc_dfs(const graph& G,node v,edge_array<int>& compnum,
 int BICONNECTED_COMPONENTS(const graph& G, edge_array<int>& compnum)
 {
   // computes the biconnected components of the underlying  undirected
-  // graph,  returns m = number of biconnected components and 
+  // graph,  returns m = number of biconnected components and
   // in edge_array<int> compnum for each edge an integer with
-  // compnum[x] = compnum[y] iff edges x and y belong to the same component 
+  // compnum[x] = compnum[y] iff edges x and y belong to the same component
   // and 0 <= compnum[e] <= m-1 for all edges e
   // running time : O(|V|+|E|)
   //
@@ -45,7 +45,7 @@ int BICONNECTED_COMPONENTS(const graph& G, edge_array<int>& compnum)
   node_array<int> dfsnum(G,-1);
   node_array<int> lowpt(G,0);
   node_array<node> father(G,nil);
-  int count1 = 0; 
+  int count1 = 0;
   int count2 = 0;
   node v;
 

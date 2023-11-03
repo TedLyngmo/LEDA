@@ -5,9 +5,9 @@
 +  delaunay_tree.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_DELAUNAY_H
@@ -54,7 +54,7 @@ struct DT_POINT{
 			              l'ordre d'insertion */
 	int  visite;		   /* un flag de visite */
 	NOEUD* cree;    /*un noeud cree par l'insertion de ce point*/
-}; 
+};
 
 typedef DT_POINT* DT_item;
 
@@ -71,7 +71,7 @@ class delaunay_tree{
 
         int flag;		/* numero de l'operation en cours */
         noeud nouveau;		/* dernier noeud cree */
-        
+
         star Star;		/* pour la suppression */
         reinserer Reinsert;
 
@@ -177,12 +177,12 @@ void    del(double, double);
 void    del(point p)               { del(p.xcoord(),p.ycoord()); }
 void    del_item( DT_item);
 
-point    key(DT_item p)  { return point(p->x,p->y); } 
-void*    inf(DT_item p)  { return p->i; } 
+point    key(DT_item p)  { return point(p->x,p->y); }
+void*    inf(DT_item p)  { return p->i; }
 
-void     change_inf(DT_item p, void* i)  { copy_inf(i);  
-                                           clear_inf(p->i); 
-                                           p->i = i; } 
+void     change_inf(DT_item p, void* i)  { copy_inf(i);
+                                           clear_inf(p->i);
+                                           p->i = i; }
 
 void     trace_voronoi_sites( delaunay_f2*);
 void     trace_voronoi_edges( delaunay_f6*, delaunay_F6*, int both = 0);
@@ -212,7 +212,7 @@ public:
 DT_item insert(point site, itype i)
                           { return delaunay_tree::insert(site,Convert(i)); }
 
-itype  inf(DT_item p)    { return LEDA_ACCESS(itype,delaunay_tree::inf(p)); } 
+itype  inf(DT_item p)    { return LEDA_ACCESS(itype,delaunay_tree::inf(p)); }
 
  DELAUNAY_TREE() {}
 ~DELAUNAY_TREE() {}

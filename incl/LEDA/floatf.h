@@ -5,9 +5,9 @@
 +  floatf.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -18,7 +18,7 @@
 #include <LEDA/integer.h>
 #include <math.h>
 
-/*{\Manpage {floatf} {} {A Floating Point Filter} }*/ 
+/*{\Manpage {floatf} {} {A Floating Point Filter} }*/
 
 
 const int NO_IDEA = 2;
@@ -35,27 +35,27 @@ operands and operators $+,-$, and $*$, and suppose that we want
 to determine the sign of $E$. In general, the integer arithmetic
 provided by our machines does not suffice to evaluate $E$ since intermediate
 results might overflow. Resorting to arbitrary precision integer
-arithmetic is a costly process. An alternative is to evaluate the 
+arithmetic is a costly process. An alternative is to evaluate the
 expression using floating point arithmetic, i.e., to convert the
 operands to doubles and to use floating-point addition, subtraction,
 and multiplication. Of course, only an approximation $\tilde{E}$ of
 the true value $E$ is computed. However, $\tilde{E}$ might still be
 able to tell us something about the sign of $E$. If $\tilde{E}$ is far
 away from zero (the forward error analysis carried out in the next
-section gives a precise meaning to "far away") then the 
-signs of $\tilde{E}$ and $E$ 
+section gives a precise meaning to "far away") then the
+signs of $\tilde{E}$ and $E$
 agree and if $\tilde{E}$ is zero then we may be able to conclude under
 certain circumstances that $E$ is zero. Again, forward error analysis
 can be used to say what `certain circumstances' are. The type $floatf$
 encapsulates this kind of approximate integer arithmetic. Any
 integer (= object of type $integer$) can be converted to a $floatf$;
 $floatf$s can be added, subtracted, multiplied, and their sign
-can be computed: for any $floatf$ $x$ the function $Sign(x)$ returns 
-either the sign of $x$ ($-1$ if $x < 0$, $0$ if $x = 0$, and $+1$ 
+can be computed: for any $floatf$ $x$ the function $Sign(x)$ returns
+either the sign of $x$ ($-1$ if $x < 0$, $0$ if $x = 0$, and $+1$
 if $x > 0$) or the special value $NO\_IDEA$.
-If $x$ approximates $X$, i.e., $X$ is the integer value obtained by an 
-exact computation, then $Sign(x) != NO\_IDEA$ implies that $Sign(x)$ 
-is actually the sign of $X$ if $Sign(x) = NO\_IDEA$ then no claim is made 
+If $x$ approximates $X$, i.e., $X$ is the integer value obtained by an
+exact computation, then $Sign(x) != NO\_IDEA$ implies that $Sign(x)$
+is actually the sign of $X$ if $Sign(x) = NO\_IDEA$ then no claim is made
 about the sign of $X$.  }*/
 
 
@@ -74,7 +74,7 @@ floatf() { num = 0; mes = 1; ind = 0.5; }
 /*{\Mcreate   introduces a variable \var\ of type \name\ and initializes
               it with zero. }*/
 
-floatf(integer i) 
+floatf(integer i)
 { num = i.todouble();
   mes = ldexp(1, log(abs(i)+1) + 1);
   ind = 0.5;
@@ -122,8 +122,8 @@ A $floatf$ is represented by a double (its value) and an error bound.
 An operation on $floatf$s performs the corresponding operation on
 the values and also computes the error bound for the result. For
 this reason the cost of a $floatf$ operation is about four times
-the cost of the corresponding operation on doubles. The rules 
-used to compute the error bounds are described in 
+the cost of the corresponding operation on doubles. The rules
+used to compute the error bounds are described in
 (\cite{Me-Naeher:sweep}).}*/
 
 

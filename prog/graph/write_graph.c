@@ -1,9 +1,9 @@
 #include <LEDA/graph.h>
 
 
-void Read(GRAPH<float,float>& G, istream& is) { G.read(is); }
+void Read(GRAPH<float,float>& G, std::istream& is) { G.read(is); }
 
-void Print(const GRAPH<float,float>& G, ostream& os) { G.write(os); }
+void Print(const GRAPH<float,float>& G, std::ostream& os) { G.write(os); }
 
 int compare(const GRAPH<float,float>&, const GRAPH<float,float>&) { return 0; }
 
@@ -13,18 +13,18 @@ LEDA_TYPE_PARAMETER(ff_graph)
 #endif
 
 
-main()
+int main()
 {
   GRAPH<GRAPH<float,float>,string> G;
 
   test_graph(G);
 
   int  i = 0;
-  node v; 
+  node v;
 
-  forall_nodes(v,G) 
-  { node x = G[v].new_node(17.5); 
-    node y = G[v].new_node(13.7); 
+  forall_nodes(v,G)
+  { node x = G[v].new_node(17.5);
+    node y = G[v].new_node(13.7);
     G[v].new_edge(x,y,0.1234);
    }
 

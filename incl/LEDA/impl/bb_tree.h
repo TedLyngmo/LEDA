@@ -5,9 +5,9 @@
 +  bb_tree.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -16,7 +16,7 @@
 
 //------------------------------------------------------------------------------
 //
-// bb_tree:  
+// bb_tree:
 //
 //           BB[alpha] trees (derived from class "bin_tree")
 //
@@ -28,10 +28,10 @@
 #include <LEDA/basic.h>
 #include <LEDA/impl/bin_tree.h>
 
- 
+
 typedef bin_tree_node* bb_tree_item;
 
- 
+
 // ----------------------------------------------------------------
 // class bb_tree
 // ----------------------------------------------------------------
@@ -45,7 +45,7 @@ typedef bin_tree_node* bb_tree_item;
   const int d = 37;     // 0.58 * 64
 
 class bb_tree : public bin_tree
-{ 
+{
 
   int root_balance() { return 2; }
   int node_balance() { return 2; }
@@ -57,9 +57,9 @@ class bb_tree : public bin_tree
 
 
   float balance(bb_tree_item p)
-  { if (p->is_leaf()) 
+  { if (p->is_leaf())
        return 0.5 ;
-    else 
+    else
        return float(p->child[left]->get_bal())/p->get_bal();
    }
 
@@ -70,7 +70,7 @@ public:
 
   bb_tree(const bb_tree& T) : bin_tree(T) {}
 
-  bb_tree& operator=(const bb_tree& T) 
+  bb_tree& operator=(const bb_tree& T)
   { bin_tree::operator=(T); return *this; }
 
 };

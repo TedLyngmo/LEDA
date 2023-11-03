@@ -2,7 +2,7 @@
 #include <LEDA/stream.h>
 
 
-main(){
+int main(){
 
 GRAPH<int,int> G;
 
@@ -26,14 +26,14 @@ file_ostream lauther(string("grid%d",N));
 lauther << index(G.first_node());
 lauther << " ";
 lauther << index(G.last_node());
-lauther << endl;
+lauther << std::endl;
 
 forall_nodes(v,G)
 { forall_adj_edges(e,v)
   { lauther << index(v) << " ";
-    lauther << index(target(e)) << " "; 
+    lauther << index(target(e)) << " ";
     lauther << G[e];
-    lauther << endl;
+    lauther << std::endl;
    }
  }
 

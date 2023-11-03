@@ -5,14 +5,14 @@
 +  _memory.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/basic.h>
 
-#include <stdio.h>
+#include <cstdio>
 
 //------------------------------------------------------------------------------
 // Memory Management
@@ -24,7 +24,7 @@ const int memory_max_size    = 256;  // maximal size of structures in bytes
 
 memory_elem_ptr        memory_free_list[257];     //memory_max_size + 1
 
-static long int        memory_total_count[257]; 
+static long int        memory_total_count[257];
 static memory_elem_ptr memory_block_list[257];
 static int             memory_block_count[257];
 static int             memory_initialized = 0;
@@ -42,18 +42,18 @@ static void memory_init()
 
 
 memory_elem_ptr memory_allocate_block(int b)
-{ 
+{
   if (memory_initialized == 0) memory_init();
 
-  if (b > memory_max_size) 
+  if (b > memory_max_size)
      error_handler(1,string("allocate_block: size (%d bytes) too big",b));
 
   //allocate new block and slice it into chunks of size b bytes
 
-  register memory_elem_ptr p;
-  register memory_elem_ptr stop;
+  memory_elem_ptr p;
+  memory_elem_ptr stop;
 
-  register int words = (b + sizeof(void*) - 1)/sizeof(void*);
+  int words = (b + sizeof(void*) - 1)/sizeof(void*);
 
   int bytes = words * sizeof(void*);
   int num   = memory_block_bytes/bytes - 2;
@@ -62,7 +62,7 @@ memory_elem_ptr memory_allocate_block(int b)
   memory_total_count[b] += num;
 
   if ((p=memory_elem_ptr(malloc(memory_block_bytes))) == 0 )
-   { cout << "memory allocation: out of memory\n";
+   { std::cout << "memory allocation: out of memory\n";
      print_statistics();
      exit(1);
     }
@@ -84,8 +84,8 @@ memory_elem_ptr memory_allocate_block(int b)
 
 
 void memory_clear()
-{ 
-  register memory_elem_ptr p;
+{
+  memory_elem_ptr p;
   int i;
   long used;
 
@@ -110,7 +110,7 @@ void memory_clear()
 
 
 void memory_kill()
-{ register memory_elem_ptr p;
+{ memory_elem_ptr p;
   int i;
 
   for (i=1;i<=memory_max_size;i++)
@@ -140,7 +140,7 @@ memory_elem_ptr allocate_bytes_with_check(int bytes)
 void deallocate_bytes_with_check(void* p, int bytes)
 { //printf("deallocate(%d): %x\n",bytes,p);
   //fflush(stdout);
-  if (memory_block_count[bytes] == 0) 
+  if (memory_block_count[bytes] == 0)
      error_handler(999,"no block allocated");
   memory_elem_ptr q = memory_free_list[bytes];
   while(q && q != memory_elem_ptr(p)) q = q->next;
@@ -178,7 +178,7 @@ int used_memory()
 
 void print_statistics()
 {
-  cout.flush();
+    std::cout.flush();
 
   long int total,free,used;
   long int total_bytes=0, free_bytes=0, used_bytes=0, b;
@@ -186,7 +186,7 @@ void print_statistics()
 
   printf("\n");
   printf("\t+--------------------------------------------------+\n");
-  printf("\t|   size     used     free     blocks     bytes    |\n"); 
+  printf("\t|   size     used     free     blocks     bytes    |\n");
   printf("\t+--------------------------------------------------+\n");
 
   for (int i=1;i<=memory_max_size;i++)
@@ -196,7 +196,7 @@ void print_statistics()
       memory_elem_ptr p = memory_free_list[i];
       free = 0;
       while (p) { free++; p = p->next; }
-      b = total*i; 
+      b = total*i;
       used = total - free;
       free_bytes  += free*i;
       used_bytes  += used*i;

@@ -4,7 +4,7 @@
 
 enum { POINT=0, SEGMENT=1, LINE=2, CIRCLE=3, POLY=4 };
 
-main()
+int main()
 {
   window W;
 
@@ -30,7 +30,7 @@ main()
 
 
   for(;;)
-  { 
+  {
     window* wp;
     double x;
     double y;
@@ -42,49 +42,49 @@ main()
       { int k = P.read();
         W.set_line_width(lwidth);
         W.set_line_style(lstyle);
-  
+
         if (k == 0) W.clear();
         if (k == 1) break;
        }
     else
       switch(shape) {
-  
-        case POINT: 
+
+        case POINT:
               { point p;
-                W >> p;  
+                W >> p;
                 W.draw_point(p,col);
                 break;
                }
-  
-        case SEGMENT: 
+
+        case SEGMENT:
               { segment s;
                 W >> s;
                 W.draw_segment(s,col);
                 break;
                }
-  
-        case LINE: 
+
+        case LINE:
               { line l;
                 W >> l;  W.draw_line(l,col);
                 break;
                }
-  
-        case CIRCLE: 
+
+        case CIRCLE:
               { circle c;
-                W >> c;  
-                if (fill) 
+                W >> c;
+                if (fill)
                    W.draw_disc(c,col);
                 else
                    W.draw_circle(c,col);
                 break;
                }
-  
-        case POLY: 
+
+        case POLY:
               { polygon P;
-                W >> P;  
-                if (fill) 
+                W >> P;
+                if (fill)
                    W.draw_filled_polygon(P,col);
-                else 
+                else
                    W.draw_polygon(P,col);
                 break;
                }

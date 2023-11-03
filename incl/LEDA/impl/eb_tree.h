@@ -5,9 +5,9 @@
 +  eb_tree.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_STRATIFIED_H
@@ -15,7 +15,7 @@
 
 //------------------------------------------------------------------------------
 //  stratified tree  (van emde boas tree)
-// 
+//
 //  Stefan Naeher (1989)
 //
 //  Modification History:
@@ -60,15 +60,15 @@
 // Include & Makros
 //-----------------------------------------------------------------------------
 
-#include <LEDA/impl/dp_hash.h>   
+#include <LEDA/impl/dp_hash.h>
 
 
 #define pot_2(x)          ( 1 << x )
 #define mal_pot_2(x,y)    ( (x) << (y) )
 #define down(k)           ( (k) >> 1 )
 #define up(k)             ( down(k) + ((k) & 1) )
-#define high_bits(x)      ( x >> down(k) ) 
-#define low_bits(x)       ( x & (pot_2(down(k))-1) ) 
+#define high_bits(x)      ( x >> down(k) )
+#define low_bits(x)       ( x & (pot_2(down(k))-1) )
 
 
 //-----------------------------------------------------------------------------
@@ -82,7 +82,7 @@ typedef l_stratified* l_stratified_ptr;
 typedef stratified* stratified_ptr;
 
 //-----------------------------------------------------------------------------
-// class definition 
+// class definition
 //-----------------------------------------------------------------------------
 
                                // union for dictionary
@@ -98,19 +98,19 @@ class b_dict {
 
 void insert(int x, GenPtr y, int k)
 			   {
-			     if ( k <= 8 )  l[x] = y;        
-			     else           d->insert(Convert(x),y);  
+			     if ( k <= 8 )  l[x] = y;
+			     else           d->insert(Convert(x),y);
                            }
 
 void del(int x, int k)     {
-                             if ( k <= 8 )  l[x] = 0; 
+                             if ( k <= 8 )  l[x] = 0;
 			     else           d->del(Convert(x));
                            }
 
 GenPtr& lookup(int x, int k)  {
-			     if ( k <= 8 )  
+			     if ( k <= 8 )
 			       return l[x];
-			     else     
+			     else
 			     { stp p = d->lookup(Convert(x));
 			       return d->info(p);
                              }
@@ -149,13 +149,13 @@ int insert(int x)         { if ( size() == 0 )   { mi = ma = x; return 1; }
 			    else if ( x < ma )   { ma = x; return 1; }
 			    else if ( x > mi )   { mi = x; return 1; }
 			    else return 0;
-			  } 
+			  }
 
 int del(int x)            { if (size() == 1 && x == mi) { mi=ma=-1; return 1; }
 			    else if ( x == mi )   { mi = ma; return 1; }
 			    else if ( x == ma )   { ma = mi; return 1; }
 			    else return 0;
-			  } 
+			  }
 
 int member(int x)         {
 			    return ( x == mi ) || ( x == ma );
@@ -169,7 +169,7 @@ int max()                 { if ( size() <= 2 )
 
 
 int min()                 { if ( size() <= 2 )
-			      return ma; 
+			      return ma;
 			    else
 			      return mi;
 			  }
@@ -197,12 +197,12 @@ friend class b_dict;
 };
 
 
-                               // recursive structure    
+                               // recursive structure
 
-class stratified : public l_stratified { 
+class stratified : public l_stratified {
 
 int            k;       // k-structure
-int            sz;      // size 
+int            sz;      // size
 l_stratified*  top;     // up(k)-structure
 b_dict_ptr     bot;     // pointer to bounded Dictionary of (k/2)-structures
 

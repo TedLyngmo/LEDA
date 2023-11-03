@@ -5,16 +5,16 @@
 +  _eb_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #include <LEDA/impl/eb_tree.h>
 
 // Stefan  Naeher ( 1989 )
-// Michael Wenzel ( 1990 ) 
+// Michael Wenzel ( 1990 )
 
 
 // ----------------------------------------------------------
@@ -47,11 +47,11 @@ l_stratified::l_stratified(stratified_ptr b, int x)
 }
 
 
-stratified::stratified(int i)  
-{ 
+stratified::stratified(int i)
+{
 
   mi = ma = -1;
-  sz = 0; 
+  sz = 0;
   k = i;
   top = 0;
   bot = 0;
@@ -59,7 +59,7 @@ stratified::stratified(int i)
 }
 
 stratified::stratified(l_stratified_ptr l, int i)
-{ 
+{
 
   mi = l->min();
   ma = l->max();
@@ -71,8 +71,8 @@ stratified::stratified(l_stratified_ptr l, int i)
 }
 
 
-stratified::~stratified()  
-{ 
+stratified::~stratified()
+{
                                          // deallocate memory of sub-structures
   if ((k>1) && (sz>2))
   {                                      // delete stratified trees of bot
@@ -98,7 +98,7 @@ stratified::~stratified()
 
 // ----------------------------------------------------------
 //
-// min2                  
+// min2
 //
 // liefert 2. kleinstes Element, falls sz > 2
 //
@@ -122,7 +122,7 @@ int stratified::min2()
 
 // ----------------------------------------------------------
 //
-// max2                  
+// max2
 //
 // liefert 2. groesstes Element, falls sz > 2
 //
@@ -146,7 +146,7 @@ int stratified::max2()
 
 // ----------------------------------------------------------
 //
-// succ                  
+// succ
 //
 // liefert Nachfolger von x im Baum auf dieser Rekursionsstufe
 //                    falls existiert
@@ -154,7 +154,7 @@ int stratified::max2()
 //
 // ----------------------------------------------------------
 
-int stratified::succ(int x) 
+int stratified::succ(int x)
 
 {
   if ( x >= ma ) return -1;
@@ -162,14 +162,14 @@ int stratified::succ(int x)
   if ( sz == 2 ) return ma;               // mi < x < ma
 
                                           // sz >= 2 &&  k>1
-  int x1 = high_bits(x); 
-  int x2 = low_bits(x); 
+  int x1 = high_bits(x);
+  int x2 = low_bits(x);
 
   GenPtr p = bot->lookup(x1,k);
   l_stratified_ptr l_bot_ptr = l_stratified_ptr(p);
 
   if ( (l_bot_ptr) && (l_bot_ptr->max()>x2) )
-  { 
+  {
     if ( l_bot_ptr->size() <= 2 )             // l_stratified Struktur
         return ( mal_pot_2(x1,down(k))) | ( l_bot_ptr->succ(x2) ) ;
     else
@@ -181,13 +181,13 @@ int stratified::succ(int x)
   else                                   // succ nicht in bot-Unterstruktur
   {
     int z;
-    
-    if ( top->size() <= 2 )
-      z = top->succ(x1); 
-    else
-      z = ((stratified_ptr)top)->succ(x1); 
 
-    if ( z == -1 ) 
+    if ( top->size() <= 2 )
+      z = top->succ(x1);
+    else
+      z = ((stratified_ptr)top)->succ(x1);
+
+    if ( z == -1 )
       return ma;                         // x unmittelbar vor Maximum
 
     l_stratified_ptr l_bot_ptr = l_stratified_ptr(bot->lookup(z,k));
@@ -199,7 +199,7 @@ int stratified::succ(int x)
 
 // ----------------------------------------------------------
 //
-// pred                  
+// pred
 //
 // liefert Vorgaenger von x im Baum auf dieser Rekursionsstufe
 //                    falls existiert
@@ -207,7 +207,7 @@ int stratified::succ(int x)
 //
 // ----------------------------------------------------------
 
-int stratified::pred(int x) 
+int stratified::pred(int x)
 
 {
   if ( x >  ma ) return ma;
@@ -215,13 +215,13 @@ int stratified::pred(int x)
   if ( sz == 2 ) return mi;               // mi < x < ma
 
 					  // sz > 2 && k > 1
-  int x1 = high_bits(x); 
-  int x2 = low_bits(x); 
+  int x1 = high_bits(x);
+  int x2 = low_bits(x);
 
   GenPtr p = bot->lookup(x1,k);
   l_stratified_ptr l_bot_ptr = l_stratified_ptr(p);
 
-  if ( (l_bot_ptr) && (l_bot_ptr->min()<x2) ) 
+  if ( (l_bot_ptr) && (l_bot_ptr->min()<x2) )
   {
     if ( l_bot_ptr->size() <= 2 )             // l_stratified Struktur
         return ( mal_pot_2(x1,down(k))) | ( l_bot_ptr->pred(x2) ) ;
@@ -233,16 +233,16 @@ int stratified::pred(int x)
   }
 
   else                                        // pred nicht in top-Unterstruktur
-    
+
   {
     int z;
 
     if ( top->size() <= 2 )
-      z = top->pred(x1); 
+      z = top->pred(x1);
     else
-      z = ((stratified_ptr)top)->pred(x1); 
+      z = ((stratified_ptr)top)->pred(x1);
 
-    if ( z == -1 ) 
+    if ( z == -1 )
       return mi;                              // x unmittelbar vor Maximum
 
     l_stratified_ptr l_bot_ptr = l_stratified_ptr(bot->lookup(z,k));
@@ -250,11 +250,11 @@ int stratified::pred(int x)
     return (mal_pot_2(z,down(k))) | (l_bot_ptr->max() ) ;
   }
 
-} 
+}
 
-// --------------------------------------------------------------- 
+// ---------------------------------------------------------------
 //
-// member   
+// member
 //
 // liefert 1, falls Element in der Struktur
 //
@@ -263,7 +263,7 @@ int stratified::pred(int x)
 // ----------------------------------------------------------
 
 int stratified::member(int x)
-{ 
+{
   if (( x == ma )||( x == mi ))
     return 1;
 
@@ -274,8 +274,8 @@ int stratified::member(int x)
     return 0;
 
 				     // sz > 2 && k > 1
-  int x1 = high_bits(x); 
-  int x2 = low_bits(x); 
+  int x1 = high_bits(x);
+  int x2 = low_bits(x);
 
   GenPtr p = bot->lookup(x1,k);
   l_stratified_ptr l_bot_ptr = l_stratified_ptr(p);
@@ -288,17 +288,17 @@ int stratified::member(int x)
     else
     {
       stratified_ptr bot_ptr = stratified_ptr(p);
-      return bot_ptr->member(x2);                  
+      return bot_ptr->member(x2);
     }
 
   else
-    return 0;                
+    return 0;
 
 }
 
 // ----------------------------------------------------------
 //
-// insert           
+// insert
 //
 // fuegt ein Element x rekursiv in den Baum ein
 //
@@ -309,7 +309,7 @@ int stratified::member(int x)
 // ----------------------------------------------------------
 
 int stratified::insert(int x)
-{ 
+{
   int inserted = 0;
 
   if ( ( x == mi ) || ( x == ma ) )      // Element in Structure
@@ -318,7 +318,7 @@ int stratified::insert(int x)
   switch (sz)
   {
 
-    case 0: 
+    case 0:
 	     {
 	       mi = ma = x;
 
@@ -328,7 +328,7 @@ int stratified::insert(int x)
 
     case 1:
 	     {                           // incremental construction iff sz > 2
-               if ( x > mi ) 
+               if ( x > mi )
 	         ma = x;
 	       else
 	         mi = x;
@@ -340,14 +340,14 @@ int stratified::insert(int x)
     default: {                           // => k>1
 
 	       if ( x > ma )
-	       { 
+	       {
 		 int t = ma;
 		 ma = x;
 		 x = t;
                }
-		 
+
                if ( x < mi )
-	       { 
+	       {
 		 int t = mi;
 		 mi = x;
 		 x = t;
@@ -359,10 +359,10 @@ int stratified::insert(int x)
                                          // for incremental construction
 
                if ( top == 0 )           // allocate new structures
-               { 
-	         top = new l_stratified(); 
+               {
+	         top = new l_stratified();
                  bot = new b_dict(k);
-               }          
+               }
 
                GenPtr& p = bot->lookup(x1,k);
                l_stratified_ptr l_bot_ptr = l_stratified_ptr(p);
@@ -375,9 +375,9 @@ int stratified::insert(int x)
                  {
 		   stratified_ptr bot_ptr;
 
-		   if ( l_bot_ptr->size() == 2 ) 
+		   if ( l_bot_ptr->size() == 2 )
                    {
-		     if ( !l_bot_ptr->member(x2) ) 
+		     if ( !l_bot_ptr->member(x2) )
                      {
 		       bot_ptr = new stratified(l_bot_ptr,down(k));
                        inserted = bot_ptr->insert(x2);
@@ -395,18 +395,18 @@ int stratified::insert(int x)
                  }
 
                }
-               else                // no top entry 
+               else                // no top entry
 	       {
                  l_bot_ptr = new l_stratified(x2);
 
 		 if ( top->size() <= 1 )
 		   top->insert(x1);
                  else
-                 { 
+                 {
 		   stratified_ptr ntop;
 
 		   if ( top->size() == 2 )
-		   { 
+		   {
 		     ntop = new stratified(top,up(k));
 		     delete top;
 		     top = (l_stratified_ptr)ntop;
@@ -435,9 +435,9 @@ int stratified::insert(int x)
 
 // ----------------------------------------------------------
 //
-// del              
+// del
 //
-// streicht ein Element x rekursiv aus dem Baum 
+// streicht ein Element x rekursiv aus dem Baum
 //
 // liefert 1, falls es gestrichen wurde
 //
@@ -447,7 +447,7 @@ int stratified::insert(int x)
 
 int stratified::del(int x)
 
-{ 
+{
 
   int deleted = 0;
 
@@ -457,9 +457,9 @@ int stratified::del(int x)
     case 0 : break;
 
     case 1 :
-	     { 
+	     {
                if ( x == mi )
-	       { 
+	       {
 	         mi = ma = -1;
 		 deleted = 1;
                }
@@ -470,7 +470,7 @@ int stratified::del(int x)
 
     case 2 :
              {
-               if ( x == mi ) 
+               if ( x == mi )
                {
 	         mi = ma;
 	         deleted = 1;
@@ -485,9 +485,9 @@ int stratified::del(int x)
 	       break;
              }
 
-    case 3 :       
+    case 3 :
                                    /* delete incremental construction */
-             {           
+             {
                int t = min2();     /* third element */
 
                if ( x == mi )      /* new minimum   */
@@ -521,7 +521,7 @@ int stratified::del(int x)
                }                   /* incremental construction deleted */
 
 	       break;
-             }         
+             }
 
     default :
              {
@@ -559,20 +559,20 @@ int stratified::del(int x)
                  if ( l_bot_ptr->size() == 0 )  /* delete structure */
 	         {
                    delete l_bot_ptr;
-  
+
 		   if ( top->size() <= 2 )
 		     top->del(x1);
                    else
 		   {
 		     stratified_ptr ntop = (stratified_ptr)top;
 		     if ( ntop->sz == 3 )
-		     { 
+		     {
 		       top = new l_stratified(ntop,x1);
 		       delete ntop;
                      }
 		     else
                        ntop->del(x1);
-                   } 
+                   }
 
                    bot->del(x1,k);
                  }
@@ -604,7 +604,7 @@ int stratified::del(int x)
 
   }
 
-  if ( deleted ) 
+  if ( deleted )
     sz--;
 
   return deleted;
@@ -612,48 +612,48 @@ int stratified::del(int x)
 
 // ----------------------------------------------------------
 //
-// print            
+// print
 //
-// druckt alle Elemente des Baumes aus            
+// druckt alle Elemente des Baumes aus
 //
 // ----------------------------------------------------------
 
 void stratified::print()
-{ 
+{
   int i = -1;
   while ((i=succ(i))>=0)
-    cout << i << " ";
+    std::cout << i << " ";
 }
 
 // -------------------------------------------------------
 // clear
 //
-// loescht alle Elemente, zerstoert Unterbaeume und 
+// loescht alle Elemente, zerstoert Unterbaeume und
 // setzt Dictionary auf Leerzustand
 //
 // ----------------------------------------------------------
 
-b_dict::b_dict(int k) 
-{ if ( k <= 8 ) 
+b_dict::b_dict(int k)
+{ if ( k <= 8 )
    { l = new GenPtr[pot_2(up(k))];
      for (int i = 0; i < pot_2(up(k)); i++) l[i] = 0;
     }
-  else 
+  else
    d = new dp_hash;
 }
 
 void b_dict::clear(int k)
-{ 
+{
   if ( k <= 8 )
   {
     for (int i = 0; i < pot_2(up(k)); i++)
-    { 
+    {
       l_stratified_ptr l_bot_ptr=l_stratified_ptr(l[i]);
       if  (l_bot_ptr)
-        if (l_bot_ptr->size()<=2) 
+        if (l_bot_ptr->size()<=2)
           delete l_bot_ptr;
         else
-        { 
+        {
           stratified_ptr bot_ptr=stratified_ptr(l[i]);
           delete bot_ptr;
         }
@@ -661,7 +661,7 @@ void b_dict::clear(int k)
 
     return;
   }
-      
+
 		                         // b_dict was a hashing structure
 
 
@@ -674,19 +674,19 @@ void b_dict::clear(int k)
     if (d->htablep[i])
     {
       d->htablep[i]->give_elements(pos,d->anf,d->ende);
-      delete d->htablep[i];                         
+      delete d->htablep[i];
     }
     i++;
   }
 
   for (i=0 ; i<d->n ; i++)
-  { 
+  {
     l_stratified_ptr l_bot_ptr=l_stratified_ptr(s[i].info());
     if  (l_bot_ptr)
-      if (l_bot_ptr->size()<=2) 
+      if (l_bot_ptr->size()<=2)
         delete l_bot_ptr;
       else
-      { 
+      {
         stratified_ptr bot_ptr=stratified_ptr(s[i].info());
         delete bot_ptr;
       }

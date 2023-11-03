@@ -5,16 +5,16 @@
 +  _ab_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #include <LEDA/impl/ab_tree.h>
 
 //---------------------------------------------------------------
-//  
+//
 //  Michael Wenzel:
 //  function insert_at_item added
 //
@@ -51,12 +51,12 @@ ab_tree_node::ab_tree_node(int p_,int height_,int index_,ab_tree_node* father_,i
     int i;
     for(i=1;i<=(b+1);son[i++]=0);
     for(i=1;i<=b;k[i++]=0);
-    for(i=1;i<=b;same[i++]=0);                
+    for(i=1;i<=b;same[i++]=0);
    }
 
 
- ab_tree_node::~ab_tree_node() 
- { deallocate_words(son,*(int*)son);    // first element gives size 
+ ab_tree_node::~ab_tree_node()
+ { deallocate_words(son,*(int*)son);    // first element gives size
    deallocate_words(same,*(int*)same);
    deallocate_words(k,*(int*)k);
   }
@@ -101,7 +101,7 @@ ab_tree_node::ab_tree_node(int p_,int height_,int index_,ab_tree_node* father_,i
 
      clear();
 
-     if (T.root!=0) 
+     if (T.root!=0)
      { abnode help=0;
        root=copy_ab_tree(T.root,help,T.b);
        maximum=help;
@@ -126,12 +126,12 @@ ab_tree_node::ab_tree_node(int p_,int height_,int index_,ab_tree_node* father_,i
 void ab_tree::exchange_leaves(ab_tree_node* v, ab_tree_node* w)
 { // exchange leaves v and w
 
-  GenPtr k1 = v->k[1]; 
+  GenPtr k1 = v->k[1];
   int p1 = v->index;
   ab_tree_node* u1 = v->same[1];
   ab_tree_node* f1 = v->father;
 
-  GenPtr k2 = w->k[1]; 
+  GenPtr k2 = w->k[1];
   int p2 = w->index;
   ab_tree_node* u2 = w->same[1];
   ab_tree_node* f2 = w->father;
@@ -155,7 +155,7 @@ void ab_tree::exchange_leaves(ab_tree_node* v, ab_tree_node* w)
 
   w->son[1] = pred1;
   if (pred1) pred1->son[2] = w;
-  if (succ1!=w) 
+  if (succ1!=w)
   { w->son[2] = succ1;
     succ1->son[1] = w;
    }
@@ -173,7 +173,7 @@ void ab_tree::exchange_leaves(ab_tree_node* v, ab_tree_node* w)
   if (w==maximum) maximum = v;
 
   // overwrite inner copies:
-  
+
   int pos1=1;
   while(u1->same[pos1]!=v) pos1++;
 
@@ -183,7 +183,7 @@ void ab_tree::exchange_leaves(ab_tree_node* v, ab_tree_node* w)
   u1->k[pos1] = k2;
   u1->same[pos1] = w;
 
-  if (u2) 
+  if (u2)
   { u2->k[pos2] = k1;
     u2->same[pos2] = v;
    }
@@ -196,10 +196,10 @@ void ab_tree::reverse_items(ab_tree_node* v, ab_tree_node* w)
   if (v==w) return;
 
 /*
-  if (cmp(v->k[1],w->k[1])<0) 
+  if (cmp(v->k[1],w->k[1])<0)
   { newline;
-    cout << "a = "; print_key(v->k[1]); newline;
-    cout << "b = "; print_key(w->k[1]); newline;
+    std::cout << "a = "; print_key(v->k[1]); newline;
+    std::cout << "b = "; print_key(w->k[1]); newline;
     error_handler(1,"ab_tree: illegal reverse_items(a,b)\n");
    }
 */
@@ -246,7 +246,7 @@ ab_tree_node* ab_tree::expand(ab_tree_node* v,int i)
 // m.w. expand does not set same links for new leaves
 
  {
-   // move the nodes right to w to give an additional son to 
+   // move the nodes right to w to give an additional son to
    // the right of w
 
    int l=(v->p);
@@ -258,8 +258,8 @@ ab_tree_node* ab_tree::expand(ab_tree_node* v,int i)
      l--;
     }
 
-   while(i < l) 
-   { 
+   while(i < l)
+   {
      v->k[l+1] = v->k[l];
      v->same[l+1] = v->same[l];
 
@@ -271,29 +271,29 @@ ab_tree_node* ab_tree::expand(ab_tree_node* v,int i)
 
    if (v->height>1)
       v->son[i+1] = new ab_tree_node(0,v->height-1,i+1,v,b);
-   else  
+   else
       v->son[i+1] = new ab_tree_node(0,v->height-1,i+1,v,1);
 
    (v->p)++;
 
    return v->son[i+1];
-}                     
-                     
+}
+
 
 void ab_tree::split_node(ab_tree_node* v)
 {
  /* adding a child increases the degree of v by 1. If v->p<=b after
-    adding the new leave, then we are done . Otherwise we have to 
-    split v. Splitting can propagate ==> Loop 
+    adding the new leave, then we are done . Otherwise we have to
+    split v. Splitting can propagate ==> Loop
 
     m.w. changes same links between nodes                          */
 
   ab_tree_node* y;
 
-  while (v->p==b+1) 
+  while (v->p==b+1)
   {
     if (v!=root)  y = v->father;
-    else 
+    else
     { y=new ab_tree_node(1,v->height+1,0,0,b);
       root=y;height++;
       y->son[1]=v;
@@ -302,7 +302,7 @@ void ab_tree::split_node(ab_tree_node* v)
      };
 
 
-    register ab_tree_node* u;
+    ab_tree_node* u;
 
     u = expand(y,v->index);   // u <-- new right brother of v
 
@@ -317,8 +317,8 @@ void ab_tree::split_node(ab_tree_node* v)
 
     y->k[v->index] = v->k[down];
     y->same[v->index]  = v->same[down];
-    y->same[v->index]->same[1] = y;    
- 
+    y->same[v->index]->same[1] = y;
+
 
     // split v, i.e. take the rightmost (b+1)/2 children and keys
     // away from v and incorporate them into u and store key v->k[(b+1)/2]
@@ -327,19 +327,19 @@ void ab_tree::split_node(ab_tree_node* v)
 
     // m.w. change same links of v to y and u
 
-    register int j;
+    int j;
 
-    for (j=1;j<up;j++)    
+    for (j=1;j<up;j++)
     {
       u->son[j] = v->son[down+j];
       u->son[j]->index=j;
       u->son[j]->father=u;
       u->k[j] = v->k[down+j];
-      u->same[j] = v->same[down+j]; 
-      u->same[j]->same[1] = u;      
+      u->same[j] = v->same[down+j];
+      u->same[j]->same[1] = u;
 
       v->son[down+j] = 0;      // muss das sein ?
-      v->same[down+j] = 0;          
+      v->same[down+j] = 0;
       v->k[down+j] = 0;
 
      };
@@ -349,7 +349,7 @@ void ab_tree::split_node(ab_tree_node* v)
     u->son[up]->father=u;
 
     v->son[b+1] = 0;          // und das?
-    v->same[down] = 0;                 
+    v->same[down] = 0;
     v->k[down] = 0;
 
     v->p = down;             // change number of children
@@ -383,7 +383,7 @@ ab_tree_node* ab_tree::insert(GenPtr key, GenPtr inf)
 }
 
 ab_tree_node* ab_tree::insert_at_item(ab_tree_node* w, GenPtr key, GenPtr inf)
-{ 
+{
   // insert a new item (key,inf) left or right of leaf w  (according to key(w))
 
    copy_inf(inf);
@@ -395,23 +395,23 @@ ab_tree_node* ab_tree::insert_at_item(ab_tree_node* w, GenPtr key, GenPtr inf)
       copy_key(key);
 
      if ( w!=minimum && cmp(w->son[1]->k[1],key) > 0)
-      { cout << "INSERT_AT: WRONG POSITION\n";
-        cout << "insert:   key = "; print_key(key); cout << "\n";
-        if (w!=maximum) 
-           cout << "succ-pos: key = "; print_key(w->son[2]->k[1]); cout << "\n";
-        cout << "position: key = "; print_key(w->k[1]); cout << "\n";
-        cout << "pred-pos: key = "; print_key(w->son[1]->k[1]); cout << "\n";
-        error_handler(1,"ab_tree::insert_at : wrong position "); 
+      { std::cout << "INSERT_AT: WRONG POSITION\n";
+        std::cout << "insert:   key = "; print_key(key); std::cout << "\n";
+        if (w!=maximum)
+           std::cout << "succ-pos: key = "; print_key(w->son[2]->k[1]); std::cout << "\n";
+        std::cout << "position: key = "; print_key(w->k[1]); std::cout << "\n";
+        std::cout << "pred-pos: key = "; print_key(w->son[1]->k[1]); std::cout << "\n";
+        error_handler(1,"ab_tree::insert_at : wrong position ");
        }
 
      if ( w!=maximum && cmp(w->son[2]->k[1],key) < 0)
-      { cout << "INSERT_AT: WRONG POSITION\n";
-        cout << "insert:   key = "; print_key(key); cout << "\n";
-        cout << "succ-pos: key = "; print_key(w->son[2]->k[1]); cout << "\n";
-        cout << "position: key = "; print_key(w->k[1]); cout << "\n";
+      { std::cout << "INSERT_AT: WRONG POSITION\n";
+        std::cout << "insert:   key = "; print_key(key); std::cout << "\n";
+        std::cout << "succ-pos: key = "; print_key(w->son[2]->k[1]); std::cout << "\n";
+        std::cout << "position: key = "; print_key(w->k[1]); std::cout << "\n";
         if (w!=minimum)
-           cout << "pred-pos: key = "; print_key(w->son[1]->k[1]); cout << "\n";
-        error_handler(1,"ab_tree::insert_at : wrong position "); 
+           std::cout << "pred-pos: key = "; print_key(w->son[1]->k[1]); std::cout << "\n";
+        error_handler(1,"ab_tree::insert_at : wrong position ");
        }
 
 
@@ -420,7 +420,7 @@ ab_tree_node* ab_tree::insert_at_item(ab_tree_node* w, GenPtr key, GenPtr inf)
                          root=v;height=1;
                          ab_tree_node* u;
                          if (cmp(key,w->k[1])<0)
-                             {   
+                             {
                                  u=new ab_tree_node(0,0,1,v,1);
                                  v->son[1]=u;u->k[1]=key; u->inf=inf;
                                  v->son[2]=w ;
@@ -439,7 +439,7 @@ ab_tree_node* ab_tree::insert_at_item(ab_tree_node* w, GenPtr key, GenPtr inf)
                                  v->same[1] = w;
                                  v->son[2]=u;u->k[1]=key; u->inf=inf;
                                  v->p=2;v->k[1]=w->k[1];
-                                 w->index=1; 
+                                 w->index=1;
                                  maximum=u;
                                  w->son[2] = u;
                                  u->son[1] = w;
@@ -447,7 +447,7 @@ ab_tree_node* ab_tree::insert_at_item(ab_tree_node* w, GenPtr key, GenPtr inf)
                          w->father=v;
 
                          return u;
-                      }; 
+                      };
 
 	if ((w!=maximum) && (cmp(key,w->k[1])>0)) w=w->son[2];
 
@@ -464,7 +464,7 @@ ab_tree_node* ab_tree::insert_at_item(ab_tree_node* w, GenPtr key, GenPtr inf)
 
               /  |  \
 
-                (u)  w  
+                (u)  w
 */
           u->k[1] = key;
           u->inf = inf;
@@ -473,24 +473,24 @@ ab_tree_node* ab_tree::insert_at_item(ab_tree_node* w, GenPtr key, GenPtr inf)
           u->son[1] = w->son[1];
           w->son[1] = u;
 
-	  u->same[1] = v;        
+	  u->same[1] = v;
           v->k[index1] = key;
-          v->same[index1] = u ;  
+          v->same[index1] = u ;
 
-          if (minimum == w)  
+          if (minimum == w)
              minimum=u;
-          else 
+          else
              u->son[1]->son[2] = u;
 
          }
-        else 
+        else
         { u = expand(v,index1);   // new son u right of w
 /*
                  v
 
               /  |  \
 
-             w  (u)     
+             w  (u)
 */
           u->k[1] = key;
           u->inf = inf;
@@ -499,19 +499,19 @@ ab_tree_node* ab_tree::insert_at_item(ab_tree_node* w, GenPtr key, GenPtr inf)
           u->son[2] = w->son[2];
           w->son[2] = u;
 
-          if (maximum == w)  
+          if (maximum == w)
           {
             maximum=u;
             v->k[index1] = w->k[1];
-	    w->same[1] = v;        
-	    v->same[index1] = w ;  
+	    w->same[1] = v;
+	    v->same[index1] = w ;
 
            }
           else
           {
             v->k[index1+1] = key;
-	    u->same[1] = v;        
-	    v->same[index1+1] = u ;  
+	    u->same[1] = v;
+	    v->same[index1+1] = u ;
 
             u->son[2]->son[1] = u;
            }
@@ -523,7 +523,7 @@ ab_tree_node* ab_tree::insert_at_item(ab_tree_node* w, GenPtr key, GenPtr inf)
         return u;
       }
    else { clear_inf(w->inf);
-          w->inf = inf; 
+          w->inf = inf;
           return w;
          }
    }
@@ -531,12 +531,12 @@ ab_tree_node* ab_tree::insert_at_item(ab_tree_node* w, GenPtr key, GenPtr inf)
 ab_tree_node* ab_tree::locate(GenPtr key) const
    {
   /* searching for an element key in a (a,b)-tree ;
-   we search down the tree starting at the root r until we reache 
-   a leave. In each node v we use the sequence k[1](v),..k[v->p-1](v) 
+   we search down the tree starting at the root r until we reache
+   a leave. In each node v we use the sequence k[1](v),..k[v->p-1](v)
    in order to guide the search to the proper subtree.In the the
    function we assume that k[0](v)<key<k[v->p](v) for every
    element key in U
-   locate returns a pointer to a leave*/ 
+   locate returns a pointer to a leave*/
 
   if (root == nil) return nil;
 
@@ -547,7 +547,7 @@ ab_tree_node* ab_tree::locate(GenPtr key) const
   if (int_type())
       while (child_num)  // while v is not a leave
       { int i;
-        for(i=1; i < child_num && long(key) > long(K[i]); i++); 
+        for(i=1; i < child_num && long(key) > long(K[i]); i++);
         v=v->son[i];
         K=v->k;
         child_num = v->p;
@@ -555,7 +555,7 @@ ab_tree_node* ab_tree::locate(GenPtr key) const
    else
       while (child_num)
       { int i = 1;
-        while(i < child_num && cmp(key,K[i]) > 0) i++; 
+        while(i < child_num && cmp(key,K[i]) > 0) i++;
         v=v->son[i];
         K=v->k;
         child_num = v->p;
@@ -579,7 +579,7 @@ ab_tree_node* ab_tree::locate_pred(GenPtr key) const
  }
 
 
-ab_tree_node* ab_tree::lookup(GenPtr k) const 
+ab_tree_node* ab_tree::lookup(GenPtr k) const
 { ab_tree_node* p = locate(k);
   if (p && cmp(k,key(p))!=0 ) p = 0;
   return p;
@@ -591,25 +591,25 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
    /* fuse v and y, i.e. make all sons of y to sons of v and move all
       keys from y to v and delete node y; also move one key (the key
       between the pointers to y and v) from z to v; (note that this will
-      shrink z, i.e. decrease the arity of z by one)  
+      shrink z, i.e. decrease the arity of z by one)
    */
 
    ab_tree_node* z=v->father;
 
    GenPtr hilf=z->k[v->index] ;     /* before k[v->p] was not used {=0}*/
-              /* 
+              /*
                  we only must copy the pointer of son and the node-keys
                  from y to v
               */
 	      /* change same-pointer of y and z                     */
-   v->k[v->p]=hilf; 
-   v->same[v->p]=z->same[v->index];  
-   v->same[v->p]->same[1] = v;       
+   v->k[v->p]=hilf;
+   v->same[v->p]=z->same[v->index];
+   v->same[v->p]->same[1] = v;
 
    int i;
    for(i=1;i<y->p;i++) {  v->k[v->p+i]=y->k[i];
-			      v->same[v->p+i]=y->same[i];    
-			      v->same[v->p+i]->same[1]=v;    
+			      v->same[v->p+i]=y->same[i];
+			      v->same[v->p+i]->same[1]=v;
                               v->son[v->p+i]=y->son[i];
                               v->son[v->p+i]->index=v->p+i;
                               v->son[v->p+i]->father=v;
@@ -621,17 +621,17 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
    v->p=v->p+y->p;
 
    for(i=v->index;i<z->p;i++) { z->k[i]=z->k[i+1];
-				z->same[i] = z->same[i+1]; 
+				z->same[i] = z->same[i+1];
                                 z->son[i+1]=z->son[i+2];
-                                if (z->son[i+1]!=0){z->son[i+1]->index=i+1; 
+                                if (z->son[i+1]!=0){z->son[i+1]->index=i+1;
                                 z->son[i+1]->father=z;};
                                };
    z->p--;
-   z->k[z->p]=0;      
-   z->same[z->p]=0;   
+   z->k[z->p]=0;
+   z->same[z->p]=0;
 
    delete y;
-   
+
   }
 
 
@@ -641,27 +641,27 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
      take the leftmost son away from y and make it an additional(right-
      most) son of v; also move one key( the key between the pointers
      to v and y) from z down to v and replace it by the leftmost
-     key of y;    
+     key of y;
      the other case is equivalent
      let z be the father of v
    */
 
      ab_tree_node* z=v->father;
 
-     if (direct==1)  { 
+     if (direct==1)  {
                        v->son[v->p+1]=y->son[1];
                        v->son[v->p+1]->index=v->p+1;
                        v->son[v->p+1]->father=v;
                        v->k[v->p]=z->k[v->index];
-		       v->same[v->p]=z->same[v->index];   
-                       v->same[v->p]->same[1] = v;    
+		       v->same[v->p]=z->same[v->index];
+                       v->same[v->p]->same[1] = v;
                        z->k[v->index]=y->k[1];
-                       z->same[v->index]=y->same[1];      
-		       z->same[v->index]->same[1]=z;      
+                       z->same[v->index]=y->same[1];
+		       z->same[v->index]->same[1]=z;
 
-                       v->p++;    
+                       v->p++;
 
-                       for(int i=1;i<(y->p)-1;i++) 
+                       for(int i=1;i<(y->p)-1;i++)
                        { y->son[i]=y->son[i+1];
                          y->son[i]->index=i;
                          y->k[i]=y->k[i+1];
@@ -672,16 +672,16 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
 
                        y->son[y->p]=y->son[y->p+1];
                        y->son[y->p]->index=y->p;
-                       y->son[y->p+1]=0;  
+                       y->son[y->p+1]=0;
                        y->k[y->p]=0;
-		       y->same[y->p] = 0;                 
+		       y->same[y->p] = 0;
                      }
      else            {    // y is at the left side of v
-                       for(int i=v->p;i>=1;i--) 
+                       for(int i=v->p;i>=1;i--)
                        { v->son[i+1]=v->son[i];
                          v->son[i+1]->index=i+1;
                          v->k[i+1]=v->k[i];
-                         v->same[i+1]=v->same[i]; 
+                         v->same[i+1]=v->same[i];
                         };
 
                        v->son[1]=y->son[y->p];
@@ -693,26 +693,26 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
                        y->p--;
 
                        v->k[1]=z->k[y->index];
-		       v->same[1]=z->same[y->index];     
-		       v->same[1]->same[1] = v;            
+		       v->same[1]=z->same[y->index];
+		       v->same[1]->same[1] = v;
                        z->k[y->index]=y->k[y->p];
-                       z->same[y->index]=y->same[y->p];  
-                       z->same[y->index]->same[1] = z;   
+                       z->same[y->index]=y->same[y->p];
+                       z->same[y->index]->same[1] = z;
                        y->k[y->p]=0;
-		       y->same[y->p]=0;                    
+		       y->same[y->p]=0;
                      };
      }
 
 
  void ab_tree::del_item(ab_tree_node* w)
     {
-         /* 
+         /*
           we must delete leave w with father v
-          we shrink v by deleting leave w and one of the keys in the 
-          adjacent to the pointer to w 
+          we shrink v by deleting leave w and one of the keys in the
+          adjacent to the pointer to w
           (if w is the i-th son of v then we delete k[i](v) if i<v->p
           k[i-1](v) if i=v->p  ).
-	  m.w. if i=v->p we overwrite the inner node 
+	  m.w. if i=v->p we overwrite the inner node
 	       in which key w->k[1] is stored with k[i-1](v)
 	       and then delete k[i-1](v)
          */
@@ -722,16 +722,16 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
 
        count--;
 
-       if (maximum==minimum)  
-        { maximum=minimum=root=0; 
-          height=-1; 
+       if (maximum==minimum)
+        { maximum=minimum=root=0;
+          height=-1;
           clear_key(w->k[1]);
           clear_inf(w->inf);
-          delete w; 
+          delete w;
           return;
          }
 			/* here w==root==> last leave will be deleted*/
-       
+
        ab_tree_node* succ = w->son[2];
        ab_tree_node* pred = w->son[1];
 
@@ -750,20 +750,20 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
 			       ab_tree_node* u = w->same[1];
 			       int pos=1;
                                while(u->same[pos]!=w) pos++;
-			       u->k[pos]=pred->k[1];  
+			       u->k[pos]=pred->k[1];
 			       u->same[pos]=pred;
 			       pred->same[1] = u;
 			     }
 			     else
-			       v->same[v->p-1]->same[1]=0; 
+			       v->same[v->p-1]->same[1]=0;
                              v->k[v->p-1]=0;
-			     v->same[v->p-1]=0;           
+			     v->same[v->p-1]=0;
 			   }
        else                { v->k[w->index]=0 ;
-			     v->same[w->index]=0;         
+			     v->same[w->index]=0;
                              for(int i=w->index;i<(v->p)-1;i++)
                              { v->k[i]=v->k[i+1];
-                               v->same[i]=v->same[i+1]; 
+                               v->same[i]=v->same[i+1];
                                v->son[i]=v->son[i+1];
                                v->son[i]->father=v;
                                v->son[i]->index=i;
@@ -771,7 +771,7 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
                              v->son[v->p-1]=v->son[v->p];
                              v->son[v->p]=0;
                              v->k[v->p-1]=0;
-                             v->same[v->p-1]=0;          
+                             v->same[v->p-1]=0;
                              v->son[v->p-1]->father=v;
                              v->son[v->p-1]->index=v->p-1;
                            };
@@ -781,9 +781,9 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
        delete w;
 
        (v->p)--;
-       
-       if ((v==root) && (v->p==1)) {  
-                                  if (v->son[1]==0) 
+
+       if ((v==root) && (v->p==1)) {
+                                  if (v->son[1]==0)
                                       {v->son[1]=v->son[2];
                                        v->son[2]=0;  };
                                   root=v->son[1];
@@ -794,7 +794,7 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
                                   root->height=0;
                                   height=0;
                                   minimum=maximum=root;
-                                  return; 
+                                  return;
                                 };
 
        if (v->p >= a) return;
@@ -809,15 +809,15 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
                             y=z->son[v->index+1] ;
                            dir=1;    //  y is the right son of v
                          }
-       else              { 
+       else              {
                             z=v->father;
                             y=z->son[v->index-1] ;
                            dir =0;   //  y is the left son of v
                          };
        while ((v->p==a-1) && (y->p==a))
             {
-             if (dir==1) fuse(v,y); 
-             else  fuse(y,v); 
+             if (dir==1) fuse(v,y);
+             else  fuse(y,v);
 
              if (z==root) {
                            if (z->p==1) {
@@ -830,7 +830,7 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
                                                 y->father=0;
                                                 y->index=0;    };
                                          height--;
-                                         delete z;  
+                                         delete z;
                                        };
                            return;
                           };
@@ -860,13 +860,13 @@ void ab_tree::fuse(ab_tree_node* v,ab_tree_node* y)
 
 ab_tree& ab_tree::conc(ab_tree& s2)
 
-{ 
-  if ((a!=s2.a)||(b!=s2.b)) 
+{
+  if ((a!=s2.a)||(b!=s2.b))
      error_handler(1,"ab_tree: incompatible trees in concatenate operation");
 
   if (s2.root==0) return *this;
 
-  if (root==0) 
+  if (root==0)
   { root=s2.root;
     maximum=s2.maximum;
     minimum=s2.minimum;
@@ -874,16 +874,16 @@ ab_tree& ab_tree::conc(ab_tree& s2)
     count =s2.count;
    }
   else
-  { if (cmp(maximum->k[1],s2.minimum->k[1])>=0) 
-                    error_handler(1,"ab_tree: join(S,T) : max(S)>=min(T)"); 
+  { if (cmp(maximum->k[1],s2.minimum->k[1])>=0)
+                    error_handler(1,"ab_tree: join(S,T) : max(S)>=min(T)");
 
     concat(*this,s2,maximum,maximum->k[1]);
 
-    // link leaves 
-    maximum->son[2]=s2.minimum;       
+    // link leaves
+    maximum->son[2]=s2.minimum;
     s2.minimum->son[1]=maximum;
 
-    maximum=s2.maximum;              
+    maximum=s2.maximum;
    }
 
   s2.root=0;
@@ -900,12 +900,12 @@ ab_tree& ab_tree::conc(ab_tree& s2)
 ----------------------------------------------------------------------*/
 
 void concat(ab_tree& s1,ab_tree& s2,ab_tree_node* current,GenPtr cur_key)
-{ 
+{
   // Result in s1
 
   ab_tree_node* v=s1.root;
   ab_tree_node* w=s2.root;
-  int h1=v->height;     
+  int h1=v->height;
   int h2=w->height;
   int i;
 
@@ -914,20 +914,20 @@ void concat(ab_tree& s1,ab_tree& s2,ab_tree_node* current,GenPtr cur_key)
        z->son[1]=v;z->son[2]=w; z->k[1]=cur_key;
        z->son[1]->father=z; z->son[2]->father=z;
        z->son[1]->index=1;z->son[2]->index=2;
-       z->same[1]=current;              
-       current->same[1]=z;              
+       z->same[1]=current;
+       current->same[1]=z;
        s1.height++;
        s1.root=z;
     }
   else { if (h1>h2)
          {
-            for(i=1;i<h1-h2;i++,v=v->son[v->p]);  
+            for(i=1;i<h1-h2;i++,v=v->son[v->p]);
             v->son[v->p+1]=w;
             v->son[v->p+1]->father=v;
             v->son[v->p+1]->index=v->p+1;
             v->k[v->p]=cur_key;
-	    v->same[v->p]=current;     
-	    current->same[1]=v;        
+	    v->same[v->p]=current;
+	    current->same[1]=v;
  	    v->p++;
 	    if (v->p==s1.b+1)  {s1.split_node(v);  };
         }
@@ -939,7 +939,7 @@ void concat(ab_tree& s1,ab_tree& s2,ab_tree_node* current,GenPtr cur_key)
               w->son[i+1]->father=w;
   	      w->son[i+1]->index=i+1;
               w->k[i]=w->k[i-1];
-	      w->same[i]=w->same[i-1];   
+	      w->same[i]=w->same[i-1];
             };
            w->p++;
            w->son[2]=w->son[1];
@@ -949,8 +949,8 @@ void concat(ab_tree& s1,ab_tree& s2,ab_tree_node* current,GenPtr cur_key)
            w->son[1]->father=w;
            w->son[1]->index=1;
            w->k[1]=cur_key;
-	   w->same[1]=current;             
-	   current->same[1]=w;             
+	   w->same[1]=current;
+	   current->same[1]=w;
            if (w->p==s2.b+1) {s2.split_node(w);};
 	   s1.root =  s2.root;
 	   s1.height =  s2.height;
@@ -975,14 +975,14 @@ void ab_tree::split_at_item(ab_tree_node* w,ab_tree& L,ab_tree& R)
   {
     if(((a!=L.a)||(a!=R.a))||((b!=L.b)||(b!=R.b)))
        error_handler(1,"ab_tree: incompatible trees in split operation");
-    
+
     /* initialisation   */
     L.root=L.minimum=L.maximum=0;L.height=-1;
     R.root=R.minimum=R.maximum=0;R.height=-1;
 
     if(root==0) return;
 
-    if (w==0) 
+    if (w==0)
     { R.root = root;
       R.height = height;
       R.maximum = maximum;
@@ -996,7 +996,7 @@ void ab_tree::split_at_item(ab_tree_node* w,ab_tree& L,ab_tree& R)
       return;
      }
 
-    if (w==maximum) 
+    if (w==maximum)
     { L.root = root;
       L.height = height;
       L.maximum = maximum;
@@ -1019,7 +1019,7 @@ void ab_tree::split_at_item(ab_tree_node* w,ab_tree& L,ab_tree& R)
     ab_tree_node* current_l=0 ;
     GenPtr           current_l_key=0;
 
-    ab_tree_node* current_r=0;  
+    ab_tree_node* current_r=0;
     GenPtr           current_r_key=0;
 
     int i;
@@ -1037,13 +1037,13 @@ void ab_tree::split_at_item(ab_tree_node* w,ab_tree& L,ab_tree& R)
 
       do{
          v=w->father;
-         int index_of_w = w->index; 
+         int index_of_w = w->index;
 
        /* now we have construct the  left and right subtrees and the pointers
           to the roots  --> we must construct two trees with these roots*/
 
         if ((L.root==0)&&(l!=0))  { L.root=l;
-			            L.height=l->height; 
+			            L.height=l->height;
 			            L.root->father=0;
 			            L.root->index=0;
 			          }
@@ -1085,21 +1085,21 @@ void ab_tree::split_at_item(ab_tree_node* w,ab_tree& L,ab_tree& R)
            r=v;
            current_r=v->same[1];
            current_r_key=v->k[1];
-	   r->same[1]->same[1]=0;        
-	   for(i=2;i<r->p;i++) 
+	   r->same[1]->same[1]=0;
+	   for(i=2;i<r->p;i++)
             {  r->son[i-1]=r->son[i];
    	       r->son[i-1]->index=i-1;
  	       r->k[i-1]=r->k[i];
-	       r->same[i-1]=r->same[i];  
+	       r->same[i-1]=r->same[i];
     	    }
            r->son[r->p-1]=r->son[r->p];    /* last son */
            r->son[r->p-1]->index=r->p-1;
            r->son[r->p]=0;
-           r->p--; 
+           r->p--;
            r->k[r->p]=0;
-	   r->same[r->p]=0;      
+	   r->same[r->p]=0;
            if (r->p==1) r=r->son[1];
-         } 
+         }
          else {if ( index_of_w==v->p )
                  {  r=0;
                     l=v;
@@ -1108,17 +1108,17 @@ void ab_tree::split_at_item(ab_tree_node* w,ab_tree& L,ab_tree& R)
 		    current_l=l->same[index_of_w-1];
 		    current_l_key=current_l->k[1];
                     l->k[l->p]=0;
-		    l->same[l->p]->same[1]=0;   
-		    l->same[l->p]=0;            
+		    l->same[l->p]->same[1]=0;
+		    l->same[l->p]=0;
                     if (l->p==1) l=l->son[1];
-		} 
+		}
                else  /* if w is not the leftmost or rightmost son of v*/
-               {  
+               {
                  r=v;
                  l=new ab_tree_node(index_of_w-1,v->height,0,0,R.b);
  		 current_l=v->same[index_of_w-1];
  		 current_l_key=current_l->k[1];
-		 current_r=v->same[index_of_w];   
+		 current_r=v->same[index_of_w];
 		 current_r_key=current_r->k[1];
 		 // current_r=(v->k[index_of_w])-1;   ERROR: liefert neuen Schluessel ;
                  for(i=1;i<index_of_w-1;i++)
@@ -1127,8 +1127,8 @@ void ab_tree::split_at_item(ab_tree_node* w,ab_tree& L,ab_tree& R)
 		   l->son[i]->index=i;
                    l->son[i]->father=l;
 		   l->k[i]=v->k[i];
-		   l->same[i]=v->same[i];  
-		   l->same[i]->same[1]=l;  
+		   l->same[i]=v->same[i];
+		   l->same[i]->same[1]=l;
 		  };
 		 l->son[index_of_w-1]=v->son[index_of_w-1];
 		 l->son[index_of_w-1]->index=index_of_w-1;
@@ -1143,7 +1143,7 @@ void ab_tree::split_at_item(ab_tree_node* w,ab_tree& L,ab_tree& R)
              	   r->son[i]->index=i;
                    r->son[i]->father=r;
 		   r->k[i]=r->k[i+index_of_w];
-		   r->same[i]=r->same[i+index_of_w]; 
+		   r->same[i]=r->same[i+index_of_w];
                    r->k[i+index_of_w]=0;
 		   r->same[i+index_of_w]=0;
 		  };
@@ -1180,7 +1180,7 @@ void ab_tree::split_at_item(ab_tree_node* w,ab_tree& L,ab_tree& R)
  R.maximum=maximum;
 
  maximum=minimum=root=l=r=0;
- height=-1; 
+ height=-1;
  count = 0;
 
  delete l;
@@ -1190,47 +1190,47 @@ void ab_tree::split_at_item(ab_tree_node* w,ab_tree& L,ab_tree& R)
 
 void ab_tree::pr_ab_tree(ab_tree_node* localroot,int blancs) const
 
-{ 
+{
   if (localroot==0)
-   { for(int j=1;j<=blancs;j++) cout<<" ";
-     cout << "NIL\n";
+   { for(int j=1;j<=blancs;j++) std::cout<<" ";
+     std::cout << "NIL\n";
      return;
     }
-  
-  if (localroot->p == 0) 
-   { for(int j=1;j<=blancs;j++) cout<<" ";
-     print_key(localroot->k[1]); 
+
+  if (localroot->p == 0)
+   { for(int j=1;j<=blancs;j++) std::cout<<" ";
+     print_key(localroot->k[1]);
 /*
      ab_tree_node* s= localroot->same[1];
-     cout << " same = "; 
-     if (s) print_key(s->k[1]); 
-     else cout << "NIL";
+     std::cout << " same = ";
+     if (s) print_key(s->k[1]);
+     else std::cout << "NIL";
 */
-     cout << "\n";
+     std::cout << "\n";
     }
 
    else
     { for(int i=1;i<localroot->p;i++)
       { pr_ab_tree(localroot->son[i],blancs+10);
-        for(int j=1;j<=blancs;j++) cout<<" ";
-        print_key(localroot->k[i]); 
+        for(int j=1;j<=blancs;j++) std::cout<<" ";
+        print_key(localroot->k[i]);
 /*
-        cout << " same = "; 
-        print_key(localroot->same[i]->k[1]); 
+        std::cout << " same = ";
+        print_key(localroot->same[i]->k[1]);
 */
-        cout << "\n";
+        std::cout << "\n";
        };
       pr_ab_tree(localroot->son[localroot->p],blancs+10);
     }
-} 
- 
+}
+
 ab_tree_node* ab_tree::copy_ab_tree(ab_tree_node* localroot,
                                     abnode& last_leaf,int b0) const
-{ 
+{
   ab_tree_node* r;
 
   if (localroot->p == 0)   //leaf
-   { r=new ab_tree_node(localroot->p,localroot->height,localroot->index,0,1); 
+   { r=new ab_tree_node(localroot->p,localroot->height,localroot->index,0,1);
 
      r->k[1]= localroot->k[1];
      r->inf = localroot->inf;
@@ -1240,18 +1240,18 @@ ab_tree_node* ab_tree::copy_ab_tree(ab_tree_node* localroot,
 
      r->son[1]=last_leaf;
      if (last_leaf) last_leaf->son[2] = r;
-     last_leaf = r;               
+     last_leaf = r;
 
     }
   else
-   { r=new ab_tree_node(localroot->p,localroot->height,localroot->index,0,b0); 
+   { r=new ab_tree_node(localroot->p,localroot->height,localroot->index,0,b0);
 
      for(int i=1;i<localroot->p;i++)
      { r->son[i]=copy_ab_tree(localroot->son[i],last_leaf,b0);
        r->son[i]->father=r;
        r->k[i]=localroot->k[i];
-       last_leaf->same[1]=r;        
-       r->same[i]=last_leaf;        
+       last_leaf->same[1]=r;
+       r->same[i]=last_leaf;
       }
 
      r->son[localroot->p]=copy_ab_tree(localroot->son[localroot->p],last_leaf,b0);
@@ -1260,7 +1260,7 @@ ab_tree_node* ab_tree::copy_ab_tree(ab_tree_node* localroot,
 
   return r;
 }
-        
+
 void ab_tree::del_tree(ab_tree_node* localroot)
 { // deletes subtree  rooted at localroot
 
@@ -1276,7 +1276,7 @@ void ab_tree::del_tree(ab_tree_node* localroot)
   delete localroot;
 }
 
-void ab_tree::change_inf(ab_tree_node* p, GenPtr x) 
+void ab_tree::change_inf(ab_tree_node* p, GenPtr x)
 { clear_inf(p->inf);
   copy_inf(x);
   p->inf = x;

@@ -1,8 +1,8 @@
 #include <LEDA/array2.h>
 #include <LEDA/graph.h>
 #include <LEDA/ugraph.h>
-#include <ctype.h>
-#include <stdlib.h>
+#include <cctype>
+#include <cstdlib>
 
 // some graph generators
 
@@ -11,7 +11,7 @@ void complete_graph(graph& G, int n)
   G.clear();
   while (n--) G.new_node();
   forall_nodes(v,G)
-     forall_nodes(w,G) 
+     forall_nodes(w,G)
         G.new_edge(v,w);
 }
 
@@ -20,20 +20,20 @@ void complete_ugraph(ugraph& G, int n)
   node* V = new node[n];
   G.clear();
   for(i=0;i<n;i++) V[i] = G.new_node();
-  for(i=0;i<n;i++) 
-    for(j=i+1;j<n;j++) 
+  for(i=0;i<n;i++)
+    for(j=i+1;j<n;j++)
        G.new_edge(V[i],V[j]);
 }
 
 
-void grid_graph(graph& G, int n) 
-{ node_array<double> xcoord; 
+void grid_graph(graph& G, int n)
+{ node_array<double> xcoord;
   node_array<double> ycoord;
   grid_graph(G,xcoord,ycoord,n);
  }
 
-void grid_graph(graph& G, node_array<double>& xcoord, 
-                          node_array<double>& ycoord, int n) 
+void grid_graph(graph& G, node_array<double>& xcoord,
+                          node_array<double>& ycoord, int n)
 {
   array2<node>  A(n,n);
   node v;
@@ -69,8 +69,8 @@ void complete_bigraph(graph& G, int n1, int n2, list<node>& A, list<node>& B)
   for(int a=0; a < n1; a++)  A.append(G.new_node());
   for(int b=0; b < n2; b++)  B.append(G.new_node());
 
-  forall(v,A) 
-  {  forall(w,B) 
+  forall(v,A)
+  {  forall(w,B)
        G.new_edge(v,w);
    }
  }
@@ -82,17 +82,17 @@ void user_graph(graph& G)
   node* V = new node[n];
   for(j=0; j<n; j++) V[j] = G.new_node();
 
-  for(j=0; j<n; j++) 
+  for(j=0; j<n; j++)
   { list<int> il;
     int ok = false;
     while (!ok)
     { ok = true;
-      cout << "edges from [" << j << "] to: ";
+      std::cout << "edges from [" << j << "] to: ";
       il.read();
-      forall(i,il) 
-        if (i < 0 || i >= n) 
+      forall(i,il)
+        if (i < 0 || i >= n)
         { ok=false;
-          cout << "illegal node " << i << "\n";
+          std::cout << "illegal node " << i << "\n";
          }
      }
     forall(i,il) G.new_edge(V[j],V[i]);
@@ -104,12 +104,12 @@ void user_graph(graph& G)
 
 
 void test_graph(graph& G)
-{ 
+{
   G.clear();
   char c;
 
   do c = read_char("graph: f(ile) r(andom) c(omplete) p(lanar) u(ser): ");
-  while (c!='f' && c!='r' && c!='c' && c!='p'&& c!='u');   
+  while (c!='f' && c!='r' && c!='c' && c!='p'&& c!='u');
 
   switch (c) {
 
@@ -139,16 +139,16 @@ void test_graph(graph& G)
 }
 
 void test_ugraph(ugraph& G)
-{ 
+{
   G.clear();
   char c;
 
   do c = read_char("graph: f(ile) r(andom) c(omplete) p(lanar) u(ser): ");
-  while (c!='f' && c!='r' && c!='c' && c!='p'&& c!='u');   
+  while (c!='f' && c!='r' && c!='c' && c!='p'&& c!='u');
 
   int  i;
   node v;
-  
+
   switch (c) {
 
   case 'f' : { G.read(read_string("file: "));
@@ -161,11 +161,11 @@ void test_ugraph(ugraph& G)
                 for(i=0; i<n; i++) V[i] = G.new_node();
                 forall_nodes(v,G)
                   { list<int> il;
-                    cout << "edges from " << j++ << " to: ";
+                    std::cout << "edges from " << j++ << " to: ";
                     il.read();
-                    forall(i,il) 
+                    forall(i,il)
                       if (i >= 0 && i < n) G.new_edge(v,V[i]);
-                      else cerr << "illegal node " << i << " (ignored)\n";
+                      else std::cerr << "illegal node " << i << " (ignored)\n";
                    }
                 G.print();
                 if (Yes("save graph ? ")) G.write(read_string("file: "));
@@ -197,23 +197,23 @@ void test_bigraph(graph& G, list<node>& A, list<node>& B)
   char c;
 
   do c = read_char("bipartite graph: f(ile) r(andom) c(omplete) u(ser): ");
-  while (c!='f' && c!='r' && c!='c' && c!='u');   
+  while (c!='f' && c!='r' && c!='c' && c!='u');
 
   A.clear();
   B.clear();
   G.clear();
 
-  if (c!='f') 
+  if (c!='f')
    { n1 = read_int("|A| = ");
      n2 = read_int("|B| = ");
     }
-  
-  
+
+
   switch (c) {
 
   case 'f' : { G.read(read_string("file: "));
                node v;
-               forall_nodes(v,G) 
+               forall_nodes(v,G)
                if (G.outdeg(v) > 0) A.append(v);
                else B.append(v);
 
@@ -228,9 +228,9 @@ void test_bigraph(graph& G, list<node>& A, list<node>& B)
 
                 for(a=1; a<=n1; a++)
                 { list<int> il;
-                  cout << "edges from " << a << " to: ";
+                  std::cout << "edges from " << a << " to: ";
                   il.read();
-                  forall(b,il) 
+                  forall(b,il)
                     if (b<=n2) G.new_edge(AV[a],BV[b]);
                     else break;
                   if (b>n2) break;
@@ -253,23 +253,23 @@ void test_bigraph(graph& G, list<node>& A, list<node>& B)
 
 
 void cmdline_graph(graph& G, int argc, char** argv)
-{ 
+{
   // construct graph from cmdline arguments
 
-  if (argc == 1)           // no arguments 
+  if (argc == 1)           // no arguments
      { test_graph(G);
        return;
       }
-  else 
+  else
      if (argc == 2)       // one argument
-        { if (isdigit(argv[1][0])) 
-             { cout << "complete graph |V| = " << argv[1];
+        { if (isdigit(argv[1][0]))
+             { std::cout << "complete graph |V| = " << argv[1];
                newline;
                newline;
                complete_graph(G,atoi(argv[1]));
               }
-          else 
-             { cout << "reading graph from file " << argv[1];
+          else
+             { std::cout << "reading graph from file " << argv[1];
                newline;
                newline;
                G.read(argv[1]);
@@ -277,8 +277,8 @@ void cmdline_graph(graph& G, int argc, char** argv)
           return;
          }
      else
-        if (argc == 3 && isdigit(argv[1][0]) && isdigit(argv[1][0])) 
-           { cout << "random graph |V| = " << argv[1] << "  |E| = " << argv[2];
+        if (argc == 3 && isdigit(argv[1][0]) && isdigit(argv[1][0]))
+           { std::cout << "random graph |V| = " << argv[1] << "  |E| = " << argv[2];
              newline;
              newline;
              random_graph(G,atoi(argv[1]),atoi(argv[2]));
@@ -328,8 +328,8 @@ inline int compare(const triang_point& p, const triang_point& q)
   return c;
  }
 
-inline void Print(const triang_point&, ostream&) {}
-inline void Read(triang_point&, istream&) {}
+inline void Print(const triang_point&, std::ostream&) {}
+inline void Read(triang_point&, std::istream&) {}
 
 
 
@@ -340,13 +340,13 @@ LEDA_TYPE_PARAMETER(triang_point)
 
 void triangulated_planar_graph(graph& G, node_array<double>& xcoord,
                                          node_array<double>& ycoord, int n)
-{ 
+{
   list<triang_point> L;
   double x;
   double y;
 
   while(n--)
-  { rand_int >> x; 
+  { rand_int >> x;
     rand_int >> y;
     L.append(triang_point(x,y));
    }
@@ -376,7 +376,7 @@ void triangulated_planar_graph(graph& G, node_array<double>& xcoord,
   xcoord.init(G,n,0);
   ycoord.init(G,n,0);
 
-  forall(q,L) 
+  forall(q,L)
   { node v = G.new_node();
     xcoord[v] = q.x;
     ycoord[v] = q.y;

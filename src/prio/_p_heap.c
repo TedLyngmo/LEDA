@@ -5,9 +5,9 @@
 +  _p_heap.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -84,36 +84,36 @@ p_heap& p_heap::operator=(const p_heap& with)
         class_ptr=&with;
         copy_sub_tree(head,with.head);
         class_ptr=this;
-                
+
         }
         return(*this);
 }
 
 //=========== copy_sub_tree =============================================
 
-void  p_heap::copy_sub_tree(ph_item* whereto,ph_item* from) 
+void  p_heap::copy_sub_tree(ph_item* whereto,ph_item* from)
 {
-   if (item_count==0)   // target tree is empty 
+   if (item_count==0)   // target tree is empty
    {
-        
+
          head =new ph_item(from->key,from->inf);
          class_ptr->copy_key(head->key);
          class_ptr->copy_inf(head->inf);
          item_count++;
-        
+
          do_copy(head,from->l_child,true);
    }
- 
+
    else
-        
+
                 if ((cmp(whereto->key,from->key)<=0)  // precondition:
                         &&(whereto->l_child==nil))    // subelement <= parent
-                
+
                         do_copy(whereto,from,true);
-                        // true: that is left child from whereto        
+                        // true: that is left child from whereto
 }
 
- 
+
 
 //====== do_copy ======================================================
 
@@ -121,9 +121,9 @@ void p_heap::do_copy(ph_item* father,ph_item* from,bool direction)
 {
 // direction : false=right true=left
 
-        
+
         ph_item* hilf=new_ph_item(from->key,from->inf);
-        
+
         hilf->parent=father;
         if (direction)
                 father->l_child=hilf;
@@ -132,7 +132,7 @@ void p_heap::do_copy(ph_item* father,ph_item* from,bool direction)
 
         if (from->l_child!=nil)
                 do_copy(hilf,from->l_child,true);
-                
+
         if (from->r_child!=nil)
                 do_copy(hilf,from->r_child,false);
 }
@@ -151,22 +151,22 @@ ph_item* p_heap::new_ph_item(GenPtr key,GenPtr inf)
         return help;
 }
 
-        
-                
+
+
 // ========== clear ====================================================
 
 void p_heap::clear()
 {
   if (item_count>0)
         clear_sub_tree(head);
-        
+
 }
 
 // ======= clear_sub_tree ===============================================
 
 void p_heap::clear_sub_tree(ph_item* sub)
 {
-        
+
         if (sub->l_child!=nil)
                 clear_sub_tree(sub->l_child);
         if (sub->r_child!=nil)
@@ -182,13 +182,13 @@ void p_heap::clear_sub_tree(ph_item* sub)
         delete(sub);
         item_count--;
 }
-                
+
 
 
 //======= insert =======================================================
 
 ph_item* p_heap::insert(GenPtr key,GenPtr inf)
-{       
+{
         ph_item* help;
 
         help = new ph_item(key,inf);
@@ -206,7 +206,7 @@ ph_item* p_heap::insert(GenPtr key,GenPtr inf)
             return help;
            }
 
-        
+
 }
 
 
@@ -214,26 +214,26 @@ ph_item* p_heap::insert(GenPtr key,GenPtr inf)
 
 void p_heap::decrease_key(ph_item* which,GenPtr key)
 {
-   register ph_item* help2=nil;
-   register ph_item* which_parent = which->parent;
+   ph_item* help2=nil;
+   ph_item* which_parent = which->parent;
 
    if (int_type())
      if (key <= which->key)  // smaller or equal to the old element
-      { 
+      {
         which->key=key;
-   
+
         if (which!=head)         // which is not already minimum
         { if (which->r_child!=nil)
           { help2=which->r_child;
             help2->parent=which_parent;
             which->r_child=nil;
            }
-   
+
           if (which_parent->l_child==which)
              which_parent->l_child=help2;
-          else                    
+          else
              which_parent->r_child=help2;
-   
+
           which->parent=nil;
           int_comparison_link(head,which);
          }
@@ -241,30 +241,30 @@ void p_heap::decrease_key(ph_item* which,GenPtr key)
      else /* error */;
    else
      if (cmp(key,which->key)<=0)  // smaller or equal to the old element
-      { 
+      {
         clear_key(which->key);
         which->key=key;
         copy_key(which->key);
-   
+
         if (which!=head)         // which is not already minimum
         { if (which->r_child!=nil)
           { help2=which->r_child;
             help2->parent=which_parent;
             which->r_child=nil;
            }
-   
+
           if (which_parent->l_child==which)
              which_parent->l_child=help2;
-          else                    
+          else
              which_parent->r_child=help2;
-   
+
           which->parent=nil;
           comparison_link(head,which);
          }
       }
      else /* error */;
-}                       
-                
+}
+
 
 //========= delete_min_multipass ()  (multipass algorithm) =============
 
@@ -285,10 +285,10 @@ void p_heap::delete_min_multipass()
         delete head->parent;    // delete min
         head->parent=nil;
         item_count--;
-        
+
       if (head->r_child!=nil)   // there are two ore more consecutive elements
         head=multipass(head);
-    
+
   }// end else
 
 }
@@ -297,7 +297,7 @@ void p_heap::delete_min_multipass()
 
 void p_heap::delete_min_twopass()
 {
-        
+
    if (item_count==1)   // only one element in structure
    {
         clear_key(head->key);
@@ -313,33 +313,33 @@ void p_heap::delete_min_twopass()
         delete head->parent;    // delete min
         head->parent=nil;
         item_count--;
-        
+
       if (head->r_child!=nil)   // there are two ore more consecutive elements
-      
+
         head=twopass(head);
-        
+
 
       } // end else
 }
 
 
 
-// ============== twopass ================================================              
-        
+// ============== twopass ================================================
+
 ph_item*  p_heap::twopass(ph_item* h)
 {
  //pass 1 : left to right comparison link (successive pairs of root nodes)
 
-  register ph_item* help1,*help2;
+  ph_item* help1,*help2;
 
   help1=h;
   help2=h->r_child;
-  
+
   if (int_type())
         while (help2!=nil)               // there are 2 ore more elements left
         { h=help1->r_child->r_child;   // use of h as a helper
           int_comparison_link(help1,help2);
-                
+
           if (h!=nil)       // first case comp _link
              if (h->r_child!=nil)
                { // second case
@@ -358,7 +358,7 @@ ph_item*  p_heap::twopass(ph_item* h)
         while (help2!=nil)
         { h=help1->r_child->r_child;
           comparison_link(help1,help2);
-                
+
           if (h!=nil)
              if (h->r_child!=nil)
                { help2=h->r_child;
@@ -391,7 +391,7 @@ ph_item*  p_heap::twopass(ph_item* h)
           help2=help1;
           help1=help1->parent;
          }
-        
+
  // h points now again to the very first element
 
  return h;
@@ -403,18 +403,18 @@ ph_item*  p_heap::twopass(ph_item* h)
 ph_item* p_heap::multipass(ph_item* h)
 {
           // now pass 1 (multi times) : left to right comparison link (successive pairs of root nodes)
-       ph_item* save=h;      
+       ph_item* save=h;
        ph_item* help1,*help2;
 
        while(h->r_child!=nil)
        { save=h;
          help1=h;
          help2=h->r_child;
-        
+
          while (help2!=nil)      // there are 2 ore more elements left
          { save=help1->r_child->r_child; // use of save as a helper
            comparison_link(help1,help2);
-                
+
            if (save!=nil)       // first case comp _link
              if (save->r_child!=nil)
                 { // second case

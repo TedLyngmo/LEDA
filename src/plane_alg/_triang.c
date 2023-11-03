@@ -5,9 +5,9 @@
 +  _triang.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/plane_alg.h>
@@ -16,7 +16,7 @@ typedef point  POINT;
 
 
 void TRIANGULATE_POINTS(list<POINT> L, GRAPH<POINT,edge>& G)
-{ 
+{
   L.sort();  // sort pointss lexicographically
 
   // eliminate multiple points
@@ -48,7 +48,7 @@ void TRIANGULATE_POINTS(list<POINT> L, GRAPH<POINT,edge>& G)
   // scan remaining points
 
   POINT p;
-  forall(p,L) 
+  forall(p,L)
   {
     node  v = G.new_node(p);
 
@@ -62,8 +62,8 @@ void TRIANGULATE_POINTS(list<POINT> L, GRAPH<POINT,edge>& G)
     while (left_turn(p,G[target(low)],G[source(low)]))
          low = G[G.cyclic_adj_pred(low)];
 
-    // triangulate 
-    edge e = up; 
+    // triangulate
+    edge e = up;
     do { edge next = G[G.cyclic_adj_pred(e)];
          edge x = G.new_edge(v,source(e),nil);
          G[x] = G.new_edge(e,v,x,before);

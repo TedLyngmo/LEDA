@@ -5,9 +5,9 @@
 +  slist.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_SLIST_H
@@ -31,8 +31,8 @@ denote the contents of list item $i$ in $L$.}*/
 
 
 
-void print_el(GenPtr& x,ostream& out) const { LEDA_PRINT(E,x,out);  }
-void read_el(GenPtr& x,istream& in)   const { E X; Read(X,in); x = Copy(X); }
+void print_el(GenPtr& x,std::ostream& out) const { LEDA_PRINT(E,x,out);  }
+void read_el(GenPtr& x,std::istream& in)   const { E X; Read(X,in); x = Copy(X); }
 void clear_el(GenPtr& x)              const { LEDA_CLEAR(E,x); }
 void copy_el(GenPtr& x)               const { LEDA_COPY(E,x); }
 
@@ -42,11 +42,11 @@ public:
 
 
 /*{\Mcreation L }*/
- 
+
 slist() {}
 /*{\Mcreate creates  an instance \var\ of type \name\ and initializes it to
             the empty list.}*/
- 
+
 slist(E x) : SLIST(Convert(x)) { }
 /*{\Mcreate creates  an instance \var\ of type \name\ and initializes it to
             the one-element list $\<x\>$. }*/
@@ -55,7 +55,7 @@ slist(E x) : SLIST(Convert(x)) { }
 ~slist() {}
  slist<E>& operator=(const slist<E>& a) { SLIST::operator=(a);  return *this; }
 
- 
+
 
 /*{\Moperations 2 5 }*/
 
@@ -105,7 +105,7 @@ E  tail() const { return LEDA_ACCESS(E,SLIST::tail()); }
 
 slist_item push(E x)   { return SLIST::push(Copy(x));}
 /*{\Mop      adds a new item $\<x\>$ at the front of $L$ and returns it. }*/
- 
+
 slist_item append(E x) { return SLIST::append(Copy(x));}
 /*{\Mop      appends a new item $\<x\>$ to $L$ and returns it. }*/
 
@@ -115,9 +115,9 @@ slist_item insert(E x, slist_item it) { return SLIST::insert(Copy(x),it); }
 	     \precond $it$ is an item in $L$.}*/
 
 
-E pop() { GenPtr x=SLIST::pop(); 
-          E   y=LEDA_ACCESS(E,x); 
-          Clear(LEDA_ACCESS(E,x)); 
+E pop() { GenPtr x=SLIST::pop();
+          E   y=LEDA_ACCESS(E,x);
+          Clear(LEDA_ACCESS(E,x));
           return y; }
 /*{\Mop      deletes the first item from $L$ and returns its
              contents. \\

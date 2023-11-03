@@ -23,7 +23,7 @@ GRAPH<int,int> shortest_path_tree(GRAPH<int,int>& G, edge_array<int>& cost)
 
 
 
-main()
+int main()
 
 { GRAPH<int,int> G;
 
@@ -45,15 +45,15 @@ main()
 
 
   G.print("graph G");
-  newline; 
+  newline;
 
   S.print("subgraph S");
-  newline; 
+  newline;
 
 
   edge_array<int> cost1(S);
 
-  forall_edges(e,S) cost1[e] = S[e];  
+  forall_edges(e,S) cost1[e] = S[e];
 
   GRAPH<int,int> S1 = shortest_path_tree(S,cost1);
 

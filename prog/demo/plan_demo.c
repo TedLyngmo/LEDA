@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include <LEDA/graph.h>
 #include <LEDA/graph_alg.h>
 #include <LEDA/window.h>
@@ -27,7 +27,7 @@ void grid_embedding(GRAPH<point,int>& G, int c0, int c1)
     i++;
    }
 }
-  
+
 
 void random_embedding(GRAPH<point,int>& G, int c0, int c1)
 { int n = G.number_of_nodes();
@@ -39,7 +39,7 @@ void random_embedding(GRAPH<point,int>& G, int c0, int c1)
     G[v] = point(x,y);
    }
 }
-  
+
 
 void draw_graph(const GRAPH<point,int>& G, window& W, bool numbering=false)
 { node v;
@@ -57,7 +57,7 @@ void draw_graph(const GRAPH<point,int>& G, window& W, bool numbering=false)
 }
 
 
-void draw_graph(const GRAPH<point,int>& G, window& W, 
+void draw_graph(const GRAPH<point,int>& G, window& W,
                 const node_array<double>& xc, const node_array<double>& yc,
                 const node_array<double>& dx, const node_array<double>& dy)
 { node v;
@@ -72,7 +72,7 @@ void draw_graph(const GRAPH<point,int>& G, window& W,
    }
 }
 
-void draw_graph(const GRAPH<point,int>& G, window& W, 
+void draw_graph(const GRAPH<point,int>& G, window& W,
                 const node_array<double>& xc, const node_array<double>& yc)
 { node v;
 
@@ -89,7 +89,7 @@ void draw_graph(const GRAPH<point,int>& G, window& W,
 
 
 
-void move_graph_x11(window& W, GRAPH<point,int>& G, 
+void move_graph_x11(window& W, GRAPH<point,int>& G,
                     node_array<double>& xc,
                     node_array<double>& yc, int speed)
 {
@@ -105,7 +105,7 @@ void move_graph_x11(window& W, GRAPH<point,int>& G,
 
 
   node v;
-  forall_nodes(v,G) 
+  forall_nodes(v,G)
   { dx[v] = (xc[v] - G[v].xcoord())/d;
     dy[v] = (yc[v] - G[v].ycoord())/d;
     xc[v] = G[v].xcoord();
@@ -115,7 +115,7 @@ void move_graph_x11(window& W, GRAPH<point,int>& G,
   while(d--)
   { draw_graph(G,W,xc,yc,dx,dy);
     draw_graph(G,W,xc,yc);
-    forall_nodes(v,G) 
+    forall_nodes(v,G)
     { xc[v] += dx[v];
       yc[v] += dy[v];
      }
@@ -126,7 +126,7 @@ void move_graph_x11(window& W, GRAPH<point,int>& G,
 }
 
 
-void move_graph_os2(window& W, GRAPH<point,int>& G, 
+void move_graph_os2(window& W, GRAPH<point,int>& G,
                     node_array<double>& xc,
                     node_array<double>& yc, int speed)
 {
@@ -135,7 +135,7 @@ void move_graph_os2(window& W, GRAPH<point,int>& G,
   int d = 200/speed;
 
   node v;
-  forall_nodes(v,G) 
+  forall_nodes(v,G)
   { dx[v] = (xc[v] - G[v].xcoord())/d;
     dy[v] = (yc[v] - G[v].ycoord())/d;
     xc[v] = G[v].xcoord();
@@ -147,7 +147,7 @@ void move_graph_os2(window& W, GRAPH<point,int>& G,
     W.clear();
     draw_graph(G,W,xc,yc,dx,dy);
     W.end_batch();
-    forall_nodes(v,G) 
+    forall_nodes(v,G)
     { xc[v] += dx[v];
       yc[v] += dy[v];
      }
@@ -155,7 +155,7 @@ void move_graph_os2(window& W, GRAPH<point,int>& G,
 
 }
 
-void move_graph(window& W, GRAPH<point,int>& G, 
+void move_graph(window& W, GRAPH<point,int>& G,
                 node_array<double>& xc,
                 node_array<double>& yc, int speed)
 {
@@ -169,7 +169,7 @@ void move_graph(window& W, GRAPH<point,int>& G,
  }
 
 
-main()
+int main()
 {
 
 panel P("LEDA Planarity Test Demo");
@@ -226,7 +226,7 @@ P1.button("triang");
 P1.button("edit");
 P1.button("quit");
 
-for(;;) 
+for(;;)
 {
   int inp = P1.open(W);
 
@@ -242,12 +242,12 @@ for(;;)
   case 0: { random_graph(G,n,m);
             eliminate_parallel_edges(G);
             list<edge> Del;
-            forall_edges(e,G) 
+            forall_edges(e,G)
                if (source(e)==target(e)) Del.append(e);
             forall(e,Del) G.del_edge(e);
             break;
            }
-  
+
   case 1:  random_planar_graph(G,n);
            break;
 
@@ -257,9 +257,9 @@ for(;;)
   case 3:  W.set_node_width(10);
            graph_edit(W,G,false);
            break;
-  
+
    }
-  
+
    if (inp != 3)
    { if (init_embed == 0) random_embedding(G,0,850);
      if (init_embed == 1) grid_embedding(G,0,850);
@@ -268,41 +268,41 @@ for(;;)
     }
 
 
-  
+
   if (PLANAR(G,false))
-  { 
+  {
     if(G.number_of_nodes()<4)
         W.message("That's an insult: Every graph with |V| <= 4 is planar");
     else
-      { 
+      {
         W.message("G is planar. I compute a straight-line embedding ...");
 
         // first make graph bi-directed and bi-connected
 
-        edge_array<edge> rev(G); 
+        edge_array<edge> rev(G);
         list<edge> single;
-        edge e; 
+        edge e;
 
         // collect all "singles" and give each of them a "partner"
 
         Is_Bidirected(G,rev);
-        
+
         forall_edges(e,G)
              if (rev[e] == nil)  single.append(e);
-  
-        forall(e,single) 
+
+        forall(e,single)
              rev[e] = G.new_edge(target(e),source(e));
 
         list<edge> bi_edges = make_biconnected_graph(G);
 
         PLANAR(G,true);
-  
+
         node_array<int> xcoord(G);
         node_array<int> ycoord(G);
 
         float fx = 900.0/G.number_of_nodes();
         float fy = fx;
-  
+
         if (final_embed == 0)
           { STRAIGHT_LINE_EMBEDDING(G,xcoord,ycoord);
             fx /= 2;
@@ -317,7 +317,7 @@ for(;;)
         node_array<double> yc(G);
 
 
-         forall_nodes(v,G) 
+         forall_nodes(v,G)
          { xc[v] = fx*xcoord[v];
            yc[v] = fy*ycoord[v];
           }
@@ -335,7 +335,7 @@ for(;;)
       }
    }
   else
-    { 
+    {
       W.message("Graph is not planar. I compute the Kuratowski subgraph ...");
 
       list<edge> L;
@@ -353,8 +353,8 @@ for(;;)
 
       list<edge> el = G.all_edges();
 
-      forall(e,el) 
-        if (!marked[e]) 
+      forall(e,el)
+        if (!marked[e])
           { //W.draw_edge(G[source(e)],G[target(e)],yellow);
             G.del_edge(e);
            }
@@ -364,7 +364,7 @@ for(;;)
       forall_edges(e,G) W.draw_edge(G[source(e)],G[target(e)]);
 
       node v;
-      forall_nodes(v,G) if (G.degree(v) == 3) break; 
+      forall_nodes(v,G) if (G.degree(v) == 3) break;
 
       if (G.degree(v) == 3)
         forall_inout_edges(e,v)
@@ -372,20 +372,20 @@ for(;;)
           node w = G.opposite(v,e);
           while (G.degree(w) == 2)
           { edge x,y;
-            forall_inout_edges(x,w) 
+            forall_inout_edges(x,w)
                if (marked[x]) y=x;
              marked[y] = false;
              w = G.opposite(w,y);
            }
           side[w] = 1;
          }
-        
+
 
       int i = 1;
       int j = 4;
 
-      forall_nodes(v,G) 
-      { 
+      forall_nodes(v,G)
+      {
         if (G.degree(v)==2) W.draw_filled_node(G[v],black);
 
         if (G.degree(v) > 2)

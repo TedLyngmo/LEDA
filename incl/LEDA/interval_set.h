@@ -5,9 +5,9 @@
 +  interval_set.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_INTERVAL_SET_H
@@ -59,7 +59,7 @@ public:
 /*{\Mcreation S }*/
 
 interval_set()  {}
-/*{\Mcreate creates an instance \var\ of type \name\ and initializes \var\ 
+/*{\Mcreate creates an instance \var\ of type \name\ and initializes \var\
             to the empty set.}*/
 
 ~interval_set()  {}
@@ -81,19 +81,19 @@ I   inf(is_item it)  { return LEDA_ACCESS(I,Interval_Set::inf(it)); }
 
 is_item insert(double x, double y, I i)
                       { return Interval_Set::insert(x,y,Copy(i)); }
-/*{\Mopl     associates the information $i$ with interval 
+/*{\Mopl     associates the information $i$ with interval
 	     $[x,y]$. If there is an item $\<x,y,j\>$ in \var
 	     then $j$ is replaced by $i$, else a new item
 	     $\<x,y,i\>$ is added to $S$. In both cases
 	     the item is returned.}*/
 
 is_item lookup(double x, double y) {return Interval_Set::lookup(x,y);}
-/*{\Mop      returns the item with interval $[x,y]$ 
+/*{\Mop      returns the item with interval $[x,y]$
 	     (nil if no such item exists in \var).}*/
 
 list<is_item>  intersection(double a, double b)
                          { return Interval_Set::intersection(a,b); }
-/*{\Mopl     returns all items $\<x,y,i\>\ \in\ S$ with 
+/*{\Mopl     returns all items $\<x,y,i\>\ \in\ S$ with
 	     $[x,y] \cap [a,b] \neq \emptyset$.}*/
 
 void del(double x, double y) {Interval_Set::del(x,y);}
@@ -126,7 +126,7 @@ Interval sets are implemented by two-dimensional range trees \cite{Wi85,Lu78}.
 Operations insert, lookup, del\_item and del take time $O(\log^2 n)$,
 intersection takes time $O(k + \log^2 n)$, where $k$ is the size
 of the returned list. Operations left, right, inf, empty, and size
-take time $O(1)$, and clear $O(n\log n)$. Here $n$ is always the 
+take time $O(1)$, and clear $O(n\log n)$. Here $n$ is always the
 current size of the interval set. The space requirement is $O(n\log n)$.}*/
 
 #endif

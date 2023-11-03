@@ -14,7 +14,7 @@ void  show_face(subdivision<segment>& G, face f, window& W)
 }
 
 
-main()
+int main()
 {
 
   window W;
@@ -28,7 +28,7 @@ main()
   W.message("terminate the input by clicking the right button. Now");
   W.message("you can input query points with the left button. For ");
   W.message("each point p the face of the arrangment containing p ");
-  W.message("is computed and displayed. Terminate the program by  "); 
+  W.message("is computed and displayed. Terminate the program by  ");
   W.message("pressing the right mouse key.                        ");
   W.message("                                                     ");
   W.message("Click any button to start.                           ");
@@ -58,11 +58,11 @@ main()
 
   line L;
 
-  while ( W >> L ) 
+  while ( W >> L )
   {  W << L;
-     if (L.vertical()) 
+     if (L.vertical())
         seglist.append(segment(L.x_proj(y0),y0,L.x_proj(y1),y1));
-     else 
+     else
         seglist.append(segment(x0,L.y_proj(x0),x1,L.y_proj(x1)));
    }
 
@@ -93,7 +93,7 @@ main()
 
   subdivision<segment> S(G);
 
-  W.clear(); 
+  W.clear();
   W.set_line_width(2);
 
   forall_edges(e,G)

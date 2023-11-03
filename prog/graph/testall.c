@@ -2,11 +2,11 @@
 #include <LEDA/ugraph.h>
 #include <LEDA/graph_alg.h>
 
-#include <ctype.h>
+#include <cctype>
 
 
 
-main()
+int main()
 {
   GRAPH<string,double> G;
 
@@ -46,90 +46,90 @@ main()
 
 
 
-  cout << "TOPSORT:\n";
-  if (TOPSORT(G,ord)) 
-     cout << "graph is acyclic\n";
-  else 
-     cout << "graph is cyclic\n";
+  std::cout << "TOPSORT:\n";
+  if (TOPSORT(G,ord))
+     std::cout << "graph is acyclic\n";
+  else
+     std::cout << "graph is cyclic\n";
   newline;
 
   newline;
-  cout << "DFS:\n";
+  std::cout << "DFS:\n";
   newline;
   nl = DFS(G,G.choose_node(),reached);
-  cout << "DFS:\n";
+  std::cout << "DFS:\n";
   forall(v,nl) { G.print_node(v); newline; }
   newline;
 
   newline;
-  cout << "DFS_NUM:\n";
+  std::cout << "DFS_NUM:\n";
   DFS_NUM(G,dfs_num,comp_num);
-  forall_nodes(v,G) 
+  forall_nodes(v,G)
   { G.print_node(v);
-    cout << string("  dfsnum = %2d  compnum = %2d \n",dfs_num[v],comp_num[v]);
+    std::cout << string("  dfsnum = %2d  compnum = %2d \n",dfs_num[v],comp_num[v]);
    }
   newline;
 
   newline;
-  cout << "BFS:\n";
+  std::cout << "BFS:\n";
   nl = BFS(G,G.first_node(),layer);
   forall_nodes(v,G)
   { G.print_node(v);
-    cout << string("  layer = %2d\n",layer[v]);
+    std::cout << string("  layer = %2d\n",layer[v]);
    }
   newline;
 
 
   newline;
-  cout << "COMPONENTS:\n";
+  std::cout << "COMPONENTS:\n";
   COMPONENTS(G,compnum);
   forall_nodes(v,G)
   { G.print_node(v);
-    cout << string("  compnum = %2d \n",compnum[v]);
+    std::cout << string("  compnum = %2d \n",compnum[v]);
    }
   newline;
 
   newline;
-  cout << "COMPONENTS1:\n";
+  std::cout << "COMPONENTS1:\n";
   COMPONENTS1(G,compnum);
   forall_nodes(v,G)
   { G.print_node(v);
-    cout << string("  compnum = %2d \n",compnum[v]);
+    std::cout << string("  compnum = %2d \n",compnum[v]);
    }
   newline;
 
 
   newline;
-  cout << "TRANSITIVE_CLOSURE:\n";
+  std::cout << "TRANSITIVE_CLOSURE:\n";
   graph G1 = TRANSITIVE_CLOSURE(G);
   G1.print("Graph G1 = transitive closure of G");
   newline;
 
 
   newline;
-  cout << "SPANNING_TREE: \n";
+  std::cout << "SPANNING_TREE: \n";
   el = SPANNING_TREE(G);
-  forall(e,el) 
+  forall(e,el)
     { G.print_edge(e);;
       newline;
      }
   newline;
 
 
-  cout << "MIN_SPANNING_TREE: \n";
+  std::cout << "MIN_SPANNING_TREE: \n";
   el = MIN_SPANNING_TREE(G,cost);
-  forall(e,el) 
+  forall(e,el)
   { G.print_edge(e);;
     newline;
    }
 
 
   newline;
-  cout << "STRONG_COMPONENTS:\n";
+  std::cout << "STRONG_COMPONENTS:\n";
   STRONG_COMPONENTS(G,compnum);
-  forall_nodes(v,G) 
+  forall_nodes(v,G)
   { G.print_node(v);
-    cout << string("  compnum = %d\n",compnum[v]);
+    std::cout << string("  compnum = %d\n",compnum[v]);
    }
   newline;
 
@@ -139,35 +139,35 @@ main()
   float T = used_time();
 
   newline;
-  cout << "DIJKSTRA <int>      ";
-  cout.flush();
+  std::cout << "DIJKSTRA <int>      ";
+  std::cout.flush();
   DIJKSTRA(G,s,cost,dist,pred);
-  cout << string("%6.2f sec  \n",used_time(T));
+  std::cout << string("%6.2f sec  \n",used_time(T));
   newline;
 
-  cout << "BELLMAN_FORD <int>  ";
-  cout.flush();
+  std::cout << "BELLMAN_FORD <int>  ";
+  std::cout.flush();
   BELLMAN_FORD(G,s,cost,dist,pred);
-  cout << string("%6.2f sec  \n",used_time(T));
+  std::cout << string("%6.2f sec  \n",used_time(T));
   newline;
 
-  cout << "ALL PAIRS SHORTEST PATHS <int> ";
-  cout.flush();
+  std::cout << "ALL PAIRS SHORTEST PATHS <int> ";
+  std::cout.flush();
   ALL_PAIRS_SHORTEST_PATHS(G,cost,M);
-  cout << string("%.2f sec\n",used_time(T));
+  std::cout << string("%.2f sec\n",used_time(T));
   forall_nodes(v,G)
-  { forall_nodes(w,G) cout << string("%7d ",M(v,w));
+  { forall_nodes(w,G) std::cout << string("%7d ",M(v,w));
     newline;
    }
   newline;
 
 
-  cout << "MAX_FLOW<int>:  ";
-  cout.flush();
+  std::cout << "MAX_FLOW<int>:  ";
+  std::cout.flush();
   s = G.first_node();
   t = G.last_node();
   int val = MAX_FLOW(G,s,t,cost,flow) ;
-  cout << string("total flow = %d \n",val);
+  std::cout << string("total flow = %d \n",val);
   newline;
 
 
@@ -182,48 +182,48 @@ main()
 
 
   used_time(T);
-  cout << "DIJKSTRA <double>     ";
-  cout.flush();
+  std::cout << "DIJKSTRA <double>     ";
+  std::cout.flush();
   DIJKSTRA(G,s,cost1,dist1,pred);
-  cout << string("%6.2f sec  \n",used_time(T));
+  std::cout << string("%6.2f sec  \n",used_time(T));
   newline;
 
 
-  cout << "BELLMAN_FORD <double> ";
-  cout.flush();
+  std::cout << "BELLMAN_FORD <double> ";
+  std::cout.flush();
   BELLMAN_FORD(G,s,cost1,dist1,pred);
-  cout << string("%6.2f sec  \n",used_time(T));
+  std::cout << string("%6.2f sec  \n",used_time(T));
   newline;
 
 
-  cout << "ALL PAIRS SHORTEST PATHS <double>  ";
-  cout.flush();
+  std::cout << "ALL PAIRS SHORTEST PATHS <double>  ";
+  std::cout.flush();
   ALL_PAIRS_SHORTEST_PATHS(G,cost1,M1);
-  cout << string("%.2f sec\n",used_time(T));
+  std::cout << string("%.2f sec\n",used_time(T));
   newline;
 
-  cout << "MAX_FLOW<double>: ";
-  cout.flush();
+  std::cout << "MAX_FLOW<double>: ";
+  std::cout.flush();
   double val1 = MAX_FLOW(G,s,t,cost1,flow1) ;
-  cout << string("total flow = %f \n",val1);
+  std::cout << string("total flow = %f \n",val1);
   newline;
 
 
 /*
-  if (PLANAR(G)) 
-    { cout << "G is planar\n";
+  if (PLANAR(G))
+    { std::cout << "G is planar\n";
       //cout << "STRAIGHT_LINE_EMBEDDING: \n";
       //node_array<int>   xcoord(G);
       //node_array<int>   ycoord(G);
       //STRAIGHT_LINE_EMBEDDING(G,xcoord,ycoord);
-      //forall_nodes(v,G) 
+      //forall_nodes(v,G)
       //{ G.print_node(v);
-      //  cout << string("  x = %3d   y = %3d\n",xcoord[v],ycoord[v]);
+      //  std::cout << string("  x = %3d   y = %3d\n",xcoord[v],ycoord[v]);
       // }
       // newline;
      }
-  else 
-    cout << "G is not planar\n";
+  else
+    std::cout << "G is not planar\n";
 */
 
   newline;

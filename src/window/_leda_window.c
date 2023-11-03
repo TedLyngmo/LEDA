@@ -5,9 +5,9 @@
 +  _leda_window.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -17,11 +17,12 @@
 #include <LEDA/leda_window.h>
 #include <LEDA/impl/x_basic.h>
 
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstdio>
+#include <cstring>
+#include <cctype>
+#include <cstdlib>
+#include <cmath>
+#include <fstream>
 
 
 inline double HyPot(double x, double y) { return sqrt(x*x + y*y); }
@@ -38,28 +39,28 @@ void LEDA_WINDOW::set_palette(int c, int r, int g, int b)
 
 void LEDA_WINDOW::flush() { flush_display(); }
 
-void LEDA_WINDOW::set_frame_label(const char* label) 
+void LEDA_WINDOW::set_frame_label(const char* label)
 { ::set_header(draw_win,label); }
 
-int LEDA_WINDOW::load_text_font(const char* fname) 
+int LEDA_WINDOW::load_text_font(const char* fname)
 { return ::load_text_font(fname); }
 
-int LEDA_WINDOW::load_bold_font(const char* fname) 
+int LEDA_WINDOW::load_bold_font(const char* fname)
 { return ::load_bold_font(fname); }
 
-int LEDA_WINDOW::load_message_font(const char* fname) 
+int LEDA_WINDOW::load_message_font(const char* fname)
 { return ::load_message_font(fname); }
 
-int LEDA_WINDOW::set_font(const char* fname) 
+int LEDA_WINDOW::set_font(const char* fname)
 { return ::set_font(fname); }
 
-void LEDA_WINDOW::reset_frame_label() 
+void LEDA_WINDOW::reset_frame_label()
 { ::set_header(draw_win,default_frame_label); }
 
-void LEDA_WINDOW::set_grid_mode(int i) 
+void LEDA_WINDOW::set_grid_mode(int i)
 { if (i != grid_mode) init(xmin(),xmax(),ymin(),i); }
 
-drawing_mode LEDA_WINDOW::set_mode(drawing_mode m) 
+drawing_mode LEDA_WINDOW::set_mode(drawing_mode m)
 { drawing_mode save = drawing_mo;
   drawing_mo = m;
   ::set_mode(m);
@@ -138,7 +139,7 @@ int LEDA_WINDOW::event_handler(LEDA_WINDOW*& w, int blocking)
      e = check_next_event(&win, &val, &x, &y, &t);
 
   int i = 0;
-  while(i<count && window_list[i]->draw_win != win) i++; 
+  while(i<count && window_list[i]->draw_win != win) i++;
 
   if (i >= count)  return no_event;
 
@@ -151,7 +152,7 @@ int LEDA_WINDOW::event_handler(LEDA_WINDOW*& w, int blocking)
   case configure_event:
        { if (w->xdots != x || w->ydots != y)
            w->configure(w->min_xcoord,w->max_xcoord,w->min_ycoord,w->grid_mode);
-         break; 
+         break;
         }
 
   case button_press_event:
@@ -177,7 +178,7 @@ int LEDA_WINDOW::event_handler(LEDA_WINDOW*& w, int blocking)
 
          w->mouse_xreal =  w->min_xcoord + ((double)w->mouse_xpix)/w->scaling;
          w->mouse_yreal =  w->max_ycoord - ((double)w->mouse_ypix)/w->scaling;
-        
+
          if (blocking)
          { if (w->grid_mode)
            { int g = w->grid_mode;
@@ -187,18 +188,18 @@ int LEDA_WINDOW::event_handler(LEDA_WINDOW*& w, int blocking)
              w->mouse_ypix  = w->ypix(w->mouse_yreal);
              w->cursor();
             }
-     
+
            if (w->show_coord && blocking)
            { sprintf(s,"%8.2f %8.2f\0", w->mouse_xreal,w->mouse_yreal);
              show_coordinates(win,s);
             }
-          
+
            if (w->mouse_action && w == read_window) /* user defined action */
            { w->mouse_action(w->mouse_last_xreal,w->mouse_last_yreal);
              w->mouse_action(w->mouse_xreal,w->mouse_yreal);
             }
           }
-      
+
          w->mouse_last_xreal = w->mouse_xreal;
          w->mouse_last_yreal = w->mouse_yreal;
 
@@ -209,8 +210,8 @@ int LEDA_WINDOW::event_handler(LEDA_WINDOW*& w, int blocking)
 
 
 int LEDA_WINDOW::read_mouse(int kind, double xstart, double ystart, double &x, double &y)
-{ 
-  // 0: point, 1: segment, 2:rectangle, 3: circle 
+{
+  // 0: point, 1: segment, 2:rectangle, 3: circle
 
   switch(kind) {
   case  0: return read_mouse_action(mouse_default_action,xstart,ystart,x,y);
@@ -229,7 +230,7 @@ int LEDA_WINDOW::get_button(double &x, double &y)
   set_read_gc();
   LEDA_WINDOW* w;
   int e = event_handler(w,0);
-  while (e != no_event && e != button_press_event && w != this) 
+  while (e != no_event && e != button_press_event && w != this)
       e = event_handler(w,0);
   reset_gc();
   set_mode(s);
@@ -289,13 +290,13 @@ int LEDA_WINDOW::read_mouse_action(mouse_action_func_ptr action, double xstart, 
 }
 
 
-void LEDA_WINDOW::close() 
+void LEDA_WINDOW::close()
 { if (draw_win)
   { int i = 0;
     while (window_list[i] != this) i++;
     count--;
     window_list[i] = window_list[count];
-    close_window(draw_win); 
+    close_window(draw_win);
     draw_win = 0;
     if (active_window == this) active_window = 0;
    }
@@ -303,7 +304,7 @@ void LEDA_WINDOW::close()
 
 
 
-LEDA_WINDOW::LEDA_WINDOW(float width, float height, float xpos, float ypos, 
+LEDA_WINDOW::LEDA_WINDOW(float width, float height, float xpos, float ypos,
                                                       const char *frame_label)
 { ref_count = 1;
   state = 1;
@@ -316,7 +317,7 @@ LEDA_WINDOW::LEDA_WINDOW(float width, float height, const char* frame_label)
 { ref_count = 1;
   state = 1;
   draw_win = 0;
-  open(int(width),int(height),-3,-1,frame_label); 
+  open(int(width),int(height),-3,-1,frame_label);
  }
 
 LEDA_WINDOW::LEDA_WINDOW(const char* frame_label)
@@ -343,9 +344,9 @@ LEDA_WINDOW::LEDA_WINDOW(const LEDA_WINDOW& w)
   draw_win = w.draw_win;
  }
 
-LEDA_WINDOW::~LEDA_WINDOW() 
+LEDA_WINDOW::~LEDA_WINDOW()
 { if (--ref_count == 0) close();
-  if (count==0) close_display(); 
+  if (count==0) close_display();
  }
 
 
@@ -361,7 +362,7 @@ LEDA_WINDOW& LEDA_WINDOW::operator=(const LEDA_WINDOW& w)
 
 
 
-void LEDA_WINDOW::open(int w_width, int w_height, int w_xpos, int w_ypos, 
+void LEDA_WINDOW::open(int w_width, int w_height, int w_xpos, int w_ypos,
                        const char *frame_label, int bg_col)
 {
   if (draw_win) return;
@@ -448,7 +449,7 @@ void LEDA_WINDOW::configure(double x0, double x1, double y0, int g_mode)
 
   if ((grid_mode) && (grid_mode*scaling < 2))
   { // at least grid distance of 2 pixels
-    grid_mode=0; 
+    grid_mode=0;
     fprintf(stderr,"warning: grid distance to small.\n");
    }
 
@@ -547,7 +548,7 @@ void LEDA_WINDOW::draw_filled_node(double x0, double y0, int col)
 { double R = node_width/scaling;
   if (depth==1 && col!=white) col = black;
   draw_filled_circle(x0,y0,R,col);
-  if (col != black) 
+  if (col != black)
   { int save = set_line_width(1);
     draw_circle(x0,y0,R,col);
     draw_circle(x0,y0,R,black);
@@ -562,10 +563,10 @@ void LEDA_WINDOW::draw_text_node(double x0, double y0, char *s, int col)
 
   if (depth==1 && col!=black) col = white;
   draw_filled_node(x0,y0,col);
-  
+
   draw_ctext(x0,y0,s,col);
 
-  if (col == black) 
+  if (col == black)
      draw_ctext(x0,y0,s,white);
   else
      draw_ctext(x0,y0,s,black);
@@ -663,13 +664,13 @@ void LEDA_WINDOW::plot_xy(double x0, double x1, double (*f) (double), int col)
   for(x = xpix(x0)+1; x <= xpix(x1); x++)
   { y_new = ypix((*f)(xreal(x)));
     if (y_new > y_old)
-      for(i=y_old; i<=y_new; i++) 
+      for(i=y_old; i<=y_new; i++)
       { xcoord[n] = x;
         ycoord[n] = i;
         n++;
        }
     else
-      for(i=y_old; i>=y_new; i--) 
+      for(i=y_old; i>=y_new; i--)
       { xcoord[n] = x;
         ycoord[n] = i;
         n++;
@@ -678,7 +679,7 @@ void LEDA_WINDOW::plot_xy(double x0, double x1, double (*f) (double), int col)
   }
 
  pixels(draw_win,size,xcoord,ycoord);
- 
+
  free((char*)xcoord);
  free((char*)ycoord);
 
@@ -717,13 +718,13 @@ void LEDA_WINDOW::plot_yx(double y0, double y1, double (*f) (double), int col)
   {
     x_new = xpix((*f)(yreal(y)));
     if (x_new > x_old)
-      for(i=x_old; i<=x_new; i++) 
+      for(i=x_old; i<=x_new; i++)
       { xcoord[n] = i;
         ycoord[n] = y;
         n++;
        }
     else
-      for(i=x_old; i>=x_new; i--) 
+      for(i=x_old; i>=x_new; i--)
       { xcoord[n] = i;
         ycoord[n] = y;
         n++;
@@ -732,7 +733,7 @@ void LEDA_WINDOW::plot_yx(double y0, double y1, double (*f) (double), int col)
   }
 
  pixels(draw_win,size,xcoord,ycoord);
- 
+
  free((char*)xcoord);
  free((char*)xcoord);
 
@@ -923,13 +924,13 @@ int  LEDA_WINDOW::screen_width(void)  { return display_width(); }
 int  LEDA_WINDOW::screen_height(void) { return display_height(); }
 int  LEDA_WINDOW::screen_depth(void)  { return display_depth(); }
 
-void LEDA_WINDOW::mouse_default_action(double,double) 
+void LEDA_WINDOW::mouse_default_action(double,double)
 { /* do nothing */}
 
-void LEDA_WINDOW::mouse_segment_action(double x, double y) 
+void LEDA_WINDOW::mouse_segment_action(double x, double y)
 { double x0 = read_window->mouse_start_xreal;
   double y0 = read_window->mouse_start_yreal;
-  read_window->draw_segment(x0,y0,x,y,black); 
+  read_window->draw_segment(x0,y0,x,y,black);
  }
 
 void LEDA_WINDOW::mouse_rect_action(double x, double y)
@@ -944,12 +945,9 @@ void LEDA_WINDOW::mouse_circle_action(double x, double y)
   read_window->draw_circle(x0,y0,HyPot(x-x0,y-y0),black);
  }
 
-
-#include <fstream.h>
-
 char* Read_Leda_Bitmap(const char* fname, int& w, int& h)
 {
-  ifstream bitmap(fname);
+  std::ifstream bitmap(fname);
 
   unsigned char c1,c2;
 
@@ -970,7 +968,7 @@ char* Read_Leda_Bitmap(const char* fname, int& w, int& h)
   char* map = new char[n];
 
   int i = 0;
-  while(i<n && bitmap) 
+  while(i<n && bitmap)
   { char c;
     bitmap.get(c);
     if (c == char(0xff) || c == char(0x00))
@@ -978,7 +976,7 @@ char* Read_Leda_Bitmap(const char* fname, int& w, int& h)
          bitmap.get(j);
          while (j--) map[i++] = c;
         }
-    else 
+    else
        map[i++] = c;
    }
 
@@ -991,7 +989,7 @@ int LEDA_WINDOW::read_mouse(LEDA_WINDOW*& w, double& x, double& y)
 { set_read_gc();
   int e = LEDA_WINDOW::event_handler(w,1);
   reset_gc();
-  while (e != button_press_event && e != key_press_event) 
+  while (e != button_press_event && e != key_press_event)
   { set_read_gc();
     e = LEDA_WINDOW::event_handler(w,1);
     reset_gc();
@@ -1008,7 +1006,7 @@ LEDA_WINDOW* get_active_window()
   set_read_gc();
   int e = LEDA_WINDOW::event_handler(w,1);
   reset_gc();
-  while (e != button_press_event && e != key_press_event) 
+  while (e != button_press_event && e != key_press_event)
   { set_read_gc();
     e = LEDA_WINDOW::event_handler(w,1);
     reset_gc();

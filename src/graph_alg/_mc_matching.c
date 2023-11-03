@@ -5,19 +5,19 @@
 +  _mc_matching.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 /*******************************************************************************
 *
 *  MAX_CARD_MATCHING  (maximum cardinality matching)
 *
-*  An implementation of Edmonds' algorithm 
+*  An implementation of Edmonds' algorithm
 *
 *
-*  J. Edmonds:  Paths, trees, and flowers 
+*  J. Edmonds:  Paths, trees, and flowers
 *               Canad. J. Math., Vol. 17, 1965, 449-467
 *
 *  R.E. Tarjan: Data Structures and Network Algorithms,
@@ -51,7 +51,7 @@ static int greedy( graph &G, node_array<node>& mate )   // greedy heuristic
     { edge e;
       forall_adj_edges(e,v)
       { node w = target(e);
-        if (v != w && mate[w] == nil) 
+        if (v != w && mate[w] == nil)
         { mate[v] = w;
           mate[w] = v;
           count++;
@@ -72,7 +72,7 @@ static void heuristic( graph &G, node_array<node>& mate )
  // ("almost": discovery of a blossom {v,w,x,v} leads to a skip of the
  // edge (x,v), even if the base v stays unmatched - it's not worth while
  // to fix this problem)
- // if all adjacent nodes w of v are matched, try to find an other 
+ // if all adjacent nodes w of v are matched, try to find an other
  // partner for mate[x], and match v and w on success
 
   node u,v;
@@ -87,9 +87,9 @@ static void heuristic( graph &G, node_array<node>& mate )
     {
         while(e != nil && mate[target(e)]!=nil) e = G.adj_succ(e);
 
-        if( e != nil ) 
-          { mate[v] = target(e);  
-            mate[target(e)] = v ;  
+        if( e != nil )
+          { mate[v] = target(e);
+            mate[target(e)] = v ;
            }
         else // second pass
           {
@@ -99,12 +99,12 @@ static void heuristic( graph &G, node_array<node>& mate )
             {
               node w = target(e);
               node x = mate[w];
-    
-              if( ! all_matched[x] ) 
+
+              if( ! all_matched[x] )
               {
                 while((found=G.next_adj_node(u,x)) && (u==v || mate[u]!=nil));
-    
-                if( found ) 
+
+                if( found )
                   { mate[u] = x;  mate[x] = u ;
                     mate[v] = w;  mate[w] = v ;
                     G.init_adj_iterator(x);
@@ -115,7 +115,7 @@ static void heuristic( graph &G, node_array<node>& mate )
                }
              }
            }
-        } 
+        }
     }
 
 }
@@ -129,21 +129,21 @@ static void find_path(list<node>& L, node_array<int>&  label,
                                      node_array<edge>& bridge,
                                      node x, node y)
 {
-  /* computes an even length alternating path from x to y begining with a 
+  /* computes an even length alternating path from x to y begining with a
      matching edge (Tarjan: Data Structures and Network Algorithms, page 122)
-     Preconditions: 
+     Preconditions:
      a) x and y are even or shrinked
-     b) when x was made part of a blossom for the first time, y was a base 
+     b) when x was made part of a blossom for the first time, y was a base
         and predecessor of the base of that blossom
    */
 
- if (x==y) 
+ if (x==y)
  { // [ x ]
    L.append(x);
    return;
   }
 
- if (label[x] == EVEN) 
+ if (label[x] == EVEN)
  { // [ x --> mate[x] --> path(pred[mate[x]],y) ]
    find_path(L,label,pred,mate,bridge,pred[mate[x]],y);
    L.push(mate[x]);
@@ -151,7 +151,7 @@ static void find_path(list<node>& L, node_array<int>&  label,
    return;
  }
 
- if (label[x] == ODD) 
+ if (label[x] == ODD)
  { // [ x --> REV(path(source(bridge),mate[x])) --> path(target(bridge),y)) ]
    node v;
    list<node> L1;
@@ -167,7 +167,7 @@ static void find_path(list<node>& L, node_array<int>&  label,
 
 
 list<edge> MAX_CARD_MATCHING(graph& G, int heur)
-{ 
+{
 
 float T = used_time();
 
@@ -260,17 +260,17 @@ float T = used_time();
     node_partition base(G);    // now base(v) = v for all nodes v
 
     done = true;
-   
+
     forall_nodes(v,G)
     { pred[v] = nil;
-  
+
       if (mate[v] == nil)
-      { label[v] = EVEN; 
-        Q.append(v); 
+      { label[v] = EVEN;
+        Q.append(v);
        }
       else label[v] = UNREACHED;
     }
-  
+
     while (!Q.empty())    // search for augmenting path
     {
       node v = Q.pop();
@@ -282,7 +282,7 @@ float T = used_time();
 
         if (v == w) continue;    // ignore self-loops
 
-        if (base(v) == base(w) || (label[w] == ODD && base(w) == w)) 
+        if (base(v) == base(w) || (label[w] == ODD && base(w) == w))
         continue;   // do nothing
 
         if (label[w] == UNREACHED)
@@ -292,13 +292,13 @@ float T = used_time();
           Q.append(mate[w]);
          }
         else  // base(v) != base(w) && (label[w] == EVEN || base(w) !=w)
-        { 
+        {
           node hv = base(v);
           node hw = base(w);
-  
+
           strue++;
           path1[hv] = path2[hw] = strue;
-  
+
           while ((path1[hw] != strue && path2[hv] != strue) &&
                  (mate[hv] != nil || mate[hw] != nil) )
           {
@@ -306,36 +306,36 @@ float T = used_time();
             { hv = base(pred[mate[hv]]);
               path1[hv] = strue;
              }
-  
+
             if (mate[hw] != nil)
             { hw = base(pred[mate[hw]]);
               path2[hw] = strue;
              }
            }
-  
+
           if (path1[hw] == strue || path2[hv] == strue)  // Shrink Blossom
           { node x;
             node y;
             node b = (path1[hw] == strue) ? hw : hv;    // Base
 
 #if defined(REPORT_BLOSSOMS)
-  cout << "SHRINK BLOSSOM\n";
-  cout << "bridge = "; 
+  std::cout << "SHRINK BLOSSOM\n";
+  std::cout << "bridge = ";
   G.print_edge(e);
   newline;
-  cout << "base   = "; 
+  std::cout << "base   = ";
   G.print_node(b);
   newline;
-  cout << "path1  = ";
+  std::cout << "path1  = ";
 #endif
 
             x = base(v);
             while (x != b)
-            { 
+            {
 
 #if defined(REPORT_BLOSSOMS)
-  G.print_node(x); 
-  cout << " ";
+  G.print_node(x);
+  std::cout << " ";
 #endif
               base.union_blocks(x,b);
               base.make_rep(b);
@@ -343,8 +343,8 @@ float T = used_time();
               x = mate[x];
 
 #if defined(REPORT_BLOSSOMS)
-  G.print_node(x); 
-  cout << " ";
+  G.print_node(x);
+  std::cout << " ";
 #endif
               y = base(pred[x]);
               base.union_blocks(x,b);
@@ -359,16 +359,16 @@ float T = used_time();
 #if defined(REPORT_BLOSSOMS)
   G.print_node(b);
   newline;
-  cout << "path2  = ";
+  std::cout << "path2  = ";
 #endif
 
             x = base(w);
             while (x != b)
-            { 
+            {
 
 #if defined(REPORT_BLOSSOMS)
-  G.print_node(x); 
-  cout << " ";
+  G.print_node(x);
+  std::cout << " ";
 #endif
               base.union_blocks(x,b);
               base.make_rep(b);
@@ -376,8 +376,8 @@ float T = used_time();
               x = mate[x];
 
 #if defined(REPORT_BLOSSOMS)
-  G.print_node(x); 
-  cout << " ";
+  G.print_node(x);
+  std::cout << " ";
 #endif
               y = base(pred[x]);
 
@@ -428,9 +428,9 @@ float T = used_time();
            }
 
         } // base(v) != base(w) && (label[w] == EVEN || base(w) !=w)
-  
+
       } // for all adjacent edges
-  
+
     } // while Q not empty
 
   } // while not done
@@ -438,7 +438,7 @@ float T = used_time();
 
  // restore graph (only original edges in result!)
 
- forall(e,R) G.del_edge(e);  
+ forall(e,R) G.del_edge(e);
 
 
  list<edge> result;
@@ -449,17 +449,17 @@ float T = used_time();
     if (mate[v] != nil)
     { edge e;
       forall_adj_edges(e,v)
-        if (mate[target(e)] == v) 
+        if (mate[target(e)] == v)
         { result.append(e);
           break;
          }
      }
 */
 
- forall_edges(e,G) 
+ forall_edges(e,G)
  { node v = source(e);
    node w = target(e);
-   if ( v != w  &&  mate[v] == w ) 
+   if ( v != w  &&  mate[v] == w )
    { result.append(e);
      mate[v] = v;
      mate[w] = w;

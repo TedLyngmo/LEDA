@@ -5,10 +5,10 @@
 
 
 
-static  int segments_to_points(list<segment>& in, 
-                               list<point>& out, 
+static  int segments_to_points(list<segment>& in,
+                               list<point>& out,
                                d_array<point,segment>& D, double dist)
-{ 
+{
   int count = 0;
   segment s;
 
@@ -46,8 +46,8 @@ static  int segments_to_points(list<segment>& in,
 
 }
 
-static  int polygons_to_points(list<polygon>& in, 
-                              list<point>& out, 
+static  int polygons_to_points(list<polygon>& in,
+                              list<point>& out,
                               d_array<point,segment>& D, int pixdist)
 
 { polygon p;
@@ -63,10 +63,10 @@ static  int polygons_to_points(list<polygon>& in,
 
 /*
 
-static  int circles_to_points(list<circle>& in, 
-                              list<point>& out, 
+static  int circles_to_points(list<circle>& in,
+                              list<point>& out,
                               d_array<point,circle>& D, double dist)
-{ 
+{
   int count = 0;
   circle s;
 
@@ -96,9 +96,9 @@ static  int circles_to_points(list<circle>& in,
 
 
 
-void VORONOI_SEG(list<segment>& sites, double R,GRAPH<point,point>& G, 
+void VORONOI_SEG(list<segment>& sites, double R,GRAPH<point,point>& G,
                                                              int pixdist = 10)
-{ 
+{
   list<point> pl;
   d_array<point,segment> D;
 
@@ -113,7 +113,7 @@ void VORONOI_SEG(list<segment>& sites, double R,GRAPH<point,point>& G,
   edge e;
   point p;
 
-  forall_edges(e,G)  
+  forall_edges(e,G)
   { segment s = D[G[e]];
     if (s.intersection(segment(G[source(e)],G[target(e)]),p)) el.append(e);
    }
@@ -125,7 +125,7 @@ void VORONOI_SEG(list<segment>& sites, double R,GRAPH<point,point>& G,
 
 
 
-main()
+int main()
 {
 
  window W;
@@ -143,18 +143,18 @@ main()
   list<circle>  cl;
   list<polygon> Pl;
 
-  while ( W >> s ) 
+  while ( W >> s )
   { W << s;
     sl.append(s);
    }
 
 /*
-  while ( W >> c ) 
+  while ( W >> c )
   { W << c;
     cl.append(c);
    }
 
-  while ( W >> p ) 
+  while ( W >> p )
   { W << p;
     Pl.append(p);
    }
@@ -163,7 +163,7 @@ main()
 
   int n = 10;
 
-  cout << "Computing Voronoi diagram\n";
+  std::cout << "Computing Voronoi diagram\n";
   newline;
 
 
@@ -171,13 +171,13 @@ main()
 
     d_array<point,segment> D;
     d_array<point,circle> D2;
-  
+
     int count = segments_to_points(sl,pl,D,n/W.scale());
 
             //+ circles_to_points(cl,pl,D2,n)
             //+ polygons_to_points(Pl,pl,D,n);
 
-    cout << count << " points generated.\n";
+    std::cout << count << " points generated.\n";
     newline;
 
 
@@ -186,7 +186,7 @@ main()
     pl.append(point(5000,5000));
     pl.append(point(5000,-5000));
 
-  
+
     VORONOI(pl,R,G);
 
     edge e;
@@ -206,8 +206,8 @@ main()
     compute_correspondence(G,rev);
 
     edge_array<int> deleted(G,false);
-  
-    forall_edges(e,G)  
+
+    forall_edges(e,G)
      if (!deleted[e])
      { segment s = D[G[e]];
        segment t = segment(G[source(e)], G[target(e)]);
@@ -217,7 +217,7 @@ main()
 
     W.set_line_width(2);
 
-    forall_edges(e,G) 
+    forall_edges(e,G)
         if (!deleted[e]) W.draw_segment(G[source(e)], G[target(e)],blue);
 
     W.read_mouse();

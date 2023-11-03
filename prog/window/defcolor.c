@@ -23,7 +23,7 @@ void slider_blue(int x)
  }
 
 
-main()
+int main()
 {
 
    panel P("define back ground color");

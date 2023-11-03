@@ -9,7 +9,7 @@ void draw_vor_seg(double x1, double y1, double x2, double y2,double,double)
 { Wp->draw_segment(x1,y1,x2,y2,blue); }
 
 void draw_triang_seg(double x1, double y1, double x2, double y2)
-{ Wp->draw_segment(x1,y1,x2,y2,red); 
+{ Wp->draw_segment(x1,y1,x2,y2,red);
  }
 
 void infi_pt(double x1, double y1, double x2, double y2, double *x, double* y)
@@ -29,7 +29,7 @@ void draw_polygon(window& W, point_set<string>& S, list<ps_item>& P)
    }
  }
 
-main()
+int main()
 {
 
   window W;
@@ -70,18 +70,18 @@ main()
   int           button=0;
   bool          voro = false;
   ps_item       nearest_it=nil;
-  point         p; 
+  point         p;
   list<ps_item> Pol;
 
 
 
   while (button !=3 )
-  {  
+  {
      button =  W.read_mouse(x,y);
 
      if (nearest_it) W.draw_edge_arrow(p,S.key(nearest_it));
 
-     if (!Pol.empty()) draw_polygon(W,S,Pol); 
+     if (!Pol.empty()) draw_polygon(W,S,Pol);
 
      if (voro)  S.trace_voronoi_edges(draw_vor_seg,infi_pt);
 
@@ -103,22 +103,22 @@ main()
      case 2: { W.read_mouse_rect(x,y,x1,y1);
                list<ps_item> L = S.range_search(x,x1,y,y1);
                ps_item it;
-               forall(it,L) 
-               { cout << "delete " << S.inf(it) << "\n";
+               forall(it,L)
+               { std::cout << "delete " << S.inf(it) << "\n";
                  W.draw_filled_node(S.key(it));
                  S.del_item(it);
                 }
-               cout.flush();
+               std::cout.flush();
                break;
               }
 
      case -1:  { nearest_it = S.nearest_neighbor(p);
-                 if (nearest_it!=nil) 
+                 if (nearest_it!=nil)
                   { W.draw_edge_arrow(p,S.key(nearest_it));
-                    cout << "Nearest " << S.inf(nearest_it) << "\n";
+                    std::cout << "Nearest " << S.inf(nearest_it) << "\n";
                    }
-                 else cout << "Empty point set.\n";	
-                 cout.flush();
+                 else std::cout << "Empty point set.\n";
+                 std::cout.flush();
                  break;
                 }
 

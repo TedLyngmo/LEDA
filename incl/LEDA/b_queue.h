@@ -5,9 +5,9 @@
 +  b_queue.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_BQUEUE_H
@@ -21,9 +21,9 @@
 
 /*{\Manpage {b_queue} {E} {Bounded Queues}}*/
 
-template<class E> 
+template<class E>
 
-class b_queue  
+class b_queue
 {
 /*{\Mdefinition
 An instance $Q$ of the parameterized data type \name\ is a queue
@@ -35,12 +35,12 @@ E* stop;      // one position behind last element of array
 E* start;     // current start of queue (wraps around)
 E* end;       // one position behind end of queue (wraps around)
 
-public:										
+public:
 
 /*{\Mcreation Q}*/
 
 
-b_queue(int n) 
+b_queue(int n)
 {
 #if !defined(LEDA_CHECKING_OFF)
   if (n<1) error_handler(88,"_b_queue: bad size");
@@ -48,10 +48,10 @@ b_queue(int n)
   first = new E[n];
   if (first==0) error_handler(88,"_b_queue: out of memory");
   stop  = first+n;
-  start = end = first; 
+  start = end = first;
 }
 
-/*{\Mcreate creates an instance \var\ of type \name\ that can hold up to $n$ 
+/*{\Mcreate creates an instance \var\ of type \name\ that can hold up to $n$
            elements.  \var\ is initialized with the empty queue.}*/
 
 
@@ -100,7 +100,7 @@ void clear() { start = end = first; }
 /*{\Mop    makes \var\ the empty queue.}*/
 
 
-int size() const 
+int size() const
 { int s = end-start;
   return (s<0) ?  (stop-first+s) : s;
 }
@@ -115,7 +115,7 @@ bool empty() const { return (size()==0) ? true : false; }
 
 
 /*{\Mimplementation
-Bounded queues are implemented by circular arrays. All operations take 
+Bounded queues are implemented by circular arrays. All operations take
 time $O(1)$. The space requirement is $O(n)$.}*/
 
 #endif

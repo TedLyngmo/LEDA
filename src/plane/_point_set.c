@@ -5,9 +5,9 @@
 +  _point_set.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -19,7 +19,7 @@ typedef d2_dictionary<double,double,DT_item>* d2_dic_ptr;
 
 #define TTT (*d2_dic_ptr(ptr))
 
-ps_item  Point_Set::insert(point p, void* i) 
+ps_item  Point_Set::insert(point p, void* i)
 { ps_item it = delaunay_tree::insert(p,i);
   TTT.insert(p.xcoord(),p.ycoord(),it);
   return it;
@@ -56,15 +56,15 @@ list<ps_item> Point_Set::range_search(double x0, double x1, double y0, double y1
 }
 
 
-list<ps_item> Point_Set::all_items()          
-{ list<DT_item> L; 
-  delaunay_tree::all_items(L); 
+list<ps_item> Point_Set::all_items()
+{ list<DT_item> L;
+  delaunay_tree::all_items(L);
   return *(list<ps_item>*)&L;
  }
 
 
 list<ps_item> Point_Set::convex_hull()
-{ list<DT_item> L; 
+{ list<DT_item> L;
   delaunay_tree::convex_hull(L);
   return *(list<ps_item>*)&L;
  }

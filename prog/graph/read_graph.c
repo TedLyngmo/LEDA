@@ -1,9 +1,9 @@
 #include <LEDA/graph.h>
 
 
-void Read(GRAPH<float,float>& G, istream& is) { G.read(is); }
+void Read(GRAPH<float,float>& G, std::istream& is) { G.read(is); }
 
-void Print(const GRAPH<float,float>& G, ostream& os) { G.write(os); }
+void Print(const GRAPH<float,float>& G, std::ostream& os) { G.write(os); }
 
 int compare(const GRAPH<float,float>&, const GRAPH<float,float>&) { return 0; }
 
@@ -13,13 +13,13 @@ LEDA_TYPE_PARAMETER(ff_graph)
 #endif
 
 
-main()
+int main()
 {
   GRAPH<GRAPH<float,float>,string> G;
 
   int n = G.read(read_string("read graph from file: "));
 
-  cout << "n = " << n << "\n";
+  std::cout << "n = " << n << "\n";
 
   G.print();
 

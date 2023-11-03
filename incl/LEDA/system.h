@@ -5,32 +5,32 @@
 +  system.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_SYSTEM_H
 #define LEDA_SYSTEM_H
 
 //----------------------------------------------------------------------------
-// system/compiler dependent definitions 
+// system/compiler dependent definitions
 //----------------------------------------------------------------------------
 
 // In the first section of this file some flags are defined indicating
-// that certain c++ features are supported or not by particular compilers. 
+// that certain c++ features are supported or not by particular compilers.
 // If your compiler does not appear you may have to add it.
-// 
+//
 // __BUILTIN_BOOL__         : built-in boolean
-// __NEW_SCOPE_RULES__      : new scope rules 
+// __NEW_SCOPE_RULES__      : new scope rules
 // __ELSE_SCOPE_BUG__       : else-part does not begin a new scope
-// __TEMPLATE_FUNCTIONS__   : function templates  
+// __TEMPLATE_FUNCTIONS__   : function templates
 // __EXPLICIT_DESTRUCTION__ : explicit destructor call
 // __INPLACE_NEW__          : in-place new operator
 
 
 //----------------------------------------------------------------------------
-// define __BUILTIN_BOOL__ for compilers supporting type bool  
+// define __BUILTIN_BOOL__ for compilers supporting type bool
 // currently only g++ >= 2.6
 //----------------------------------------------------------------------------
 
@@ -51,7 +51,7 @@
 
 //----------------------------------------------------------------------------
 // define __ELSE_SCOPE_BUG__ for compilers not starting a new scope for the
-// else-part of an if-statement  
+// else-part of an if-statement
 //----------------------------------------------------------------------------
 
 #if defined(__ZTC__) && (__ZTC__ <= 0x310)
@@ -117,7 +117,7 @@
 
 
 //----------------------------------------------------------------------------
-// define  __INPLACE_NEW__ except for compilers not supporting this feature 
+// define  __INPLACE_NEW__ except for compilers not supporting this feature
 //----------------------------------------------------------------------------
 
 #define __INPLACE_NEW__
@@ -135,7 +135,7 @@
 //  Other Flags
 //------------------------------------------------------------------------------
 
-#if defined(__SVR4) || defined(__SOLARIS_23) || defined(__SOLARIS_24) 
+#if defined(__SVR4) || defined(__SOLARIS_23) || defined(__SOLARIS_24)
 #if !defined(__svr4__)
 #define __svr4__
 #endif

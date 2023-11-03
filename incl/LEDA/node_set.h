@@ -5,23 +5,23 @@
 +  node_set.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_NODE_SET_H
 #define LEDA_NODE_SET_H
 
 //------------------------------------------------------------------------------
-// node_set  
+// node_set
 //------------------------------------------------------------------------------
 
 #include <LEDA/graph.h>
 
 /*{\Manpage {node_set} {} {Sets of Nodes} }*/
 
-class node_set 
+class node_set
 {
 /*{\Mdefinition
 An instance $S$ of the data type $node\_set$ is a subset of
@@ -38,8 +38,8 @@ public:
 /*{\Mcreation S }*/
 
 node_set(const graph& G) : A(G,nil) { g = (graph*)&G; }
-/*{\Mcreate creates an instance $S$ of type $node\_set$ valid for all 
-            nodes currently contained in graph $G$ and initializes it 
+/*{\Mcreate creates an instance $S$ of type $node\_set$ valid for all
+            nodes currently contained in graph $G$ and initializes it
             to the empty set.}*/
 
 ~node_set() {}
@@ -71,10 +71,10 @@ void clear()         { L.clear(); A.init(*g,nil); }
 };
 
 /*{\Mimplementation
-A node set $S$ for a graph $G$ is implemented by a combination of a 
-list  $L$ of nodes and a node array of list\_items 
-associating with each node its position in $L$. All operations 
-take constant time, except for clear which takes time $O(|S|)$. The space 
+A node set $S$ for a graph $G$ is implemented by a combination of a
+list  $L$ of nodes and a node array of list\_items
+associating with each node its position in $L$. All operations
+take constant time, except for clear which takes time $O(|S|)$. The space
 requirement is $O(n)$, where $n$ is the number of nodes of $G$.}*/
 
 #endif

@@ -1,10 +1,10 @@
 #include <LEDA/window.h>
 #include <LEDA/stream.h>
 
-#include <stdlib.h>
+#include <cstdlib>
 
 
-main()
+int main()
 {
   window W;
   panel  P;
@@ -20,7 +20,7 @@ main()
   P.int_item("# points",N);
   P.int_item("max coord",max_coord,0,5000);
   P.open();
-  
+
   file_ostream F(file_name);
 
   W.init(0,max_coord,0);
@@ -39,4 +39,4 @@ main()
   return 0;
 
 }
-  
+

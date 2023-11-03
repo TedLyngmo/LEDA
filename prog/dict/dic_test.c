@@ -13,40 +13,40 @@
 
 
 
-void dic_test(dictionary<int,int>& D, int N, int* A, char* name)
-{ 
-  cout << string("%-12s",name);
-  cout.flush();
+void dic_test(dictionary<int,int>& D, int N, int* A, const char* name)
+{
+  std::cout << string("%-12s",name);
+  std::cout.flush();
 
   float T;
   float T0 = T = used_time();
 
   int i;
   for(i=0; i<N; i++)  D.insert(A[i],0);
-  cout << string("%10.2f",used_time(T));
-  cout.flush();
+  std::cout << string("%10.2f",used_time(T));
+  std::cout.flush();
 
   bool ok = true;
-  for(i=0; i<N; i++)  
+  for(i=0; i<N; i++)
   { dic_item it = D.lookup(A[i]);
     if (it == nil || D.key(it) != A[i])  ok = false;
    }
 
   if (!ok) error_handler(0,"errors in lookups");
 
-  cout << string("%10.2f",used_time(T));
-  cout.flush();
+  std::cout << string("%10.2f",used_time(T));
+  std::cout.flush();
 
   for(i=0; i<N; i++)  D.del(A[i]);
-  cout << string("%10.2f",used_time(T));
+  std::cout << string("%10.2f",used_time(T));
 
-  cout << string("%10.2f",used_time(T0));
+  std::cout << string("%10.2f",used_time(T0));
 
   if (!D.empty())
-  {  cout << " NOT EMPTY ";	
-     cout << "size = " << D.size() << endl;
+  {  std::cout << " NOT EMPTY ";
+     std::cout << "size = " << D.size() << std::endl;
    }
-  
+
 
   newline;
 
@@ -55,10 +55,10 @@ void dic_test(dictionary<int,int>& D, int N, int* A, char* name)
 }
 
 
-void dic_test(dictionary<float,float>& D, int N, float* A, char* name)
-{ 
-  cout << string("%-12s",name);
-  cout.flush();
+void dic_test(dictionary<float,float>& D, int N, float* A, const char* name)
+{
+  std::cout << string("%-12s",name);
+  std::cout.flush();
 
   D.clear();
 
@@ -68,17 +68,17 @@ void dic_test(dictionary<float,float>& D, int N, float* A, char* name)
 
   int i;
   for(i=0; i<N; i++)  D.insert(A[i],0);
-  cout << string("%10.2f",used_time(T));
-  cout.flush();
+  std::cout << string("%10.2f",used_time(T));
+  std::cout.flush();
 
   for(i=0; i<N; i++)  D.lookup(A[i]);
-  cout << string("%10.2f",used_time(T));
-  cout.flush();
+  std::cout << string("%10.2f",used_time(T));
+  std::cout.flush();
 
   for(i=0; i<N; i++)  D.del(A[i]);
-  cout << string("%10.2f",used_time(T));
+  std::cout << string("%10.2f",used_time(T));
 
-  cout << string("%10.2f",used_time(T0));
+  std::cout << string("%10.2f",used_time(T0));
   newline;
 
   memory_clear();
@@ -86,7 +86,7 @@ void dic_test(dictionary<float,float>& D, int N, float* A, char* name)
 
 
 
-main()
+int main()
 {
 
   _dictionary<int,int,ch_hash> CHH_DIC;
@@ -121,7 +121,7 @@ main()
 
 
   newline;
-  cout << "                insert    lookup    delete     total\n";
+  std::cout << "                insert    lookup    delete     total\n";
   newline;
 
 
@@ -158,8 +158,6 @@ main()
   dic_test(BB_DIC1,N,Float,"bb_tree");
   dic_test(AB_DIC1,N,Float,"ab_tree");
   newline;
- 
+
   return 0;
 }
-
-

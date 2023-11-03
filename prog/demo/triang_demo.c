@@ -22,13 +22,13 @@ void animate_flip(point a, point b, point c, point d, int n)
 {
   W.del_messages();
   W.message(string(" %2d flips",flip_count++));
-  
+
   segment s1(a,b);
   segment s2(c,d);
   double l1 = s1.length()/n;
   double l2 = s2.length()/n;
-  double a1 = s1.angle(); 
-  double a2 = s2.angle(); 
+  double a1 = s1.angle();
+  double a2 = s2.angle();
 
   while (n--)
   { point a_new = a.translate(a1,l1);
@@ -42,9 +42,9 @@ void animate_flip(point a, point b, point c, point d, int n)
   W.draw_edge(a,c,blue);
 
 }
-   
 
-  
+
+
 
 void flipping(GRAPH<point,edge> &G)
 {
@@ -54,7 +54,7 @@ void flipping(GRAPH<point,edge> &G)
 
   forall_edges(e,G)  marked[e] = false;
 
-  forall_edges(e,G) 
+  forall_edges(e,G)
     if ( !marked[e] )
     { L.append(e);
       marked[e] = true;
@@ -69,10 +69,10 @@ void flipping(GRAPH<point,edge> &G)
     marked[e] = false;
     marked[G[e]] = false;
 
-    edge e1 =  G.cyclic_adj_pred(e); 
-    edge e2 =  G.cyclic_adj_pred(G[e1]); 
-    edge e3 =  G.cyclic_adj_pred(G[e]); 
-    edge e4 =  G.cyclic_adj_pred(G[e3]); 
+    edge e1 =  G.cyclic_adj_pred(e);
+    edge e2 =  G.cyclic_adj_pred(G[e1]);
+    edge e3 =  G.cyclic_adj_pred(G[e]);
+    edge e4 =  G.cyclic_adj_pred(G[e3]);
 
     point a = G[source(e1)];
     point b = G[source(e2)];
@@ -81,7 +81,7 @@ void flipping(GRAPH<point,edge> &G)
 
     if ( orientation(b,a,d) > 0 && orientation(b,d,c) > 0
          && incircle(a,b,c,d) > 0)
-    { 
+    {
       if (animate) animate_flip(a,b,c,d,8000/speed);
 
       G.del_edge(G[e]);
@@ -91,36 +91,36 @@ void flipping(GRAPH<point,edge> &G)
       marked[e] = false;
       marked[G[e]] = false;
 
-      if ( !marked[e1]) 
-      { L.append(e1); 
-        marked[e1] = marked[G[e1]] = true; 
+      if ( !marked[e1])
+      { L.append(e1);
+        marked[e1] = marked[G[e1]] = true;
         if (animate)
         { W.draw_edge(a,b,blue);
           W.draw_edge(a,b,red);
          }
        }
 
-      if ( !marked[e2]) 
-      { L.append(e2); 
-        marked[e2] = marked[G[e2]] = true; 
+      if ( !marked[e2])
+      { L.append(e2);
+        marked[e2] = marked[G[e2]] = true;
         if (animate)
         { W.draw_edge(b,c,blue);
           W.draw_edge(b,c,red);
          }
        }
 
-      if ( !marked[e3]) 
-      { L.append(e3); 
-        marked[e3] = marked[G[e3]] = true; 
+      if ( !marked[e3])
+      { L.append(e3);
+        marked[e3] = marked[G[e3]] = true;
         if (animate)
         { W.draw_edge(c,d,blue);
           W.draw_edge(c,d,red);
          }
        }
 
-      if ( !marked[e4]) 
-      { L.append(e4); 
-        marked[e4] = marked[G[e4]] = true; 
+      if ( !marked[e4])
+      { L.append(e4);
+        marked[e4] = marked[G[e4]] = true;
         if (animate)
         { W.draw_edge(d,a,blue);
           W.draw_edge(d,a,red);
@@ -145,7 +145,7 @@ random_source& operator>>(random_source& R, point& p)
   return R;
 }
 
-main()
+int main()
 {
    int N = 100;
    bool grid = false;
@@ -172,7 +172,7 @@ L.append(point(100,0));
 L.append(point(50,100));
 
 point p;
-for(int i=0; i<N; i++) 
+for(int i=0; i<N; i++)
 { ran >> p;
   L.append(p);
  }

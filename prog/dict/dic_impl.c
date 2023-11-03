@@ -23,8 +23,8 @@ class list_dic_pair
 
 #if !defined(__TEMPLATE_FUNCTIONS__)
 // we define dummy I/O and compare routines
-void Print(const list_dic_pair&, ostream&)  {}
-void Read(list_dic_pair&,istream&) {}
+void Print(const list_dic_pair&, std::ostream&)  {}
+void Read(list_dic_pair&,std::istream&) {}
 int  compare(const list_dic_pair&,const list_dic_pair&) { return 0; }
 LEDA_TYPE_PARAMETER(list_dic_pair)
 #endif
@@ -83,14 +83,14 @@ inline GenPtr dic_impl::inf(list_item i)  const { return L[i].inf; }
 
 inline list_item dic_impl::item(GenPtr p) const { return list_item(p); }
 inline list_item dic_impl::first_item()   const { return L.first(); }
-inline list_item dic_impl::next_item(list_item i) const 
+inline list_item dic_impl::next_item(list_item i) const
                                                 { return L.next_item(i); }
 
 
-dic_impl::dic_impl(const dic_impl& D) 
+dic_impl::dic_impl(const dic_impl& D)
 { list_item i;
   L = D.L;
-  forall_items(i,L) 
+  forall_items(i,L)
   { D.copy_key(L[i].key);
     D.copy_inf(L[i].inf);
    }
@@ -99,10 +99,10 @@ dic_impl::dic_impl(const dic_impl& D)
 
 dic_impl& dic_impl::operator=(const dic_impl& D)
 { if (this == &D) return *this;
-  clear(); 
+  clear();
   L = D.L;
   list_item i;
-  forall_items(i,L) 
+  forall_items(i,L)
   { D.copy_key(L[i].key);
     D.copy_inf(L[i].inf);
    }
@@ -110,7 +110,7 @@ dic_impl& dic_impl::operator=(const dic_impl& D)
  }
 
 
-list_item  dic_impl::insert(GenPtr key, GenPtr inf) 
+list_item  dic_impl::insert(GenPtr key, GenPtr inf)
 {  list_item i = lookup(key);
    if (i != nil)
      { clear_inf(L[i].inf);
@@ -127,7 +127,7 @@ list_item  dic_impl::insert(GenPtr key, GenPtr inf)
 
 
 list_item  dic_impl::lookup(GenPtr key)  const
-{ list_item i = L.first(); 
+{ list_item i = L.first();
   while (i && L[i].key != key) i = L.succ(i);
   return i;
  }
@@ -150,7 +150,7 @@ void    dic_impl::del(GenPtr key)
   if (i!=nil) del_item(i);
  }
 
-void    dic_impl::clear() 
+void    dic_impl::clear()
 { list_item i;
   forall_items(i,L)
   { clear_key(L[i].key);
@@ -162,9 +162,9 @@ void    dic_impl::clear()
 
 
 
-main() 
-{ 
-  _dictionary<int,int,dic_impl> D; 
+int main()
+{
+  _dictionary<int,int,dic_impl> D;
 
   dic_item it;
 
@@ -173,14 +173,14 @@ main()
   while (N--)
   { int k = rand_int(1,20);
     it = D.lookup(k);
-    if (it == nil) 
+    if (it == nil)
        D.insert(k,1);
     else
        D.change_inf(it,D.inf(it)+1);
    }
 
-  forall_items(it,D) 
-     cout << string("%3d  # = %2d\n",D.key(it),D.inf(it));
+  forall_items(it,D)
+     std::cout << string("%3d  # = %2d\n",D.key(it),D.inf(it));
 
  }
 

@@ -2,7 +2,7 @@
 #include <LEDA/graph_alg.h>
 
 
-main()
+int main()
 {
 
 GRAPH<int,int> G;
@@ -27,12 +27,12 @@ float T = used_time();
 
 cout << "BELLMAN_FORD <int>  " << flush;
 bool b = BELLMAN_FORD(G,s,cost,dist,pred);
-cout << string("%6.2f sec  ",used_time(T)) << endl;
+cout << string("%6.2f sec  ",used_time(T)) << std::endl;
 newline;
 
 
 if (b == false)
-  { cout << "Negative cycle:" << endl;
+  { std::cout << "Negative cycle:" << std::endl;
     int count = 1;
     forall_nodes(u,G)
     { if (label[u] == 0)
@@ -55,7 +55,7 @@ if (b == false)
      }
    }
 else
-  cout << "No negativ cycle found" << endl;
+  std::cout << "No negativ cycle found" << std::endl;
 
 return 0;
 

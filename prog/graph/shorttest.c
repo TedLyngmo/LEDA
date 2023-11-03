@@ -5,7 +5,7 @@
 
 #include <LEDA/node_slist.h>
 
-int  dijkstra1(UGRAPH<int,int>& g, node source, node target) 
+int  dijkstra1(UGRAPH<int,int>& g, node source, node target)
 {
   // use a linear list priority queue  (node_list)
   // and node_array<int> for dist values
@@ -29,28 +29,28 @@ int  dijkstra1(UGRAPH<int,int>& g, node source, node target)
     { if (dist[u] < dv)  { v = u; dv = dist[v]; }
        u = labeled.succ(u);
      }
-      
+
 
     if (v == target) break;
 
     edge e;
 
-    forall_adj_edges(e,v) 
+    forall_adj_edges(e,v)
     { node w = g.opposite(v,e);
       int  d = dist[v] + g[e];
-      if (dist[w] > d) 
+      if (dist[w] > d)
       { if (dist[w] == MAXINT) labeled.append(w); // first time touched
 	dist[w] = d;
        }
       }
 
     labeled.del(v);
-  } 
+  }
 
   return dist[v];
 }
 
-int  dijkstra2(UGRAPH<int,int>& g, node source, node target) 
+int  dijkstra2(UGRAPH<int,int>& g, node source, node target)
 {
   // use a node priority queue (node_pq)
   // and node_array<int> for dist values
@@ -62,7 +62,7 @@ int  dijkstra2(UGRAPH<int,int>& g, node source, node target)
   PQ.insert(source,0);
 
   while (! PQ.empty())
-  { 
+  {
     node v = PQ.del_min();
     int dv = dist[v];
 
@@ -72,7 +72,7 @@ int  dijkstra2(UGRAPH<int,int>& g, node source, node target)
     forall_adj_edges(e,v)
     { node w = g.opposite(v,e);
       int d = dv + g[e];
-      if (d < dist[w]) 
+      if (d < dist[w])
       { if (dist[w] == MAXINT)
            PQ.insert(w,d);
         else
@@ -89,14 +89,14 @@ int  dijkstra2(UGRAPH<int,int>& g, node source, node target)
 
 
 
-int dijkstra3(UGRAPH<int,int>& g, node s, node t) 
+int dijkstra3(UGRAPH<int,int>& g, node s, node t)
 {
   // use a bounded node priority queue (b_node_pq)
   // and a node_array<int> for dist values
 
   node_array<int> dist(g,MAXINT);
 
-  b_node_pq<101> PQ(t);  // on empty queue del_min returns t 
+  b_node_pq<101> PQ(t);  // on empty queue del_min returns t
 
   node v;
 
@@ -106,7 +106,7 @@ int dijkstra3(UGRAPH<int,int>& g, node s, node t)
   while ( (v = PQ.del_min()) != t )
   { int dv = dist[v];
     edge e;
-    forall_adj_edges(e,v) 
+    forall_adj_edges(e,v)
     { node w = g.opposite(v,e);
       int d = dv + g[e];
       if (d < dist[w])
@@ -121,14 +121,14 @@ int dijkstra3(UGRAPH<int,int>& g, node s, node t)
 }
 
 
-int dijkstra4(UGRAPH<int,int>& g, node s, node t) 
+int dijkstra4(UGRAPH<int,int>& g, node s, node t)
 {
   // use a bounded node priority queue (b_node_pq)
   // and node_array<int> for dist values
 
   node_array<int> dist(g,MAXINT);
 
-  b_node_pq<101> PQ(t);  // on empty queue del_min returns t 
+  b_node_pq<101> PQ(t);  // on empty queue del_min returns t
 
   node v;
 
@@ -138,7 +138,7 @@ int dijkstra4(UGRAPH<int,int>& g, node s, node t)
   while ( (v = PQ.del_min()) != t )
   { int dv = dist[v];
     edge e;
-    forall_adj_edges(e,v) 
+    forall_adj_edges(e,v)
     { node w = g.opposite(v,e);
       int d = dv + g[e];
       if (d < dist[w])
@@ -152,12 +152,12 @@ int dijkstra4(UGRAPH<int,int>& g, node s, node t)
   return dist[t];
 }
 
-int dijkstra5(UGRAPH<int,int>& g, node s, node t) 
+int dijkstra5(UGRAPH<int,int>& g, node s, node t)
 {
   // use a bounded node priority queue (b_node_pq)
   // and the node information of g for  dist values
 
-  b_node_pq<101> PQ(t);  // on empty queue del_min returns t 
+  b_node_pq<101> PQ(t);  // on empty queue del_min returns t
 
   node v;
   forall_nodes(v,g) g[v] = MAXINT;
@@ -168,7 +168,7 @@ int dijkstra5(UGRAPH<int,int>& g, node s, node t)
   while ( (v = PQ.del_min()) != t )
   { int dv = g[v];
     edge e;
-    forall_adj_edges(e,v) 
+    forall_adj_edges(e,v)
     { node w = g.opposite(v,e);
       int d = dv + g[e];
       if (d < g[w])
@@ -183,12 +183,12 @@ int dijkstra5(UGRAPH<int,int>& g, node s, node t)
 }
 
 
-int dijkstra6(UGRAPH<int,int>& g, node s, node t) 
+int dijkstra6(UGRAPH<int,int>& g, node s, node t)
 {
   // use a bounded node priority queue (b_node_pq)
   // and the node information of g for  dist values
 
-  b_node_pq<101> PQ(t);  // on empty queue del_min returns t 
+  b_node_pq<101> PQ(t);  // on empty queue del_min returns t
 
   node v;
   forall_nodes(v,g) g[v] = MAXINT;
@@ -199,7 +199,7 @@ int dijkstra6(UGRAPH<int,int>& g, node s, node t)
   while ( (v = PQ.del_min()) != t )
   { int dv = g[v];
     edge e;
-    forall_adj_edges(e,v) 
+    forall_adj_edges(e,v)
     { node w = g.opposite(v,e);
       int d = dv + g[e];
       if (d < g[w])
@@ -226,17 +226,17 @@ int  moore1(UGRAPH<int,int>& g, node source, node target)
   node_list labeled;               // queue of candidate nodes
   labeled.append(source);
 
-  while (! labeled.empty()) 
+  while (! labeled.empty())
   { node v = labeled.pop();
     int dv = dist[v];
 
     if (dv >= dist[target]) continue;
 
     edge e;
-    forall_adj_edges(e,v) 
+    forall_adj_edges(e,v)
     { node w = g.opposite(v,e);
       int d = dv + g[e];
-      if (d < dist[w]) 
+      if (d < dist[w])
       { if (!labeled(w)) labeled.append(w);
 	dist[w] = d;
        }
@@ -249,7 +249,7 @@ int  moore1(UGRAPH<int,int>& g, node source, node target)
 }
 
 
-int  moore2(UGRAPH<int,int>& g, node source, node target) 
+int  moore2(UGRAPH<int,int>& g, node source, node target)
 {
   // use a double ended queue of candidate nodes (node_list)
   // and a node_array<int> for dist values
@@ -260,8 +260,8 @@ int  moore2(UGRAPH<int,int>& g, node source, node target)
   node_list labeled;             // deque of candidate nodes
   labeled.append(source);
 
-  while (! labeled.empty()) 
-  { 
+  while (! labeled.empty())
+  {
     node v = labeled.pop();
     int dv = dist[v];
 
@@ -271,8 +271,8 @@ int  moore2(UGRAPH<int,int>& g, node source, node target)
     forall_adj_edges(e,v)
     { node w = g.opposite(v,e);
       int  d = dv + g[e];
-      if (d < dist[w]) 
-      { if ( ! labeled(w) ) 
+      if (d < dist[w])
+      { if ( ! labeled(w) )
         { if (dist[w] == MAXINT)
 	       labeled.append(w);
 	    else
@@ -288,7 +288,7 @@ int  moore2(UGRAPH<int,int>& g, node source, node target)
 }
 
 
-int  moore3(UGRAPH<int,int>& g, node source, node target) 
+int  moore3(UGRAPH<int,int>& g, node source, node target)
 {
   // use a double ended queue of candidate nodes (node_list)
   // and the node information of g for  dist values
@@ -302,8 +302,8 @@ int  moore3(UGRAPH<int,int>& g, node source, node target)
   node_list labeled;             // deque of candidate nodes
   labeled.append(source);
 
-  while (! labeled.empty()) 
-  { 
+  while (! labeled.empty())
+  {
     node v = labeled.pop();
     int dv = g[v];
 
@@ -314,8 +314,8 @@ int  moore3(UGRAPH<int,int>& g, node source, node target)
     forall_adj_edges(e,v)
     { node w = g.opposite(v,e);
       int  d = dv + g[e];
-      if (d < g[w]) 
-      { if ( ! labeled(w) ) 
+      if (d < g[w])
+      { if ( ! labeled(w) )
         { if (g[w] == MAXINT)
 	       labeled.append(w);
 	    else
@@ -331,7 +331,7 @@ int  moore3(UGRAPH<int,int>& g, node source, node target)
 }
 
 
-int  moore4(UGRAPH<int,int>& g, node source, node target) 
+int  moore4(UGRAPH<int,int>& g, node source, node target)
 {
   // use a double ended queue of candidate nodes (node_slist)
   // and the node information of g for  dist values
@@ -345,8 +345,8 @@ int  moore4(UGRAPH<int,int>& g, node source, node target)
   node_slist labeled(g);            // deque of candidate nodes
   labeled.append(source);
 
-  while (! labeled.empty()) 
-  { 
+  while (! labeled.empty())
+  {
     node v = labeled.pop();
     int dv = g[v];
 
@@ -356,7 +356,7 @@ int  moore4(UGRAPH<int,int>& g, node source, node target)
     forall_adj_edges(e,v)
     { node w = g.opposite(v,e);
       int  d = dv + g[e];
-      if (d < g[w]) 
+      if (d < g[w])
       { if (g[w] == MAXINT) labeled.append(w);
 	else if (!labeled(w)) labeled.push(w);
 	g[w] = d;
@@ -380,7 +380,7 @@ GRAPH<int,int> make_bidirected(GRAPH<int,int>& G)
 }
 
 
-int main (int argc, char** argv) 
+int main (int argc, char** argv)
 {
 
   GRAPH<int,int>   G0;
@@ -398,12 +398,12 @@ int main (int argc, char** argv)
   file_istream  infile (filename);
 
   if ( ! (infile >> sourcename >> targetname) )
-  { cerr << "Cannot read file " << filename << endl;
+  { std::cerr << "Cannot read file " << filename << std::endl;
     exit(1);
    }
 
-  cout << "Source node: " << sourcename << endl;
-  cout << "Target node: " << targetname << endl;
+  std::cout << "Source node: " << sourcename << std::endl;
+  std::cout << "Target node: " << targetname << std::endl;
   newline;
 
   // read graph from file <filename>.graph
@@ -411,18 +411,18 @@ int main (int argc, char** argv)
   float t0 = used_time();
 
   if (G0.read(filename + ".graph") != 0)
-  { cerr << "Cannot read graph from file " << filename << ".graph" << endl;
+  { std::cerr << "Cannot read graph from file " << filename << ".graph" << std::endl;
     exit(1);
    }
 
-  cout << string("Time for reading:  %5.2f",used_time(t0)) << endl;
+  std::cout << string("Time for reading:  %5.2f",used_time(t0)) << std::endl;
   newline;
 
 
   UGRAPH<int,int>  g = G0;
   GRAPH<int,int> G = make_bidirected(G0);
 
-  cout << string("Time for making undirected:  %5.2f",used_time(t0)) << endl;
+  std::cout << string("Time for making undirected:  %5.2f",used_time(t0)) << std::endl;
   newline;
 
   // search for source and target nodes
@@ -431,7 +431,7 @@ int main (int argc, char** argv)
   node target = nil;
 
   node v;
-  forall_nodes(v,g) 
+  forall_nodes(v,g)
   { if (g[v] == sourcename) source = v;
     if (g[v] == targetname) target = v;
    }
@@ -439,7 +439,7 @@ int main (int argc, char** argv)
   node sourceG = nil;
   node targetG = nil;
 
-  forall_nodes(v,G) 
+  forall_nodes(v,G)
   { if (G[v] == sourcename) sourceG = v;
     if (G[v] == targetname) targetG = v;
    }
@@ -450,47 +450,47 @@ int main (int argc, char** argv)
 
   if (g.number_of_edges() < 20000)
   { len = dijkstra1(g, source, target);
-    cout <<string("Time for dijkstra1: %5.3f pathlength: %d",used_time(t0),len);
+    std::cout <<string("Time for dijkstra1: %5.3f pathlength: %d",used_time(t0),len);
     newline;
    }
-  
+
   len = dijkstra2(g, source, target);
-  cout <<string("Time for dijkstra2: %5.3f pathlength: %d",used_time(t0),len);
+  std::cout <<string("Time for dijkstra2: %5.3f pathlength: %d",used_time(t0),len);
   newline;
-  
+
   len = dijkstra3(g, source, target);
-  cout <<string("Time for dijkstra3: %5.3f pathlength: %d",used_time(t0),len);
+  std::cout <<string("Time for dijkstra3: %5.3f pathlength: %d",used_time(t0),len);
   newline;
 
   len = dijkstra4(g, source, target);
-  cout <<string("Time for dijkstra4: %5.3f pathlength: %d",used_time(t0),len);
+  std::cout <<string("Time for dijkstra4: %5.3f pathlength: %d",used_time(t0),len);
   newline;
 
   len = dijkstra5(g, source, target);
-  cout <<string("Time for dijkstra5: %5.3f pathlength: %d",used_time(t0),len);
+  std::cout <<string("Time for dijkstra5: %5.3f pathlength: %d",used_time(t0),len);
   newline;
 
   len = dijkstra6(g, source, target);
-  cout <<string("Time for dijkstra6: %5.3f pathlength: %d",used_time(t0),len);
+  std::cout <<string("Time for dijkstra6: %5.3f pathlength: %d",used_time(t0),len);
   newline;
 
-  
+
 /*
   len = moore1(g, source, target);
-  cout <<string("Time for moore1:    %5.3f pathlength: %d",used_time(t0),len);
+  std::cout <<string("Time for moore1:    %5.3f pathlength: %d",used_time(t0),len);
   newline;
 */
-  
+
   len = moore2(g, source, target);
-  cout <<string("Time for moore2:    %5.3f pathlength: %d",used_time(t0),len);
+  std::cout <<string("Time for moore2:    %5.3f pathlength: %d",used_time(t0),len);
   newline;
 
   len = moore3(g, source, target);
-  cout <<string("Time for moore3:    %5.3f pathlength: %d",used_time(t0),len);
+  std::cout <<string("Time for moore3:    %5.3f pathlength: %d",used_time(t0),len);
   newline;
 
   len = moore4(g, source, target);
-  cout <<string("Time for moore4:    %5.3f pathlength: %d",used_time(t0),len);
+  std::cout <<string("Time for moore4:    %5.3f pathlength: %d",used_time(t0),len);
   newline;
 
   return 0;

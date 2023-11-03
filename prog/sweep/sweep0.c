@@ -8,7 +8,7 @@
 #include <LEDA/rat_segment.h>
 #include <LEDA/integer.h>
 #include <LEDA/floatf.h>
-#include <math.h>
+#include <cmath>
 
 typedef rat_point POINT;
 typedef rat_segment SEGMENT;
@@ -484,7 +484,7 @@ exact_cmp_points_count = 0;
      from bottom to top
    */
 
-    if (compare(s.start(),s.end()) > 0) 
+    if (compare(s.start(),s.end()) > 0)
       s = SEGMENT(s.end(), s.start());
 
     mySegment s1 = new MySegmentRep(s);
@@ -699,12 +699,12 @@ exact_cmp_points_count = 0;
 
 #if defined(STATISTICS)
     if (use_filter) {
-      cout << string ("compare points:  %6d / %4d (%5.2f%%)  (%5.2f%% failed)  ",
+      std::cout << string ("compare points:  %6d / %4d (%5.2f%%)  (%5.2f%% failed)  ",
 	 cmp_points_count, exact_cmp_points_count,
 	 (100.0 * exact_cmp_points_count) / cmp_points_count,
 	 (100.0 * cmp_points_failed) / cmp_points_count);
       newline;
-      cout << string ("compare segments: %6d / %4d  (%5.2f%%)",
+      std::cout << string ("compare segments: %6d / %4d  (%5.2f%%)",
 	 cmp_segments_count, exact_cmp_segments_count,
 	 (100.0 * exact_cmp_segments_count) / cmp_segments_count);
       newline;

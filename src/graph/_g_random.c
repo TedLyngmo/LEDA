@@ -5,9 +5,9 @@
 +  _g_random.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/graph.h>
@@ -16,14 +16,14 @@
 // we use the global random integer source "rand_int"
 
 void random_graph(graph& G, int n, int m)
-{ /* random graph with n nodes and m edges */ 
+{ /* random graph with n nodes and m edges */
 
   int i;
   node* V = new node[n];
   G.clear();
 
   for(i=0;i<n;i++) V[i] = G.new_node();
- 
+
   while (m--) G.new_edge(V[rand_int(0,n-1)],V[rand_int(0,n-1)]);
 }
 
@@ -41,8 +41,8 @@ void random_ugraph(ugraph& G, int n, int m)
 
 void random_bigraph(graph& G,int n1,int n2,int m,list<node>& A,list<node>& B)
 {
-   int  d = m/n1; 
-   int  r = m%n1; 
+   int  d = m/n1;
+   int  r = m%n1;
 
    node* AV = new node[n1];
    node* BV = new node[n2];
@@ -74,7 +74,7 @@ void random_bigraph(graph& G,int n1,int n2,int m,list<node>& A,list<node>& B)
 
 #include <LEDA/sortseq.h>
 #include <LEDA/prio.h>
-#include <math.h>
+#include <cmath>
 
 
 #define EPS  0.00001
@@ -85,7 +85,7 @@ class SEGMENT;
 typedef POINT* point;
 typedef SEGMENT* segment;
 
-enum point_type {Intersection=0,Rightend=1,Leftend=2}; 
+enum point_type {Intersection=0,Rightend=1,Leftend=2};
 
 class POINT
 {
@@ -98,8 +98,8 @@ class POINT
 
   public:
 
-  POINT(double a,double b)  
-  { 
+  POINT(double a,double b)
+  {
     x=a; y=b; seg=0; kind=Intersection;
    }
 
@@ -109,7 +109,7 @@ class POINT
   friend double    get_x(point p)    { return p->x; }
   friend double    get_y(point p)    { return p->y; }
   friend int       get_kind(point p) { return p->kind; }
-  friend segment get_seg(point p)  { return p->seg; }   
+  friend segment get_seg(point p)  { return p->seg; }
 
   friend bool intersection(segment, segment, point&);
 };
@@ -156,9 +156,9 @@ class SEGMENT
 
   public:
 
-  SEGMENT(point, point,int,int);     
+  SEGMENT(point, point,int,int);
 
- ~SEGMENT() { delete startpoint; delete endpoint; }     
+ ~SEGMENT() { delete startpoint; delete endpoint; }
 
   LEDA_MEMORY(SEGMENT);
 
@@ -176,26 +176,26 @@ class SEGMENT
 
 
 
-SEGMENT::SEGMENT(point p1,point p2,int c, int n)    
+SEGMENT::SEGMENT(point p1,point p2,int c, int n)
   {
     left_node  = nil;
     color      = c;
     name       = n;
 
     if (compare(p1,p2) < 0)
-     { startpoint = p1; 
-       endpoint = p2; 
+     { startpoint = p1;
+       endpoint = p2;
        orient = 0;
       }
     else
-     { startpoint = p2; 
-       endpoint = p1; 
+     { startpoint = p2;
+       endpoint = p1;
        orient = 1;
       }
 
-    startpoint->kind = Leftend; 
-    endpoint->kind = Rightend; 
-    startpoint->seg = this; 
+    startpoint->kind = Leftend;
+    endpoint->kind = Rightend;
+    startpoint->seg = this;
     endpoint->seg = this;
 
     if (endpoint->x != startpoint->x)
@@ -228,7 +228,7 @@ static int compare(const segment& s1, const segment& s2)
   if (diff >  EPS2 ) return  1;
   if (diff < -EPS2 ) return -1;
 
-  if (get_slope(s1) == get_slope(s2)) 
+  if (get_slope(s1) == get_slope(s2))
         return compare(get_x(get_startpoint(s1)), get_x(get_startpoint(s2)));
 
   if (y1 <= y_sweep+EPS2)
@@ -250,9 +250,9 @@ bool intersection(segment seg1,segment seg2, point& inter)
   if (seg1->slope == seg2->slope)
     return false;
   else
-  { 
+  {
     double cx = (seg2->yshift - seg1->yshift) / (seg1->slope - seg2->slope);
- 
+
     if (cx <= x_sweep) return false;
 
     if (seg1->startpoint->x > cx || seg2->startpoint->x > cx ||
@@ -266,11 +266,11 @@ bool intersection(segment seg1,segment seg2, point& inter)
 
 
 
-inline pq_item Xinsert(seq_item i, point p) 
+inline pq_item Xinsert(seq_item i, point p)
 { return X_structure.insert(i,p); }
 
 
-inline point Xdelete(pq_item i) 
+inline point Xdelete(pq_item i)
 { point p = X_structure.inf(i);
   X_structure.del_item(i);
   return p;
@@ -301,7 +301,7 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
 
 
   int count=1;
- 
+
   //initialization of the X-structure
 
   for (int i = 0; i < N; i++)
@@ -338,8 +338,8 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
 
 
     if (sitmin == nil) //left endpoint
-    { 
-      l = get_seg(p); 
+    {
+      l = get_seg(p);
 
       x_sweep = get_x(p);
       y_sweep = get_y(p);
@@ -352,7 +352,7 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
       sitpred = Y_structure.pred(sit);
       sitsucc = Y_structure.succ(sit);
 
-      if (sitpred != nil) 
+      if (sitpred != nil)
       { if ((pqit = Y_structure.inf(sitpred)) != nil)
           delete Xdelete(pqit);
 
@@ -374,7 +374,7 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
     }
     else if (get_kind(p) == Rightend)
          //right endpoint
-         { 
+         {
            x_sweep = get_x(p);
            y_sweep = get_y(p);
 
@@ -398,7 +398,7 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
            }
          }
          else // intersection point p
-         { 
+         {
            node w = G.new_node();
 
            xcoord[w] = get_x(p);
@@ -406,12 +406,12 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
 
            count++;
 
-           /* Let L = list of all lines intersecting in p 
- 
+           /* Let L = list of all lines intersecting in p
+
               we compute sit     = L.head();
               and        sitpred = L.tail();
 
-              by scanning the Y_structure in both directions 
+              by scanning the Y_structure in both directions
               starting at sitmin;
 
            */
@@ -425,7 +425,7 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
 
            while ((pqit=Y_structure.inf(sitpred)) != nil)
            { point q = X_structure.inf(pqit);
-             if (compare(p,q) != 0) break; 
+             if (compare(p,q) != 0) break;
              X_structure.del_item(pqit);
              Y_structure.change_inf(sitpred,nil);
              sitpred = Y_structure.succ(sitpred);
@@ -437,12 +437,12 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
            sit = sitmin;
 
            seq_item sit1;
-           
+
            while ((sit1=Y_structure.pred(sit)) != nil)
            { pqit = Y_structure.inf(sit1);
              if (pqit == nil) break;
              point q = X_structure.inf(pqit);
-             if (compare(p,q) != 0) break; 
+             if (compare(p,q) != 0) break;
              X_structure.del_item(pqit);
              Y_structure.change_inf(sit1,nil);
              sit = sit1;
@@ -451,7 +451,7 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
 
 
            // insert edges to p for all segments in sit, ..., sitpred into G
-           // and set left node to w 
+           // and set left node to w
 
            lsit = Y_structure.key(sitpred);
 
@@ -474,7 +474,7 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
 
 
            if (sitpredpred != nil)
-            { 
+            {
               lpredpred=Y_structure.key(sitpredpred);
 
               if ((pqit = Y_structure.inf(sitpredpred)) != nil)
@@ -495,7 +495,7 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
 
               if ((pqit = Y_structure.inf(sitpred)) != nil)
                 delete Xdelete(pqit);
-                 
+
               Y_structure.change_inf(sitpred,nil);
 
               if (intersection(lsucc,lsit,inter))
@@ -521,10 +521,10 @@ void random_planar_graph(graph& G, node_array<double>& xcoord,
 
 
 
-  // normalize x and y coordinates 
+  // normalize x and y coordinates
 
   node v;
-  forall_nodes(v,G) 
+  forall_nodes(v,G)
   { xcoord[v] /= (x_sweep + MAX_X/12);
     ycoord[v] /= MAX_Y;
    }

@@ -25,7 +25,7 @@ random_source& operator>>(random_source& R, point& p)
   return R;
 }
 
-main()
+int main()
 {
    int N = read_int("N = ");
 
@@ -34,7 +34,7 @@ main()
 
    ran.set_seed(12345*N);
 
-   for(int i=0; i<N; i++) 
+   for(int i=0; i<N; i++)
    { point p;
      ran >> p;
      L.append(p);
@@ -46,10 +46,10 @@ main()
 
   point p;
   forall(p,L) DT.insert(p,0);
-  cout << string("insert time = %.2f",used_time(T)) << endl;
+  std::cout << string("insert time = %.2f",used_time(T)) << std::endl;
 
   DT.trace_triang_edges( draw_triang_seg);
-  cout << string("trace time  = %.2f",used_time(T)) << endl;
+  std::cout << string("trace time  = %.2f",used_time(T)) << std::endl;
 
 }
 

@@ -5,9 +5,9 @@
 +  bin_tree.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -16,7 +16,7 @@
 
 //------------------------------------------------------------------------------
 //
-// bin_tree  
+// bin_tree
 //
 //     base class for all leaf oriented binary trees in LEDA
 //
@@ -27,7 +27,7 @@
 
 #include <LEDA/basic.h>
 
- 
+
 class bin_tree;
 class bin_tree_node;
 
@@ -38,11 +38,11 @@ typedef void (*DRAW_BIN_EDGE_FCT)(double,double,double,double);
 
 
 //------------------------------------------------------------------------------
-// class bin_tree_node 
+// class bin_tree_node
 //------------------------------------------------------------------------------
 
 class bin_tree_node
-{  
+{
    friend class bin_tree;
    friend class avl_tree;
    friend class bb_tree;
@@ -62,7 +62,7 @@ class bin_tree_node
                             // node: nil
 
    int   bal;               // rebalancing data
- 
+
 
 /*
    public:
@@ -71,17 +71,17 @@ class bin_tree_node
 
    bin_tree_node(GenPtr key, GenPtr inf, int b)
    { k = key;
-     i = inf; 
+     i = inf;
      bal = b;
-    }         
+    }
 
-   bin_tree_node() { }         
+   bin_tree_node() { }
 
    bin_tree_node(bin_tree_node* p)
    { k = p->k;
      i = p->i ;
      bal = p->bal;
-    }         
+    }
 
    bool is_node()   { return (corr == nil);  }
    bool is_leaf()   { return (corr != nil); }
@@ -95,13 +95,13 @@ class bin_tree_node
 };
 
 
- 
+
 //------------------------------------------------------------------------------
 // class bin_tree
 //------------------------------------------------------------------------------
 
 class bin_tree
-{ 
+{
   protected:
 
   enum { left=0, right=1 };
@@ -109,7 +109,7 @@ class bin_tree
   bin_tree_node ROOT;       // "super root" to avoid special cases in rotations
                             // ROOT.child[left] points to real root node
                             // ROOT.child[right] points to leftmost leaf
-  int count;            
+  int count;
 
 
   // functions depending on used rebalancing method
@@ -127,7 +127,7 @@ class bin_tree
 
   // other protected member functions
 
-  bin_tree_node*& min_ptr() const 
+  bin_tree_node*& min_ptr() const
                            { return (bin_tree_node*&)ROOT.child[right];}
 
   void rotation(bin_tree_node*, bin_tree_node*, int);
@@ -161,7 +161,7 @@ public:
 
   bin_tree_node* item(void* p) const { return (bin_tree_node*)p; }
 
-  bin_tree_node*& root() const 
+  bin_tree_node*& root() const
                            { return (bin_tree_node*&)ROOT.child[left]; }
 
 
@@ -190,8 +190,8 @@ public:
   bin_tree_node* insert_at_item(bin_tree_node*,GenPtr,GenPtr,GenPtr=0);
   bin_tree_node* lookup(GenPtr) const;
   bin_tree_node* locate(GenPtr) const;
-  bin_tree_node* locate_succ(GenPtr) const; 
-  bin_tree_node* locate_pred(GenPtr) const; 
+  bin_tree_node* locate_succ(GenPtr) const;
+  bin_tree_node* locate_pred(GenPtr) const;
 
   GenPtr   key(bin_tree_node* p)  const { return  p->k; }
   GenPtr   inf(bin_tree_node* p)  const { return  p->i; }
@@ -203,7 +203,7 @@ public:
 
   void clear();
 
-  int size()   const { return count; } 
+  int size()   const { return count; }
   int empty()  const { return root() ? false : true ; }
 
 
@@ -238,10 +238,10 @@ public:
 
   // miscellaneous
 
-  void draw(DRAW_BIN_NODE_FCT, DRAW_BIN_NODE_FCT, DRAW_BIN_EDGE_FCT, 
+  void draw(DRAW_BIN_NODE_FCT, DRAW_BIN_NODE_FCT, DRAW_BIN_EDGE_FCT,
             bin_tree_node*, double, double, double, double, double);
 
-  void draw(DRAW_BIN_NODE_FCT, DRAW_BIN_NODE_FCT, DRAW_BIN_EDGE_FCT, 
+  void draw(DRAW_BIN_NODE_FCT, DRAW_BIN_NODE_FCT, DRAW_BIN_EDGE_FCT,
             double, double, double, double);
 
   void print() const;
@@ -271,7 +271,7 @@ inline void bin_tree::rotation(bin_tree_node* p,bin_tree_node* q, int dir)
  }
 
 
-inline void bin_tree::double_rotation(bin_tree_node* p, bin_tree_node* q, 
+inline void bin_tree::double_rotation(bin_tree_node* p, bin_tree_node* q,
                                       bin_tree_node* r, int dir1)
 { int dir2 = 1-dir1;
   bin_tree_node* s = r->child[dir1];
@@ -306,8 +306,8 @@ inline void bin_tree::double_rotation(bin_tree_node* p, bin_tree_node* q,
 #if !defined(__TEMPLATE_FUNCTIONS)
 // dummy I/O and cmp functions
 
-inline void Print(const bin_tree&,ostream&) { }
-inline void Read(bin_tree&, istream&) { }
+inline void Print(const bin_tree&,std::ostream&) { }
+inline void Read(bin_tree&, std::istream&) { }
 inline int  compare(const bin_tree&,const bin_tree&) { return 0; }
 #endif
 

@@ -3,7 +3,7 @@
 
 
 
-main()
+int main()
 {
 
   d2_dictionary<double,double,string> S;
@@ -16,15 +16,15 @@ main()
 
 
   while (ch != 'q')
-  { 
-    cout << "(r/s/f/i/d/D/l/q): ";
+  {
+    std::cout << "(r/s/f/i/d/D/l/q): ";
     cin  >> ch;
 
     float T  = used_time();
-     
+
     switch(ch) {
 
-    case 'i': { cout << "insert point: ";
+    case 'i': { std::cout << "insert point: ";
                 cin >> x >> y;
                 S.insert(x,y,string("x = %f",x));
                 break;
@@ -36,7 +36,7 @@ main()
                   double y = rand_int(1,1000)/100.0;
                   S.insert(x,y,string("x = %f",x));
                  }
-                cout << string("time: %6.2f\n",used_time(T));
+                std::cout << string("time: %6.2f\n",used_time(T));
                 break;
                }
 
@@ -44,18 +44,18 @@ main()
                 double b=read_real("x1=");
                 double c=read_real("y0=");
                 double d=read_real("y1=");
-  
+
                 L = S.range_search(a,b,c,d);
-  
-                forall(it,L) cout << S.key1(it) << " " << S.key2(it) << "\n";
+
+                forall(it,L) std::cout << S.key1(it) << " " << S.key2(it) << "\n";
                 newline;
-              
-                cout << string("time: %6.2f\n",used_time(T));
+
+                std::cout << string("time: %6.2f\n",used_time(T));
                 break;
               }
 
 
-    case 'd': { cout << "delete point: ";
+    case 'd': { std::cout << "delete point: ";
 	        cin >> x >> y;
                 S.del(x,y);
                 break;
@@ -65,34 +65,34 @@ main()
                 double b=read_real("x1=");
                 double c=read_real("y0=");
                 double d=read_real("y1=");
-  
+
                 L = S.range_search(a,b,c,d);
-  
-                forall(it,L) 
+
+                forall(it,L)
                 { x = S.key1(it);
                   y = S.key2(it);
-                  cout << "delete: " << x  << " " << y <<"\n";
+                  std::cout << "delete: " << x  << " " << y <<"\n";
                   S.del(x,y);
                  }
                 newline;
-              
-                cout << string("time: %6.2f\n",used_time(T));
+
+                std::cout << string("time: %6.2f\n",used_time(T));
                 break;
               }
 
 
-    case 'f': { cout << "find point: ";
+    case 'f': { std::cout << "find point: ";
 	        cin >> x >> y;
-                if (S.lookup(x,y) != nil) cout << "yes";
-                else cout << "no";
+                if (S.lookup(x,y) != nil) std::cout << "yes";
+                else std::cout << "no";
                 newline;
                 break;
                }
 
 
     case 'l': { L = S.all_items();
-                forall(it,L) 
-                  cout << S.key1(it) << " " << S.key2(it) << "\n";
+                forall(it,L)
+                  std::cout << S.key1(it) << " " << S.key2(it) << "\n";
                 newline;
                 break;
                }

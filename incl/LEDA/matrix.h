@@ -5,9 +5,9 @@
 +  matrix.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -27,7 +27,7 @@
 class matrix {
 
 /*{\Mdefinition
-An instance of the data type $matrix$ is a matrix of double variables.  
+An instance of the data type $matrix$ is a matrix of double variables.
 }*/
 
   vector** v;
@@ -35,17 +35,17 @@ An instance of the data type $matrix$ is a matrix of double variables.
   int  d2;
 
   void     flip_rows(int,int);
-  void     check_dimensions(const matrix&) const; 
+  void     check_dimensions(const matrix&) const;
   double&  elem(int i, int j) const { return v[i]->v[j]; }
   double** triang(const matrix&, int&) const;
-    
+
 public:
 
 /*{\Mcreation M }*/
 
  matrix(int n=0, int m=0);
 
-/*{\Mcreate creates an instance $M$ of type $matrix$, $M$ is initialized to 
+/*{\Mcreate creates an instance $M$ of type $matrix$, $M$ is initialized to
            the $n \times m$ - zero matrix. }*/
 
   matrix(const matrix&);
@@ -96,7 +96,7 @@ vector solve(const vector& b) const { return vector(solve(matrix(b))); }
 	 and $M$.det() $\neq$ 0. }*/
 
 
-operator vector() const; 
+operator vector() const;
 
 vector& operator[](int i)    const { return row(i); }
 
@@ -135,37 +135,37 @@ matrix operator*(double x);
 /*{\Mbinop Multiplication with double x.}*/
 
 
-friend ostream& operator<<(ostream& O, const matrix& M);
+friend std::ostream& operator<<(std::ostream& O, const matrix& M);
 /*{\Mbinopfunc  writes matrix $M$ row by row to the output stream $O$. }*/
 
-friend istream& operator>>(istream& I, matrix& M);
+friend std::istream& operator>>(std::istream& I, matrix& M);
 /*{\Mbinopfunc  reads matrix $M$ row by row from the input stream $I$. }*/
 
 /*{\Mimplementation
-Data type $matrix$ is implemented by two-dimensional arrays of double numbers. 
-Operations det, solve, and inv take time $O(n^3)$, dim1, dim2, row, and col 
-take constant time, all other operations take time $O(nm)$.  
+Data type $matrix$ is implemented by two-dimensional arrays of double numbers.
+Operations det, solve, and inv take time $O(n^3)$, dim1, dim2, row, and col
+take constant time, all other operations take time $O(nm)$.
 The space requirement is $O(nm)$.}*/
 
 };
 
 
-inline void Print(const matrix& m, ostream& out) 
+inline void Print(const matrix& m,std::ostream& out)
 { out << m.dim1() << " ";
   out << m.dim2() << " ";
-  out << m; 
+  out << m;
 }
 
-inline void Read(matrix& m, istream& in) 
+inline void Read(matrix& m,std::istream& in)
 { int d1, d2;
   in >> d1 >> d2;
   matrix x(d1,d2);
-  in >> x;  
+  in >> x;
   m = x;
 }
 
-inline int compare(const matrix&, const matrix&) 
-{ error_handler(1,"compare not defined for type `matrix`"); 
+inline int compare(const matrix&, const matrix&)
+{ error_handler(1,"compare not defined for type `matrix`");
   return 0;
  }
 

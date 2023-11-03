@@ -5,9 +5,9 @@
 +  _min_spanning.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -18,10 +18,10 @@
  *      Kruskal's Algorithm for computing a minimum spanning tree
  *
  * In order to avoid sorting the entire edge set we proceed as follows:
- * We first run Kruskal's Algorithm with the 3*n cheapest edges of the graph. 
- * In general, this gives already a good approximation. Then we collect all 
+ * We first run Kruskal's Algorithm with the 3*n cheapest edges of the graph.
+ * In general, this gives already a good approximation. Then we collect all
  * edges still connecting different components and run the algorithm for them.
- * 
+ *
  *       worst case running time:  m * log n
  * ????? expected running time:    m * alpha(n) + n * log n  ?????
  *
@@ -38,12 +38,12 @@
 
 static const edge_array<num_type>* edge_cost;
 
-static int CMP_EDGES(const edge& e1, const edge& e2) 
+static int CMP_EDGES(const edge& e1, const edge& e2)
 { return compare((*edge_cost)[e1],(*edge_cost)[e2]); }
 
 
 static void KRUSKAL(list<edge>& L, node_partition& P, list<edge>& T)
-{ 
+{
   L.sort(CMP_EDGES);
   edge e;
   forall(e,L)
@@ -58,7 +58,7 @@ static void KRUSKAL(list<edge>& L, node_partition& P, list<edge>& T)
  }
 
 list<edge> MIN_SPANNING_TREE(const graph& G, const edge_array<num_type>& cost)
-{ 
+{
   list<edge> T;
   list<edge> L;
   node_partition P(G);
@@ -82,7 +82,7 @@ list<edge> MIN_SPANNING_TREE(const graph& G, const edge_array<num_type>& cost)
 
      delete c;
 
-     forall_edges(e,G) 
+     forall_edges(e,G)
         if (cost[e] < x) L.append(e);
     }
   else
@@ -97,7 +97,7 @@ list<edge> MIN_SPANNING_TREE(const graph& G, const edge_array<num_type>& cost)
 
   L.clear();
 
-  forall_edges(e,G) 
+  forall_edges(e,G)
      if (!P.same_block(source(e),target(e))) L.append(e);
 
   KRUSKAL(L,P,T);
@@ -116,7 +116,7 @@ list<edge> MIN_SPANNING_TREE(const graph& G, const edge_array<num_type>& cost)
  *
  * for details see Mehlhorn Vol. II, Section IV.8, Theorem 2
  *
- * Running time with Fibonnaci heap:  O(m + n * log n)   
+ * Running time with Fibonnaci heap:  O(m + n * log n)
  *                                    ( m * decrease_p + n * del_min)
  *
  * S.N. (1992)
@@ -131,9 +131,9 @@ list<edge> MIN_SPANNING_TREE1(const graph& G, const edge_array<num_type>& cost)
 
   list<edge> result;
 
-  node_pq<num_type> PQ(G); 
+  node_pq<num_type> PQ(G);
 
-  node_array<num_type> dist(G,MAXINT); 
+  node_array<num_type> dist(G,MAXINT);
                                  // dist[v] = current distance value of v
                                  // MAXINT: no edge adjacent to v visited
                                  //-MAXINT: v already in a tree
@@ -145,7 +145,7 @@ list<edge> MIN_SPANNING_TREE1(const graph& G, const edge_array<num_type>& cost)
   forall_nodes(v,G)  PQ.insert(v,MAXINT);
 
   while (! PQ.empty())
-  { 
+  {
     node u = PQ.del_min();
 
     if (dist[u] != MAXINT) result.append(T[u]);

@@ -5,9 +5,9 @@
 +  _delaunay_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 /*****************************************************************************
@@ -76,10 +76,10 @@ struct STAR{
 
 struct NOEUD{
 
-	int		type;	/* le triangle est Fini ou Infini[123] 
+	int		type;	/* le triangle est Fini ou Infini[123]
 				   dans le cas d'un triangle infini, les sommets
 				   infinis sont la direction a` l'infini */
-	
+
 	int		degenere;  /* booleen, 3 pts alignes ? */
 	int		direct;	   /* booleen, le triangle est-il direct ? */
         int             stacked;
@@ -87,15 +87,15 @@ struct NOEUD{
 			              est le flag courant.
 				      pour la suppression le triangle est
 	                              marque si il appartient ou a
-	                              appartenu a A 
+	                              appartenu a A
 	                            */
-	
+
 	int		detruire;   /* le triangle est a detruire si ce flag
 				       est le flag courant */
-	coord 	cx,cy;		    /* centre du cercle 
+	coord 	cx,cy;		    /* centre du cercle
 	                                      (uniqu^t pour tracer voronoi)*/
 	coord	a2,b2,a3,b3,c1,z0,z1,z2; /* pour les tests de conflit */
-	
+
 	DT_item	meurtrier; /* NULL si le triangle n'est pas mort */
 	DT_item	s[3];	   /* sommets du triangle */
 				   /* U est le createur */
@@ -128,14 +128,14 @@ struct NOEUD{
 
 char* delaunay_tree::alloc_block(int size)
 {
-   char* p =  (char*)malloc( size + sizeof(double) ); 
+   char* p =  (char*)malloc( size + sizeof(double) );
 
    if (!p) error_handler(1,"out of memory");
 
    *((char**)p) = used_blocks;
    used_blocks = p;
 
-   return (used_blocks+sizeof(double)) ; 
+   return (used_blocks+sizeof(double)) ;
  }
 
 
@@ -157,7 +157,7 @@ void delaunay_tree::poubelle_point(DT_item p)
 DT_item delaunay_tree::vrai_alloc_point()
 {
  if ( ! item_nombre ) {
-		item_next = (DT_item) alloc_block( (item_nombre = SIZEALLOC) * sizeof(DT_POINT) ) ; 
+		item_next = (DT_item) alloc_block( (item_nombre = SIZEALLOC) * sizeof(DT_POINT) ) ;
 	}
 	item_nombre--;
 	return item_next++;
@@ -181,7 +181,7 @@ void delaunay_tree::poubelle_listenoeud(listenoeud p)
 listenoeud delaunay_tree::vrai_alloc_listenoeud()
 {
  if ( ! listenoeud_nombre ) {
-		listenoeud_next = (listenoeud) alloc_block((listenoeud_nombre = SIZEALLOC) * sizeof(LISTENOEUD) ) ; 
+		listenoeud_next = (listenoeud) alloc_block((listenoeud_nombre = SIZEALLOC) * sizeof(LISTENOEUD) ) ;
 	}
 	listenoeud_nombre--;
 	return listenoeud_next++;
@@ -189,7 +189,7 @@ listenoeud delaunay_tree::vrai_alloc_listenoeud()
 
 listenoeud delaunay_tree::alloc_listenoeud()
 {
-	if ( Poubelle_listenoeud ) 
+	if ( Poubelle_listenoeud )
                               { listenoeud p = Poubelle_listenoeud;
 			        Poubelle_listenoeud = Poubelle_listenoeud->next;
 				return p;  }
@@ -199,7 +199,7 @@ listenoeud delaunay_tree::alloc_listenoeud()
 
 void delaunay_tree::poubelle_noeud(noeud p)
 /* on ne se resert que des noeud dont le champs detruire n'est pas flag */
-{ 
+{
   p->fils[0] =  Poubelle_noeud;
   Poubelle_noeud = p;
   if (fl != p->detruire ) { fl = p->detruire; Libre_noeud = Poubelle_noeud ;}
@@ -208,7 +208,7 @@ void delaunay_tree::poubelle_noeud(noeud p)
 noeud delaunay_tree::vrai_alloc_noeud()
 {
  if ( ! noeud_nombre ) {
-		noeud_next = (noeud) alloc_block((noeud_nombre = SIZEALLOC) * sizeof(NOEUD) ) ; 
+		noeud_next = (noeud) alloc_block((noeud_nombre = SIZEALLOC) * sizeof(NOEUD) ) ;
 	}
 	noeud_nombre--;
 	return noeud_next++;
@@ -216,7 +216,7 @@ noeud delaunay_tree::vrai_alloc_noeud()
 
 noeud delaunay_tree::alloc_noeud()
 /* on ne se resert que des noeud dont le champs detruire n'est pas flag */
-{	
+{
 	if (Libre_noeud && Libre_noeud->fils[0] )
 			{ noeud p = Libre_noeud->fils[0];
 			  Libre_noeud->fils[0] = Libre_noeud->fils[0]->fils[0];
@@ -234,7 +234,7 @@ void delaunay_tree::poubelle_star(star p)
 star delaunay_tree::vrai_alloc_star()
 {
  if ( ! star_nombre ) {
-		star_next = (star) alloc_block((unsigned int) (star_nombre = SIZEALLOC) * sizeof(STAR) ) ; 
+		star_next = (star) alloc_block((unsigned int) (star_nombre = SIZEALLOC) * sizeof(STAR) ) ;
 	}
 	star_nombre--;
 	return star_next++;
@@ -255,11 +255,11 @@ void delaunay_tree::poubelle_reinserer( reinserer p)
   p->finf =  Poubelle_reinserer;
   Poubelle_reinserer = p;
 }
- 
+
 reinserer delaunay_tree::vrai_alloc_reinserer()
 {
  if ( ! reinserer_nombre ) {
-		reinserer_next = (reinserer) alloc_block((reinserer_nombre = SIZEALLOC) * sizeof(REINSERER) ) ; 
+		reinserer_next = (reinserer) alloc_block((reinserer_nombre = SIZEALLOC) * sizeof(REINSERER) ) ;
 	}
 	reinserer_nombre--;
 	return reinserer_next++;
@@ -455,7 +455,7 @@ void delaunay_tree::cercle( noeud t)
    	t->b2 = t->s[1]->y - t->s[0]->y ;
    	t->a3 = t->s[2]->x - t->s[0]->x ;
    	t->b3 = t->s[2]->y - t->s[0]->y ;
- 
+
    	t->c1 = t->a2 * t->b3 - t->a3 * t->b2 ;
    	t->z1 = t->a2 * (t->s[1]->x + t->s[0]->x) + t->b2 * (t->s[1]->y+t->s[0]->y);
    	t->z2 = t->a3 * (t->s[2]->x + t->s[0]->x) + t->b3 * (t->s[2]->y+t->s[0]->y);
@@ -465,7 +465,7 @@ void delaunay_tree::cercle( noeud t)
 	c = t->s[W]->x * t->s[W]->x + t->s[W]->y * t->s[W]->y - a ;
 	d = 2*( (t->s[V]->x - t->s[U]->x) * (t->s[W]->y - t->s[U]->y)
 				- (t->s[W]->x - t->s[U]->x) * (t->s[V]->y - t->s[U]->y));
-	if ( (t->degenere = (d==0) ) ) { 
+	if ( (t->degenere = (d==0) ) ) {
 						t->cx= t->pere->cx ;
 						t->cy= t->pere->cy ;
 					return;
@@ -483,7 +483,7 @@ int delaunay_tree::direct( noeud n)
 /* teste si un triangle est direct */
 {
 	switch(n->type){
-	case Fini       : 
+	case Fini       :
 		return ((n->s[V]->x - n->s[U]->x)*(n->s[W]->y - n->s[U]->y)
 				- (n->s[V]->y - n->s[U]->y)*(n->s[W]->x - n->s[U]->x) > 0);
 	case Infini1	 :
@@ -497,12 +497,12 @@ int delaunay_tree::direct( noeud n)
 	return 2;
 }
 
- 
+
 int delaunay_tree::conflit(noeud n, DT_item p)
 {
   /* teste si un point est en conflit avec une region */
 
-    register coord a1,c2,c3,z0;
+    coord a1,c2,c3,z0;
 
     switch(n->type){
     case Fini       :
@@ -556,20 +556,20 @@ int delaunay_tree::conflit(noeud n, DT_item p)
 //    	c3 = p->y - n->s[0]->y ;
 //
 //    	z0 = a1 * (p->x + n->s[0]->x) + c3 * (p->y + n->s[0]->y) ;
-//	 
+//
 //    	c2 = n->a3 * c3 - a1 * n->b3 ;
 //    	c3 = a1 * n->b2 - n->a2 * c3 ;
-// 
+//
 //	/********** Arithmetique double precision ************/
 //	/* On utilise le fait que les flottants de l'accelerateur
 //	   flottant sont stockes avec une mantisse de 64 bits !!!
 //           Pour faire du calcul entier juste, faite le en flottant !
 //	*/
-// 
+//
 //	a1=(double)z0*(double)n->c1 + (double)n->z1*(double)c2 + (double)n->z2*(double)c3;
 //		return (n->direct ? ( a1 <= 0.0)  : (a1 >= 0.0) );
 //
-//	case Infini1    : 
+//	case Infini1    :
 //		return (n->direct)
 //			?	( ( (p->x - n->s[U]->x)* (n->s[U]->y - n->s[V]->y)
 //					+ (p->y - n->s[U]->y)* (n->s[V]->x - n->s[U]->x) ) >= 0 )
@@ -607,9 +607,9 @@ void delaunay_tree::init()
 /* initialisation du Delaunay tree avec les trois points a l'infini */
 {
         counter = 0;
-        flag=1; 
-        Star = NULL; 
-        Reinsert = NULL; 
+        flag=1;
+        Star = NULL;
+        Reinsert = NULL;
         Poubelle_noeud = Libre_noeud = NULL;
 
         used_blocks=NULL;
@@ -741,7 +741,7 @@ noeud delaunay_tree::creenoeud( noeud pere, int i, DT_item p)
 					nouveau->type = Fini; break;
 				case Infini1    :
 					switch (i) {
-					case U: 
+					case U:
 					case V: demiplan(nouveau); nouveau->type = Infini1;
 							nouveau->degenere = 0; break;
 					case W: cercle(nouveau); nouveau->type = Fini; break;
@@ -749,13 +749,13 @@ noeud delaunay_tree::creenoeud( noeud pere, int i, DT_item p)
 				case Infini2    :
 					switch (i) {
 					case U: nouveau->type = Infini2;
-							nouveau->degenere = 0;break; 
+							nouveau->degenere = 0;break;
 					case V:
 					case W: nouveau->type = Infini1; demiplan(nouveau);
-							nouveau->degenere = 0;break; 
+							nouveau->degenere = 0;break;
 					}break;
 				case Infini3    : nouveau->type = Infini2;
-									nouveau->degenere = 0;break; 
+									nouveau->degenere = 0;break;
 				case Impossible : break;
 				}
 	return nouveau;
@@ -766,7 +766,7 @@ int delaunay_tree::creation( noeud detruit, DT_item p)
 {
 	DT_item first= NULL;
 	noeud n1,father;
-	int arete;		/* indice sur n1 de l'arete axe-createur */ 
+	int arete;		/* indice sur n1 de l'arete axe-createur */
 	int a,b,c;		/* indice des trois sommets sur father */
 	int a1,b1,c1;	/* indice des trois sommets sur le noeud precedent */
 	int j;
@@ -783,10 +783,10 @@ int delaunay_tree::creation( noeud detruit, DT_item p)
 		   detruit->voisin[c]->meurtrier = p;
 		   a1 = a; b1 = b; c1 = c;
 		   for (j=U; j<=W; j++)
-		   if (detruit->voisin[c1]->s[j] == detruit->s[a1]) 
+		   if (detruit->voisin[c1]->s[j] == detruit->s[a1])
                        a=j;
-		   else 
-                      if (detruit->voisin[c1]->s[j] == detruit->s[b1]) 
+		   else
+                      if (detruit->voisin[c1]->s[j] == detruit->s[b1])
                          c=j;
                       else
                          b=j;
@@ -914,7 +914,7 @@ void delaunay_tree::add_x1x2( reinserer r, noeud v, DT_item p)
 	if ( v->direct )
 					 if  (p==v->s[V]) r->detruit1 = v;
 					 else			  r->detruit2 = v;
-	else			
+	else
 					 if  (p==v->s[W]) r->detruit1 = v;
 					 else			  r->detruit2 = v;
 }
@@ -961,12 +961,12 @@ void delaunay_tree::recherche( DT_item p)
 {
 	DT_item first;
 	noeud father;
-	int arete;		/* indice sur n1 de l'arete axe-createur */ 
+	int arete;		/* indice sur n1 de l'arete axe-createur */
 	int a,b,c;		/* indice des trois sommets sur father */
 	int a1,b1,c1;	/* indice des trois sommets sur le noeud precedent */
 	int j;
 
-	clear_Reinsert(Reinsert); 
+	clear_Reinsert(Reinsert);
 	clear_Star();
 		arete = (  p->cree->direct  ) ? V : W ;
 		first = p->cree->s[V + W - arete ];
@@ -1023,7 +1023,7 @@ void delaunay_tree::reinsertion( reinserer n, DT_item p)
 	/* traitement des noeuds decroches */
 	for ( l=n->decroches; l; l = l->next )
 		if ( l->item->pere ) {
-		/* il faut trouver un nouveau beau-pere et tous les voisinages 
+		/* il faut trouver un nouveau beau-pere et tous les voisinages
                    par cette arete */
 			u = l->item->pere;
 			for( i=U; i<=W; i++) if (u->fils[i] == l->item) break;
@@ -1152,7 +1152,7 @@ void delaunay_tree::reinsertion( reinserer n, DT_item p)
 				ww->Star[U]->p = V+W-ww->Star[U]->n ;
 			}
 		j = a ; a = b ; b = c ; c = j ;
-	} while ( v->s[a] != x2) ; 
+	} while ( v->s[a] != x2) ;
 		/* voisinage autour de x x2 */
 			n->x->cree = w2 = w;
 			ww = n->detruit2->creation[(n->detruit2->s[V]==p)?V:W] ;
@@ -1174,7 +1174,7 @@ void delaunay_tree::reinsertion( reinserer n, DT_item p)
 		}
 			v->meurtrier = n->x;
 		j = a ; a = b ; b = c ; c = j ;
-	} while ( v->s[a] != x1) ; 
+	} while ( v->s[a] != x1) ;
 		/* mise a jour de Star */
 			split_Star(s1,s2); s2=s1->next;
 			s1->triangle = w1;
@@ -1311,8 +1311,8 @@ void delaunay_tree::del_noeud( noeud n, delaunay_f4* trace_segment,int both)
 	n->visite = flag;
 
 	for (i=U; i<=W; i++)
-          if ( both || n->voisin[i]->visite != flag ) 
-           { int j = (i==U) ? V : U ; 
+          if ( both || n->voisin[i]->visite != flag )
+           { int j = (i==U) ? V : U ;
              int k = U + V + W -i -j ;
 	     if (( n->type == Fini ) || ((i == W) && (n->type==Infini1) ) )
                 trace_segment(n->s[j]->x,n->s[j]->y, n->s[k]->x, n->s[k]->y);
@@ -1346,7 +1346,7 @@ void delaunay_tree::vor( noeud n, delaunay_f6* trace_segment, delaunay_F6* pt_in
   n->stacked = flag;
 
   while (top >= 0)
-  { 
+  {
     n = stack[top--];   //pop
 
     n->visite = flag;
@@ -1356,22 +1356,22 @@ void delaunay_tree::vor( noeud n, delaunay_f6* trace_segment, delaunay_F6* pt_in
            order[1] = 1;
            order[2] = 2;
           }
-        else 
+        else
          { order[0] = 2;
            order[1] = 1;
            order[2] = 0;
           }
 
 	for (j=0; j<3; j++)
-        { 
+        {
           int i = order[j];
 
                if (both ||  n->voisin[i]->visite != flag )
 		{   int k;
                     if (n->direct)
-                       k = (i==2) ? 0 : i+1; 
-                    else 
-                       k = (i==0) ? 2 : i-1; 
+                       k = (i==2) ? 0 : i+1;
+                    else
+                       k = (i==0) ? 2 : i-1;
 
 		    coord sx0 = n->s[k]->x;
                     coord sy0 = n->s[k]->y;
@@ -1381,10 +1381,10 @@ void delaunay_tree::vor( noeud n, delaunay_f6* trace_segment, delaunay_F6* pt_in
 			if (! n->degenere ) {
 				switch ( n->voisin[i]->type ){
 				case Fini : if ( ! n->voisin[i]->degenere ){
-trace_segment(n->cx,n->cy, n->voisin[i]->cx, n->voisin[i]->cy,sx0,sy0); 
+trace_segment(n->cx,n->cy, n->voisin[i]->cx, n->voisin[i]->cy,sx0,sy0);
                                             break;
 				}
-				case Infini1  : 
+				case Infini1  :
 				  pt_infi(n->cx,n->cy, n->voisin[i]->cx, n->voisin[i]->cy,&x,&y);
                                   trace_segment(n->cx, n->cy,x,y,sx0,sy0);
 				  break ;
@@ -1395,12 +1395,12 @@ trace_segment(n->cx,n->cy, n->voisin[i]->cx, n->voisin[i]->cy,sx0,sy0);
 				if ( n->degenere &&  n->voisin[i]->degenere ) break;
 				switch ( n->voisin[i]->type ){
 				case Fini :
-				if ( ! n->voisin[i]->degenere ) 
-                                { pt_infi(n->voisin[i]->cx, 
-                                          n->voisin[i]->cy, 
+				if ( ! n->voisin[i]->degenere )
+                                { pt_infi(n->voisin[i]->cx,
+                                          n->voisin[i]->cy,
                                           n->cx,n->cy,&x,&y);
                                   trace_segment(x,y,
-                                                n->voisin[i]->cx, 
+                                                n->voisin[i]->cx,
                                                 n->voisin[i]->cy,
                                                 sx0,sy0);
 				  break ;
@@ -1410,7 +1410,7 @@ trace_segment(n->cx,n->cy, n->voisin[i]->cx, n->voisin[i]->cy,sx0,sy0);
                                   { mx = ( n->s[U]->x + n->s[V]->x )/2 ;
 				    my = ( n->s[U]->y + n->s[V]->y )/2 ;
 				    pt_infi(mx,my, n->cx,n->cy,&x,&y);
-				    pt_infi(mx,my, n->voisin[i]->cx, 
+				    pt_infi(mx,my, n->voisin[i]->cx,
                                                    n->voisin[i]->cy,&mx, &my);
 				    trace_segment(mx,my, x,y,sx0,sy0);
 				   }
@@ -1484,8 +1484,8 @@ DT_item delaunay_tree::insert( coord x, coord y, void* inf)
 	p->y = y;
         p->i = inf;
 	p->n = flag;
-	if (! creation( Insert(arbre,p), p )) 
-        { poubelle_point(p); 
+	if (! creation( Insert(arbre,p), p ))
+        { poubelle_point(p);
           return neighbor(x,y);
          }
         copy_inf(inf);
@@ -1528,7 +1528,7 @@ void delaunay_tree::trace_voronoi_edges(delaunay_f6 *trace_seg, delaunay_F6 *pt_
 }
 
 void delaunay_tree::convex_hull(list<DT_item>& CH)
-{ 
+{
  CH.clear();
 
  if (arbre == nouveau) return;
@@ -1548,7 +1548,7 @@ void delaunay_tree::convex_hull(list<DT_item>& CH)
      else
         k = (i == 2) ? 0 : i+1;
      noeud w = v->voisin[k];
-     for(i=0;w->voisin[i] != v;i++); 
+     for(i=0;w->voisin[i] != v;i++);
      v = w;
     } while (v->s[i] != start);
 

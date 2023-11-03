@@ -1,7 +1,7 @@
 #include <LEDA/plane.h>
 #include <LEDA/window.h>
 
-main()
+int main()
 
 { window W;
 

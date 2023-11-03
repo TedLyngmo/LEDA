@@ -5,9 +5,9 @@
 +  tree_collection.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_DYNTREES_H
@@ -24,7 +24,7 @@
  *                                                                     *
  *  d_vertex T.findroot(d_vertex v); Gibt die Wurzel des v enthaltenden*
  *     Baumes zurueck.                                                 *
- *                                                                     *  
+ *                                                                     *
  *  d_vertex T.findcost(d_vertex v, double& d); Gibt den entsprechenden*
  *     Knoten zurueck (s.o.), die Kosten werden im Argument d zurueck- *
  *     gegeben.                                                        *
@@ -63,7 +63,7 @@ friend class dyna_trees;
      double dcost,
             dmin;
 
-     d_node(void* i) { 
+     d_node(void* i) {
                        left=right=parent=successor=next=0;
                        dcost=dmin=0;
                        info = i;
@@ -71,8 +71,8 @@ friend class dyna_trees;
    LEDA_MEMORY(d_node)
 
 };
-  
-   
+
+
 class dyna_trees {
      d_vertex first,
             last;  // diese beiden Zeiger fuer ~dyna_tree
@@ -89,7 +89,7 @@ class dyna_trees {
      void   addpathcost(d_path, double);
      d_vertex join(d_path, d_path, d_path);
      void   split(d_vertex, d_vertex&, d_vertex&);
-     
+
      d_path   expose(d_vertex);
 
 virtual void copy_inf(GenPtr& x)      { x=x; }
@@ -100,7 +100,7 @@ public:
      virtual ~dyna_trees();
 
      void*    inf(d_vertex v) { return v->info; }
-       
+
      d_vertex maketree(void*);
      d_vertex findroot(d_vertex);
      d_vertex findcost(d_vertex, double&);
@@ -127,7 +127,7 @@ void clear_inf(GenPtr& x)     { LEDA_CLEAR(I,x);  }
 
 public:
 
-/*{\Mcreation D }*/ 
+/*{\Mcreation D }*/
 
 tree_collection() {}
 /*{\Mcreate creates an instance \var\ of type \name, initialized with the
@@ -167,7 +167,7 @@ void link(d_vertex v, d_vertex x);
 	     and $v$ is a root.}*/
 
 void cut(d_vertex v);
-/*{\Mop      divides the tree containing vertex $v$ into 
+/*{\Mop      divides the tree containing vertex $v$ into
 	     two trees by deleting the edge out of $v$.\\
 	     \precond $v$ is not a tree root.}*/
 

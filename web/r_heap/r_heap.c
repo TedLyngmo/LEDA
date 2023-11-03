@@ -6,7 +6,7 @@
 
 
 #include "r_heap.h"
-#include <math.h>
+#include <cmath>
 
 
 
@@ -315,7 +315,7 @@ r_heap_item r_heap::next_item(r_heap_item p) const
 
 
 
-void r_heap::print_contents(ostream & os) const
+void r_heap::print_contents(std::ostream & os) const
 {
   r_heap_item item;
 

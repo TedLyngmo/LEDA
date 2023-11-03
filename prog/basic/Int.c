@@ -7,7 +7,7 @@ typedef Integer integer;
 #endif
 */
 
-main()
+int main()
 {
    int N  = read_int("iterations = ");
    int la = read_int("size of A  = ");
@@ -26,47 +26,47 @@ main()
 /*
    double x =123456789.123456789;
 
-   cout << "integer -> double:    " << flush;
+   std::cout << "integer -> double:    " << flush;
    T = used_time();
    for(i=0; i<N; i++) { x = A.todouble(); }
-   cout << string(" %4.2f",used_time(T)) << endl;
+   std::cout << string(" %4.2f",used_time(T)) << std::endl;
 
-   cout << "double -> integer:    " << flush;
+   std::cout << "double -> integer:    " << flush;
    T = used_time();
    for(i=0; i<N; i++) { S = x; }
-   cout << string(" %4.2f",used_time(T)) << endl;
+   std::cout << string(" %4.2f",used_time(T)) << std::endl;
    newline;
 */
 
-   cout << "Addition (integer):   " << flush;
+   std::cout << "Addition (integer):   " << flush;
    T = used_time();
    for(i=0; i<N; i++) { S = A+B; }
-   cout << string(" %4.2f",used_time(T)) << endl;
+   std::cout << string(" %4.2f",used_time(T)) << std::endl;
 
-   cout << "Subtraction (integer):" << flush;
+   std::cout << "Subtraction (integer):" << flush;
    T = used_time();
    for(i=0; i<N; i++) { D = A-B; }
-   cout << string(" %4.2f",used_time(T)) << endl;
+   std::cout << string(" %4.2f",used_time(T)) << std::endl;
 
-   if (S+D-A != A) cout << "integer: error in addition/subtraction" << endl;
+   if (S+D-A != A) std::cout << "integer: error in addition/subtraction" << std::endl;
 
 
-   cout << "Multiplication (integer):" << flush;
+   std::cout << "Multiplication (integer):" << flush;
    T = used_time();
    for(i=0; i<N; i++) { P = A*B; }
-   cout << string(" %4.2f",used_time(T)) << endl;
+   std::cout << string(" %4.2f",used_time(T)) << std::endl;
 
-   cout <<"Division:" << endl;
+   std::cout <<"Division:" << std::endl;
    for(i=0; i<N; i++) { Q = A/B; }
-   cout << string("integer: %4.2f",used_time(T)) << endl;
+   std::cout << string("integer: %4.2f",used_time(T)) << std::endl;
 
 
-   cout <<"Modulo:" << endl;
+   std::cout <<"Modulo:" << std::endl;
    for(i=0; i<N; i++) { R = A%B; }
-   cout << string("integer: %4.2f",used_time(T)) << endl;
+   std::cout << string("integer: %4.2f",used_time(T)) << std::endl;
 
-   if (Q*B + R != A) 
-     cout << "error in division/multiplication" << endl;
+   if (Q*B + R != A)
+     std::cout << "error in division/multiplication" << std::endl;
 }
 
 

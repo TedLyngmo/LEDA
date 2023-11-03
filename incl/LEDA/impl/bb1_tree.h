@@ -5,9 +5,9 @@
 +  bb1_tree.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -16,7 +16,7 @@
 #define LEDA_BB_TREE_H
 
 //--------------------------------------------------------------------
-//  
+//
 //  BB[alpha] Trees
 //
 //  Michael Wenzel   (1989)
@@ -89,17 +89,17 @@ public:
     }
 
   bb1_node(bb1_item p)
-    { 
+    {
       ke = p->key();
       inf = p->info();
       gr = p->groesse();
       sohn[0] = p->sohn[0];
       sohn[1] = p->sohn[1];
     }
-      
+
   LEDA_MEMORY(bb1_node)
 
-}; 
+};
 
 
 
@@ -108,7 +108,7 @@ class bb1_tree {
   bb1_item root;
   bb1_item first;
   bb1_item iterator;
-  int   anzahl; 
+  int   anzahl;
   float alpha;
   float d;
   bb1_tree_stack st;
@@ -121,10 +121,10 @@ class bb1_tree {
   int   blatt(bb1_item it)
 	{ return (it) ? it->blatt() : 0; }
 
-  void  lrot(bb1_item , bb1_item ); 
-  void  rrot(bb1_item , bb1_item ); 
-  void  ldrot(bb1_item , bb1_item ); 
-  void  rdrot(bb1_item , bb1_item ); 
+  void  lrot(bb1_item , bb1_item );
+  void  rrot(bb1_item , bb1_item );
+  void  ldrot(bb1_item , bb1_item );
+  void  rdrot(bb1_item , bb1_item );
 
   void  deltree(bb1_item);
   bb1_item copytree(bb1_item , bb1_item , bb1_item& );
@@ -151,7 +151,7 @@ public:
 
   bb1_item insert(GenPtr ,GenPtr );
   bb1_item change_obj(GenPtr ,GenPtr );
-  bb1_item change_inf(bb1_item it,GenPtr y) { if (it)  
+  bb1_item change_inf(bb1_item it,GenPtr y) { if (it)
   	                                 { it->inf = y;
                                            return it; }
                                          else return 0;
@@ -160,8 +160,8 @@ public:
   bb1_item del(GenPtr);
 
   void del_item(bb1_item it) { if (it) del(it->key()); }
-  void del_min() { if (first) del(first->key()); } 
-  void decrease_key(bb1_item p, GenPtr k) { GenPtr i = p->info(); 
+  void del_min() { if (first) del(first->key()); }
+  void decrease_key(bb1_item p, GenPtr k) { GenPtr i = p->info();
                                             del(p->key());
                                             insert(k,i);
                                            }
@@ -189,7 +189,7 @@ public:
 
   bb1_item move_iterator() ;
 
-  int current_item(bb1_item& x) 
+  int current_item(bb1_item& x)
      { if (!iterator) return 0;
        else { x = iterator; return 1; }
      }
@@ -206,7 +206,7 @@ public:
   int   member(GenPtr );
   bb1_tree& operator=(const bb1_tree& w);
 
-  void  set_alpha(float a) 
+  void  set_alpha(float a)
         { if (anzahl>=3)
              error_handler(4,"aenderung von alpha nicht erlaubt");
           if ((a<0.25) || (a>1-SQRT1_2))
@@ -218,7 +218,7 @@ public:
   float get_alpha() { return alpha; }
 
   bb1_tree() : st(BSTACKSIZE)
-  { 
+  {
     root = first = iterator = 0;
     anzahl = 0;
     alpha=0.28;
@@ -238,7 +238,7 @@ public:
   void draw(DRAW_BB_NODE_FCT, DRAW_BB_EDGE_FCT, bb1_node*,
             double, double, double, double, double);
 
-  void draw(DRAW_BB_NODE_FCT, DRAW_BB_EDGE_FCT, 
+  void draw(DRAW_BB_NODE_FCT, DRAW_BB_EDGE_FCT,
             double, double, double, double);
 
 };

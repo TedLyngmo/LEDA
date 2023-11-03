@@ -5,7 +5,7 @@ a sequence of strings, terminated by string ``stop''.
 \#include \<LEDA/dictionary.h\>
 
 \smallskip
-main()\\
+int main()\\
 $\{$
 
 \hspace*{.5cm} dictionary\<string,int\> $D$;
@@ -24,7 +24,7 @@ $\{$
 
 \smallskip
 \hspace*{.5cm} {\bf forall\_items}($it,D$) 
-cout \<\< $D$.key($it$) \<\< `` : " \<\<  $D$.inf($it$) \<\< endl;\\
+cout \<\< $D$.key($it$) \<\< `` : " \<\<  $D$.inf($it$) \<\< std::endl;\\
 \smallskip
 $\}$\\
 

@@ -5,9 +5,9 @@
 +  _ch_array.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -34,10 +34,10 @@ ch_array_elem ch_array::STOP;
 #define HASH(x) (table + (hash_fct(x) & table_size_1))
 
 
-ch_array::ch_array(int n) 
+ch_array::ch_array(int n)
 { int ts = 1;
   while (ts < n) ts <<= 1;
-  init_table(ts); 
+  init_table(ts);
 }
 
 
@@ -60,7 +60,7 @@ GenPtr ch_array::access(GenPtr x) const
 
 
 GenPtr& ch_array::access(GenPtr x)
-{ 
+{
   //if (x == NIL) error_handler(1,"internal error in ch_array");
 
   ch_array_item p = HASH(x);
@@ -74,7 +74,7 @@ GenPtr& ch_array::access(GenPtr x)
    }
 
   STOP.k = x;
-  ch_array_item q = p->succ; 
+  ch_array_item q = p->succ;
   while (q->k != x) q = q->succ;
   if (q != &STOP) return q->i;
 
@@ -97,15 +97,15 @@ GenPtr& ch_array::access(GenPtr x)
 
 
 
-void ch_array::destroy() 
+void ch_array::destroy()
 { for(ch_array_item p = table; p < table_end; p++)
     if (p->k != NIL) clear_inf(p->i);
-  delete[] table; 
+  delete[] table;
  }
 
 
 void ch_array::init_table(int T)
-{ 
+{
   table_size = T;
   table_size_1 = T-1;
 
@@ -116,13 +116,13 @@ void ch_array::init_table(int T)
 
   ch_array_item p=table;
 
-  while (p<free) 
+  while (p<free)
   { p->k = NIL;
     p->succ = &STOP;
     p++;
    }
 
-  while (p<table_end) 
+  while (p<table_end)
   { p->k = NIL;
     p++;
    }
@@ -147,10 +147,10 @@ void ch_array::init_table(int T)
 
 
 void ch_array::rehash()
-{ 
+{
   ch_array_item old_table = table;
   ch_array_item old_table_end = table_end;
-  
+
   init_table(2*table_size);
 
   for(ch_array_item p = old_table; p < old_table_end; p++)
@@ -175,11 +175,11 @@ ch_array_item ch_array::next_item(ch_array_item p) const
 
 
 ch_array::ch_array(const ch_array& D)
-{ 
+{
   init_table(D.table_size);
 
-  for(ch_array_item p = D.table; p < D.table_end; p++) 
-  { if (p->k != GenPtr(&D)) 
+  for(ch_array_item p = D.table; p < D.table_end; p++)
+  { if (p->k != GenPtr(&D))
     { INSERT(p->k,p->i);
       D.copy_inf(p->i);
      }
@@ -188,12 +188,12 @@ ch_array::ch_array(const ch_array& D)
 
 
 ch_array& ch_array::operator=(const ch_array& D)
-{ 
+{
   destroy();
   init_table(D.table_size);
 
-  for(ch_array_item p = D.table; p < D.table_end; p++) 
-  { if (p->k != GenPtr(&D)) 
+  for(ch_array_item p = D.table; p < D.table_end; p++)
+  { if (p->k != GenPtr(&D))
     { INSERT(p->k,p->i);
       copy_inf(p->i);
      }
@@ -208,11 +208,11 @@ void ch_array::print()
     if (p->k != NIL)
     { int l = 0;
       while(p != &STOP)
-      { l++; 
+      { l++;
         p = p->succ;
        }
-      cout << string("L(%d) = %d",i,l) << endl;
+      std::cout << string("L(%d) = %d",i,l) << std::endl;
      }
    }
 }
-  
+

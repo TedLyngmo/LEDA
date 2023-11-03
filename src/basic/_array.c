@@ -5,37 +5,37 @@
 +  _array.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/impl/gen_array.h>
 
 #define SWAP(a,b) { GenPtr help = *a; *a = *b; *b = help; }
 
-#define MIN_D 16 
+#define MIN_D 16
 
-void gen_array::read(istream& in, string s)
-{ cout << s;
+void gen_array::read(std::istream& in, string s)
+{ std::cout << s;
   for (int i = 0; in && i<sz; i++) read_el(v[i],in);
  }
 
-void gen_array::print(ostream& out, string s, char space) const
+void gen_array::print(std::ostream& out, string s, char space) const
 { out << s;
   for (int i=0; i<sz; i++)
   { out << string("%c",space);
-    print_el(v[i],out); 
+    print_el(v[i],out);
    }
   out.flush();
 }
 
-void gen_array::clear() 
+void gen_array::clear()
 { GenPtr* p = v + sz;
   while (p > v) clear_entry(*--p);
 }
 
-void gen_array::init() 
+void gen_array::init()
 { GenPtr* p = v + sz;
   while (p > v) init_entry(*--p);
 }
@@ -54,7 +54,7 @@ gen_array::gen_array(int a, int b)
   Low = a;
   High = b;
   sz = b-a+1;
-  v = new GenPtr[sz];  
+  v = new GenPtr[sz];
   if (v==0) error_handler(99,"array: out of memory");
   last = v+sz-1;
  }
@@ -77,7 +77,7 @@ gen_array::gen_array(const gen_array& a)
   last = v+sz-1;
   GenPtr* vv = v + sz;
   GenPtr* av = a.v + sz;
-  while (vv > v) 
+  while (vv > v)
   { *--vv = *--av;
     a.copy_entry(*vv);
    }
@@ -88,7 +88,7 @@ gen_array& gen_array::operator=(const gen_array& a)
 
   if (sz != a.sz)
   { clear();
-    sz = a.sz;       
+    sz = a.sz;
     delete v;
     v = new GenPtr[sz];
     if (v==0) error_handler(99,"array: out of memory");
@@ -99,7 +99,7 @@ gen_array& gen_array::operator=(const gen_array& a)
   High = a.High;
   GenPtr* vv = v + sz;
   GenPtr* av = a.v + sz;
-  while (vv > v) 
+  while (vv > v)
   { *--vv = *--av;
     copy_entry(*vv);
    }
@@ -109,9 +109,9 @@ gen_array& gen_array::operator=(const gen_array& a)
 
 void gen_array::permute(int l, int r)
 {
-  if (l<Low || l>High || r<l || r>High) 
+  if (l<Low || l>High || r<l || r>High)
          error_handler(2,"array::permute illegal range");
- 
+
   l -= Low;
   r -= Low;
 
@@ -119,14 +119,14 @@ void gen_array::permute(int l, int r)
   GenPtr* y;
   GenPtr* stop = v+r+1;
 
-  for(x=v+l;x!=stop;x++) 
-  { y = v + rand_int(l,r);  
-    SWAP(x,y);  
+  for(x=v+l;x!=stop;x++)
+  { y = v + rand_int(l,r);
+    SWAP(x,y);
    }
 }
 
 
-void gen_array::sort(int l, int h) 
+void gen_array::sort(int l, int h)
 {
   GenPtr* left  = v+l-Low;
   GenPtr* right = v+h-Low;
@@ -146,7 +146,7 @@ void gen_array::sort(int l, int h)
 
 
 void gen_array::quick_sort(GenPtr* l, GenPtr* r)
-{ 
+{
   GenPtr* i = l+(r-l)/2; //rand_int(l,r);
   GenPtr* k;
 
@@ -173,7 +173,7 @@ void gen_array::quick_sort(GenPtr* l, GenPtr* r)
 
 
 void gen_array::int_quick_sort(GenPtr* l, GenPtr* r)
-{ 
+{
   GenPtr* i = l+(r-l)/2; //rand_int(l,r)
   GenPtr* k;
 
@@ -215,7 +215,7 @@ void gen_array::insertion_sort(GenPtr* l, GenPtr* r, GenPtr* min_stop)
   for(run=l+2; run <= r; run++)
   { for (min = run-1; cmp(*run,*min) < 0; min--);
     min++;
-    if (run != min) 
+    if (run != min)
     { GenPtr save = *run;
       for(p=run, q = run-1; p > min; p--,q--) *p = *q;
       *min = save;
@@ -242,7 +242,7 @@ void gen_array::int_insertion_sort(GenPtr* l, GenPtr* r, GenPtr* min_stop)
   for(run=l+2; run <= r; run++)
   { for (min = run-1; LEDA_ACCESS(int,*run) < LEDA_ACCESS(int,*min); min--);
     min++;
-    if (run != min) 
+    if (run != min)
     { GenPtr save = *run;
       for(p=run, q = run-1; p > min; p--,q--) *p = *q;
       *min = save;
@@ -281,30 +281,30 @@ int gen_array::binary_search(GenPtr x)
 
 void gen_array2::init(int a, int b, int c, int d)
 { int i,j;
-  for (i=a;i<=b;i++) 
+  for (i=a;i<=b;i++)
       for (j=c; j<=d; j++) init_entry(row(i)->entry(j));
 }
 
-gen_array2::gen_array2(int a, int b, int c, int d) : A(a,b) 
+gen_array2::gen_array2(int a, int b, int c, int d) : A(a,b)
 { Low1  = a;
   High1 = b;
   Low2  = c;
   High2 = d;
-  while (b>=a) A.entry(b--) = (GenPtr) new gen_array(c,d); 
+  while (b>=a) A.entry(b--) = (GenPtr) new gen_array(c,d);
 }
 
-gen_array2::gen_array2(int a, int b) : A(a) 
+gen_array2::gen_array2(int a, int b) : A(a)
 { Low1  = 0;
   High1 = a-1;
   Low2  = 0;
   High2 = b-1;
-  while (a>0) A.entry(--a) = (GenPtr) new gen_array(b); 
+  while (a>0) A.entry(--a) = (GenPtr) new gen_array(b);
 }
 
 void gen_array2::clear()
 { int i,j;
-  for (i=Low1;i<=High1;i++) 
-  for (j=Low2;j<=High2;j++) 
+  for (i=Low1;i<=High1;i++)
+  for (j=Low2;j<=High2;j++)
   clear_entry(row(i)->entry(j));
 }
 
@@ -316,7 +316,7 @@ gen_array2::~gen_array2()
 void gen_array2::copy_row(gen_array* from, gen_array* to) const
 { GenPtr* p = to->v + to->sz;
   GenPtr* q = from->v + from->sz;
-  while (q > from->v) 
+  while (q > from->v)
   { *--p = *--q;
     copy_entry(*p);
    }
@@ -324,14 +324,14 @@ void gen_array2::copy_row(gen_array* from, gen_array* to) const
 
 
 gen_array2::gen_array2(const gen_array2& a) : A(a.Low1,a.High1)
-{ 
+{
   Low1 = a.Low1;
   High1 = a.High1;
   Low2 = a.Low2;
   High2 = a.High2;
 
   for(int i=Low1; i<=High1; i++)
-  { gen_array* p =  new gen_array(Low2,High2); 
+  { gen_array* p =  new gen_array(Low2,High2);
     if (p==0) error_handler(99,"array2: out of memory");
     a.copy_row((gen_array*)a.A.inf(i),p);
     A.entry(i) = p;
@@ -339,7 +339,7 @@ gen_array2::gen_array2(const gen_array2& a) : A(a.Low1,a.High1)
 }
 
 gen_array2& gen_array2::operator=(const gen_array2& a)
-{ 
+{
   clear();
 
   Low1 = a.Low1;
@@ -348,7 +348,7 @@ gen_array2& gen_array2::operator=(const gen_array2& a)
   High2 = a.High2;
 
   for(int i=Low1; i<=High1; i++)
-  { gen_array* p =  new gen_array(Low2,High2); 
+  { gen_array* p =  new gen_array(Low2,High2);
     if (p==0) error_handler(99,"array2: out of memory");
     a.copy_row((gen_array*)a.A.inf(i),p);
     A.entry(i) = p;

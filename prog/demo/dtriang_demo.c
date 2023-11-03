@@ -9,7 +9,7 @@ void draw_graph(const GRAPH<point,edge>& G)
   node v;
   forall_nodes(v,G) W.draw_filled_node(G[v],blue);
   edge e;
-  forall_edges(e,G) 
+  forall_edges(e,G)
     if (!drawn[e])
     { W.draw_edge(G[source(e)],G[target(e)],blue);
       drawn[G[e]] = drawn[e] = true;
@@ -38,7 +38,7 @@ void draw_circle(point a, point b, point c)
 
 
 void draw_voro(window& W, const GRAPH<point,edge>& G)
-{ 
+{
   point nil_point;
   edge_array<bool>  visited(G,false);
   edge_array<point> vnode(G,nil_point);
@@ -69,7 +69,7 @@ void draw_voro(window& W, const GRAPH<point,edge>& G)
 
 /*
 void build_voro(window& W, const GRAPH<point,edge>& G)
-{ 
+{
   point nil_point;
 
   GRAPH<rat_point,rat_point> V;
@@ -122,13 +122,13 @@ void animate_flip(const GRAPH<point,edge>& G, edge e, int n)
 
   W.del_messages();
   W.message(string(" %2d flips",flip_count++));
-  
+
   segment s1(a,b);
   segment s2(c,d);
   double l1 = s1.length()/n;
   double l2 = s2.length()/n;
-  double a1 = s1.angle(); 
-  double a2 = s2.angle(); 
+  double a1 = s1.angle();
+  double a2 = s2.angle();
 
   while (n--)
   { point a_new = a.translate(a1,l1);
@@ -176,8 +176,8 @@ void DELAUNAY_FLIPPING(GRAPH<point,edge>& G)
 
 
   edge e;
-  forall_edges(e,G) 
-    if (It[e] == nil && flip_test(G,e)) 
+  forall_edges(e,G)
+    if (It[e] == nil && flip_test(G,e))
     { It[G[e]] = It[e] = L.append(e);
       if (animate) activate_edge(G,e);
      }
@@ -187,7 +187,7 @@ void DELAUNAY_FLIPPING(GRAPH<point,edge>& G)
   { flip_count++;
 
     edge e = L.pop();
-    edge x = G.cyclic_adj_pred(e); 
+    edge x = G.cyclic_adj_pred(e);
 
     if (animate) animate_flip(G,e,8000/speed);
 
@@ -196,9 +196,9 @@ void DELAUNAY_FLIPPING(GRAPH<point,edge>& G)
     G.del_edge(e);
 
     // collect face edges of quadriliteral
-    for(int i = 0; i < 4; i++) 
-    { E[i] = x; 
-      x = next_face_edge(x); 
+    for(int i = 0; i < 4; i++)
+    { E[i] = x;
+      x = next_face_edge(x);
      }
 
     // insert new diagonal
@@ -206,12 +206,12 @@ void DELAUNAY_FLIPPING(GRAPH<point,edge>& G)
     G[e] = G.new_edge(E[3],source(E[1]),e);
 
 
-    // test collected edges 
+    // test collected edges
     for(int j=0; j<4; j++)
     { edge e = E[j];
       if (flip_test(G,e))
-        { if (It[e] == nil) 
-          It[G[e]] = It[e] = L.push(e); 
+        { if (It[e] == nil)
+          It[G[e]] = It[e] = L.push(e);
           if (animate) activate_edge(G,e);
          }
       else
@@ -233,7 +233,7 @@ random_source& operator>>(random_source& R, point& p)
   return R;
 }
 
-main()
+int main()
 {
    int N = 1000;
    bool grid = false;
@@ -264,7 +264,7 @@ L.append(point(+infinity,-infinity));
 L.append(point(+infinity,+infinity));
 
 point p;
-for(int i=0; i<N; i++) 
+for(int i=0; i<N; i++)
 { ran >> p;
   L.append(p);
   W.draw_point(p,blue);
@@ -308,7 +308,7 @@ for(;;)
      }
    }
 
-   if (but == 2) // display circle 
+   if (but == 2) // display circle
    { edge e = locate_point(G,p);
      int v;
      double a,b;

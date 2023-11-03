@@ -5,9 +5,9 @@
 +  rational.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -74,8 +74,8 @@ numerator with $a$ and its denominator with $b$.}*/
 
 /*{\Mtext
 The arithmetic operations $+,\ -,\ *,\ /,\ +=,\
--=,\ *=,\ /=,\ -$(unary), $++,\ --$,  
-the comparison operations $<,\ <=,\ >,\ 
+-=,\ *=,\ /=,\ -$(unary), $++,\ --$,
+the comparison operations $<,\ <=,\ >,\
 >=,\ ==,\ !=$ and the stream operations are all available.}*/
 
 
@@ -94,10 +94,10 @@ the comparison operations $<,\ <=,\ >,\
 /*{\Xfunc returns \var\ $*\ r$.}*/
 
   friend inline rational operator/ (rational q, const rational& r);
-  
+
 /*{\Xfunc returns \var\ $/\ r$.}*/
 
-// unary minus 
+// unary minus
 
   friend inline rational operator- (const rational&);
 
@@ -108,7 +108,7 @@ the comparison operations $<,\ <=,\ >,\
 /*{\Xbinop returns \var\ $+\ r$.}*/
 
   rational& operator-= (const rational&);
-  
+
 /*{\Xbinop returns \var\ $-\ r$.}*/
 
   rational& operator*= (const rational&);
@@ -187,13 +187,13 @@ the comparison operations $<,\ <=,\ >,\
 
 
 
-  void negate(); 
+  void negate();
 /*{\Mop negates \var.}*/
 
-  void invert(); 
+  void invert();
 /*{\Mop inverts \var.}*/
 
-  rational inverse();  
+  rational inverse();
 /*{\Mop returns the inverse of \var.}*/
 
 
@@ -217,10 +217,10 @@ the comparison operations $<,\ <=,\ >,\
 
 
 
-  friend rational pow(const rational& q, int n); 
+  friend rational pow(const rational& q, int n);
 /*{\Mfunc returns the $n$-th power of $q$.}*/
 
-  friend rational pow(const rational& q, integer a); 
+  friend rational pow(const rational& q, integer a);
 /*{\Mfunc returns the $a$-th power of $q$.}*/
 
   friend integer floor(const rational& q);
@@ -257,19 +257,19 @@ the comparison operations $<,\ <=,\ >,\
 
 // input/output
 
-  friend inline istream& operator>> (istream& in, rational& q);
+  friend inline std::istream& operator>> (std::istream& in, rational& q);
 
-/*{\Xfunc reads \var\ from the istream $in$.}*/
+/*{\Xfunc reads \var\ from the std::istream $in$.}*/
 
-  friend inline ostream& operator<< (ostream& out, const rational& q);
+  friend inline std::ostream& operator<< (std::ostream& out, const rational& q);
 
-/*{\Xfunc writes \var\ to the ostream $out$.}*/
+/*{\Xfunc writes \var\ to the std::ostream $out$.}*/
 };
 
 
 
 inline int compare(const rational& x, const rational& y)
-{ return rational::cmp(x,y); } 
+{ return rational::cmp(x,y); }
 
 
   inline rational::rational()
@@ -325,7 +325,7 @@ inline int compare(const rational& x, const rational& y)
     { return (r.num / r.den); }
 
 
-  inline ostream& operator<< (ostream& s, const rational& r)
+  inline std::ostream& operator<< (std::ostream& s, const rational& r)
     {  s << r.num << "/" << r.den; return s; }
 
 

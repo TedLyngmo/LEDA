@@ -3,7 +3,7 @@
 #include <LEDA/graph_alg.h>
 
 
-main()
+int main()
 {
 
 UGRAPH<int,int> G;
@@ -22,11 +22,11 @@ newline;
 cout << n << " components\n";
 newline;
 
-if (Yes("ausgabe?")) 
+if (Yes("ausgabe?"))
  { edge e;
-   forall_edges(e,G) 
+   forall_edges(e,G)
    { G.print_edge(e);
-     cout << string("  c = %3d  \n", compnum[e]);
+     std::cout << string("  c = %3d  \n", compnum[e]);
     }
   }
 newline;

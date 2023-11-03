@@ -5,9 +5,9 @@
 +  _all_pairs.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -19,9 +19,9 @@
 
 #include <LEDA/graph_alg.h>
 
-bool ALL_PAIRS_SHORTEST_PATHS(graph&G, const edge_array<num_type>& cost, 
+bool ALL_PAIRS_SHORTEST_PATHS(graph&G, const edge_array<num_type>& cost,
                                              node_matrix<num_type>& DIST)
-{ 
+{
   // computes for every node pair (v,w) DIST(v,w) = cost of the least cost
   // path from v to w, the single source shortest paths algorithms BELLMAN_FORD
   // and DIJKSTRA are used as subroutines. Returns false if there is a
@@ -41,7 +41,7 @@ bool ALL_PAIRS_SHORTEST_PATHS(graph&G, const edge_array<num_type>& cost,
 
   node_array<edge>  pred(G);
 
-  forall_edges(e,G)  
+  forall_edges(e,G)
     if (source(e)==s) cost1[e] = C;
     else cost1[e] =  cost[e];
 
@@ -53,7 +53,7 @@ bool ALL_PAIRS_SHORTEST_PATHS(graph&G, const edge_array<num_type>& cost,
 
 
   // (G,cost1) is a non-negative network
-  // for every node v compute row DIST[v] of the distance matrix  DIST 
+  // for every node v compute row DIST[v] of the distance matrix  DIST
   // by a call of DIJKSTRA(G,v,cost1,DIST[v])
 
   forall_nodes(v,G) DIJKSTRA(G,v,cost1,DIST[v],pred);

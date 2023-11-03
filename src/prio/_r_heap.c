@@ -5,14 +5,14 @@
 +  _r_heap.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #include <LEDA/impl/r_heap.h>
-#include <math.h>
+#include <cmath>
 
 r_heap::r_heap(int c)
 {
@@ -324,7 +324,7 @@ r_heap_item r_heap::next_item(r_heap_item p) const
 
 
 
-void r_heap::print_contents(ostream & os) const
+void r_heap::print_contents(std::ostream & os) const
 {
   r_heap_item item;
 

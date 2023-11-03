@@ -5,13 +5,13 @@
 +  _wcc.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
-/* basic graphic routines for MSDOS 
+/* basic graphic routines for MSDOS
  * implemented using watcom's graphics library (graph.lib)
  */
 
@@ -27,7 +27,7 @@ void init_graphics(int mode, int col)
 {
   if (mode == 1) // graphics mode
   { _setvideomode(_MAXRESMODE);
-    for(int i=0; i<16; i++) 
+    for(int i=0; i<16; i++)
       set_palette(i,_R_[i],_G_[i],_B_[i]);
     }
   else // text mode
@@ -37,10 +37,10 @@ void init_graphics(int mode, int col)
   _getvideoconfig(&vconf);
   DISP_WIDTH  = vconf.numxpixels;
   DISP_HEIGHT = vconf.numypixels;
-  DISP_DEPTH  = vconf.bitsperpixel; 
+  DISP_DEPTH  = vconf.bitsperpixel;
   DISP_MAX_X  = DISP_WIDTH-1;
   DISP_MAX_Y  = DISP_HEIGHT-1;
-  
+
 }
 
 
@@ -71,13 +71,13 @@ void set_bold_font() {}
 void set_message_font() {}
 
 
-int set_line_width(int width) 
+int set_line_width(int width)
 { int save = WIDTH;
   WIDTH = width;
-  return save; 
+  return save;
  }
 
-int set_line_style(int style) 
+int set_line_style(int style)
 { int save = STYLE;
   STYLE = style;
   switch(style) {
@@ -92,7 +92,7 @@ int set_line_style(int style)
  }
 
 
-int set_color(int color) 
+int set_color(int color)
 { return _setcolor(color); }
 
 
@@ -174,7 +174,7 @@ void fill_circle(Window w, int x0, int y0, int r)
 
 
 void put_text(Window w, int x, int y0, const char *text, int opaque)
-{ 
+{
   set_draw_window(w);
 
   int y1 = y0 + FONT_HEIGHT;
@@ -225,14 +225,14 @@ void show_coordinates(Window w, const char* s)
   set_draw_window(w);
   int save_mode = _setplotaction(_GXOR);
   int save_col  = _setcolor(blue);
-  put_text(w,win->width-138,1,s,1); 
+  put_text(w,win->width-138,1,s,1);
   _setplotaction(save_mode);
   _setcolor(save_col);
 }
 
 
 
-void pixel(Window w, int x, int y) 
+void pixel(Window w, int x, int y)
 { set_draw_window(w);
   _setpixel(x,y);
 }
@@ -242,7 +242,7 @@ void pixels(Window w, int n, int* x, int* y)
 { while(n--) pixel(w,x[n],y[n]); }
 
 
-void point(Window w, int x, int y) 
+void point(Window w, int x, int y)
 { set_draw_window(w);
   _setpixel(x,y);
   _setpixel(x-2,y-2);
@@ -314,7 +314,7 @@ void set_palette(int index, int red, int green, int blue)
 { if (red < 0)     red = _R_[index]; else _R_[index] = red;
   if (green < 0) green = _G_[index]; else _G_[index] = green;
   if (blue < 0)   blue = _B_[index]; else _B_[index] = blue;
-  _remappalette(index, (blue<<16) | (green<<8) | red); 
+  _remappalette(index, (blue<<16) | (green<<8) | red);
 }
 
 
@@ -350,11 +350,11 @@ void delete_pixrect(char* rect)   { delete rect; }
 //------------------------------------------------------------------------------
 
 
-static unsigned short p_mask1[14] = 
+static unsigned short p_mask1[14] =
 {0xc000,0xf000,0x7c00,0x7f00,0x3fc0,0x3fc0,0x1f00,
  0x1f80,0x0dc0,0x0ce0,0x0070,0x0038,0x001c,0x000c};
 
-static unsigned short p_mask2[14] = 
+static unsigned short p_mask2[14] =
 {0x0003,0x000f,0x003e,0x00fe,0x03fc,0x03fc,0x00f8,
  0x01f8,0x03b0,0x0730,0x0e00,0x1c00,0x3800,0x3000};
 
@@ -382,7 +382,7 @@ void draw_pointer(int mouse_x, int mouse_y, int shape)
     int y = mouse_y;
     unsigned short* p = p_mask1;
 
-    if (x > DISP_MAX_X - 16) 
+    if (x > DISP_MAX_X - 16)
     { x -= 16;
       p = p_mask2;
      }
@@ -390,13 +390,13 @@ void draw_pointer(int mouse_x, int mouse_y, int shape)
     unsigned short* p_stop = p + 14;
     int d  = 1;
 
-    if (y > DISP_MAX_Y - 14) 
+    if (y > DISP_MAX_Y - 14)
     { y -= 14;
       d = -1;
       p_stop = p-1;
       p += 13;
      }
-     
+
     while (p != p_stop)
     { unsigned short pat = *p;
       if (pat & 0x8000) _setpixel(x,   y);

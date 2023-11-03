@@ -5,9 +5,9 @@
 +  _sweep_old.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -21,7 +21,7 @@
 //
 // computes the planar subdivision created by the (directed) straight
 // line segments of L1 and L2
-// 
+//
 // G = (V,E) with
 //
 // 1. each node v in V contains a point of intersectoin between two segments
@@ -36,7 +36,7 @@
 #include <LEDA/sweep_segments.h>
 #include <LEDA/sortseq.h>
 #include <LEDA/p_queue.h>
-#include <math.h>
+#include <cmath>
 
 
 #define EPS  0.00001
@@ -47,7 +47,7 @@ class S_SEGMENT;
 typedef S_POINT* S_point;
 typedef S_SEGMENT* S_segment;
 
-enum S_point_type {Cross=0,Rightend=1,Leftend=2}; 
+enum S_point_type {Cross=0,Rightend=1,Leftend=2};
 
 class S_POINT
 {
@@ -60,15 +60,15 @@ class S_POINT
 
   public:
 
-  S_POINT(double a,double b)  
-  { 
+  S_POINT(double a,double b)
+  {
     x=a; y=b; seg=0; kind=Cross;
    }
 
 
 
-  S_POINT(point p)         
-  { 
+  S_POINT(point p)
+  {
     x=p.xcoord();y=p.ycoord();seg=0;kind=Cross;
    }
 
@@ -86,13 +86,13 @@ class S_POINT
 inline double    get_x(S_point p)    { return p->x; }
 inline double    get_y(S_point p)    { return p->y; }
 inline int       get_kind(S_point p) { return p->kind; }
-inline S_segment get_seg(S_point p)  { return p->seg; }   
+inline S_segment get_seg(S_point p)  { return p->seg; }
 
 
 #if defined(__GNUC__)
 inline
 #else
-static 
+static
 #endif
 int compare(const S_point& p1, const S_point& p2)
 { if (p1==p2) return 0;
@@ -127,9 +127,9 @@ class S_SEGMENT
 
   public:
 
-  S_SEGMENT(S_point, S_point,int,int);     
+  S_SEGMENT(S_point, S_point,int,int);
 
- ~S_SEGMENT() { delete startpoint; delete endpoint; }     
+ ~S_SEGMENT() { delete startpoint; delete endpoint; }
 
   LEDA_MEMORY(S_SEGMENT);
 
@@ -159,26 +159,26 @@ inline void set_left_node(S_segment seg, node v) { seg->left_node = v; }
 
 
 
-S_SEGMENT::S_SEGMENT(S_point p1,S_point p2,int c, int n)    
+S_SEGMENT::S_SEGMENT(S_point p1,S_point p2,int c, int n)
   {
     left_node  = nil;
     color      = c;
     name       = n;
 
     if (compare(p1,p2) < 0)
-     { startpoint = p1; 
-       endpoint = p2; 
+     { startpoint = p1;
+       endpoint = p2;
        orient = 0;
       }
     else
-     { startpoint = p2; 
-       endpoint = p1; 
+     { startpoint = p2;
+       endpoint = p1;
        orient = 1;
       }
 
-    startpoint->kind = Leftend; 
-    endpoint->kind = Rightend; 
-    startpoint->seg = this; 
+    startpoint->kind = Leftend;
+    endpoint->kind = Rightend;
+    startpoint->seg = this;
     endpoint->seg = this;
 
     if (endpoint->x != startpoint->x)
@@ -205,7 +205,7 @@ static double y_sweep;
 #if defined(__GNUC__)
 inline
 #else
-static 
+static
 #endif
 int compare(const S_segment& s1, const S_segment& s2)
 {
@@ -216,7 +216,7 @@ int compare(const S_segment& s1, const S_segment& s2)
   if (diff >  EPS2 ) return  1;
   if (diff < -EPS2 ) return -1;
 
-  if (get_slope(s1) == get_slope(s2)) 
+  if (get_slope(s1) == get_slope(s2))
         return compare(get_x(get_startpoint(s1)), get_x(get_startpoint(s2)));
 
   if (y1 <= y_sweep+EPS2)
@@ -227,10 +227,10 @@ int compare(const S_segment& s1, const S_segment& s2)
 }
 
 
-void Print(S_segment& x) 
+void Print(S_segment& x)
 { S_point s = get_startpoint(x);
   S_point e = get_endpoint(x);
-  cout << 
+  std::cout <<
     string("[(%f,%f)----(%f,%f)]",get_x(s),get_y(s), get_x(e),get_y(e));
 }
 
@@ -245,9 +245,9 @@ bool intersection(S_segment seg1,S_segment seg2, S_point& inter)
   if (seg1->slope == seg2->slope)
     return false;
   else
-  { 
+  {
     double cx = (seg2->yshift - seg1->yshift) / (seg1->slope - seg2->slope);
- 
+
     if (cx <= x_sweep) return false;
 
     if (seg1->startpoint->x > cx || seg2->startpoint->x > cx ||
@@ -260,12 +260,12 @@ bool intersection(S_segment seg1,S_segment seg2, S_point& inter)
 }
 
 
-static pq_item Xinsert(seq_item i, S_point p) 
-{ 
+static pq_item Xinsert(seq_item i, S_point p)
+{
   return X_structure.insert(p,i);
 }
 
-static S_point Xdelete(pq_item i) 
+static S_point Xdelete(pq_item i)
 {
   S_point p = X_structure.prio(i);
   X_structure.del_item(i);
@@ -284,7 +284,7 @@ static void New_Edge(GRAPH<point,int>& G,node v, node w, S_segment l )
 
 
 void handle_vertical_segment(GRAPH<point,int>& SUB, S_segment l)
-{ 
+{
   S_point p = new S_POINT(get_x(get_startpoint(l)),get_y(get_startpoint(l)));
   S_point q = new S_POINT(get_x(get_endpoint(l)),get_y(get_endpoint(l)));
 
@@ -300,7 +300,7 @@ void handle_vertical_segment(GRAPH<point,int>& SUB, S_segment l)
 
   node u,v,w;
   S_segment seg;
-  
+
 
   for(sit=Y_structure.succ(bot_it); sit != top_it; sit=Y_structure.succ(sit))
   { seg = Y_structure.key(sit);
@@ -314,7 +314,7 @@ void handle_vertical_segment(GRAPH<point,int>& SUB, S_segment l)
      }
     else
     { double vx = SUB[v].xcoord();
-      if ( vx < get_x(p)-EPS2) 
+      if ( vx < get_x(p)-EPS2)
       { w = New_Node(SUB,get_x(p),cross_y);
         New_Edge(SUB,v,w,seg);
         set_left_node(seg,w);
@@ -327,11 +327,11 @@ void handle_vertical_segment(GRAPH<point,int>& SUB, S_segment l)
     set_left_node(l,w);
 
    }
-  
+
   delete l;
   delete top;
   delete bot;
-    
+
   Y_structure.del_item(bot_it);
   Y_structure.del_item(top_it);
 
@@ -349,7 +349,7 @@ void SWEEP_SEGMENTS(const list<segment>& S, list<point>& P)
 
 }
 
-void SWEEP_SEGMENTS(const list<segment>& L1, 
+void SWEEP_SEGMENTS(const list<segment>& L1,
                     const list<segment>& L2, GRAPH<point,int>& SUB)
 {
   S_point    p,inter;
@@ -359,12 +359,12 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
 
 
   int count=1;
- 
+
   //initialization of the X-structure
 
   segment s;
 
-  forall(s,L1) 
+  forall(s,L1)
    { S_point p = new S_POINT(s.start());
      S_point q = new S_POINT(s.end());
      seg = new S_SEGMENT(p,q,0,count++);
@@ -373,7 +373,7 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
 
   count = -1;
 
-  forall(s,L2) 
+  forall(s,L2)
    { S_point p = new S_POINT(s.start());
      S_point q = new S_POINT(s.end());
      seg = new S_SEGMENT(p,q,1,count--);
@@ -399,9 +399,9 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
 
 
     if (sitmin == nil) //left endpoint
-    { 
+    {
 
-      l = get_seg(p); 
+      l = get_seg(p);
 
       x_sweep = get_x(p);
       y_sweep = get_y(p);
@@ -414,7 +414,7 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
 
 /*
       sit = Y_structure.lookup(l);
-      if (sit!=nil)  
+      if (sit!=nil)
            error_handler(1,"plane sweep: sorry, overlapping segments");
 */
 
@@ -426,7 +426,7 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
       sitpred = Y_structure.pred(sit);
       sitsucc = Y_structure.succ(sit);
 
-      if (sitpred != nil) 
+      if (sitpred != nil)
       { if ((pqit = Y_structure.inf(sitpred)) != nil)
           delete Xdelete(pqit);
 
@@ -449,7 +449,7 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
     }
     else if (get_kind(p) == Rightend)
          //right endpoint
-         { 
+         {
            x_sweep = get_x(p);
            y_sweep = get_y(p);
 
@@ -473,17 +473,17 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
            }
          }
          else // point of intersection
-         { 
+         {
            node w = New_Node(SUB,get_x(p),get_y(p));
 
            count++;
 
-           /* Let L = list of all lines intersecting in p 
- 
+           /* Let L = list of all lines intersecting in p
+
               we compute sit     = L.head();
               and        sitpred = L.tail();
 
-              by scanning the Y_structure in both directions 
+              by scanning the Y_structure in both directions
               starting at sitmin;
 
            */
@@ -497,7 +497,7 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
 
            while ((pqit=Y_structure.inf(sitpred)) != nil)
            { S_point q = X_structure.prio(pqit);
-             if (compare(p,q) != 0) break; 
+             if (compare(p,q) != 0) break;
              X_structure.del_item(pqit);
              Y_structure.change_inf(sitpred,nil);
              sitpred = Y_structure.succ(sitpred);
@@ -509,12 +509,12 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
            sit = sitmin;
 
            seq_item sit1;
-           
+
            while ((sit1=Y_structure.pred(sit)) != nil)
            { pqit = Y_structure.inf(sit1);
              if (pqit == nil) break;
              S_point q = X_structure.prio(pqit);
-             if (compare(p,q) != 0) break; 
+             if (compare(p,q) != 0) break;
              X_structure.del_item(pqit);
              Y_structure.change_inf(sit1,nil);
              sit = sit1;
@@ -523,7 +523,7 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
 
 
            // insert edges to p for all S_segments in sit, ..., sitpred into SUB
-           // and set left node to w 
+           // and set left node to w
 
            lsit = Y_structure.key(sitpred);
 
@@ -546,7 +546,7 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
 
 
            if (sitpredpred != nil)
-            { 
+            {
               lpredpred=Y_structure.key(sitpredpred);
 
               if ((pqit = Y_structure.inf(sitpredpred)) != nil)
@@ -567,7 +567,7 @@ void SWEEP_SEGMENTS(const list<segment>& L1,
 
               if ((pqit = Y_structure.inf(sitpred)) != nil)
                 delete Xdelete(pqit);
-                 
+
               Y_structure.change_inf(sitpred,nil);
 
               if (intersection(lsucc,lsit,inter))

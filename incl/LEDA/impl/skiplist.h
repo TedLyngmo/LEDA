@@ -5,9 +5,9 @@
 +  skiplist.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_SKIPLIST_H
@@ -20,7 +20,7 @@
 //------------------------------------------------------------------------------
 
 class skiplist_node
-{ 
+{
   friend class skiplist;
 
   static unsigned long id_count;
@@ -29,9 +29,9 @@ class skiplist_node
   GenPtr inf;
   int    level;
   unsigned long id;           // id number
-  skiplist_node* pred;  
-  skiplist_node* backward;  
-  skiplist_node* forward[1];  // variable sized array of forward pointers 
+  skiplist_node* pred;
+  skiplist_node* backward;
+  skiplist_node* forward[1];  // variable sized array of forward pointers
 
   friend unsigned long ID_Number(skiplist_node* p) { return p->id; }
 
@@ -41,15 +41,15 @@ typedef skiplist_node* skiplist_item;
 
 
 class skiplist
-{  
+{
    int level;                  // maximum level
    skiplist_node*  header;     // pointer to header
-   skiplist_item STOP;         // pointer to end 
+   skiplist_item STOP;         // pointer to end
    unsigned long randomBits;   // random bit source
    int randomsLeft;            // number of unused bit pairs in randomBits
    int count;                  // number of entries
 
-   float prob;                 
+   float prob;
 
    random_source ran;
 
@@ -134,40 +134,40 @@ inline GenPtr& skiplist::info(skiplist_item p) const { return p->inf; }
 inline int     skiplist::get_level(skiplist_item p) const { return p->level; }
 
 
-inline skiplist_item skiplist::first_item() const  
+inline skiplist_item skiplist::first_item() const
 { skiplist_item q = header->forward[0];
   return (q==STOP) ? 0 : q;
  }
 
-inline skiplist_item skiplist::min() const  
+inline skiplist_item skiplist::min() const
 { skiplist_item q = header->forward[0];
   return (q==STOP) ? 0 : q;
  }
 
-inline skiplist_item skiplist::max() const  
+inline skiplist_item skiplist::max() const
 { skiplist_item q = STOP->pred;
   return (q==header) ? 0 : q;
  }
 
-inline skiplist_item skiplist::next_item(skiplist_item p) const 
-{ skiplist_item q =  p->forward[0]; 
+inline skiplist_item skiplist::next_item(skiplist_item p) const
+{ skiplist_item q =  p->forward[0];
   return (q==STOP) ? 0 : q;
  }
 
-inline skiplist_item skiplist::succ(skiplist_item p) const 
-{ skiplist_item q =  p->forward[0]; 
+inline skiplist_item skiplist::succ(skiplist_item p) const
+{ skiplist_item q =  p->forward[0];
   return (q==STOP) ? 0 : q;
  }
 
-inline skiplist_item skiplist::pred(skiplist_item p) const 
-{ skiplist_item q =  p->pred; 
+inline skiplist_item skiplist::pred(skiplist_item p) const
+{ skiplist_item q =  p->pred;
   return (q==header) ? 0 : q;
  }
 
-inline void skiplist::change_inf(skiplist_item p, GenPtr inf) 
-{ clear_inf(p->inf); 
-  copy_inf(inf);  
-  p->inf = inf; 
+inline void skiplist::change_inf(skiplist_item p, GenPtr inf)
+{ clear_inf(p->inf);
+  copy_inf(inf);
+  p->inf = inf;
  }
 
 inline int  skiplist::size() const { return count; }
@@ -176,18 +176,18 @@ inline int  skiplist::empty() const { return count==0; }
 //priority queue
 inline skiplist_item skiplist::find_min() const { return min(); }
 
-inline void skiplist::del_min() 
+inline void skiplist::del_min()
 { skiplist_item p = min(); if (p) del_item(p); }
 
-inline void skiplist::decrease_key(skiplist_item p, GenPtr k) 
+inline void skiplist::decrease_key(skiplist_item p, GenPtr k)
 { insert(k,p->inf); del_item(p);}
 
 
 #if !defined(__TEMPLATE_FUNCTIONS__)
 // dummy I/O and cmp functions
 
-inline void Print(const skiplist&,ostream&) { }
-inline void Read(skiplist&, istream&) { }
+inline void Print(const skiplist&,std::ostream&) { }
+inline void Read(skiplist&, std::istream&) { }
 inline int  compare(const skiplist&,const skiplist&) { return 0; }
 #endif
 

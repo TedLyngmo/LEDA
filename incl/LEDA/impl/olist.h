@@ -5,9 +5,9 @@
 +  olist.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_OLIST_H
@@ -19,11 +19,11 @@
 //
 //  obj_list  (doubly linked lists of obj_links)
 //
-//  each "obj_link" may be present in at most one list 
-//  
+//  each "obj_link" may be present in at most one list
+//
 //------------------------------------------------------------------------------
 
-class obj_list; 
+class obj_list;
 class obj_link;
 
 typedef int  (*CMP_ITEM)(obj_link*,obj_link*);
@@ -41,9 +41,9 @@ protected:
   obj_link* succ_link;
   obj_link* pred_link;
 
-void del_item() 
-{ pred_link->succ_link = succ_link; 
-  succ_link->pred_link = pred_link; 
+void del_item()
+{ pred_link->succ_link = succ_link;
+  succ_link->pred_link = pred_link;
  }
 
 public:
@@ -94,15 +94,15 @@ public:
    obj_link* succ(obj_link* p)        const { return p->succ_link; }
    obj_link* pred(obj_link* p)        const { return p->pred_link; }
 
-   obj_link* cyclic_succ(obj_link* p) const 
+   obj_link* cyclic_succ(obj_link* p) const
    { return p->succ_link? p->succ_link : h; }
 
-   obj_link* cyclic_pred(obj_link* p) const 
+   obj_link* cyclic_pred(obj_link* p) const
    { return p->pred_link? p->pred_link : t; }
 
-   obj_link* succ(obj_link* l, int i) const; 
+   obj_link* succ(obj_link* l, int i) const;
    obj_link* pred(obj_link* l, int i) const;
-   obj_link* get_item(int = 0)     const; 
+   obj_link* get_item(int = 0)     const;
 
    obj_link* max(CMP_ITEM) const;
    obj_link* min(CMP_ITEM) const;
@@ -129,12 +129,12 @@ public:
    void   permute();
    void   clear();
 
-   obj_list& operator=(const obj_list&); 
-   obj_list  operator+(const obj_list&); 
+   obj_list& operator=(const obj_list&);
+   obj_list  operator+(const obj_list&);
 
 // constructors & destructors
 
-   obj_list();    
+   obj_list();
 
  //obj_list(const obj_list&);
 
@@ -144,13 +144,13 @@ public:
 
 
 
-inline obj_link* obj_list::push(obj_link* p)   
+inline obj_link* obj_list::push(obj_link* p)
 { count++;
   p->pred_link = 0;
   p->succ_link = h;
-  if (h) 
+  if (h)
       h = h->pred_link = p;
-  else   
+  else
       h = t =  p;
   return p;
  }
@@ -160,43 +160,43 @@ inline obj_link* obj_list::append(obj_link* p)
 { count++;
   p->pred_link = t;
   p->succ_link = 0;
-  if (t) 
+  if (t)
       t = t->succ_link = p;
-  else  
+  else
       t = h = p;
-  return p; 
- } 
-
-
-inline obj_link* obj_list::pop()    
-{ obj_link* p=h; 
-  if (p) 
-  { if (--count) 
-      { h = h->succ_link; 
-        h->pred_link = 0; 
-       }
-    else  
-      h = t = 0;
-   }
   return p;
  }
 
 
-inline obj_link* obj_list::Pop()    
-{ obj_link* p=t; 
+inline obj_link* obj_list::pop()
+{ obj_link* p=h;
   if (p)
-  { if (--count) 
-      { t = t->pred_link; 
-        t->succ_link = 0; 
+  { if (--count)
+      { h = h->succ_link;
+        h->pred_link = 0;
        }
-    else  
+    else
       h = t = 0;
    }
   return p;
  }
 
 
-inline obj_link* obj_list::insert(obj_link* n, obj_link* p) 
+inline obj_link* obj_list::Pop()
+{ obj_link* p=t;
+  if (p)
+  { if (--count)
+      { t = t->pred_link;
+        t->succ_link = 0;
+       }
+    else
+      h = t = 0;
+   }
+  return p;
+ }
+
+
+inline obj_link* obj_list::insert(obj_link* n, obj_link* p)
 { // insert n insert after p
   obj_link* s=p->succ_link;
   n->pred_link = p;
@@ -215,14 +215,14 @@ inline obj_link* obj_list::insert(obj_link* n, obj_link* p)
 // c_obj_list (doubly linked circular object list)
 //
 // simple and efficient implementation (no counter, iterator, sorting, etc.)
-// removed items are assigned a nil succ pointer 
+// removed items are assigned a nil succ pointer
 // member(x) <==>  x->succ != nil
 //
 //------------------------------------------------------------------------------
 
 class c_obj_list : public obj_link {
 
-// the list head is an obj_link, namely the predecessor of the first 
+// the list head is an obj_link, namely the predecessor of the first
 // and the successor of the last element
 
 public:
@@ -236,20 +236,20 @@ obj_link* last_item()  const { return last(); }
 
 obj_link* next_item(obj_link* p) const { return succ(p); }
 
-obj_link* succ(obj_link* p) const 
+obj_link* succ(obj_link* p) const
 { return (p->succ_link==(obj_link*)this)? nil : p->succ_link;}
 
-obj_link* pred(obj_link* p) const 
+obj_link* pred(obj_link* p) const
 { return (p->pred_link==(obj_link*)this)? nil : p->pred_link;}
 
-obj_link* cyclic_succ(obj_link* p) const 
+obj_link* cyclic_succ(obj_link* p) const
 { return (p->succ_link==(obj_link*)this) ? pred_link : p->succ_link; }
 
-obj_link* cyclic_pred(obj_link* p) const 
+obj_link* cyclic_pred(obj_link* p) const
 { return (p->pred_link==(obj_link*)this) ? succ_link : p->pred_link; }
 
 
- void insert(obj_link* n, obj_link* p) 
+ void insert(obj_link* n, obj_link* p)
  { // insert n insert after p
    obj_link* s=p->succ_link;
    n->pred_link = p;
@@ -275,13 +275,13 @@ obj_link* cyclic_pred(obj_link* p) const
  obj_link* pop() { return del(succ_link); }
  obj_link* Pop() { return del(pred_link); }
 
- void clear() 
- { while(succ_link != this) 
+ void clear()
+ { while(succ_link != this)
    { obj_link* p = succ_link;
      succ_link = p->succ_link;
      p->succ_link = nil;
     }
-   pred_link = this; 
+   pred_link = this;
   }
 
  void init() { succ_link = pred_link = this; }

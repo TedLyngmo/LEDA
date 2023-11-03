@@ -18,7 +18,7 @@
 .global _Multiply_Words
 _Multiply_Words:
 or      %o0, %o1, %o4   !logical or of multiplier and miltiplicand
-mov     %o0, %y         !multiplier to Y register 
+mov     %o0, %y         !multiplier to Y 
 andncc  %o4, 0xfff, %o5 !mask out lower 12 bits
 be      mul_shortway    !can do it the short way
 andcc   %g0, %g0, %o4   !zero the partial product; clear N and V cond.

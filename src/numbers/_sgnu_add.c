@@ -5,9 +5,9 @@
 +  _sgnu_add.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #define MAX_WORD     0xFFFFFFFF
@@ -30,7 +30,7 @@ aa = *a++; bb = *b++;\
 asm volatile ("addxcc  %2, %1,  %0" : "=r"(aa)    : "0"(aa), "r"(bb) );\
 *sum++ = aa; }
 
-asm volatile ("addcc  %%g0,%%g0,%0" : "=r"(bb) :  ); 
+asm volatile ("addcc  %%g0,%%g0,%0" : "=r"(bb) :  );
 
   switch (b_used%16) {
       case 15: ADD_LOOP_BODY;
@@ -48,20 +48,20 @@ asm volatile ("addcc  %%g0,%%g0,%0" : "=r"(bb) :  );
       case  3: ADD_LOOP_BODY;
       case  2: ADD_LOOP_BODY;
       case  1: ADD_LOOP_BODY;
-      case  0: asm volatile ("addx  %%g0,%%g0,%0" : "=r"(bb) :  ); 
+      case  0: asm volatile ("addx  %%g0,%%g0,%0" : "=r"(bb) :  );
      }
 
 
   while (n--)
   { asm volatile ("addcc 0xffffffff,%1,%0" : "=r"(bb) : "0"(bb) );
-    ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; 
-    ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; 
-    ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; 
+    ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY;
+    ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY;
+    ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY;
     ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY;
     asm volatile ("addx  %%g0,%%g0,%0" : "=r"(bb) : );
    }
 
-  if (sum != a) 
+  if (sum != a)
   { /* Copy_Vector(sum,a,a_used-b_used); */
     for(b =sum; b < s_last; b++) *b = *a++;
     *s_last = 0;

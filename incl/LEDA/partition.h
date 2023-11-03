@@ -5,9 +5,9 @@
 +  partition.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_PARTITION_H
@@ -37,9 +37,9 @@ GenPtr info;
 
 public:
 
-partition_node(GenPtr x, partition_node* n)  
-{ 
-  father=0; size=1; info=x; next = n; 
+partition_node(GenPtr x, partition_node* n)
+{
+  father=0; size=1; info=x; next = n;
  }
 
   LEDA_MEMORY(partition_node)
@@ -63,20 +63,20 @@ public:
 
 /*{\Mcreation P }*/
 
-partition() { used_items = 0; }  
-/*{\Mcreate creates an instance $P$ of type $partition$ and initializes it to 
+partition() { used_items = 0; }
+/*{\Mcreate creates an instance $P$ of type $partition$ and initializes it to
             the empty partition.}*/
 
 virtual ~partition() { clear(); }
 
 /*{\Moperations 3 4}*/
 
-partition_item make_block(GenPtr x) 
-{ used_items = new partition_node(x,used_items); 
-  return used_items; 
+partition_item make_block(GenPtr x)
+{ used_items = new partition_node(x,used_items);
+  return used_items;
  }
 
-partition_item make_block() 
+partition_item make_block()
 { return make_block(nil);
 }
 
@@ -89,7 +89,7 @@ partition_item find(partition_item p);
 	     then $P$.find($p$) = $P$.find($q$).\\
 	     \precond $p$ is an item in $P$. }*/
 
-bool  same_block(partition_item p, partition_item q) 
+bool  same_block(partition_item p, partition_item q)
 { return find(p)==find(q); }
 /*{\Mopl      returns true if $p$ and $q$ belong to the same
 	      block of partition $P$.\\
@@ -115,7 +115,7 @@ partition_item next_item(partition_item it) const  { return it->next; }
 
 /*{\Mimplementation
 Partitions are implemented by the union find algorithm with weighted union
-and path compression (cf.~\cite{T83}).  Any sequence of $n$ make\_block and 
+and path compression (cf.~\cite{T83}).  Any sequence of $n$ make\_block and
 $m \ge n$ other operations takes time $O(m\alpha(m,n))$.}*/
 
 /*{\Mexample

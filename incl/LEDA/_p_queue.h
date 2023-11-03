@@ -5,9 +5,9 @@
 +  _p_queue.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef _LEDA_P_QUEUE_H
@@ -19,7 +19,7 @@
 //
 // Priority queues with implementation parameter:
 //
-//   _p_queue<priotype,inftype,prio_impl> 
+//   _p_queue<priotype,inftype,prio_impl>
 //
 //------------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ Priority Queues}. Note that the priority type $P$ must linearly ordered.
 }*/
 
 
-template <class P, class I, class impl> 
+template <class P, class I, class impl>
 
 class _p_queue : private impl, public p_queue<P,I>
 {
@@ -54,11 +54,11 @@ public:
 pq_item insert(P k,I i) { return pq_item(impl::insert(Convert(k),Convert(i)));}
 pq_item find_min() const { return pq_item(impl::find_min());}
 
-P del_min() 
+P del_min()
 { pq_item it = find_min();
   P x = prio(it);
   del_item(it);
-  return x; 
+  return x;
  }
 
 P prio(pq_item x) const { return LEDA_ACCESS(P,impl::key(impl::item(x)));}
@@ -76,7 +76,7 @@ int  size() const { return impl::size(); }
 bool empty() const { return impl::size()==0; }
 
 pq_item first_item() const { return pq_item(impl::first_item()); }
-pq_item next_item(pq_item it) const 
+pq_item next_item(pq_item it) const
 { return pq_item(impl::next_item(impl::item(it))); }
 
 _p_queue<P,I,impl>& operator=(const _p_queue<P,I,impl>& Q)

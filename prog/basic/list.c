@@ -6,20 +6,20 @@
 
 int cmp_inv(const string& x, const string& y)    { return compare(y,x); }
 
-int cmp_length(const string& x, const string& y) 
+int cmp_length(const string& x, const string& y)
 { return x.length() - y.length(); }
 
 int ord(const string& x)   { return (x.length() > 0) ? int(x[0]) : 0;}
 
 void upper_case(string& x)
 { int d = 'A' - 'a';
-  for(int i=0; i<x.length(); i++) 
+  for(int i=0; i<x.length(); i++)
     if (x[i] >= 'a' && x[i] <= 'z') x[i] += d;
  }
 
 
-main()
-{ 
+int main()
+{
   string fname = read_string("file: ");
 
   list<string> L;
@@ -71,7 +71,7 @@ main()
   newline;
 
   newline;
-  cout << "used memory = " << used_memory() << " bytes\n";
+  std::cout << "used memory = " << used_memory() << " bytes\n";
 
   return 0;
 }

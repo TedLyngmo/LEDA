@@ -5,9 +5,9 @@
 +  rb_tree.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_RB_TREE_H
@@ -28,16 +28,16 @@
 #include <LEDA/basic.h>
 #include <LEDA/impl/bin_tree.h>
 
- 
+
 typedef bin_tree_node* rb_tree_item;
 
- 
+
 // ----------------------------------------------------------------
 // class rb_tree
 // ----------------------------------------------------------------
 
 class rb_tree : public bin_tree
-{ 
+{
   enum color  { red = 0, black = 1 };
 
   int root_balance() { return black; }
@@ -54,7 +54,7 @@ public:
 
   rb_tree(const rb_tree& T) : bin_tree(T) {}
 
-  rb_tree& operator=(const rb_tree& T) 
+  rb_tree& operator=(const rb_tree& T)
   { bin_tree::operator=(T); return *this; }
 
 };

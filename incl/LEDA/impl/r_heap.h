@@ -5,9 +5,9 @@
 +  r_heap.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -132,15 +132,15 @@ class r_heap {
   r_heap_item first_item() const;
   r_heap_item next_item(r_heap_item p) const;
 
-  void print_contents(ostream & chk = cout) const;
+  void print_contents(std::ostream & chk = std::cout) const;
 };
 
 /* dummy I/O and cmp functions */
 
-inline void Print(const r_heap &, ostream &)
+inline void Print(const r_heap &, std::ostream &)
 {
 }
-inline void Read(r_heap &, istream &)
+inline void Read(r_heap &, std::istream &)
 {
 }
 inline int compare(const r_heap &, const r_heap &)

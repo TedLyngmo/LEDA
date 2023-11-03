@@ -5,9 +5,9 @@
 +  _real.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -18,7 +18,7 @@
 #include <LEDA/real.h>
 /*16:*/
 
-#include <math.h>
+#include <cmath>
 
 
 
@@ -126,7 +126,7 @@ friend void Mignotte_parameters(const real_rep&,integer&,integer&);
 
 /*:15*/
 
-// INSERTED 
+// INSERTED
 GenPtr real::copy() const { PTR->count++; return PTR; }
 void   real::clear()      { if (PTR && --(PTR->count)==0) delete PTR; }
 
@@ -200,7 +200,7 @@ void real_rep::init_app_bf()
 {
 if(APP_BF_PTR==nil)
 if(ERROR!=Infinity)
-APP_BF_PTR= 
+APP_BF_PTR=
 new app_bf(bigfloat(NUM),fabs(bigfloat(ERROR*NUM*correction)));
 else
 compute(52);
@@ -249,10 +249,10 @@ bigfloat real::tobigfloat()const
 integer real::get_precision()const
 {PTR->init_app_bf();return-PTR->error_bf().get_exponent();}
 
-ostream&operator<<(ostream&out, const real&x)
+std::ostream&operator<<(std::ostream&out, const real&x)
 {out<<x.tobigfloat();return out;}
 
-istream&operator>>(istream&in,real&x)
+std::istream&operator>>(std::istream&in,real&x)
 {
 double x_num;in>>x_num;
 x= real(x_num);return in;

@@ -1,10 +1,10 @@
 /* dieses Programm belegt einen Fehler in der integer division */
 
-#include <iostream.h>
-#include <math.h>
+#include <iostream>
+#include <cmath>
 #include <LEDA/bigfloat.h>
 
-void binout (ostream &,integer);
+void binout (std::ostream &,integer);
 
 int main (void)
 {
@@ -20,23 +20,23 @@ int main (void)
   char *out;
 //  ieee_flags("set","direction","tozero",&out);
 
-  cout << "a:           " << a << "\n";
-  cout << "b:           " << b << "\n";
+  std::cout << "a:           " << a << "\n";
+  std::cout << "b:           " << b << "\n";
   /* wir haben hier die bigfloat Konvertierung vorgenommen, um vergleichbare
      Ausgaben zu erreichen */
-  cout << "a_dbl:       " << bigfloat(a_dbl).tointeger() << "\n";
-  cout << "b_dbl:       " << b_dbl << "\n";
-  cout << "a/b:         " << (a/b) << "\n";
-  cout << "a_dbl/b_dbl: " << bigfloat(a_dbl/b_dbl).tointeger() << "\n";
+  std::cout << "a_dbl:       " << bigfloat(a_dbl).tointeger() << "\n";
+  std::cout << "b_dbl:       " << b_dbl << "\n";
+  std::cout << "a/b:         " << (a/b) << "\n";
+  std::cout << "a_dbl/b_dbl: " << bigfloat(a_dbl/b_dbl).tointeger() << "\n";
 
-  cout << "das ganze in Binaerstellen:\n";
-  cout << "a/b=         ";
-  binout(cout,bigfloat(a/b).get_significant());
-  cout << "\n";
-  cout << "a_dbl/b_dbl= ";
-  binout(cout,bigfloat(a_dbl/b_dbl).get_significant());
-  cout << "\n";
+  std::cout << "das ganze in Binaerstellen:\n";
+  std::cout << "a/b=         ";
+  binout(std::cout,bigfloat(a/b).get_significant());
+  std::cout << "\n";
+  std::cout << "a_dbl/b_dbl= ";
+  binout(std::cout,bigfloat(a_dbl/b_dbl).get_significant());
+  std::cout << "\n";
 
-  
+
 }
- 
+

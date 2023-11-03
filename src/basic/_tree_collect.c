@@ -5,9 +5,9 @@
 +  _tree_collect.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -27,14 +27,14 @@ void dyna_trees::splay(d_vertex x) {
 	      mincost_x,
 	      mincost_y,
 	      mincost_z,
-	      
+
 	      cost_x,
 	      cost_y,
 	      cost_z;
 
-     
+
      while (x->parent) {
-	  // splay-step : 
+	  // splay-step :
 
 	  y=x->parent; // Vater von x
 	  z=y->parent; // Grossvater von x (oder 0)
@@ -42,8 +42,8 @@ void dyna_trees::splay(d_vertex x) {
 
 	  // 1.Fall: x hat Vater, aber keinen Grossvater
 
-	  if (z==0){ 
-		if (y->left==x) { 
+	  if (z==0){
+		if (y->left==x) {
 		    // x wurzel des linken unterbaums  (1)
 		    a=x->left;
 		    b=x->right;
@@ -64,7 +64,7 @@ void dyna_trees::splay(d_vertex x) {
 		    mincost_y = y->dmin;
 		    cost_x	= x->dcost + mincost_x;
 		    cost_y	= y->dcost + mincost_y;
-		    
+
 		    mincost_x = mincost_y;
 		    mincost_y = (mincost_b <= mincost_c) ? mincost_b : mincost_c;
 		    if (cost_y <= mincost_y) mincost_y = cost_y;
@@ -86,10 +86,10 @@ void dyna_trees::splay(d_vertex x) {
 		    y->parent=x;
 		    y->right=b;
 		    if (b) b->parent=y;
-		    
+
 		    x->successor=y->successor;
 		    y->successor=0;
-		    
+
 		    mincost_a = (a) ? a->dmin + y->dmin : BIG;
 		    mincost_b = (b) ? b->dmin + x->dmin + y->dmin : BIG;
 		    mincost_c = (c) ? c->dmin + x->dmin + y->dmin : BIG;
@@ -97,7 +97,7 @@ void dyna_trees::splay(d_vertex x) {
 		    mincost_y = y->dmin;
 		    cost_x	= x->dcost + mincost_x;
 		    cost_y	= y->dcost + mincost_y;
-		    
+
 		    mincost_x = mincost_y;
 		    mincost_y = (mincost_a <= mincost_b) ? mincost_a : mincost_b;
 		    if (cost_y <= mincost_y) mincost_y = cost_y;
@@ -107,12 +107,12 @@ void dyna_trees::splay(d_vertex x) {
 		    y->dmin  = mincost_y - mincost_x;
 		    if (a) a->dmin  = mincost_a - mincost_y;
 		    if (b) b->dmin  = mincost_b - mincost_y;
-		    if (c) c->dmin  = mincost_c - mincost_x;	       
+		    if (c) c->dmin  = mincost_c - mincost_x;
 		}
 		continue;
 	  }
 
-	  
+
 	  // 2.Fall: x hat also Grossvater, x und parGenPtr(x) linke (rechte)
 	  //		   Soehne.
 	  // Linke Soehne:
@@ -139,11 +139,11 @@ void dyna_trees::splay(d_vertex x) {
 		    }
 		}
 		else {	 //  z is solid-tree-root
-		    x->successor=z->successor;	
+		    x->successor=z->successor;
 		    z->successor=0;
-		} 
+		}
 		x->parent=zz;
-		
+
 		mincost_a = (a) ? a->dmin + x->dmin + y->dmin + z->dmin : BIG;
 		mincost_b = (b) ? b->dmin + x->dmin + y->dmin + z->dmin : BIG;
 		mincost_c = (c) ? c->dmin + y->dmin + z->dmin : BIG;
@@ -154,7 +154,7 @@ void dyna_trees::splay(d_vertex x) {
 		cost_x	 = mincost_x + x->dcost;
 		cost_y	 = mincost_y + y->dcost;
 		cost_z	 = mincost_z + z->dcost;
-		
+
 		mincost_x = mincost_z;
 		mincost_z = (mincost_c <= mincost_d) ? mincost_c : mincost_d;
 		if (cost_z <= mincost_z) mincost_z = cost_z;
@@ -174,9 +174,9 @@ void dyna_trees::splay(d_vertex x) {
 		continue;
 	  }
 
-	  
+
 	  // Rechte Soehne:   (4)
-	  
+
 	  if ((z->right==y)&&(y->right==x)){
 		a=z->left;
 		b=y->left;
@@ -198,12 +198,12 @@ void dyna_trees::splay(d_vertex x) {
 			 zz->right=x;
 		    }
 		}
-		else { 
+		else {
 		    x->successor=z->successor;
 		    z->successor=0;
 		}
 		x->parent=zz;
-		
+
 		mincost_a = (a) ? a->dmin + z->dmin : BIG;
 		mincost_b = (b) ? b->dmin + y->dmin + z->dmin : BIG;
 		mincost_c = (c) ? c->dmin + x->dmin + y->dmin + z->dmin : BIG;
@@ -214,7 +214,7 @@ void dyna_trees::splay(d_vertex x) {
 		cost_x	 = mincost_x + x->dcost;
 		cost_y	 = mincost_y + y->dcost;
 		cost_z	 = mincost_z + z->dcost;
-		
+
 		mincost_x = mincost_z;
 		mincost_z = (mincost_a <= mincost_b) ? mincost_a : mincost_b;
 		if (cost_z <= mincost_z) mincost_z = cost_z;
@@ -233,11 +233,11 @@ void dyna_trees::splay(d_vertex x) {
 
 		continue;
 	  }
-	  
+
 
 	  // 3.Fall: x linkes, p(x) rechtes Kind (oder umgekehrt)
 	  // Zuerst x links, p(x) rechts:
-	  
+
 	  if ((z->right==y)&&(y->left==x)){   // (5)
 		a=z->left;
 		b=x->left;
@@ -258,13 +258,13 @@ void dyna_trees::splay(d_vertex x) {
 		    else{
 			 zz->right=x;
 		    }
-		} 
+		}
 		else {
 		    x->successor=z->successor;
 		    z->successor=0;
 		}
 		x->parent=zz;
-		
+
 		mincost_a = (a) ? a->dmin + z->dmin : BIG;
 		mincost_b = (b) ? b->dmin + x->dmin + y->dmin + z->dmin : BIG;
 		mincost_c = (c) ? c->dmin + x->dmin + y->dmin + z->dmin : BIG;
@@ -275,7 +275,7 @@ void dyna_trees::splay(d_vertex x) {
 		cost_x	 = mincost_x + x->dcost;
 		cost_y	 = mincost_y + y->dcost;
 		cost_z	 = mincost_z + z->dcost;
-		
+
 		mincost_x = mincost_z;
 		mincost_z = (mincost_a <= mincost_b) ? mincost_a : mincost_b;
 		if (cost_z <= mincost_z) mincost_z = cost_z;
@@ -295,9 +295,9 @@ void dyna_trees::splay(d_vertex x) {
 		continue;
 	  }
 
-	  
+
 	  // Nun x rechts, p(x) links:
-	  
+
 	  if ((z->left==y)&&(y->right==x)){	// (6)
 		a=y->left;
 		b=x->left;
@@ -324,7 +324,7 @@ void dyna_trees::splay(d_vertex x) {
 		    z->successor=0;
 		}
 		x->parent=zz;
-		
+
 		mincost_a = (a) ? a->dmin + y->dmin + z->dmin : BIG;
 		mincost_b = (b) ? b->dmin + x->dmin + y->dmin + z->dmin : BIG;
 		mincost_c = (c) ? c->dmin + x->dmin + y->dmin + z->dmin : BIG;
@@ -335,7 +335,7 @@ void dyna_trees::splay(d_vertex x) {
 		cost_x	 = mincost_x + x->dcost;
 		cost_y	 = mincost_y + y->dcost;
 		cost_z	 = mincost_z + z->dcost;
-		
+
 		mincost_x = mincost_z;
 		mincost_z = (mincost_c <= mincost_d) ? mincost_c : mincost_d;
 		if (cost_z <= mincost_z) mincost_z = cost_z;
@@ -368,12 +368,12 @@ d_vertex dyna_trees::assemble(d_vertex u, d_vertex v, d_vertex w)
      v->right=w;
      if (u) u->parent=v;
      if (w) w->parent=v;
-     
+
      mincost_u = (u) ? u->dmin : BIG;
      mincost_v =       v->dmin;
      mincost_w = (w) ? w->dmin : BIG;
      cost_v = mincost_v + v->dcost;
-     
+
      mincost_v = (mincost_u <= mincost_w) ? mincost_u : mincost_w;
      if (cost_v < mincost_v) mincost_v = cost_v;
      v->dcost = cost_v - mincost_v;
@@ -402,7 +402,7 @@ void   dyna_trees::disassemble(d_vertex v, d_vertex& v1, d_vertex& v2) {
 
      if (v1) v1->dmin = mincost_v1;
      if (v2) v2->dmin = mincost_v2;
-     
+
      v->dmin += v->dcost;
      v->dcost = 0;
 }
@@ -433,14 +433,14 @@ d_vertex dyna_trees::findpathcost(d_path p, double& d)
 {
      d_vertex w;
      w=p;
-     
+
      while( !( (w->dcost==0) && ( (w->right==0)||(w->right->dmin>0) ) ) ) {
 	  if (w->right) {
 		if (w->right->dmin == 0) {
 		     w=w->right;
 		} else {
 		     if (w->dcost>0) w=w->left;
-		}  
+		}
 	  }
 	  else {
 		if (w->dcost>0) w=w->left;
@@ -457,7 +457,7 @@ d_vertex dyna_trees::findtail(d_path p)
 {
      d_vertex w;
      w=p;
-     
+
      while(w->right) {
 	  w=w->right;
      }
@@ -495,7 +495,7 @@ d_path dyna_trees::expose(d_vertex v)
 	      q,
 	      r;
      d_vertex w;
-     
+
      p=0;
      while (v) {
 	  w=findpath(v)->successor;
@@ -548,10 +548,10 @@ void dyna_trees::link(d_vertex v, d_vertex w)
 
 
 
-void dyna_trees::cut(d_vertex v) 
+void dyna_trees::cut(d_vertex v)
 {
      d_path p,q;
-     
+
      expose(v);
      split(v,p,q);
      v->successor=q->successor=0;
@@ -561,9 +561,9 @@ void dyna_trees::cut(d_vertex v)
 
 dyna_trees::~dyna_trees()
 {
-     d_node *x, 
+     d_node *x,
 	    *y;
-	  
+
      x=first;
      while(x) {
 	  y=x->next;
@@ -571,6 +571,6 @@ dyna_trees::~dyna_trees()
 	  x=y;
      }
 }
- 
+
 
 

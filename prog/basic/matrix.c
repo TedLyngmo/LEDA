@@ -4,9 +4,9 @@
 
 
 
-main()
+int main()
 
-{ 
+{
   int d = read_int("dimension = ");
 
   matrix       A(d,d);
@@ -16,30 +16,30 @@ main()
   list<vector> B;  // List of b-vectors
   list<vector> X;  // List of x-vectors
 
-  cout << string("give (%d x %d) matrix A:",d,d) << endl;
+  std::cout << string("give (%d x %d) matrix A:",d,d) << std::endl;
 
   cin >> A;
 
-  cout << "A = \n";
-  cout << A << "\n";
+  std::cout << "A = \n";
+  std::cout << A << "\n";
   newline;
 
-  cout << "A.trans() = \n";
-  cout << A.trans() << "\n";
+  std::cout << "A.trans() = \n";
+  std::cout << A.trans() << "\n";
   newline;
 
 
-  cout << "A.inv() = \n";
-  cout << A.inv() << "\n";
+  std::cout << "A.inv() = \n";
+  std::cout << A.inv() << "\n";
   newline;
 
-  cout << "A*A.inv() = \n";
-  cout << A*A.inv() << "\n";
+  std::cout << "A*A.inv() = \n";
+  std::cout << A*A.inv() << "\n";
   newline;
-  
 
-  cout << "We solve the system of linear equations A*x = b.\n";
-  cout << "Give a list of vectors b (terminated by ctrl-d):\n";
+
+  std::cout << "We solve the system of linear equations A*x = b.\n";
+  std::cout << "Give a list of vectors b (terminated by ctrl-d):\n";
 
   while (cin >> b) B.append(b);
   newline;
@@ -49,15 +49,15 @@ main()
   newline;
 
   forall(b,B)  X.append(A.solve(b));
-  
+
   X.print("x's = ",'\n');
   newline;
   newline;
 
 
-  cout << "A*x's = \n";
-  forall(x,X) cout << A*x << "\n";
+  std::cout << "A*x's = \n";
+  forall(x,X) std::cout << A*x << "\n";
   newline;
- 
+
   return 0;
 }

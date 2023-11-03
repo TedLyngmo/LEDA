@@ -5,9 +5,9 @@
 +  _leda_panel.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -17,18 +17,18 @@
 #include <LEDA/leda_panel.h>
 #include <LEDA/impl/x_basic.h>
 
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstring>
+#include <cctype>
+#include <cstdlib>
 
-enum { Text_Item, 
-       String_Item, 
-       String_Menu_Item, 
-       Int_Item, 
-       Slider_Item, 
-       Float_Item, 
-       Button_Item, 
+enum { Text_Item,
+       String_Item,
+       String_Menu_Item,
+       Int_Item,
+       Slider_Item,
+       Float_Item,
+       Button_Item,
        Choice_Item,
        Bool_Item,
        Color_Item };
@@ -36,7 +36,7 @@ enum { Text_Item,
 
 static char* duplicate_string(const char* p)
 { char* q = new char[strlen(p)+1];
-  if (q==0) 
+  if (q==0)
   { fprintf(stderr,"duplicate_string: out of memory");
     abort();
    }
@@ -57,10 +57,10 @@ static char* make_string(double x)
  }
 
 
-void LEDA_PANEL::panel_redraw_func() 
+void LEDA_PANEL::panel_redraw_func()
 { if (active_window)
-  { LEDA_PANEL* p = (LEDA_PANEL*)active_window; 
-    p->open(p->XPOS, p->YPOS, 0, 0, 0, 0, 0); 
+  { LEDA_PANEL* p = (LEDA_PANEL*)active_window;
+    p->open(p->XPOS, p->YPOS, 0, 0, 0, 0, 0);
    }
  }
 
@@ -100,7 +100,7 @@ void LEDA_PANEL::init(const char* s)
   choice_w  = 35;  // minimal choice field width
   button_w  = 40;  // minimal button width
 
-  but_per_line = 0;  
+  but_per_line = 0;
  }
 
 
@@ -124,7 +124,7 @@ LEDA_PANEL::LEDA_PANEL(int width, int height)
  }
 
 void LEDA_PANEL::item_error()
-{ fprintf(stderr,"Sorry, too many items."); 
+{ fprintf(stderr,"Sorry, too many items.");
   exit(1);
  }
 
@@ -153,7 +153,7 @@ void LEDA_PANEL::string_item(const char* s, char** x)
 
 void LEDA_PANEL::string_menu_item(const char* s, char** x, const char* ,
                                   int argc,const char** argv)
-{ 
+{
   if (item_count >= MAX_ITEM_NUM) item_error();
   label_str[item_count] = duplicate_string(s);
   data_str[item_count] = duplicate_string(*x);
@@ -161,7 +161,7 @@ void LEDA_PANEL::string_menu_item(const char* s, char** x, const char* ,
   kind[item_count] = String_Menu_Item;
   dat1[item_count] = argc;
   choices[item_count] = new char*[argc];
-  for(int i = 0; i < argc; i++) 
+  for(int i = 0; i < argc; i++)
      choices[item_count][i] = duplicate_string(argv[i]);
   ycoord[item_count] = last_ycoord;
   last_ycoord += yskip;
@@ -207,7 +207,7 @@ void  LEDA_PANEL::slider_item(const char* s, int* x, int min, int max, action_fu
 
 void LEDA_PANEL::choice_item(const char* s, int* address, int argc,
                              const char** argv, int step, int off)
-{ 
+{
   if (item_count >= MAX_ITEM_NUM) item_error();
   label_str[item_count] = duplicate_string(s);
   data_str[item_count] = 0;
@@ -249,7 +249,7 @@ void LEDA_PANEL::color_item(const char* s, int* x)
   ref[item_count] = x;
   if (display_depth() > 1)
      kind[item_count] = Color_Item;
-  else 
+  else
    { // choice item [white][black]
      kind[item_count] = Choice_Item;
      dat1[item_count] = 2;
@@ -269,13 +269,13 @@ void LEDA_PANEL::color_item(const char* s, int* x)
 int LEDA_PANEL::button(const char* s)
 { if (but_count == MAX_BUT_NUM) return -1;
   // space before first line of buttons
-  if (but_count==0 && item_count>0)  text_item(""); 
+  if (but_count==0 && item_count>0)  text_item("");
   button_str[but_count] = duplicate_string(s);
   return but_count++;
  }
 
 
-void  LEDA_PANEL::button_line(int n, const char** b) 
+void  LEDA_PANEL::button_line(int n, const char** b)
 { for(int i=0; i<n; i++) button(b[i]); }
 
 
@@ -320,7 +320,7 @@ void LEDA_PANEL::draw_d3_box(int x1,int y1,int x2,int y2, int pressed)
 
 
 void LEDA_PANEL::draw_string_item(int i,int active, const char* s)
-{ 
+{
   int  yt = ycoord[i] + (yskip-th)/2;
   put_text(win,xoff,yt,label_str[i],0);
 
@@ -328,7 +328,7 @@ void LEDA_PANEL::draw_string_item(int i,int active, const char* s)
   int x2 = x1 + string_w;
   int y1 = yt - (string_h-th)/2 - 1;
   int y2 = yt + string_h + (string_h-th)/2;
-  
+
   if (s == 0)  s = data_str[i];
 
   int max_c = string_w/tw - 1;
@@ -357,15 +357,15 @@ void LEDA_PANEL::draw_string_item(int i,int active, const char* s)
 
 void LEDA_PANEL::activate_string_item(int n)
 { if (n == act_str_item) return;
-  if (act_str_item > -1) 
+  if (act_str_item > -1)
     draw_string_item(act_str_item);
   draw_string_item(n,1);
   act_str_item = n;
  }
-   
+
 
 void LEDA_PANEL::panel_text_edit(int n)
-{ 
+{
   int h  = yskip-8;
   int y  = ycoord[n] + 4;
   int yt = y + (h - th)/2 + 1;
@@ -393,7 +393,7 @@ void LEDA_PANEL::panel_text_edit(int n)
      reset_gc();
 
      if (k == key_press_event) c = val;
-     if (c == 13) 
+     if (c == 13)
      { put_back_event();
        break;
       }
@@ -434,7 +434,7 @@ void LEDA_PANEL::draw_choice_bool_item(int i, int x, int y, int c, int n)
       ::set_color(black);
       put_ctext(win,x+choice_w/2,y+choice_h/2,choices[i][j],0);
       if (bg_color == item_bg_color) rectangle(win,x,y,x+choice_w,y+choice_h);
-      if(j == c) 
+      if(j == c)
       { rectangle(win,x,y,x+choice_w,y+choice_h);
         rectangle(win,x+1,y+1,x+choice_w-1,y+choice_h-1);
        }
@@ -446,7 +446,7 @@ void LEDA_PANEL::draw_choice_bool_item(int i, int x, int y, int c, int n)
 
 
 void LEDA_PANEL::draw_choice_item(int i)
-{ 
+{
   int yt = ycoord[i] + (yskip-th)/2;
   put_text(win,xoff,yt,label_str[i],0);
 
@@ -463,7 +463,7 @@ typedef char bool;
 
 
 void LEDA_PANEL::draw_bool_item(int i)
-{ 
+{
   int yt = ycoord[i] + (yskip-th)/2 + 1;
   put_text(win,xoff,yt,label_str[i],0);
 
@@ -503,7 +503,7 @@ void LEDA_PANEL::change_color_item(int i, int j)
 
 
 void LEDA_PANEL::draw_color_item(int i)
-{ 
+{
   int yt = ycoord[i] + (yskip-th)/2 + 1;
   int x = xoff1;
   int y = yt - (choice_h-th)/2 - 1;
@@ -537,7 +537,7 @@ void LEDA_PANEL::draw_color_item(int i)
 
 
 void LEDA_PANEL::draw_slider_item(int i, float x)
-{ 
+{
   int x0 = xoff1;
   int x1 = x0 + slider_w;
   int y0 = ycoord[i] + (yskip-slider_h)/2 + 1;
@@ -591,7 +591,7 @@ void LEDA_PANEL::draw_slider_item(int i, float x)
 
 
 void LEDA_PANEL::draw_button(const char* s, int x, int y, int pressed)
-{ 
+{
    int x1 = x+1;
    int y1 = y+4;
    int x2 = x1 + button_w;
@@ -621,7 +621,7 @@ void LEDA_PANEL::draw_button(const char* s, int x, int y, int pressed)
 
 
 void LEDA_PANEL::draw_menu_button(int x, int y, int pressed)
-{ 
+{
   int x1 = x;
   int y1 = y+4;
   int x2 = x1+string_h;
@@ -635,7 +635,7 @@ void LEDA_PANEL::draw_menu_button(int x, int y, int pressed)
     rectangle(win,x1,y1,x2,y2);
   }
 
-  if (pressed) 
+  if (pressed)
   { ::set_color(black);
     box(win,x1+1,y1+1,x2-1,y2-1);
    }
@@ -678,20 +678,20 @@ static int read_panel_at(const char* header, int n, char** but,int x, int y)
  }
 
 
-int  LEDA_PANEL::open(int xpos, int ypos, int win_x, int win_y, 
+int  LEDA_PANEL::open(int xpos, int ypos, int win_x, int win_y,
                       int win_width, int win_height, int mode)
 {
 
 
   // mode = 0:  just display panel window  on screen
-  // mode = 1:  display, read (blocking), and close 
+  // mode = 1:  display, read (blocking), and close
   // mode = 2:  read
   // mode = 3:  display, read (non-blocking) , and close
 
   if (display_depth() == 1)
-  { bg_color = white;   
-    shadow_color = black;   
-    item_bg_color = white;   
+  { bg_color = white;
+    shadow_color = black;
+    item_bg_color = white;
    }
 
 repaint:
@@ -704,7 +704,7 @@ repaint:
   bxoff = 0;       // left and right button boundary space
 
   int width = (win) ? ::window_width(win) : 100;
-  int height; 
+  int height;
 
   int   bw1;              /* button_w + bskip   */
   int   but_lines;
@@ -729,7 +729,7 @@ repaint:
     if (kind[i] != Text_Item)
        { height += yskip;
          if ((w = text_width(label_str[i])+50) > xoff1) xoff1 = w;
- 
+
          if (kind[i] == Choice_Item || kind[i] == Bool_Item)
          { int j;
            for(j=0; j<dat1[i];j++)
@@ -800,7 +800,7 @@ repaint:
       width = button_w + 2*xoff;
      }
    }
-    
+
 
   but_lines = but_count/but_per_line;
 
@@ -841,7 +841,7 @@ repaint:
        }
 
 
-  if (win==0) 
+  if (win==0)
   { LEDA_WINDOW::open(WIDTH,HEIGHT,XPOS,YPOS,header,bg_color);
     set_show_coordinates(0);
     set_redraw(panel_redraw_func);
@@ -890,13 +890,13 @@ repaint:
           if (act_str_item == -1) activate_string_item(i);
           break;
          }
- 
+
     case Float_Item:
         { draw_string_item(i);
           if (act_str_item == -1) activate_string_item(i);
           break;
          }
-  
+
     case String_Item:
         { draw_string_item(i);
           if (act_str_item == -1) activate_string_item(i);
@@ -948,13 +948,13 @@ repaint:
         k = get_next_event(&w,&b,&x,&y,&t);
         if (w == win)
         { if (k == button_press_event || k == key_press_event) break;
-          if (k == configure_event) 
+          if (k == configure_event)
           { reset_gc();
             goto repaint;
            }
          }
         else
-          if (mode == 3 && k==button_press_event) 
+          if (mode == 3 && k==button_press_event)
           { put_back_event();
             reset_gc();
             goto end;
@@ -968,7 +968,7 @@ repaint:
                j += ytskip;
             else
                j += yskip;
-  
+
            if (j >=y) i--;
          }
        else  /* key pressed */
@@ -977,8 +977,8 @@ repaint:
          { j = act_str_item;
            for(;;)
            { j = (j + 1) % item_count;
-             k =  kind[j]; 
-             if (k==String_Item || k==String_Menu_Item || 
+             k =  kind[j];
+             if (k==String_Item || k==String_Menu_Item ||
                  k==Int_Item || k == Float_Item) break;
              }
            activate_string_item(j);
@@ -1156,20 +1156,20 @@ int  LEDA_PANEL::read() { return open(XPOS,YPOS,0,0,0,0,2); }
 
 
 
-void  LEDA_PANEL::close() 
+void  LEDA_PANEL::close()
 { LEDA_WINDOW::close();
   win = 0;
  }
 
 
 
-LEDA_PANEL::~LEDA_PANEL() 
-{ delete header; 
+LEDA_PANEL::~LEDA_PANEL()
+{ delete header;
   for(int i = 0; i<item_count; i++)
   { if (label_str[i]) delete label_str[i];
     if (data_str[i]) delete data_str[i];
-    if (kind[i] == String_Menu_Item || 
-        kind[i] == Choice_Item || 
+    if (kind[i] == String_Menu_Item ||
+        kind[i] == Choice_Item ||
         kind[i] == Bool_Item    )
       { for(int j = 0; j < dat1[i]; j++) delete choices[i][j];
         delete choices[i];

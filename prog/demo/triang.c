@@ -6,7 +6,7 @@
 window W;
 
 void TRIANG(list<point> L, GRAPH<point,int>& G)
-{ 
+{
   if (L.length() < 3) return;
 
   list<point> CH;
@@ -86,10 +86,10 @@ void TRIANG(list<point> L, GRAPH<point,int>& G)
    }
 
 }
-     
 
 
-main()
+
+int main()
 {
   //window W;
   W.init(-100,100,-100);
@@ -105,7 +105,7 @@ main()
   int b3 = P.button("quit");
 
   for(;;)
-  { 
+  {
     list<point> L;
     point p,q;
 
@@ -120,22 +120,22 @@ main()
        }
 
     if (but == b2)
-      for(int i = 0; i<N; i++) 
+      for(int i = 0; i<N; i++)
       { point p(rand_int(-90,90),rand_int(-90,90));
         W.draw_point(p,blue);
         L.append(p);
        }
 
     if (but == b3) break;
-  
+
     GRAPH<point,int> G;
     TRIANG(L,G);
-  
+
     edge e;
     forall_edges(e,G)
        W.draw_segment(G[source(e)],G[target(e)],violet);
   }
-   
+
  return 0;
 }
 

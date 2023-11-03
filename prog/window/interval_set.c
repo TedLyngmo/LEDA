@@ -5,8 +5,8 @@
 
 
 
-main()
-{ 
+int main()
+{
   interval_set<segment>  I;
 
   window W;
@@ -48,7 +48,7 @@ main()
   point   p;
 
   while (W >> p)
-  { 
+  {
     W.draw_vline(x0);
     W.draw_vline(x1);
 
@@ -71,7 +71,7 @@ main()
     forall(it,L) W << I.inf(it);
     W.set_line_width(1);
 
-    forall(it,L) cout << I.inf(it) << "\n";
+    forall(it,L) std::cout << I.inf(it) << "\n";
     newline;
 
   }

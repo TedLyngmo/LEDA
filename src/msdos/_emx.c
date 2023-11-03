@@ -5,9 +5,9 @@
 +  _emx.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -17,7 +17,7 @@
  */
 
 #include <jmgraph.h>
-#include <stdio.h>
+#include <cstdio>
 
 
 static int MODE;
@@ -27,14 +27,14 @@ static int COLOR;
 
 static int win_xmin;  // coordinates of current window
 static int win_ymin;
-static int win_xmax; 
+static int win_xmax;
 static int win_ymax;
 
 
 void init_graphics(int mode, int col)
 {
   if (mode == 1) // graphics mode
-  { 
+  {
      if (!g_mode(G640x480x16))
      { fprintf (stderr, "Cannot switch to graphics mode 640x480x16\n");
        exit(1);
@@ -42,7 +42,7 @@ void init_graphics(int mode, int col)
 
     char pal[48];
     char* p = pal;
-    for(int i=0; i<16; i++) 
+    for(int i=0; i<16; i++)
       { *p++ = _R_[i];
         *p++ = _G_[i];
         *p++ = _B_[i];
@@ -68,7 +68,7 @@ void init_graphics(int mode, int col)
   win_ymin = 0;
   win_xmax = DISP_MAX_X;
   win_ymax = DISP_MAX_Y;
-  
+
 }
 
 
@@ -99,13 +99,13 @@ void set_bold_font() {}
 void set_message_font() {}
 
 
-int set_line_width(int width) 
+int set_line_width(int width)
 { int save = WIDTH;
   WIDTH = width;
-  return save; 
+  return save;
  }
 
-int set_line_style(int style) 
+int set_line_style(int style)
 { int save = STYLE;
   STYLE = style;
   switch(style) {
@@ -120,10 +120,10 @@ int set_line_style(int style)
  }
 
 
-int set_color(int col) 
+int set_color(int col)
 { int c = COLOR;
   COLOR = col;
-  return c; 
+  return c;
  }
 
 
@@ -214,7 +214,7 @@ void fill_circle(Window w, int x0, int y0, int r)
 
 
 void put_text(Window w, int x, int y0, const char *text, int opaque)
-{ 
+{
   set_draw_window(w);
   x  += win_xmin;
   y0 += win_ymin;
@@ -267,21 +267,21 @@ void show_coordinates(Window w, const char* s)
   set_draw_window(w);
   int save_mode = set_mode(1);
   int save_col = set_color(blue);
-  put_text(w,win->width-138,1,s,1); 
+  put_text(w,win->width-138,1,s,1);
   set_color(save_col);
   set_mode(save_mode);
 }
 
 
 
-void pixel(Window w, int x, int y) 
+void pixel(Window w, int x, int y)
 { set_draw_window(w);
   x += win_xmin;
   y += win_ymin;
   g_set(x,y,COLOR);
 }
 
-void point(Window w, int x, int y) 
+void point(Window w, int x, int y)
 { set_draw_window(w);
   x += win_xmin;
   y += win_ymin;
@@ -423,11 +423,11 @@ void delete_pixrect(char* rect)   { delete rect; }
 //------------------------------------------------------------------------------
 
 
-static unsigned short p_mask1[14] = 
+static unsigned short p_mask1[14] =
 {0xc000,0xf000,0x7c00,0x7f00,0x3fc0,0x3fc0,0x1f00,
  0x1f80,0x0dc0,0x0ce0,0x0070,0x0038,0x001c,0x000c};
 
-static unsigned short p_mask2[14] = 
+static unsigned short p_mask2[14] =
 {0x0003,0x000f,0x003e,0x00fe,0x03fc,0x03fc,0x00f8,
  0x01f8,0x03b0,0x0730,0x0e00,0x1c00,0x3800,0x3000};
 
@@ -455,7 +455,7 @@ void draw_pointer(int mouse_x, int mouse_y, int shape)
     int y = mouse_y;
     unsigned short* p = p_mask1;
 
-    if (x > DISP_MAX_X - 16) 
+    if (x > DISP_MAX_X - 16)
     { x -= 16;
       p = p_mask2;
      }
@@ -463,13 +463,13 @@ void draw_pointer(int mouse_x, int mouse_y, int shape)
     unsigned short* p_stop = p + 14;
     int d  = 1;
 
-    if (y > DISP_MAX_Y - 14) 
+    if (y > DISP_MAX_Y - 14)
     { y -= 14;
       d = -1;
       p_stop = p-1;
       p += 14;
      }
-     
+
     while (p != p_stop)
     { unsigned short pat = *p;
       if (pat & 0x8000) g_set(x,   y,black);

@@ -5,9 +5,9 @@
 +  _convex_hull.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 struct ch_edge {
@@ -19,7 +19,7 @@ ch_edge* pred;
 ch_edge* link;
 bool     outside;
 
-ch_edge(const Point& a, const Point& b) : source(a), target(b) 
+ch_edge(const Point& a, const Point& b) : source(a), target(b)
 { outside = true; }
 
 ~ch_edge() {}
@@ -28,7 +28,7 @@ ch_edge(const Point& a, const Point& b) : source(a), target(b)
 
 
 list<Point>  CONVEX_HULL(const list<Point>& L)
-{ 
+{
 
   list_item it;
 
@@ -40,7 +40,7 @@ list<Point>  CONVEX_HULL(const list<Point>& L)
   list_item ymax_it = L.first();
   list_item ymin_it = L.first();
 
-  forall_items(it,L) 
+  forall_items(it,L)
   { if (L[it].xcoord() > L[xmax_it].xcoord()) xmax_it = it;
     if (L[it].xcoord() < L[xmin_it].xcoord()) xmin_it = it;
     if (L[it].ycoord() > L[ymax_it].ycoord()) ymax_it = it;
@@ -83,7 +83,7 @@ list<Point>  CONVEX_HULL(const list<Point>& L)
 
     ch_edge* p = (right_turn(A,B,P)) ?  T1 : T2;
 
-    while ( ! p->outside) //(p->succ->pred != p) 
+    while ( ! p->outside) //(p->succ->pred != p)
     { ch_edge* r0 = p->pred;
       if (right_turn(r0->source,r0->target,P)) p = r0;
       else { ch_edge* r1 = p->succ;
@@ -133,7 +133,7 @@ list<Point>  CONVEX_HULL(const list<Point>& L)
       p->outside = false;
       p = q;
      }
-     
+
    }
 
 
@@ -142,11 +142,11 @@ list<Point>  CONVEX_HULL(const list<Point>& L)
   list<Point> CH;
 
   CH.append(last_edge->source);
-  for(ch_edge* p = last_edge->succ; p != last_edge; p = p->succ) 
+  for(ch_edge* p = last_edge->succ; p != last_edge; p = p->succ)
      CH.append(p->source);
 
 
- // clean up 
+ // clean up
 
   while (last_edge)
   { ch_edge* p = last_edge;

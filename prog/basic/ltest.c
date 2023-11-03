@@ -3,7 +3,7 @@
 
 int ord(const int& x) { return x%1000; }
 
-int main () 
+int main ()
 {
   list<int>     L;
   list<int>     L1;
@@ -11,88 +11,88 @@ int main ()
 
   int i;
 
-  int N = read_int("Number of list entries: "); 
+  int N = read_int("Number of list entries: ");
 
   float T = used_time();
 
-  cout << "allocating    ";
-  cout.flush();
+  std::cout << "allocating    ";
+  std::cout.flush();
   for (i = 0; i < N; i++) L.append(rand_int(1,10000));
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
 
-  cout << "reversing     ";
-  cout.flush();
+  std::cout << "reversing     ";
+  std::cout.flush();
   while (!L.empty()) L1.push(L.pop());
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
-  cout << "assignment    ";
-  cout.flush();
+  std::cout << "assignment    ";
+  std::cout.flush();
   L = L1;
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
-  cout << "sorting(int)  ";
-  cout.flush();
+  std::cout << "sorting(int)  ";
+  std::cout.flush();
   L.sort();
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
-  cout << "sorting again ";
-  cout.flush();
+  std::cout << "sorting again ";
+  std::cout.flush();
   L.sort();
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
 
-  cout << "iteration     ";
-  cout.flush();
+  std::cout << "iteration     ";
+  std::cout.flush();
   forall(i,L) {}
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
   forall(i,L) L2.append(double(i));
 
-  cout << "sorting(double)";
-  cout.flush();
+  std::cout << "sorting(double)";
+  std::cout.flush();
   L2.sort();
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
 
-  cout << "sorting again ";
-  cout.flush();
+  std::cout << "sorting again ";
+  std::cout.flush();
   L2.sort();
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
 
 
-  cout << "test sorting  ";
-  cout.flush();
+  std::cout << "test sorting  ";
+  std::cout.flush();
   forall(i,L)
   { double f = L2.pop();
-    if (i != f)  cout << string("%d  != %f\n",i,f);
+    if (i != f)  std::cout << string("%d  != %f\n",i,f);
    }
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
-  
-  cout << "bucket sort   ";
-  cout.flush();
+
+  std::cout << "bucket sort   ";
+  std::cout.flush();
   L.bucket_sort(0,1000,ord);
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
-  cout << "clear         ";
-  cout.flush();
+  std::cout << "clear         ";
+  std::cout.flush();
   L.clear();
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
   newline;
-  cout << "used memory = " << used_memory()/1024.0 << " kb\n";
+  std::cout << "used memory = " << used_memory()/1024.0 << " kb\n";
 
   return 0;
 }

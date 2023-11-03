@@ -5,7 +5,7 @@
 #include <LEDA/stream.h>
 
 
-main()
+int main()
 {
   list<string> L;
 
@@ -20,9 +20,9 @@ main()
 
   while(b)
   { int n = 38-L[a].length();
-    cout << L[a].head(38);
-    while (n-- > 0) cout << " ";
-    cout << "   " << L[b].head(38);
+    std::cout << L[a].head(38);
+    while (n-- > 0) std::cout << " ";
+    std::cout << "   " << L[b].head(38);
     newline;
     a = L.succ(a);
     b = L.succ(b);

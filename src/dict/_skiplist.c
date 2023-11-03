@@ -5,15 +5,15 @@
 +  _skiplist.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 //------------------------------------------------------------------------------
 //
-//  skip lists 
+//  skip lists
 //
 //  doubly linked
 //
@@ -21,11 +21,11 @@
 //
 //------------------------------------------------------------------------------
 
- 
+
 #include <LEDA/impl/skiplist.h>
 
 #define NODE_SIZE(l) sizeof(skiplist_node)+l*sizeof(skiplist_node*)
- 
+
 #define NEW_NODE(p,l) p=(skiplist_item)allocate_bytes(NODE_SIZE(l));p->level=l;
 
 #define NEW_NODE_0(p,l) p=(skiplist_item)malloc(NODE_SIZE(l));p->level=l;
@@ -35,11 +35,11 @@
 #define FREE_NODE_0(p) free((char*)p)
 
 unsigned long skiplist_node::id_count = 0;
- 
+
 const int BitsInRandom      = 31;
 const int MaxNumberOfLevels = 32;
- 
-skiplist::skiplist(float p) 
+
+skiplist::skiplist(float p)
 { prob = p;
   randomBits = ran.get();
   randomsLeft = BitsInRandom;
@@ -55,9 +55,9 @@ skiplist::skiplist(float p)
   header->backward = 0;
   header->pred = 0;
 
- } 
- 
-skiplist::skiplist(const skiplist& L) 
+ }
+
+skiplist::skiplist(const skiplist& L)
 { prob = L.prob;
   randomBits = ran.get();
   randomsLeft = BitsInRandom;
@@ -73,62 +73,62 @@ skiplist::skiplist(const skiplist& L)
   header->backward = 0;
   header->pred = 0;
 
- 
+
   skiplist_item p = L.STOP->pred;
-  while (p!= L.header) 
+  while (p!= L.header)
   { insert_at_item(header,p->key,p->inf);
     L.copy_key(p->key);
     L.copy_inf(p->inf);
     p = p->pred;
    }
- } 
- 
- 
-skiplist& skiplist::operator=(const skiplist& L) 
+ }
+
+
+skiplist& skiplist::operator=(const skiplist& L)
 { clear();
   skiplist_item p = L.STOP->pred;
-  while (p!= L.header) 
+  while (p!= L.header)
   { insert_at_item(header,p->key,p->inf);
     p = p->pred;
    }
   return *this;
- } 
- 
-void skiplist::clear() 
-{ register skiplist_item p,q;
+ }
+
+void skiplist::clear()
+{ skiplist_item p,q;
   p = header->forward[0];
   while(p!=STOP)
   { q = p->forward[0];
     clear_key(p->key);
     clear_inf(p->inf);
     FREE_NODE(p);
-    p = q; 
+    p = q;
    }
  level = 0;
  for(int i=0;i<MaxNumberOfLevels;i++) header->forward[i] = STOP;
  STOP->pred = header;
  count = 0;
 }
- 
- 
- 
-skiplist::~skiplist() 
+
+
+
+skiplist::~skiplist()
 { clear();
   FREE_NODE_0(header);
   FREE_NODE_0(STOP);
  }
- 
- 
+
+
 int skiplist::randomLevel()
-{ register int lev = 0;
-  register unsigned long b = 0;
+{ int lev = 0;
+  unsigned long b = 0;
 
    while (b==0)
    { b = randomBits&3;    // read next two random bits
      randomBits >>= 2;
      randomsLeft -= 2;
      if (b==0) lev++;   // increase level with prob 0.25
-     if (randomsLeft < 2) 
+     if (randomsLeft < 2)
      { randomBits = ran.get();
        randomsLeft = BitsInRandom;
       }
@@ -143,22 +143,22 @@ int skiplist::randomLevel()
        }
      }
 */
-    
+
    return lev;
  }
- 
- 
+
+
 skiplist_item skiplist::search(GenPtr key, int& l) const
-{ register skiplist_item p = header;
-  register skiplist_item q;
-  register int k;
-  register int c=1;
- 
+{ skiplist_item p = header;
+  skiplist_item q;
+  int k;
+  int c=1;
+
   if (int_type())
   { STOP->key = key;
     for(k = level; k>=0; k--)
     { q = p->forward[k];
-      while (LEDA_ACCESS(int,key) > LEDA_ACCESS(int,q->key)) 
+      while (LEDA_ACCESS(int,key) > LEDA_ACCESS(int,q->key))
       { p = q;
         q = p->forward[k];
        }
@@ -178,7 +178,7 @@ skiplist_item skiplist::search(GenPtr key, int& l) const
   l = k;
   return q;
  }
- 
+
 
 skiplist_item skiplist::locate(GenPtr key) const { return locate_succ(key); }
 
@@ -198,7 +198,7 @@ skiplist_item skiplist::locate_pred(GenPtr key) const
  }
 
 
- 
+
 skiplist_item skiplist::lookup(GenPtr key) const
 { int k;
   skiplist_item q = search(key,k);
@@ -207,11 +207,11 @@ skiplist_item skiplist::lookup(GenPtr key) const
 
 
 void skiplist::insert_item_at_item(skiplist_item q, skiplist_item p)
-{ 
+{
   // insert item q immediately after item p
 
-  register skiplist_item x;
-  register int k;
+  skiplist_item x;
+  int k;
   q->pred = p;
   p->forward[0]->pred = q;
   for(k=0; k<=q->level; k++)
@@ -223,11 +223,11 @@ void skiplist::insert_item_at_item(skiplist_item q, skiplist_item p)
    }
    q->backward = p;
  }
- 
+
 
 skiplist_item skiplist::insert_at_item(skiplist_item p, GenPtr key, GenPtr inf)
-{ register skiplist_item q;
-  register int k;
+{ skiplist_item q;
+  int k;
 
   if (p != header)
   { int c = cmp(key,p->key);
@@ -243,20 +243,20 @@ skiplist_item skiplist::insert_at_item(skiplist_item p, GenPtr key, GenPtr inf)
 
 /*
      if (p!=min() && cmp(key,p->pred->key) <= 0)
-     {  cout << "wrong position for "; print_key(key);
+     {  std::cout << "wrong position for "; print_key(key);
         newline;
-        cout << " pos = "; print_key(p->key);
+        std::cout << " pos = "; print_key(p->key);
         newline;
-        cout << " pred = "; print_key(p->pred->key);
+        std::cout << " pred = "; print_key(p->pred->key);
         newline;
-        error_handler(1,"skiplist::insert_at : wrong position "); 
+        error_handler(1,"skiplist::insert_at : wrong position ");
       }
 */
    }
- 
+
    k = randomLevel();
    if (k>level) k = ++level;
- 
+
    NEW_NODE(q,k);
    copy_key(key);
    copy_inf(inf);
@@ -266,15 +266,15 @@ skiplist_item skiplist::insert_at_item(skiplist_item p, GenPtr key, GenPtr inf)
    count++;
 
    insert_item_at_item(q,p);
- 
+
    return q;
  }
 
 
 void skiplist::remove_item(skiplist_item q)
-{ register int k;
-  register skiplist_item p = q->backward;
-  register skiplist_item x;
+{ int k;
+  skiplist_item p = q->backward;
+  skiplist_item x;
 
   for(k=q->level; k>=0; k--)
   { while (p->forward[k] != q) p = p->forward[k];
@@ -284,8 +284,8 @@ void skiplist::remove_item(skiplist_item q)
    }
   x->pred = p;
 }
- 
- 
+
+
 void skiplist::del_item(skiplist_item q)
 { remove_item(q);
   clear_key(q->key);
@@ -328,17 +328,17 @@ void skiplist::split_at_item(skiplist_item,skiplist&,skiplist&)
 
 void skiplist::print()
 { skiplist_item p = header;
-  cout << "Level = " << level << "\n"; 
+  std::cout << "Level = " << level << "\n";
   for(;;)
-  { cout << string("<%d>  ",p);
+  { std::cout << string("<%d>  ",p);
     if (p != header && p != STOP)
-    { cout << "key = ";
+    { std::cout << "key = ";
       print_key(p->key);
      }
     newline;
     for(int k=p->level;k>=0;k--)
-       cout << string("forward[%d] = %8d\n", k,p->forward[k]);
-    cout << string("backward = %8d   pred = %8d\n",p->backward, p->pred);
+       std::cout << string("forward[%d] = %8d\n", k,p->forward[k]);
+    std::cout << string("backward = %8d   pred = %8d\n",p->backward, p->pred);
     if (p==STOP) break;
     p = p->forward[0];
     newline;

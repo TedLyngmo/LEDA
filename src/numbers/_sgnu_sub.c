@@ -5,9 +5,9 @@
 +  _sgnu_sub.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -24,7 +24,7 @@ extern sz_t School_Sub(word *a, sz_t a_used, word *b, sz_t b_used, word* diff)
 
   word* d_stop = diff + a_used;
   int n = b_used / 16;
-  int r = b_used % 16; 
+  int r = b_used % 16;
 
   word  aa;
   word  bb;
@@ -39,7 +39,7 @@ asm volatile ("subxcc  %2,%1,%0" : "=r"(aa) : "r"(bb), "0"(aa) );\
 
   asm volatile ("addcc  %%g0,%%g0,%0" : "=r"(bb) : );
 
-  switch (r) 
+  switch (r)
    { case 15: SUB_LOOP_BODY;
      case 14: SUB_LOOP_BODY;
      case 13: SUB_LOOP_BODY;
@@ -61,9 +61,9 @@ asm volatile ("subxcc  %2,%1,%0" : "=r"(aa) : "r"(bb), "0"(aa) );\
 
   while (n--)
   { asm volatile ("addcc 0xffffffff,%1,%0" : "=r"(bb) : "0"(bb) );
-    SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; 
-    SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; 
-    SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; 
+    SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY;
+    SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY;
+    SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY;
     SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY;
     asm volatile ("addx  %%g0,%%g0,%0" : "=r"(bb) : );
    }

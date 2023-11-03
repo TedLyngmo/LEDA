@@ -8,14 +8,14 @@
 #include <LEDA/impl/ch_hash.h>
 
 
-void d_array_test(d_array<int,int>& count, list<int>& L, char* name)
-{ 
+void d_array_test(d_array<int,int>& count, list<int>& L, const char* name)
+{
   int min;
   int max;
   int x;
 
-  cout << string("%-10s",name);
-  cout.flush();
+  std::cout << string("%-10s",name);
+  std::cout.flush();
 
   float T = used_time();
 
@@ -29,14 +29,14 @@ void d_array_test(d_array<int,int>& count, list<int>& L, char* name)
     if (count[x] < count[min]) min = x;
    }
 
-  cout << "min: " << min << " appears " << count[min] << " times, ";
-  cout << "max: " << max << " appears " << count[max] << " times. ";
-  cout << string("   (%8.2f sec)",used_time(T));
+  std::cout << "min: " << min << " appears " << count[min] << " times, ";
+  std::cout << "max: " << max << " appears " << count[max] << " times. ";
+  std::cout << string("   (%8.2f sec)",used_time(T));
   newline;
 }
 
 
-main()
+int main()
 {
    d_array<int,int>           RS_ARRAY(0);
 
@@ -56,7 +56,7 @@ main()
   d_array_test(RB_ARRAY,L,"rb_tree");
   d_array_test(CH_ARRAY,L,"ch_hash");
   d_array_test(SK_ARRAY,L,"skiplist");
- 
+
   return 0;
 }
 

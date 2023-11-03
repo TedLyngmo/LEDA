@@ -5,8 +5,8 @@
 #include <LEDA/dph_array.h>
 */
 
-main()
-{ 
+int main()
+{
   int N0[10000];
   int i;
   for(i=0; i<1000; i++) N0[i] = 0;
@@ -26,30 +26,30 @@ main()
 
   float T = used_time();
   for(i=0; i<n; i++)  N0[A[i]]++;
-  cout << string("c++ array: %.2f sec",used_time(T)) << endl; 
+  std::cout << string("c++ array: %.2f sec",used_time(T)) << std::endl;
 
   T = used_time();
   for(i=0; i<n; i++)  M[A[i]]++;
-  cout << string("map:       %.2f sec",used_time(T)) << endl; 
+  std::cout << string("map:       %.2f sec",used_time(T)) << std::endl;
 
   T = used_time();
   for(i=0; i<n; i++)  N1[A[i]]++;
-  cout << string("h_array:   %.2f sec",used_time(T)) << endl; 
+  std::cout << string("h_array:   %.2f sec",used_time(T)) << std::endl;
 
   T = used_time();
   for(i=0; i<n; i++)  N2[A[i]]++;
-  cout << string("h_array:   %.2f sec",used_time(T)) << endl; 
+  std::cout << string("h_array:   %.2f sec",used_time(T)) << std::endl;
 
   T = used_time();
   for(i=0; i<n; i++)  N3[A[i]]++;
-  cout << string("d_array:   %.2f sec",used_time(T)) << endl; 
+  std::cout << string("d_array:   %.2f sec",used_time(T)) << std::endl;
 
 /*
   for(i=0; i<n; i++)  N4[A[i]]++;
-  cout << string("dph_array: %.2f sec",used_time(T)) << endl; 
+  std::cout << string("dph_array: %.2f sec",used_time(T)) << std::endl;
 */
 
-  /* forall_defined(i,N1) cout << i << ": " << N1[i] << endl; */
+  /* forall_defined(i,N1) std::cout << i << ": " << N1[i] << std::endl; */
 
   for(i=1; i<1000; i++)
     if (M[i] != N0[i] || N1[i] != N0[i] || N3[i] != N0[i])

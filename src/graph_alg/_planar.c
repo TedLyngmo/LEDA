@@ -5,16 +5,16 @@
 +  _planar.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/stack.h>
 #include <LEDA/graph.h>
 #include <LEDA/graph_alg.h>
 
-static void dfs_in_make_biconnected_graph(graph & G, node v, 
+static void dfs_in_make_biconnected_graph(graph & G, node v,
   list<edge>& new_edges, int &dfs_count,
   node_array < bool > &reached,
   node_array < int >&dfsnum, node_array < int >&lowpt,
@@ -169,7 +169,7 @@ list<edge> make_biconnected_graph(graph & G)
   return new_edges;
 }				/* end |make_biconnected_graph| */
 
-static void dfs_in_make_biconnected_graph(graph & G, node v, 
+static void dfs_in_make_biconnected_graph(graph & G, node v,
   list<edge>& new_edges, int &dfs_count,
   node_array < bool > &reached,
   node_array < int >&dfsnum, node_array < int >&lowpt,
@@ -193,17 +193,17 @@ static void dfs_in_make_biconnected_graph(graph & G, node v,
     if (!reached[w]) {		/* e is a tree edge */
       parent[w] = v;
       dfs_in_make_biconnected_graph(G, w, new_edges, dfs_count, reached, dfsnum, lowpt, parent);
-      if (lowpt[w] == dfsnum[v]) {	/* |v| is an articulation point. We * 
+      if (lowpt[w] == dfsnum[v]) {	/* |v| is an articulation point. We *
 					 * now add an edge. If |w| is the *
-					 * first child and |v| has a parent * 
+					 * first child and |v| has a parent *
 					 * then we connect |w| and *
 					 * |parent[v]|, if |w| is a first *
-					 * child and |v| has no parent then * 
-					 * we do nothing. If |w| is not the * 
-					 * first child then we connect |w| to 
-					 * 
+					 * child and |v| has no parent then *
+					 * we do nothing. If |w| is not the *
+					 * first child then we connect |w| to
+					 *
 					 * * the first child. The net effect
-					 * of  * all of this is to link all * 
+					 * of  * all of this is to link all *
 					 * children of an articulation point
 					 * * to the first child and the first
 					 * * child to the parent (if it
@@ -594,7 +594,7 @@ bool PLANAR(graph & Gin, bool embed)
 
   edge_array < edge > reversal(H);
 
-  if (!compute_correspondence(H, reversal)) 
+  if (!compute_correspondence(H, reversal))
      error_handler(1,"graph not bidirected");
 
   node_array < int >dfsnum(G);

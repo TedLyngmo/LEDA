@@ -5,9 +5,9 @@
 +  graph_objects.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_GRAPH_OBJECTS_H
@@ -38,7 +38,21 @@ typedef edge_link_struct* edge_link;
 class aux_link_struct : public obj_link {};
 typedef aux_link_struct* aux_link;
 
+class graph;
+class ugraph;
+class planar_map;
+class node_list;
+inline graph* graph_of(node);
+inline graph* graph_of(edge);
+inline int    indeg(node);
+inline int    outdeg(node);
+inline int    degree(node);
+inline int    index(node);
 
+inline edge   First_Adj_Edge(node,int);
+inline edge   Last_Adj_Edge(node,int);
+
+void init_node_data(const graph&,int,GenPtr);
 
 //------------------------------------------------------------------------------
 // class node_struct: internal representation of nodes
@@ -46,7 +60,7 @@ typedef aux_link_struct* aux_link;
 
 class node_struct : public aux_link_struct,  // used for node_list
                     public node_link_struct  // chaining all nodes
-{  
+{
 
    friend class graph;
    friend class ugraph;
@@ -55,9 +69,9 @@ class node_struct : public aux_link_struct,  // used for node_list
    //friend template<int n> class b_node_pq;
    //friend template<class I> class node_pq;
 
-   
-   graph*    g;             // pointer to graph of node 
-   int       name;          // internal name (index)  
+
+   graph*    g;             // pointer to graph of node
+   int       name;          // internal name (index)
    obj_list  adj_edges[2];  // lists of adjacent and incoming edges
    edge      adj_iterator;  //
 
@@ -68,7 +82,7 @@ public:
                         // data[2]: node_partition
 
 
-   node_struct(GenPtr i=0) 
+   node_struct(GenPtr i=0)
    { data[0] = i; name = -1; g = nil; adj_iterator = nil; }
 
 LEDA_MEMORY(node_struct)
@@ -93,16 +107,25 @@ friend void init_node_data(const graph&,int,GenPtr);
 // class edge_struct: internal representation of edges
 //------------------------------------------------------------------------------
 
+class graph;
+class ugraph;
+class planar_map;
+inline graph* graph_of(edge);
+inline node   source(edge);
+inline node   opposite(node,edge);
+inline node   target(edge);
+inline int    index(edge);
+
 class edge_struct : public adj_link_struct1,  // chaining of adjacent out-edges
                     public adj_link_struct2,  // chaining of adjacent in-edges
                     public edge_link_struct   // chaining of all edges
-{ 
+{
    friend class graph;
    friend class ugraph;
    friend class planar_map;
 
-   int  name;          // internal name (index)  
-   node s;             // source node 
+   int  name;          // internal name (index)
+   node s;             // source node
    node t;             // target node
    edge rev;           // space for reverse edge (used by planar_map)
 
@@ -146,23 +169,23 @@ inline int    index(edge e)    { return e->name;    }
 // parameterized access of adjacent edges (portable code?)
 // outgoing (i=0) or incoming (i=1) edges
 
-inline edge First_Adj_Edge(node v, int i)  
+inline edge First_Adj_Edge(node v, int i)
 { GenPtr p = v->adj_edges[i].first() - i;
   return edge(p); }
 
-inline edge Last_Adj_Edge(node v, int i)  
+inline edge Last_Adj_Edge(node v, int i)
 { GenPtr p = v->adj_edges[i].last() - i;
   return edge(p); }
 
-inline edge Succ_Adj_Edge(edge e, int i) 
+inline edge Succ_Adj_Edge(edge e, int i)
 { GenPtr p = ((obj_link*)(((obj_link*)GenPtr(e))+i))->succ_item() - i;
   return edge(p); }
 
-inline edge Pred_Adj_Edge(edge e, int i) 
+inline edge Pred_Adj_Edge(edge e, int i)
 { GenPtr p = ((obj_link*)(((obj_link*)GenPtr(e))+i))->pred_item() - i;
   return edge(p); }
 
-inline edge Leda_Nil_Edge(int i) 
+inline edge Leda_Nil_Edge(int i)
 { GenPtr p = (obj_link*)0 - i;
   return edge(p); }
 

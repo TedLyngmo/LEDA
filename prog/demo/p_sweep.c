@@ -4,7 +4,7 @@
 #include <LEDA/sortseq.h>
 #include <LEDA/p_dictionary.h>
 
-#include <math.h>
+#include <cmath>
 
 
 static double X_POS;
@@ -19,7 +19,7 @@ int compare(segment& s1,segment& s2)
 
   if (fabs(diff) < 1e-10)
      return compare(l1.slope(),l2.slope());
-  else 
+  else
      return compare(diff,0.0);
 }
 
@@ -30,7 +30,7 @@ segment hor_seg(point p) { return segment(p,0,1); }
 typedef priority_queue<segment,point> X_structure;
 
 
-typedef p_dictionary<segment,int> Y_structure; 
+typedef p_dictionary<segment,int> Y_structure;
 
 
 typedef sortseq<double,Y_structure>  HISTORY;
@@ -39,7 +39,7 @@ typedef sortseq<double,Y_structure>  HISTORY;
 void sweep(list<segment>& L, HISTORY& H)
 {
   X_structure    X;
-  Y_structure    Y;           
+  Y_structure    Y;
   segment s;
 
   forall(s,L)                     // initialize the X_structure
@@ -50,7 +50,7 @@ void sweep(list<segment>& L, HISTORY& H)
 
   // start sweep
 
-  X_POS = -MAXDOUBLE;         
+  X_POS = -MAXDOUBLE;
 
   H.insert(X_POS,Y);              // insert empty Y_structure at -infinity
 
@@ -68,12 +68,12 @@ void sweep(list<segment>& L, HISTORY& H)
     else
         Y = Y.del(l);             // rigth point
 
-    H.insert(X_POS,Y);            // insert Y into history sequence 
+    H.insert(X_POS,Y);            // insert Y into history sequence
 
   }
 
   H.insert(MAXDOUBLE,Y);          // insert empty Y_structure at +infinity
-  
+
 }
 
 
@@ -87,11 +87,11 @@ segment locate(point p, HISTORY& H)
 
   p_dic_item pit = Y.succ(hor_seg(p));
 
-  if (pit != nil) 
+  if (pit != nil)
      return Y.key(pit);
   else
      return segment(0,0,0,0);
-  
+
 }
 
 
@@ -123,8 +123,8 @@ void hide_segment(segment s)
  }
 
 
-main()
-{ 
+int main()
+{
   HISTORY H;
   segment s;
   point p;
@@ -134,7 +134,7 @@ main()
   W.set_mode(xor_mode);
   W.set_line_width(1);
 
-  while (W >> s) 
+  while (W >> s)
   { draw_segment(s);
     L.append(s);
    }
@@ -148,9 +148,9 @@ main()
  X_POS = W.xmin();
  L.clear();
 
- while ((key = W.read_mouse(x,y))!= 3 )  
+ while ((key = W.read_mouse(x,y))!= 3 )
  {
-   forall(s,L) hide_segment(s);           
+   forall(s,L) hide_segment(s);
    draw_sweep_line();
    L.clear();
 
@@ -170,9 +170,9 @@ main()
             }
    }
 
-   forall(s,L) show_segment(s);           
+   forall(s,L) show_segment(s);
 
   }
-  
+
   return 0;
 }

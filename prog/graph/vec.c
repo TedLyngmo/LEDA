@@ -6,8 +6,8 @@
 
 
 
-main()
-{  
+int main()
+{
    UGRAPH<matrix,vector> G;
    node v;
    edge e;
@@ -29,7 +29,7 @@ main()
 
   edge_array<vector> V(G,vec);
 
-   forall_nodes(v,G) 
+   forall_nodes(v,G)
    { M[v] = G[v] = matrix(i,i);
      i++;
     }

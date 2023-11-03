@@ -5,9 +5,9 @@
 +  graph.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_GRAPH_H
@@ -30,26 +30,26 @@ class graph {
 
 /*{\Mdefinition
 An instance $G$ of the data type $graph$ consists of a list $V$  of nodes
-and a list $E$  of edges ($node$ and $edge$ are item types). A pair of nodes 
-$(v,w) \in V\times V$ is associated with every edge $e\in E$; $v$ is called 
-the {\em source} of $e$ and $w$ is called the {\em target} of $e$. Two lists 
+and a list $E$  of edges ($node$ and $edge$ are item types). A pair of nodes
+$(v,w) \in V\times V$ is associated with every edge $e\in E$; $v$ is called
+the {\em source} of $e$ and $w$ is called the {\em target} of $e$. Two lists
 of edges are associated with every node $v$: the list
-$out\_edges(v) = \{e \in E\ \abs\ source(e) = v\}$ of edges starting in $v$, 
+$out\_edges(v) = \{e \in E\ \abs\ source(e) = v\}$ of edges starting in $v$,
 and the list $in\_edges(v) = \{e \in E\ \abs\ target(e) = v\}$ of
-edges ending in $v$. Distinct graphs have disjoint node and edge sets. 
+edges ending in $v$. Distinct graphs have disjoint node and edge sets.
 A graph with empty node list is called {\em empty}.
 
 A graph is either {\em directed} or {\em undirected}; the main difference
-between directed and undirected edges is the definition of {\em adjacent}. 
-Undirected graphs are the subject of section \ref{Undirected Graphs}. 
-In a directed graph an edge is adjacent to its source and in an undirected 
-graph it is adjacent to its source and target. In a directed graph a node $w$ 
-is adjacent to a node $v$ if there is an edge $(v,w) \in E$; in an undirected 
-graph $w$ is adjacent to $v$ if there is an edge $(v,w)$ or $(w,v)$ in the 
-graph. The {\em adjacency list} of a node $v$ is the list of edges adjacent 
-to $v$; more precisely, for directed graphs the adjacency list of $v$ is 
+between directed and undirected edges is the definition of {\em adjacent}.
+Undirected graphs are the subject of section \ref{Undirected Graphs}.
+In a directed graph an edge is adjacent to its source and in an undirected
+graph it is adjacent to its source and target. In a directed graph a node $w$
+is adjacent to a node $v$ if there is an edge $(v,w) \in E$; in an undirected
+graph $w$ is adjacent to $v$ if there is an edge $(v,w)$ or $(w,v)$ in the
+graph. The {\em adjacency list} of a node $v$ is the list of edges adjacent
+to $v$; more precisely, for directed graphs the adjacency list of $v$ is
 equal to $out\_edges(v)$ and for undirected graphs it is the concatenation
-of $out\_edges(v)$ and $in\_edges(v)$. 
+of $out\_edges(v)$ and $in\_edges(v)$.
 
 The value of a variable of type node is either the node of some graph, or the
 special value nil (which is distinct from all nodes), or is undefined (before the first assignment to the variable). A corresponding statement is true for
@@ -65,7 +65,7 @@ obj_list V;
 //list<edge> E;              /* list of all edges */
 obj_list E;
 
-int max_n_index;      // maximal node index 
+int max_n_index;      // maximal node index
 int max_e_index;      // maximal edge index
 
 bool   undirected;    // true iff graph is undirected
@@ -82,17 +82,17 @@ virtual void copy_edge_entry(GenPtr&) const {}
 virtual void clear_node_entry(GenPtr&) const {}
 virtual void clear_edge_entry(GenPtr&) const {}
 
-virtual void read_node_entry(istream&, GenPtr&) {}
-virtual void read_edge_entry(istream&, GenPtr&) {}
+virtual void read_node_entry(std::istream&, GenPtr&) {}
+virtual void read_edge_entry(std::istream&, GenPtr&) {}
 
-virtual void write_node_entry(ostream&, GenPtr&) const {}
-virtual void write_edge_entry(ostream&, GenPtr&) const {}
+virtual void write_node_entry(std::ostream&, GenPtr&) const {}
+virtual void write_edge_entry(std::ostream&, GenPtr&) const {}
 
-virtual void print_node_entry(ostream&, GenPtr&) const {}
-virtual void print_edge_entry(ostream&, GenPtr&) const {}
+virtual void print_node_entry(std::ostream&, GenPtr&) const {}
+virtual void print_edge_entry(std::ostream&, GenPtr&) const {}
 
-virtual char* node_type() const { return "void"; }
-virtual char* edge_type() const { return "void"; }
+virtual const char* node_type() const { return "void"; }
+virtual const char* edge_type() const { return "void"; }
 
 protected:
 
@@ -110,11 +110,11 @@ virtual int cmp_edge_entry(edge, edge) const { return 0; }
 /*{\Mcreation G }*/
 
 graph();
-/*{\Mcreate creates an object $G$ of type $graph$ and initializes it to 
+/*{\Mcreate creates an object $G$ of type $graph$ and initializes it to
             the empty directed graph. }*/
 
 graph(const graph&);
-graph& operator=(const graph&); 
+graph& operator=(const graph&);
 
 virtual void clear();
 
@@ -135,21 +135,21 @@ graph(graph&, const list<edge>&);
 
 /*{\Moperations 1.9 4.7 }*/
 
-/*{\Mtext       
+/*{\Mtext
 \bigskip
 {\bf a) Access operations} }*/
 
    int  outdeg(node v)    const;
-/*{\Mop     returns the outdegree of node $v$, i.e., the number of 
+/*{\Mop     returns the outdegree of node $v$, i.e., the number of
             edges starting at $v$ ($\abs out\_edges(v)\abs$). }*/
 
    int  indeg(node v)     const;
-/*{\Mop     returns the indegree of node $v$, i.e., the number of 
+/*{\Mop     returns the indegree of node $v$, i.e., the number of
             edges ending at $v$ ($\abs in\_edges(v) \abs$). }*/
 
 
    int  degree(node v)    const;
-/*{\Mop     returns the degree of node $v$, i.e., the number of 
+/*{\Mop     returns the degree of node $v$, i.e., the number of
             edges starting or ending at $v$. }*/
 
    node source(edge e)    const;
@@ -159,7 +159,7 @@ graph(graph&, const list<edge>&);
 /*{\Mop     returns the target node of edge $e$.}*/
 
    node opposite(node v, edge e) const;
-/*{\Mop     returns a node of edge $e$ different from $v$ (returns $v$ 
+/*{\Mop     returns a node of edge $e$ different from $v$ (returns $v$
             if $e$ has source and target equal to $v$) . }*/
 
 
@@ -254,20 +254,20 @@ graph(graph&, const list<edge>&);
 /*{\Mop       returns the last edge of $in\_edges(v)$. }*/
 
    edge in_succ(edge e)  const;
-/*{\Mop       returns the successor of edge $e$ in $in\_edges(target(e))$ 
+/*{\Mop       returns the successor of edge $e$ in $in\_edges(target(e))$
               (nil if it does not exist). }*/
 
    edge in_pred(edge e)  const;
-/*{\Mop       returns the predecessor of edge $e$ in $in\_edges(target(e))$ 
+/*{\Mop       returns the predecessor of edge $e$ in $in\_edges(target(e))$
               (nil if it does not exist). }*/
 
    edge cyclic_in_succ(edge e) const;
-/*{\Mop       returns the cyclic successor of edge $e$ in 
+/*{\Mop       returns the cyclic successor of edge $e$ in
               $in\_edges(target(e))$. }*/
 
 
    edge cyclic_in_pred(edge e) const;
-/*{\Mop       returns the cyclic predecessor of edge $e$ in 
+/*{\Mop       returns the cyclic predecessor of edge $e$ in
               $in\_edges(target(e))$. }*/
 
 
@@ -289,7 +289,7 @@ protected:
 public:
 
 
-/*{\Mtext       
+/*{\Mtext
 \bigskip
 {\bf b) Update operations} }*/
 
@@ -298,36 +298,36 @@ public:
 /*{\Mop        adds a new node to $G$ and returns it. }*/
 
 
-   edge new_edge(node v, node w) 
+   edge new_edge(node v, node w)
    { GenPtr x; init_edge_entry(x);
      return new_edge(v,w,x);}
-/*{\Mop         adds a new edge $(v,w)$ to \var\ by appending it to 
+/*{\Mop         adds a new edge $(v,w)$ to \var\ by appending it to
                 $out\_edges(v)$ and to $in\_edges(w)$, and returns it.}*/
 
 
-   edge new_edge(edge e, node w, int dir=after) 
+   edge new_edge(edge e, node w, int dir=after)
    { GenPtr x; init_edge_entry(x);
      return new_edge(e,w,x,dir); }
 /*{\Mopl       adds a new edge $(source(e), w)$ to \var\ by inserting it
-               before ($dir$ = $before$) or after ($dir$ = $after$) edge $e$ into 
+               before ($dir$ = $before$) or after ($dir$ = $after$) edge $e$ into
                $out\_edges(source(e))$ and appending it to $in\_edges(w)$,
                and returns it. Here $before$ and $after$ are predefined
                integer constants. }*/
 
 
-   edge new_edge(edge e1, edge e2, int d1=after, int d2=after) 
+   edge new_edge(edge e1, edge e2, int d1=after, int d2=after)
    { GenPtr x; init_edge_entry(x);
      return new_edge(e1,e2,x,d1,d2); }
-/*{\Mopl       adds a new edge $(source(e1), target(e2))$ to \var\ by 
-               inserting it before (if $d1$ = $before$) or after (if $d1$ = $after$) 
-               edge $e1$ into $out\_edges(source(e1))$ and before 
+/*{\Mopl       adds a new edge $(source(e1), target(e2))$ to \var\ by
+               inserting it before (if $d1$ = $before$) or after (if $d1$ = $after$)
+               edge $e1$ into $out\_edges(source(e1))$ and before
                (if $d2$ = $before$) or after (if $d2$ = $after$) edge $e2$ into
-               $in\_edges(target(e2))$, and returns it. }*/ 
+               $in\_edges(target(e2))$, and returns it. }*/
 
 
 
    void hide_edge(edge e);
-/*{\Mop        removes edge $e$ from $out\_edges(source(e))$ and 
+/*{\Mop        removes edge $e$ from $out\_edges(source(e))$ and
                from $in\_edges(target(e))$, but leaves it in the
                list of all edges $E$. }*/
 
@@ -346,15 +346,15 @@ public:
    void del_edge(edge e);
 /*{\Mop       deletes the edge $e$ from $G$. }*/
 
-   void del_all_nodes(); 
+   void del_all_nodes();
 /*{\Mop       deletes all nodes from $G$.  }*/
 
-   void del_all_edges(); 
+   void del_all_edges();
 /*{\Mop       deletes all edges from $G$.  }*/
 
    edge rev_edge(edge e);
-/*{\Mop       reverses the edge $e = (v,w)$ by removing it from $G$ 
-              and inserting the edge $(w,v)$ into $G$; returns the 
+/*{\Mop       reverses the edge $e = (v,w)$ by removing it from $G$
+              and inserting the edge $(w,v)$ into $G$; returns the
               reversed edge. }*/
 
 graph& rev();
@@ -388,7 +388,7 @@ void sort_edges(const graph_map& A);
 /* manual:
 void sort_edges(const edge_array<T>& A);
 */
-/*{\Mopl      the edges of $G$ are sorted according to the entries of 
+/*{\Mopl      the edges of $G$ are sorted according to the entries of
               edge\_array $A$ (cf. section \ref{Edge Arrays})
 	      \precond $T$ must be linearly ordered. }*/
 
@@ -399,8 +399,8 @@ void sort_nodes();
 
 
    list<edge> insert_reverse_edges();
-/*{\Mop       for every edge $(v,w)$ in $G$ the reverse edge $(w,v)$ 
-              is inserted into $G$. Returns the list of all inserted 
+/*{\Mop       for every edge $(v,w)$ in $G$ the reverse edge $(w,v)$
+              is inserted into $G$. Returns the list of all inserted
               edges.}*/
 
 
@@ -426,8 +426,8 @@ virtual void clear();
 \bigskip
 {\bf c) Iterators}
 
-With the adjacency list of every node $v$ a list iterator, 
-called the adjacency iterator of $v$, is associated (cf. section \ref{Linear Lists}). There 
+With the adjacency list of every node $v$ a list iterator,
+called the adjacency iterator of $v$, is associated (cf. section \ref{Linear Lists}). There
 are operations to initialize, move, and read these iterators.  }*/
 
 
@@ -436,7 +436,7 @@ void init_adj_iterator(node v)        const;
 
 bool next_adj_edge(edge& e,node v)    const;
 /*{\Mopl     moves the adjacency iterator of $v$ forward by one edge
-             (to the first item of the adjacency list of $v$ if it was undefined) 
+             (to the first item of the adjacency list of $v$ if it was undefined)
              and returns $G$.current\_adj\_edge($e,v$).}*/
 
 bool current_adj_edge(edge& e, node v) const;
@@ -445,13 +445,13 @@ bool current_adj_edge(edge& e, node v) const;
              false is returned.}*/
 
 bool next_adj_node(node& w, node v)    const;
-/*{\Mopl     if $G$.next\_adj\_edge($e$, $v$) = true then 
+/*{\Mopl     if $G$.next\_adj\_edge($e$, $v$) = true then
 	     $target(e)$ is assigned to $w$ and true is returned else false is returned.}*/
 
 bool current_adj_node(node& w, node v) const;
 /*{\Mopl     if $G$.current\_adj\_edge($e$, $v$) = true then
 	     $target(e)$ is assigned to $w$ and true is returned, else false is returned.}*/
- 
+
  void reset() const;
 /*{\Mop      sets all iterators in $G$ to undefined. }*/
 
@@ -463,14 +463,14 @@ void init_edge_iterator() const {}
 \bigskip
 {\bf d) I/O Operations} }*/
 
-void write(ostream& O = cout) const;
+void write(std::ostream& O = std::cout) const;
 /*{\Mopl      writes $G$ to the output stream $O$.}*/
 
 void write(string s) const;
 /*{\Mop       writes $G$ to the file with name $s$.}*/
 
 
-int  read(istream& I = cin);
+int  read(std::istream& I = std::cin);
 /*{\Mopl      reads a graph from the input stream $I$ and assigns
               it to \var. }*/
 
@@ -479,22 +479,22 @@ int  read(string s);
               it to \var. }*/
 
 
-void print_node(node v, ostream& O = cout)  const;
+void print_node(node v, std::ostream& O = std::cout)  const;
 /*{\Mopl      prints node $v$ on the output stream $O$. }*/
 
 
-virtual void print_edge(edge e, ostream& O = cout) const;
+virtual void print_edge(edge e, std::ostream& O = std::cout) const;
 /*{\Mopl      prints  edge $e$ on the output stream $O$. If \var\
-              is directed $e$ is represented by an arrow 
+              is directed $e$ is represented by an arrow
               pointing from source to target. If \var\ is undirected
               $e$ is printed as an undirected line segment. }*/
 
 
-void print(string s, ostream& O = cout) const;
-/*{\Mopl      pretty-prints $G$ with header line $s$ on the output 
+void print(string s, std::ostream& O = std::cout) const;
+/*{\Mopl      pretty-prints $G$ with header line $s$ on the output
               stream $O$. }*/
 
-void print(ostream& O) const { print("",O); }
+void print(std::ostream& O) const { print("",O); }
 /*{\Mop       pretty-prints $G$ on the output stream $O$. }*/
 
 void print() const { print("");   }
@@ -531,10 +531,10 @@ inline node graph::first_node()   const { return node(node_link(V.first())); }
 inline node graph::last_node()    const { return node(node_link(V.last())); }
 inline node graph::choose_node()  const { return first_node(); }
 
-inline node graph::succ_node(node v)  const  
+inline node graph::succ_node(node v)  const
 { return node(node_link(V.succ(node_link(v)))); }
 
-inline node graph::pred_node(node v)  const  
+inline node graph::pred_node(node v)  const
 { return node(node_link(E.pred(node_link(v)))); }
 
 
@@ -542,17 +542,17 @@ inline edge graph::first_edge()   const { return edge(edge_link(E.first())); }
 inline edge graph::last_edge()    const { return edge(edge_link(E.last())); }
 inline edge graph::choose_edge()  const { return first_edge(); }
 
-inline edge graph::succ_edge(edge e)  const  
+inline edge graph::succ_edge(edge e)  const
 { return edge(edge_link(E.succ(edge_link(e)))); }
 
-inline edge graph::pred_edge(edge e)  const  
+inline edge graph::pred_edge(edge e)  const
 { return edge(edge_link(E.pred(edge_link(e)))); }
 
 
 
 inline edge graph::first_adj_edge(node v) const
 { edge e = First_Adj_Edge(v,0);
-  if (undirected && e == Leda_Nil_Edge(0)) 
+  if (undirected && e == Leda_Nil_Edge(0))
   { e = First_Adj_Edge(v,1);
     if (e == Leda_Nil_Edge(1)) e = nil;
    }
@@ -562,7 +562,7 @@ inline edge graph::first_adj_edge(node v) const
 inline edge graph::last_adj_edge(node v) const
 { int index = (undirected) ? 1 : 0;
   edge e = Last_Adj_Edge(v,index);
-  if (undirected && e == Leda_Nil_Edge(index)) 
+  if (undirected && e == Leda_Nil_Edge(index))
   { e = Last_Adj_Edge(v,1-index);
     if (e == Leda_Nil_Edge(1-index)) e = nil;
    }
@@ -575,11 +575,11 @@ inline edge graph::adj_succ(edge e) const
 inline edge graph::adj_pred(edge e) const
 { return edge(adj_link1(adj_link1(e)->pred_item())); }
 
-inline edge graph::cyclic_adj_succ(edge e) const 
+inline edge graph::cyclic_adj_succ(edge e) const
 { edge e1 = adj_succ(e);
   return e1 ? e1 : first_adj_edge(e->s); }
 
-inline edge graph::cyclic_adj_pred(edge e) const 
+inline edge graph::cyclic_adj_pred(edge e) const
 { edge e1 = adj_pred(e);
   return e1 ? e1 : last_adj_edge(e->s); }
 
@@ -597,24 +597,24 @@ inline edge graph::in_succ(edge e)  const
 inline edge graph::in_pred(edge e)  const
 { return edge(adj_link2(adj_link2(e)->pred_item())); }
 
-inline edge graph::cyclic_in_succ(edge e) const 
+inline edge graph::cyclic_in_succ(edge e) const
 { edge e1 = in_succ(e);
   return e1 ? e1 : first_in_edge(e->t); }
 
-inline edge graph::cyclic_in_pred(edge e) const 
+inline edge graph::cyclic_in_pred(edge e) const
 { edge e1 = in_pred(e);
   return e1 ? e1 : last_in_edge(e->t); }
 
 
 
-inline void graph::init_adj_iterator(node v) const 
+inline void graph::init_adj_iterator(node v) const
 { v->adj_iterator = nil; }
 
-inline bool  graph::current_adj_edge(edge& e,node v) const 
+inline bool  graph::current_adj_edge(edge& e,node v) const
 { return (e = v->adj_iterator) != nil;}
 
-inline bool  graph::next_adj_edge(edge& e,node v) const 
-{ if (v->adj_iterator) 
+inline bool  graph::next_adj_edge(edge& e,node v) const
+{ if (v->adj_iterator)
       e = v->adj_iterator = adj_succ(v->adj_iterator);
   else
       e = v->adj_iterator = first_adj_edge(v);
@@ -626,53 +626,53 @@ inline bool graph::next_adj_node(node& w,node v)  const
   if (next_adj_edge(e,v))
   { //w = (v==e->s) ? e->t : e->s;  // ugraph
     w = e->t;
-    return true; 
+    return true;
    }
   else return false;
  }
-   
+
 inline bool graph::current_adj_node(node& w,node v)  const
 { edge e;
   if (current_adj_edge(e,v))
   { //w = (v==e->s) ? e->t : e->s;  // ugraph
     w = e->t;
-    return true; 
+    return true;
    }
   else return false;
 }
-   
+
 
 //------------------------------------------------------------------------------
 // Iteration   (macros)
 //------------------------------------------------------------------------------
 
-/*{\Mtext            
+/*{\Mtext
 \bigskip
 {\bf e) Iteration} }*/
 
 
 #define forall_nodes(v,g) for (v=(g).first_node(); v; v=(g).succ_node(v) )
-/*{\Mtext            
+/*{\Mtext
 \bigskip
-{\bf forall\_nodes}($v,G$)\\ 
+{\bf forall\_nodes}($v,G$)\\
 $\{$ ``the nodes of $G$ are successively assigned to $v$" $\}$ }*/
 
 #define forall_edges(e,g) for (e=(g).first_edge(); e; e=(g).succ_edge(e) )
-/*{\Mtext            
+/*{\Mtext
 \bigskip
 {\bf forall\_edges}($e,G$)\\
 $\{$ ``the edges of $G$ are successively assigned to $e$" $\}$ }*/
 
 #define Forall_nodes(v,g) for (v=(g).last_node(); v; v=(g).pred_node(v) )
-/*{\Mtext            
+/*{\Mtext
 \bigskip
 {\bf Forall\_nodes}($v,G$)\\
 $\{$ ``the nodes of $G$ are successively assigned to $v$ in reverse order" $\}$ }*/
 
 #define Forall_edges(e,g) for (e=(g).last_edge(); e; e=(g).pred_edge(e) )
-/*{\Mtext            
+/*{\Mtext
 \bigskip
-{\bf Forall\_edges}($e,G$)\\ 
+{\bf Forall\_edges}($e,G$)\\
 $\{$ ``the edges of $G$ are successively assigned to $e$ in reverse order" $\}$ }*/
 
 
@@ -730,10 +730,10 @@ $\{$ ``the nodes adjacent to node $w$ are successively assigned to v" $\}$ }*/
 
 
 /*{\Mimplementation
-Graphs are implemented by doubly linked adjacency lists. Most operations 
+Graphs are implemented by doubly linked adjacency lists. Most operations
 take constant time, except for all\_nodes, all\_edges, del\_all\_nodes,
-del\_all\_edges, clear, write, and read which take time $O(n+m)$, where 
-$n$ is the current number of nodes and $m$ is the current number of edges. 
+del\_all\_edges, clear, write, and read which take time $O(n+m)$, where
+$n$ is the current number of nodes and $m$ is the current number of edges.
 The space requirement is $O(n+m)$.}*/
 
 
@@ -745,25 +745,25 @@ The space requirement is $O(n+m)$.}*/
 
 /*{\Manpage {GRAPH} {vtype,etype} {Parameterized Graphs}}*/
 
-template<class vtype, class etype> 
+template<class vtype, class etype>
 
 class GRAPH : public graph {
 
-/*{\Mdefinition 
+/*{\Mdefinition
 A parameterized graph $G$ is a graph whose nodes and edges contain additional
-(user defined) data. Every node contains an element of a data type $vtype$, 
-called the node type of $G$ and every edge contains an element of a data type 
-$etype$ called the edge type of $G$. We use $\<v,w,y\>$ to denote an edge 
+(user defined) data. Every node contains an element of a data type $vtype$,
+called the node type of $G$ and every edge contains an element of a data type
+$etype$ called the edge type of $G$. We use $\<v,w,y\>$ to denote an edge
 $(v,w)$ with information $y$ and $\<x\>$ to denote a node with information $x$.
 
 All operations defined on instances of the data type $graph$ are also defined on
-instances of any parameterized graph type \name. For 
-parameterized graphs there are additional operations to access or update the 
-information associated with its nodes and edges.  
-Instances of a parameterized graph type can be used wherever an instance 
-of the data type $graph$ can be used, e.g., in assignments and as 
-arguments to functions with formal parameters of type $graph\&$. 
-If a function $f(graph\&\ G)$ is called with an argument $Q$ of type 
+instances of any parameterized graph type \name. For
+parameterized graphs there are additional operations to access or update the
+information associated with its nodes and edges.
+Instances of a parameterized graph type can be used wherever an instance
+of the data type $graph$ can be used, e.g., in assignments and as
+arguments to functions with formal parameters of type $graph\&$.
+If a function $f(graph\&\ G)$ is called with an argument $Q$ of type
 \name\ then inside $f$ only the basic graph structure of $Q$ (the
 adjacency lists) can be accessed. The node and edge entries are hidden.
 This allows the design of generic graph algorithms, i.e., algorithms accepting
@@ -776,22 +776,22 @@ void copy_edge_entry(GenPtr& x) const  { LEDA_COPY(etype,x); }
 void clear_node_entry(GenPtr& x) const { LEDA_CLEAR(vtype,x); }
 void clear_edge_entry(GenPtr& x) const { LEDA_CLEAR(etype,x); }
 
-void write_node_entry(ostream& o, GenPtr& x) const { LEDA_PRINT(vtype,x,o); }
-void write_edge_entry(ostream& o, GenPtr& x) const { LEDA_PRINT(etype,x,o); }
+void write_node_entry(std::ostream& o, GenPtr& x) const { LEDA_PRINT(vtype,x,o); }
+void write_edge_entry(std::ostream& o, GenPtr& x) const { LEDA_PRINT(etype,x,o); }
 
-void read_node_entry(istream& i, GenPtr& x) { vtype X; Read(X,i); x=Copy(X); }
-void read_edge_entry(istream& i, GenPtr& x) { etype Y; Read(Y,i); x=Copy(Y); }
+void read_node_entry(std::istream& i, GenPtr& x) { vtype X; Read(X,i); x=Copy(X); }
+void read_edge_entry(std::istream& i, GenPtr& x) { etype Y; Read(Y,i); x=Copy(Y); }
 
 void init_node_entry(GenPtr& x) { LEDA_CREATE(vtype,x); }
 void init_edge_entry(GenPtr& x) { LEDA_CREATE(etype,x); }
 
-void print_node_entry(ostream& o, GenPtr& x)  const
+void print_node_entry(std::ostream& o, GenPtr& x)  const
      { o << "("; LEDA_PRINT(vtype,x,o); o << ")"; }
-void print_edge_entry(ostream& o, GenPtr& x)  const
+void print_edge_entry(std::ostream& o, GenPtr& x)  const
      { o << "("; LEDA_PRINT(etype,x,o); o << ")"; }
 
-char* node_type()  const { return LEDA_TYPE_NAME(vtype); }
-char* edge_type()  const { return LEDA_TYPE_NAME(etype); }
+const char* node_type()  const { return LEDA_TYPE_NAME(vtype); }
+const char* edge_type()  const { return LEDA_TYPE_NAME(etype); }
 
 public:
 
@@ -803,17 +803,17 @@ int cmp_edge_entry(edge x, edge y) const { return compare(inf(x),inf(y)); }
 
 GRAPH()  {}
 
-/*{\Mcreate creates an instance \var\ of type \name\ and initializes it to 
+/*{\Mcreate creates an instance \var\ of type \name\ and initializes it to
             the empty graph. }*/
 
 
 GRAPH<vtype,etype>& operator=(const GRAPH<vtype,etype>& a)
 { clear_all_entries();graph::operator=(a);copy_all_entries();return *this; }
 
-GRAPH(const GRAPH<vtype,etype>& a) : graph(a) { a.copy_all_entries(); } 
+GRAPH(const GRAPH<vtype,etype>& a) : graph(a) { a.copy_all_entries(); }
 
 // subgraphs
-GRAPH(GRAPH<vtype,etype>& a, const list<node>& b, const list<edge>& c) 
+GRAPH(GRAPH<vtype,etype>& a, const list<node>& b, const list<edge>& c)
 : graph(a,b,c) {}
 GRAPH(GRAPH<vtype,etype>& a, const list<edge>& c) : graph(a,c) {}
 
@@ -834,7 +834,7 @@ void   assign(node v, vtype x) { operator[](v) = x; }
 
 void   assign(edge e, etype x) { operator[](e) = x; }
 /*{\Mop    makes $x$ the information of edge $e$.}*/
-                
+
 node   new_node(vtype x)        { return graph::new_node(Copy(x)); }
 /*{\Mop    adds a new node $\<x\>$ to $G$ and returns it.}*/
 
@@ -844,28 +844,28 @@ node   new_node()               { return graph::new_node(); }
 
 
 edge   new_edge(node v, node w, etype a) {return graph::new_edge(v,w,Copy(a)); }
-/*{\Mopl   adds a new edge $\<v,w,a\>$ to $G$ by appending 
-           it to the adjacency list of $v$ and the in\_edges list of 
+/*{\Mopl   adds a new edge $\<v,w,a\>$ to $G$ by appending
+           it to the adjacency list of $v$ and the in\_edges list of
            $w$ and returns it. }*/
 
 edge   new_edge(node v, node w) { return graph::new_edge(v,w); }
 /*{\Mopl   adds a new edge $\<v,w,edef\>$ to $G$ by
 	   appending it to the adjacency list of $v$ and
-           the in\_edges list of $w$ and returns it. Here, $edef$ 
+           the in\_edges list of $w$ and returns it. Here, $edef$
            is the default value of type $etype$.}*/
 
 
 edge   new_edge(edge e, node w, etype a)
                                 { return graph::new_edge(e,w,Copy(a),0); }
-/*{\Mopl   adds a new edge $\<source(e),w,a\>$ to $G$ by appending it 
-           to the adjacency list of $source(e)$ and the in-list of 
+/*{\Mopl   adds a new edge $\<source(e),w,a\>$ to $G$ by appending it
+           to the adjacency list of $source(e)$ and the in-list of
            $w$ and returns it. }*/
 
 
 edge   new_edge(edge e, node w) { return graph::new_edge(e,w); }
-/*{\Mopl   adds a new edge $\<source(e),w,edef\>$ to $G$ by appending 
-           it to the adjacency list of $source(e)$ and the in\_edges list of 
-           $w$ and returns it. Here, $edef$ is the default value of 
+/*{\Mopl   adds a new edge $\<source(e),w,edef\>$ to $G$ by appending
+           it to the adjacency list of $source(e)$ and the in\_edges list of
+           $w$ and returns it. Here, $edef$ is the default value of
            type $etype$.}*/
 
 
@@ -879,7 +879,7 @@ edge   new_edge(edge e, node w, etype a, int dir)
 
 
 /* inherited from base graph
-void sort_nodes();  
+void sort_nodes();
 */
 /*{\Mop    the nodes of $G$ are sorted according to their
            contents.\\
@@ -890,23 +890,23 @@ void sort_nodes();
 void sort_edges();
 */
 /*{\Mop    the edges of $G$ are sorted according to their
-	   contents.\\ 
+	   contents.\\
            \precond $etype$ is linearly ordered.}*/
 
 /* inherited from base graph
 void write(string fname) const;
 */
 /*{\Mop    writes $G$ to the file with name $fname$. The
-           output functions $Print(vtype,ostream)$ and
-           $Print(etype,ostream)$ (cf. section 1.6) must
+           output functions $Print(vtype,std::ostream)$ and
+           $Print(etype,std::ostream)$ (cf. section 1.6) must
            be defined.}*/
 
 /* inherited from base graph
 int read(string fname);
 */
-/*{\Mop       reads $G$ from the file with name $fname$. The 
-	   input functions $Read(vtype,istream)$ and 
-	   $Read(etype,istream)$ (cf.~section 1.6) must
+/*{\Mop       reads $G$ from the file with name $fname$. The
+	   input functions $Read(vtype,std::istream)$ and
+	   $Read(etype,std::istream)$ (cf.~section 1.6) must
 	   be defined. Returns error code\\
 	   1 \quad if file $fname$ does not exist\\
 	   2 \quad if graph is not of type \name\\
@@ -931,7 +931,7 @@ etype  operator[] (edge e) const   { return LEDA_ACCESS(etype,graph::inf(e)); }
 };
 
 /*{\Mimplementation
-Parameterized graphs are derived from directed graphs. All additional 
+Parameterized graphs are derived from directed graphs. All additional
 operations for manipulating the node and edge entries take constant
 time.}*/
 

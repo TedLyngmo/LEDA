@@ -5,9 +5,9 @@
 +  _bfs.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -21,7 +21,7 @@
 #include <LEDA/graph_alg.h>
 
 list<node> BFS(const graph&, node s, node_array<int>& dist)
-{ 
+{
   // precondition: dist[v] < 0 for all nodes v
 
   list<node> Q(s);
@@ -34,7 +34,7 @@ list<node> BFS(const graph&, node s, node_array<int>& dist)
   while (it != nil)
     { v = Q[it];
       forall_adj_nodes(w,v)
-         if (dist[w] < 0) { Q.append(w); 
+         if (dist[w] < 0) { Q.append(w);
                             dist[w] = dist[v]+1;
                            }
       it = Q.succ(it);

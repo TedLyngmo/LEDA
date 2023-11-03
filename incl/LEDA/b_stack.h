@@ -5,16 +5,16 @@
 +  b_stack.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_BSTACK_H
 #define LEDA_BSTACK_H
 
 //------------------------------------------------------------------------------
-// bounded stacks 
+// bounded stacks
 //------------------------------------------------------------------------------
 
 #include <LEDA/basic.h>
@@ -22,7 +22,7 @@
 /*{\Manpage {b_stack} {E} {Bounded Stacks}}*/
 
 
-template<class E> 
+template<class E>
 
 class b_stack
 {
@@ -48,7 +48,7 @@ b_stack(int n)
   stop = first + n;
   if (first==0) error_handler(99,"bounded stack: out of memory");
  }
-/*{\Mcreate creates an instance \var\ of type \name\ that can hold up to $n$ 
+/*{\Mcreate creates an instance \var\ of type \name\ that can hold up to $n$
             elements.  \var\ is initialized with the empty stack.}*/
 
 

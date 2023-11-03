@@ -4,12 +4,12 @@
 //void print(set<string> S, string s)
 
 void print(const set<string>& S, string s)
-{ cout << s;
-  forall(s,S) cout << s << " ";
+{ std::cout << s;
+  forall(s,S) std::cout << s << " ";
   newline;
- } 
+ }
 
-main()
+int main()
 {
 
 set<string> S, S1;
@@ -17,7 +17,7 @@ set<string> S, S1;
 
 string s;
 
-while (cin >> s) 
+while (cin >> s)
  { if (s == "stop") break;
    S.insert(s);
   }
@@ -27,12 +27,12 @@ S1 = S;
 print(S, "S = ");
 print(S1,"S1 = ");
 
-while (cin >> s) 
+while (cin >> s)
    if (S1.member(s))
-   { cout << "delete " << s << "\n";
+   { std::cout << "delete " << s << "\n";
      S1.del(s);
     }
-   else cout << s << "  not in S1 \n";
+   else std::cout << s << "  not in S1 \n";
 
 
 print(S, "S = ");

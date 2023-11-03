@@ -10,7 +10,7 @@ ch_edge* pred;
 ch_edge* link;
 bool     outside;
 
-ch_edge(const Point& a, const Point& b) : source(a), target(b) 
+ch_edge(const Point& a, const Point& b) : source(a), target(b)
 { outside = true; }
 
 ~ch_edge() {}
@@ -19,7 +19,7 @@ ch_edge(const Point& a, const Point& b) : source(a), target(b)
 
 template <class Point>
 list<Point>  C_HULL1(list<Point>& L)
-{ 
+{
   // move the four extreme points to the front of |L|
 
 
@@ -30,7 +30,7 @@ list<Point>  C_HULL1(list<Point>& L)
   list_item ymax_it = L.first();
   list_item ymin_it = L.first();
 
-  forall_items(it,L) 
+  forall_items(it,L)
   { if (L[it].xcoord() > L[xmax_it].xcoord()) xmax_it = it;
     if (L[it].xcoord() < L[xmin_it].xcoord()) xmin_it = it;
     if (L[it].ycoord() > L[ymax_it].ycoord()) ymax_it = it;
@@ -72,7 +72,7 @@ list<Point>  C_HULL1(list<Point>& L)
 
     ch_edge<Point>* p = (right_turn(A,B,P)) ?  T1 : T2;
 
-    while ( ! p->outside) //(p->succ->pred != p) 
+    while ( ! p->outside) //(p->succ->pred != p)
     { ch_edge<Point>* r0 = p->pred;
       if (right_turn(r0->source,r0->target,P)) p = r0;
       else { ch_edge<Point>* r1 = p->succ;
@@ -122,7 +122,7 @@ list<Point>  C_HULL1(list<Point>& L)
       p->outside = false;
       p = q;
      }
-     
+
    }
 
 
@@ -131,11 +131,11 @@ list<Point>  C_HULL1(list<Point>& L)
   list<Point> CH;
 
   CH.append(last_edge->source);
-  for(ch_edge<Point>* p = last_edge->succ; p != last_edge; p = p->succ) 
+  for(ch_edge<Point>* p = last_edge->succ; p != last_edge; p = p->succ)
      CH.append(p->source);
 
 
- // clean up 
+ // clean up
 
   while (last_edge)
   { ch_edge<Point>* p = last_edge;
@@ -150,7 +150,7 @@ list<Point>  C_HULL1(list<Point>& L)
 
 
 
-main()
+int main()
 {
   int N = read_int("N = ");
   int k = read_int("k = ");
@@ -160,30 +160,30 @@ main()
 
   rand_int.set_seed(N*N);
 
-  for(int i = 0; i<N; i++) 
+  for(int i = 0; i<N; i++)
   { integer x = integer::random(k);
     integer y = integer::random(k);
     L1.append(point(x.todouble(),y.todouble()));
     L2.append(rat_point(x,y,1));
    }
-  
- { cout << "C_HULL1(point)      " << flush;
+
+ { std::cout << "C_HULL1(point)      " << flush;
    float T = used_time();
    list<point> C = C_HULL1(L1);
-   cout << string("|C| = %d   time = %.2f",C.length(),used_time(T)) << endl;
+   std::cout << string("|C| = %d   time = %.2f",C.length(),used_time(T)) << std::endl;
   }
 
- { cout << "CONVEX_HULL(point) " << flush;
+ { std::cout << "CONVEX_HULL(point) " << flush;
    float T = used_time();
    list<point> C = CONVEX_HULL(L1);
-   cout << string("|C| = %d   time = %.2f",C.length(),used_time(T)) << endl;
+   std::cout << string("|C| = %d   time = %.2f",C.length(),used_time(T)) << std::endl;
   }
 
 
- { cout << "C_HULL1(rat_point)  " << flush;
+ { std::cout << "C_HULL1(rat_point)  " << flush;
    float T = used_time();
    list<rat_point> C = C_HULL1(L2);
-   cout << string("|C| = %d   time = %.2f",C.length(),used_time(T)) << endl;
+   std::cout << string("|C| = %d   time = %.2f",C.length(),used_time(T)) << std::endl;
   }
 
   return 0;

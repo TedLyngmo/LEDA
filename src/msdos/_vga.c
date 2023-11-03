@@ -5,15 +5,15 @@
 +  _vga.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #include <LEDA/impl/doswin.h>
 
-/* 
+/*
  * basic graphics routines in VGA mode 640x480x16
  * (part of this code is based on "VGAlib" by Tommy Frandsen)
  */
@@ -121,7 +121,7 @@ static void set_regs(char regs[])
     int i;
 
     /* disable video */
-    port_in(IS1_R);	
+    port_in(IS1_R);
     port_out(0x00, ATT_IW);
 
     /* update misc output register */
@@ -129,7 +129,7 @@ static void set_regs(char regs[])
 
     /* synchronous reset on */
     port_out(0x00,SEQ_I);
-    port_out(0x01,SEQ_D);	
+    port_out(0x01,SEQ_D);
 
     /* write sequencer registers */
     for (i = 1; i < SEQ_C; i++) {
@@ -139,10 +139,10 @@ static void set_regs(char regs[])
 
     /* synchronous reset off */
     port_out(0x00, SEQ_I);
-    port_out(0x03, SEQ_D);	
+    port_out(0x03, SEQ_D);
 
     /* deprotect CRT registers 0-7 */
-    port_out(0x11, CRT_I);		
+    port_out(0x11, CRT_I);
     port_out(port_in(CRT_D)&0x7F, CRT_D);
 
     /* write CRT registers */
@@ -204,7 +204,7 @@ static void vga_initialize()
     }
 
     /* disable video */
-    port_in(IS1_R);	
+    port_in(IS1_R);
     port_out(0x00, ATT_IW);
 
     /* save text mode palette - first select palette index 0 */
@@ -323,14 +323,14 @@ static void vga_clear(int c)
 }
 
 
-void init_graphics(int mode, int root_col)  // mode = 0: Text, 1: 640x480x16 
+void init_graphics(int mode, int root_col)  // mode = 0: Text, 1: 640x480x16
 {
     int i;
 
     vga_initialize();
-    
+
     if (mode == 0)  // TEXT
-      { 
+      {
         vga_clear(0);
 
         /* restore font data - first select a 16 color graphics mode */
@@ -372,7 +372,7 @@ void init_graphics(int mode, int root_col)  // mode = 0: Text, 1: 640x480x16
 
       }
     else // graphics mode
-      { 
+      {
         /* shift to color emulation */
         CRT_I = CRT_IC;
         CRT_D = CRT_DC;
@@ -411,7 +411,7 @@ void init_graphics(int mode, int root_col)  // mode = 0: Text, 1: 640x480x16
 
 
 //------------------------------------------------------------------------------
-//  basic graphic routines of libWx  declared in <LEDA/impl/x_basic.h>) 
+//  basic graphic routines of libWx  declared in <LEDA/impl/x_basic.h>)
 //  iplemented for MSDOS using the VGA 640x480x16 color graphics mode
 //------------------------------------------------------------------------------
 
@@ -876,7 +876,7 @@ void box(Window w, int x0, int y0, int x1, int y1)
 
 
 void  rectangle(Window w, int x0, int y0, int x1, int y1)
-{ 
+{
   int left  = x0;
   int right = x1;
   int top   = y0;
@@ -999,7 +999,7 @@ static void Put_Text(DosWindow win, int x, int y, const char *str, int bg_col)
 
   if (y < ymin || y > ymax || x > xmax) return;  // string not visible
 
-  if (x < xmin) 
+  if (x < xmin)
   { int pre = (xmin - x)/FONT_WIDTH + 1;
     if (pre >= len) return;
     str += pre;
@@ -1059,7 +1059,7 @@ void put_text(Window w, int x, int y, const char *text, int l, int opaque)
   char* str = new char[strlen(text)+1];
   strcpy(str,text);
   str[l] = '\0';
-  Put_Text(win,x,y,str,opaque ? win->bg_col : -1); 
+  Put_Text(win,x,y,str,opaque ? win->bg_col : -1);
   delete[] str;
 }
 
@@ -1071,7 +1071,7 @@ void show_coordinates(Window w, const char* s)
 { DosWindow win = win_stack[w];
   int save_mode = set_mode(0);
   int save_col  = set_color(4);
-  put_text(w,win->width-138,1,s,1); 
+  put_text(w,win->width-138,1,s,1);
   set_mode(save_mode);
   set_color(save_col);
 }
@@ -1085,7 +1085,7 @@ void pixels(Window w, int n, int* x, int* y)
 { while(n--) put_pixel(win_stack[w],x[n],y[n]); }
 
 
-void point(Window w, int x, int y) 
+void point(Window w, int x, int y)
 { DosWindow win = win_stack[w];
   put_pixel(win,x,y);
   put_pixel(win,x-2,y-2);
@@ -1179,7 +1179,7 @@ static void ellipse_point(DosWindow win, int x0, int y0, int x, int y)
 
 
 void ellipse(Window w, int x0, int y0, int a, int b)
-{ 
+{
   /* Foley, van Dam, Feiner, Huges: Computer Graphics, page 90 */
 
   DosWindow win = win_stack[w];
@@ -1197,8 +1197,8 @@ void ellipse(Window w, int x0, int y0, int a, int b)
   x = 0;
   y = b;
 
-  d1 = b*b + a*a*(0.25 - b); 
-   
+  d1 = b*b + a*a*(0.25 - b);
+
   while (a_2*(y - 0.5) > b_2*(x+1))
   { if (d1 < 0)
       d1 += b_2*(2*x + 3);
@@ -1237,8 +1237,8 @@ void fill_ellipse(Window w, int x0, int y0, int a, int b)
   x = 0;
   y = b;
 
-  d1 = b*b + a*a*(0.25 - b); 
-   
+  d1 = b*b + a*a*(0.25 - b);
+
   while (a_2*(y - 0.5) > b_2*(x+1))
   { if (d1 < 0)
       d1 += b_2*(2*x + 3);
@@ -1280,16 +1280,16 @@ void fill_arc(Window,int,int,int,int,double,double)
 
 
 void copy_pixrect(Window w,int left,int top,int right,int bottom,int x,int y)
-{ 
+{
   DosWindow win = win_stack[w];
   int width = right-left+1;
   int height = bottom-top+1;
 
-  left += win->xpos; 
-  top  += win->ypos; 
-  x    += win->xpos; 
-  y    += win->ypos; 
- 
+  left += win->xpos;
+  top  += win->ypos;
+  x    += win->xpos;
+  y    += win->ypos;
+
   register VIDEO_PTR first1;
   register VIDEO_PTR first;
   register VIDEO_PTR last1;
@@ -1299,13 +1299,13 @@ void copy_pixrect(Window w,int left,int top,int right,int bottom,int x,int y)
   int i;
 
 
-  if(x < 0) 
+  if(x < 0)
   { left += x;
     width -= x;
     x = 0;
    }
 
-  if(y < 0) 
+  if(y < 0)
   { top += y;
     height -= y;
     y = 0;
@@ -1333,7 +1333,7 @@ void copy_pixrect(Window w,int left,int top,int right,int bottom,int x,int y)
    }
 
   for(i=0; i<height; i++)
-  { 
+  {
     if (x <= left)
       for(q=first, p=first1; q<=last; q++,p++) *p = *q;
     else
@@ -1397,7 +1397,7 @@ void insert_bitmap(Window w, int width, int height, char* data)
 
   for(int i=0; i<he; i++)
   { char* p = data + i*width;
-    for(q=first; q<=last; q++) 
+    for(q=first; q<=last; q++)
     { port_out(rev_byte(*p++), GRA_D);
       *q = *q;
      }
@@ -1421,7 +1421,7 @@ struct pixrect
 };
 
 char* create_pixrect(Window w, int left, int top, int right, int bottom)
-{ 
+{
   DosWindow win = win_stack[w];
   int xmax = win->xpos + win->width - 1;
   int ymax = win->ypos + win->height - 1;
@@ -1491,7 +1491,7 @@ void insert_pixrect(Window w, int left, int top, char* rect)
   register VIDEO_PTR first;
   register VIDEO_PTR last;
 
-  pixrect* bp = (pixrect*)rect; 
+  pixrect* bp = (pixrect*)rect;
 
   DosWindow win = win_stack[w];
   int xmax = win->xpos + win->width - 1;
@@ -1540,7 +1540,7 @@ void insert_pixrect(Window w, int left, int top, char* rect)
     port_out(8, GRA_I);
 
     for(y=top; y<=bottom; y++)
-    { for(q=first,p=pfirst; q<=last; q++,p++) 
+    { for(q=first,p=pfirst; q<=last; q++,p++)
       { port_out(*p, GRA_D);
         *q = *q;
        }
@@ -1549,7 +1549,7 @@ void insert_pixrect(Window w, int left, int top, char* rect)
       last   += LINE_BYTES;
      }
    }
-  
+
   set_mode(save_mode);
   set_color(save_col);
 }
@@ -1567,7 +1567,7 @@ void delete_pixrect(char* rect)
 // mouse cursor
 //------------------------------------------------------------------------------
 
-static unsigned char pointer_mask[2][2][14] = { 
+static unsigned char pointer_mask[2][2][14] = {
 {{0xc0,0xf0,0x7c,0x7f,0x3f,0x3f,0x1f,0x1f,0x0d,0x0c,0x00,0x00,0x00,0x00},
  {0x00,0x00,0x00,0x00,0xc0,0xc0,0x00,0x80,0xc0,0xe0,0x70,0x38,0x1c,0x0c}},
 
@@ -1619,14 +1619,14 @@ void draw_pointer(int mouse_x, int mouse_y, int shape)
   int d = 1;
   int k = 0;
 
-  if (mouse_y + 15 > DISP_MAX_Y) 
+  if (mouse_y + 15 > DISP_MAX_Y)
   { a = 13;
     b = -1;
     d = -1;
     start -= 14*LINE_BYTES;
    }
 
-  if (x > 77) 
+  if (x > 77)
   { start -= 2;
     k = 1;
    }
@@ -1638,11 +1638,11 @@ void draw_pointer(int mouse_x, int mouse_y, int shape)
     c = (pointer_mask[k][0][i]>>x1);
     port_out(c, GRA_D);
     *q = *q;
-    ++q; 
+    ++q;
     c = ((pointer_mask[k][1][i]>>x1) | (pointer_mask[k][0][i]<<x2));
     port_out(c, GRA_D);
     *q = *q;
-    
+
     if (x2)
     { ++q;
       c = (pointer_mask[k][1][i]<<x2);

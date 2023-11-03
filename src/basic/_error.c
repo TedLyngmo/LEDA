@@ -5,9 +5,9 @@
 +  _error.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/basic.h>
@@ -15,16 +15,16 @@
 LEDA_PEH p_error_handler = default_error_handler;
 
 void default_error_handler(int i, const char* s)
-{ 
-  cout << endl;
+{
+    std::cout << std::endl;
 
-  if (i==0) 
-   { cout << "(LEDA WARNING) " << s << endl;
-     cout.flush();
+  if (i==0)
+   { std::cout << "(LEDA WARNING) " << s << std::endl;
+       std::cout.flush();
     }
-  else 
-   { cout << "(LEDA ERROR) " << s << endl;
-     cout.flush();
+  else
+   { std::cout << "(LEDA ERROR) " << s << std::endl;
+       std::cout.flush();
      abort();
     }
 }

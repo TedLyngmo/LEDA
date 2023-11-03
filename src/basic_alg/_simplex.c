@@ -5,9 +5,9 @@
 +  _simplex.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 /****************************************************************************
@@ -391,7 +391,7 @@ static void Enlarge_Matrix (matrix &A, vector v, int n)
 
 
 static void Test_auf_Extremalstrahl (matrix &M,int *&B,int *&NB,list<matrix>& L,
-			      int *&MF, int *&PZ, int i, vector x, int m, 
+			      int *&MF, int *&PZ, int i, vector x, int m,
                               int n, int kl, int gr)
 
 // Berechnung und Ausgabe eines optimalen Extremalstrahls
@@ -477,7 +477,7 @@ void Test_auf_Mehrfachloesungen(matrix &M,int *&B,int *&NB,list<matrix> &L,
 
 
 static
-void Run (matrix &M, int *&B, int *&NB, list<matrix> &L, int zeilen, 
+void Run (matrix &M, int *&B, int *&NB, list<matrix> &L, int zeilen,
           int spalten, int m, int n, int kl, int gr, int gl)
 
 // Hauptprozedur
@@ -542,7 +542,7 @@ void Run (matrix &M, int *&B, int *&NB, list<matrix> &L, int zeilen,
 list<matrix> SIMPLEX(matrix A, int i, int j, int k, vector b, vector c)
 {
    int *B; int *NB;
- 
+
    list<matrix> L;
 
    int kl =i,  gr=j, gl=k;

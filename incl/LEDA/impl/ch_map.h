@@ -5,9 +5,9 @@
 +  ch_map.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -23,13 +23,13 @@
 //------------------------------------------------------------------------------
 
 #include <LEDA/basic.h>
- 
+
 
 //------------------------------------------------------------------------------
-// class ch_map_elem  
+// class ch_map_elem
 //------------------------------------------------------------------------------
 
-class ch_map_elem 
+class ch_map_elem
 {
   friend class ch_map;
 
@@ -47,7 +47,7 @@ typedef ch_map_elem*  ch_map_item;
 
 
 
-class ch_map 
+class ch_map
 {
 
    static ch_map_elem STOP;
@@ -57,8 +57,8 @@ class ch_map
    ch_map_elem* free;
    ch_map_elem* iterator;
 
-   int table_size;           
-   int table_size_1;           
+   int table_size;
+   int table_size_1;
    int shift;
 
    virtual void clear_inf(GenPtr&)  const { }
@@ -95,7 +95,7 @@ class ch_map
 
    ch_map& operator=(const ch_map&);
    ch_map(const ch_map&);
-   ch_map(int s = 0, int n=1024); 
+   ch_map(int s = 0, int n=1024);
 
    virtual ~ch_map() { delete[] table; }
 
@@ -104,10 +104,10 @@ class ch_map
 
 
 inline GenPtr& ch_map::access(unsigned long x)
-{ 
+{
   ch_map_item p = HASH(x);
-  if (p->k == x) 
-    return p->i; 
+  if (p->k == x)
+    return p->i;
   else
     if (p->k == 0xFFFFFFFF) // NIL
        { p->k = x;

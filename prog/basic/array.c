@@ -2,10 +2,10 @@
 #include <LEDA/array2.h>
 
 
-int cmp_inv(const string& x, const string& y) 
+int cmp_inv(const string& x, const string& y)
 { return compare(y,x); }
 
-main()
+int main()
 {
   array<string> A(1,10);
 
@@ -18,7 +18,7 @@ main()
   A.print("permuted:\n");
   newline;
 
-  cout << "sort subarray [i..j]\n";
+  std::cout << "sort subarray [i..j]\n";
   i = read_int("i = ");
   j = read_int("j = ");
 
@@ -36,13 +36,13 @@ main()
 
   for(i=1;i<=10;i++)
       for(j=1;j<=10;j++) B(i,j) = 0.12345*i*j;
-  
+
 
   for(i=1;i<=10;i++)
-  { for(j=1;j<=10;j++) cout << string("%6.2f ",B(i,j));
+  { for(j=1;j<=10;j++) std::cout << string("%6.2f ",B(i,j));
     newline;
    }
 
  return 0;
  }
-   
+

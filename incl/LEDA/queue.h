@@ -5,16 +5,16 @@
 +  queue.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_QUEUE_H
 #define LEDA_QUEUE_H
 
 //------------------------------------------------------------------------------
-// queue                                                                
+// queue
 //------------------------------------------------------------------------------
 
 #include <LEDA/basic.h>
@@ -39,15 +39,15 @@ a queue of size zero is called the empty queue.}*/
 
 public:
 
-/*{\Mcreation Q }*/ 
+/*{\Mcreation Q }*/
 
   queue() {}
-/*{\Mcreate creates an instance \var\ of type \name. \var\ is initialized 
+/*{\Mcreate creates an instance \var\ of type \name. \var\ is initialized
             with the empty queue.}*/
 
   queue(const queue<E>& Q) : SLIST(Q) {}
  ~queue() { clear(); }
-  queue<E>& operator=(const queue<E>& Q) 
+  queue<E>& operator=(const queue<E>& Q)
   { SLIST::operator=(Q); return *this; }
 
 
@@ -77,8 +77,8 @@ void clear() { SLIST::clear(); }
 };
 
 /*{\Mimplementation
-Queues are implemented by singly linked linear lists. All operations take time 
-$O(1)$, except clear which takes time $O(n)$, where $n$ is the size of the 
+Queues are implemented by singly linked linear lists. All operations take time
+$O(1)$, except clear which takes time $O(n)$, where $n$ is the size of the
 queue.}*/
 
 #endif

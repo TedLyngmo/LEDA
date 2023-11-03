@@ -5,9 +5,9 @@
 +  basic.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_BASIC_H
@@ -17,8 +17,8 @@
 // include iostreams, stdlib, values, etc.
 //------------------------------------------------------------------------------
 
-#include <iostream.h>
-#include <stdlib.h>
+#include <iostream>
+#include <cstdlib>
 
 #if defined(unix) || defined(_AIX) || defined(__BORLANDC__)
 #include <values.h>

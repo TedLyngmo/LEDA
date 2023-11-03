@@ -5,9 +5,9 @@
 +  _ch_hash.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/impl/ch_hash.h>
@@ -26,14 +26,14 @@ ch_hash_elem ch_hash::STOP;
 
 int ch_hash::next_pow(int x) const
 { // return next power of 2
-  int result = 1;    
+  int result = 1;
   while ((x>>=1) > 0) result <<= 1;
   return result;
  }
- 
+
 
 ch_hash_item ch_hash::lookup(GenPtr x) const
-{ register ch_hash_item q = table;
+{ ch_hash_item q = table;
 
   STOP.k = x;
 
@@ -57,7 +57,7 @@ void ch_hash::change_inf(ch_hash_item p, GenPtr x)
  }
 
 void ch_hash::del(GenPtr x)
-{ 
+{
   ch_hash_item p = table + (hash_fct(x) & table_size_1);
 
   if (cmp(p->k,x) == 0)
@@ -91,10 +91,10 @@ void ch_hash::del(GenPtr x)
 
 
 void ch_hash::del_item(ch_hash_item q)
-{ register ch_hash_item p = table + (hash_fct(q->k) & table_size_1);
+{ ch_hash_item p = table + (hash_fct(q->k) & table_size_1);
   clear_key(q->k);
   clear_inf(q->i);
-  if (p==q) 
+  if (p==q)
      p->k = NIL;
   else
     { while(p->succ != q) p = p->succ;
@@ -104,12 +104,12 @@ void ch_hash::del_item(ch_hash_item q)
   count--;
   if (count == low_table) rehash(low_table);
  }
-  
-  
-  
+
+
+
 
 ch_hash_item ch_hash::insert(GenPtr x, GenPtr y)
-{ 
+{
   ch_hash_item p = table + (LEDA_ACCESS(int,x) & table_size_1);
   ch_hash_item q = p;
 
@@ -131,7 +131,7 @@ ch_hash_item ch_hash::insert(GenPtr x, GenPtr y)
   copy_key(x);
   copy_inf(y);
 
-  if (q->k == NIL) 
+  if (q->k == NIL)
     { q->k = x;
       q->i = y;
      }
@@ -148,8 +148,8 @@ ch_hash_item ch_hash::insert(GenPtr x, GenPtr y)
 
 
 void ch_hash::destroy()
-{ 
-  for(int i=0; i < table_size; i++) 
+{
+  for(int i=0; i < table_size; i++)
   { ch_hash_item p = table[i].succ;
     ch_hash_item q = p;
     while (p != &STOP)
@@ -166,9 +166,9 @@ void ch_hash::destroy()
 
 
 void ch_hash::init(int T)
-{ 
-  register ch_hash_item p;
-  register ch_hash_item stop;
+{
+  ch_hash_item p;
+  ch_hash_item stop;
 
   table_size = T;
   table_size_1 = T-1;
@@ -180,7 +180,7 @@ void ch_hash::init(int T)
   table = (ch_hash_elem*)malloc(table_size*sizeof(ch_hash_elem));
 
   stop = table + table_size;
-  for(p=table; p<stop; p++) 
+  for(p=table; p<stop; p++)
   { p->succ = &STOP;
     p->k = NIL;
   }
@@ -190,11 +190,11 @@ void ch_hash::init(int T)
 
 
 void ch_hash::rehash(int T)
-{ 
+{
 
-  register ch_hash_item p;
-  register ch_hash_item q;
-  register ch_hash_item r;
+  ch_hash_item p;
+  ch_hash_item q;
+  ch_hash_item r;
   int i;
 
   ch_hash_item old_table = table;
@@ -228,7 +228,7 @@ void ch_hash::rehash(int T)
 
   ch_hash_item stop = old_table+old_table_size;
   for (p=old_table; p<stop; p++)
-    if (p->k != NIL) 
+    if (p->k != NIL)
     {  q = table + (LEDA_ACCESS(int,p->k) & table_size_1);
        if (q->k == NIL)
         { q->k = p->k;
@@ -237,7 +237,7 @@ void ch_hash::rehash(int T)
        else
          q->succ = new ch_hash_elem(p->k,p->i,q->succ);
     }
-   
+
   count = old_count;
 
   //delete[] old_table;

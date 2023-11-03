@@ -4,22 +4,22 @@
 #include <LEDA/stream.h>
 #include <LEDA/array.h>
 #include <LEDA/window.h>
-#include <math.h>
+#include <cmath>
 
 
 
 typedef GRAPH<vector,int> polyhedron;
 
 void rotate(float alpha1,float alpha2, vector& p)
-{ 
+{
   // rotate 3d-point p about the origin
   // by alpha2 in yz-plane and alpha1 in xy-plane
 
     double R  = hypot(p[1],p[2]);
     double phi = asin(p[1]/R);
-  
+
     if (p[2] < 0) phi = LEDA_PI - phi;
-  
+
     p[1]  = ((R != 0) ? R*sin(phi+alpha2) : 0);
     p[2]  = ((R != 0) ? R*cos(phi+alpha2) : 0);
 
@@ -27,7 +27,7 @@ void rotate(float alpha1,float alpha2, vector& p)
     phi = asin(p[0]/R);
 
     if (p[2] < 0) phi = LEDA_PI - phi;
-  
+
     p[0]  = ((R != 0) ? R*sin(phi+alpha1) : 0);
     p[2]  = ((R != 0) ? R*cos(phi+alpha1) : 0);
 }
@@ -35,7 +35,7 @@ void rotate(float alpha1,float alpha2, vector& p)
 
 point project(vector p)   // project p into xy-plane
 {
-  return point(p[0],p[1]); 
+  return point(p[0],p[1]);
  }
 
 
@@ -43,7 +43,7 @@ point project(vector p)   // project p into xy-plane
 void draw_poly(window& W, polyhedron& poly, vector& trans)
 { node v,w;
   node_array<bool> marked(poly,false);
-  forall_nodes(v,poly) 
+  forall_nodes(v,poly)
   { forall_adj_nodes(w,v)
       if (!marked[w])
       { point a = project(poly[v]+trans);
@@ -57,7 +57,7 @@ void draw_poly(window& W, polyhedron& poly, vector& trans)
 /*
 void draw_poly(window& W, polyhedron& poly, vector& trans)
 { edge e;
-  forall_edges(e,poly) 
+  forall_edges(e,poly)
   { point a = project(poly[source(e)]+trans);
     point b = project(poly[target(e)]+trans);
     W.draw_segment(a,b,blue);
@@ -67,17 +67,17 @@ void draw_poly(window& W, polyhedron& poly, vector& trans)
 
 
 void make_poly(polyhedron& poly, int N)
-{ 
-  
+{
+
     node* L = new node[N];
     node* R = new node[N];
-  
+
     float d = 2*LEDA_PI/N;
 
     node v;
 
     poly.clear();
-  
+
     int i;
     for(i=0; i<N; i++)
     { point origin(0,0);
@@ -87,7 +87,7 @@ void make_poly(polyhedron& poly, int N)
      }
 
     node v0 = poly.new_node(vector(0,0,-30));
-  
+
     for(i=1; i<N; i++)
     { poly.new_edge(L[i],L[i-1]);
       poly.new_edge(L[i-1],L[i]);
@@ -98,7 +98,7 @@ void make_poly(polyhedron& poly, int N)
       poly.new_edge(v0,R[i]);
       poly.new_edge(R[i],v0);
      }
-  
+
     poly.new_edge(L[0],L[N-1]);
     poly.new_edge(L[N-1],L[0]);
     poly.new_edge(R[0],R[N-1]);
@@ -111,27 +111,27 @@ void make_poly(polyhedron& poly, int N)
     if (!PLANAR(poly,true)) error_handler(1,"graph not planar !");
 
     // compute an interior point M and move the origin to this point
-  
+
     vector M(3);
-  
+
     forall_nodes(v,poly)
     {  M[0] += poly[v][0];
        M[1] += poly[v][1];
        M[2] += poly[v][2];
      }
-  
-  
+
+
     M[0] /= poly.number_of_nodes();
     M[1] /= poly.number_of_nodes();
     M[2] /= poly.number_of_nodes();
-  
-  
+
+
     forall_nodes(v,poly)
     { poly[v][0] -= M[0];
       poly[v][1] -= M[1];
       poly[v][2] -= M[2];
      }
-  
+
 }
 
 
@@ -164,10 +164,10 @@ void make_sphere(GRAPH<vector,int>& G, int n)
 
       node v = G.new_node(vector(x,y,z));
 
-      if(i==0) 
+      if(i==0)
       { G.new_edge(v,V[i]);
         G.new_edge(V[i],v);
-        if (j > 1)  
+        if (j > 1)
         { G.new_edge(V[0],V[m-1]);
           G.new_edge(V[m-1],V[0]);
          }
@@ -188,7 +188,7 @@ void make_sphere(GRAPH<vector,int>& G, int n)
   G.new_edge(V[m-1],V[0]);
   G.new_edge(V[0],V[m-1]);
 
-  for (i=0;i<m;i++) 
+  for (i=0;i<m;i++)
   { G.new_edge(south,V[i]);
     G.new_edge(V[i],south);
    }
@@ -222,13 +222,13 @@ void read_poly(polyhedron& poly, string fname)
 
   vector v(3);
 
-  for(i = 0; i<N; i++) 
+  for(i = 0; i<N; i++)
   { IN >> v;
     V[i] = poly.new_node(v);
    }
 
 /*
-  for(i = 0; i<N; i++) 
+  for(i = 0; i<N; i++)
   { int d;
     IN >> d;
     while(d--)
@@ -238,7 +238,7 @@ void read_poly(polyhedron& poly, string fname)
    }
 */
 
-  for(i = 0; i<N; i++) 
+  for(i = 0; i<N; i++)
   { int u,v,w;
     IN >> u >> v >> w;
     poly.new_edge(V[u], V[v]);
@@ -251,8 +251,8 @@ void read_poly(polyhedron& poly, string fname)
 
 
 
-main()
-{ 
+int main()
+{
   window W(700,700);
 
   W.init(-250,250,-250);
@@ -285,19 +285,19 @@ main()
     W.clear();
 
     // define a polyhedron in 3d space
-  
+
     polyhedron poly;
 
     //make_poly(poly,N);
     make_sphere(poly,N);
-  
-  
-  
+
+
+
     forall_nodes(v,poly) rotate(1.5,0.7,poly[v]);
 
     W.draw_point(0,0);
-  
-  
+
+
     polyhedron poly0 = poly;
 
     vector dir(2);   // direction and duration of rotation
@@ -306,7 +306,7 @@ main()
     int steps;
 
     draw_poly(W,poly,trans);
-  
+
     for(;;)
     {
       if (ran)
@@ -323,19 +323,19 @@ main()
         dir = dir.norm()*(speed/500.0);
        }
 
-  
+
 
       while (steps--)
-      {  
+      {
         forall_nodes(v,poly) rotate(dir[0],dir[1],poly[v]);
-   
+
         draw_poly(W,poly,trans);   // draw new position
         draw_poly(W,poly0,trans);  // erase old position  (xor_mode !!)
-  
+
         // poly0 = poly;
-  
+
         node w = poly.first_node();
-        forall_nodes(v,poly0) 
+        forall_nodes(v,poly0)
         { poly0[v] = poly[w];
           w = poly.succ_node(w);
          }

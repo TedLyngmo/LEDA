@@ -5,9 +5,9 @@
 +  graph_map.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -53,50 +53,50 @@ GenPtr  read(int i) const { return table[i]; }
 
 
 GenPtr& array_access(node v)
-{ 
+{
 #if ! defined(LEDA_CHECKING_OFF)
-if (index(v) >= table_size || graph_of(v) != g) 
+if (index(v) >= table_size || graph_of(v) != g)
    error_handler(999,"node_array: illegal node");
 #endif
-  return table[index(v)]; 
+  return table[index(v)];
  }
 
 GenPtr& array_access(edge e)
-{ 
+{
 #if ! defined(LEDA_CHECKING_OFF)
-if (index(e) >= table_size || graph_of(e) != g) 
+if (index(e) >= table_size || graph_of(e) != g)
    error_handler(999,"edge_array: illegal edge");
 #endif
-  return table[index(e)]; 
+  return table[index(e)];
  }
 
 GenPtr array_read(node v) const
-{ 
+{
 #if ! defined(LEDA_CHECKING_OFF)
-if (index(v) >= table_size || graph_of(v) != g) 
+if (index(v) >= table_size || graph_of(v) != g)
    error_handler(999,"node_array: illegal node");
 #endif
-  return table[index(v)]; 
+  return table[index(v)];
  }
 
 GenPtr array_read(edge e) const
-{ 
+{
 #if ! defined(LEDA_CHECKING_OFF)
-if (index(e) >= table_size || graph_of(e) != g) 
+if (index(e) >= table_size || graph_of(e) != g)
    error_handler(999,"edge_array: illegal edge");
 #endif
-  return table[index(e)]; 
+  return table[index(e)];
  }
 
 
 GenPtr& map_access(node v)
-{ 
+{
 #if ! defined(LEDA_CHECKING_OFF)
 if (graph_of(v) != g) error_handler(999,"node_map: illegal node");
 #endif
   int i = index(v);
   if (i >= table_size) resize_table(next_power(i+1));
-  return table[i]; 
+  return table[i];
 }
 
 GenPtr& map_access(edge e)
@@ -106,21 +106,21 @@ if (graph_of(e) != g) error_handler(999,"edge_map: illegal edge");
 #endif
   int i = index(e);
   if (i >= table_size) resize_table(next_power(i+1));
-  return table[i]; 
+  return table[i];
 }
 
 
 GenPtr map_read(node v) const
-{ 
+{
 #if ! defined(LEDA_CHECKING_OFF)
 if (graph_of(v) != g) error_handler(999,"node_map: illegal node");
 #endif
   int i = index(v);
-  if (i < table_size) 
-     return table[i]; 
+  if (i < table_size)
+     return table[i];
   else
-    { GenPtr x; 
-      init_entry(x); 
+    { GenPtr x;
+      init_entry(x);
       return x;
      }
 }
@@ -131,11 +131,11 @@ GenPtr map_read(edge e) const
 if (graph_of(e) != g) error_handler(999,"edge_map: illegal edge");
 #endif
   int i = index(e);
-  if (i < table_size) 
-     return table[i]; 
+  if (i < table_size)
+     return table[i];
   else
-    { GenPtr x; 
-      init_entry(x); 
+    { GenPtr x;
+      init_entry(x);
       return x;
      }
 }
@@ -150,7 +150,7 @@ graph_map(const graph_map&);
 
 graph_map& operator=(const graph_map&);
 
-virtual ~graph_map() { delete[] table; } 
+virtual ~graph_map() { delete[] table; }
 
 
 };

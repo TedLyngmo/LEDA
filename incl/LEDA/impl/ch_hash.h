@@ -5,9 +5,9 @@
 +  ch_hash.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_CH_HASHING_H
@@ -21,13 +21,13 @@
 //------------------------------------------------------------------------------
 
 #include <LEDA/basic.h>
- 
+
 
 //------------------------------------------------------------------------------
-// class ch_hash_elem  
+// class ch_hash_elem
 //------------------------------------------------------------------------------
 
-class ch_hash_elem 
+class ch_hash_elem
 {
   friend class ch_hash;
 
@@ -38,9 +38,9 @@ class ch_hash_elem
 
   public:
 
-  ch_hash_elem(GenPtr key, GenPtr inf, ch_hash_elem* next = 0) 
-  { k = key; 
-    i = inf; 
+  ch_hash_elem(GenPtr key, GenPtr inf, ch_hash_elem* next = 0)
+  { k = key;
+    i = inf;
     succ = next;
    }
 
@@ -57,17 +57,17 @@ typedef ch_hash_elem*  ch_hash_item;
 // class ch_hash
 //--------------------------------------------------------------------
 
-class ch_hash 
+class ch_hash
 {
 
    static ch_hash_elem STOP;
 
    ch_hash_elem* table;
 
-   int table_size;           
-   int table_size_1;           
-   int low_table;           
-   int high_table;           
+   int table_size;
+   int table_size_1;
+   int low_table;
+   int high_table;
    int count;
 
 
@@ -79,7 +79,7 @@ class ch_hash
    virtual void copy_inf(GenPtr&)  const { }
    virtual void print_key(GenPtr)  const { }
 
-   virtual int_type() const { return 0; }
+   virtual int int_type() const { return 0; }
 
    int  next_pow(int) const;
    void init(int);
@@ -103,15 +103,15 @@ class ch_hash
    void del(GenPtr);
    void del_item(ch_hash_item);
 
-   bool member(GenPtr x)   const  { return ( lookup(x) ? true : false ); } 
+   bool member(GenPtr x)   const  { return ( lookup(x) ? true : false ); }
 
    GenPtr  key(ch_hash_item p)  const { return p->k; }
    GenPtr  inf(ch_hash_item p)  const { return p->i; }
    GenPtr& info(ch_hash_item p)       { return p->i; }
 
    void change_inf(ch_hash_item, GenPtr);
-   bool empty() const     { return count ? false : true ; } 
-   int  size()  const     { return count; } 
+   bool empty() const     { return count ? false : true ; }
+   int  size()  const     { return count; }
    int  tablesize() const { return table_size ; }
    void clear()           { destroy(); init(table_size);}
 

@@ -5,9 +5,9 @@
 +  line.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_LINE_H
@@ -25,10 +25,10 @@ class line_rep : public handle_rep {
 
 friend class line;
 
-  segment  seg; 
+  segment  seg;
 
 public:
-   
+
   line_rep() {}
   line_rep(const segment& s)  { seg = s; }
 
@@ -38,10 +38,10 @@ friend inline int cmp_slopes(const line&, const line&);
 friend inline int orientation(const line&, const point&);
 
 };
-   
+
 /*{\Manpage {line} {} {Straight Lines}}*/
 
-class line   : public handle_base 
+class line   : public handle_base
 {
 /*{\Mdefinition
 An instance $l$ of the data type $line$ is a directed straight line
@@ -55,29 +55,29 @@ public:
 /*{\Mcreation l }*/
 
  line(const point& p, const point& q);
-/*{\Mcreate 
+/*{\Mcreate
 introduces a variable \var\ of type \name. \var\ is initialized to the line
 passing through points $p$ and $q$ directed form $p$ to $q$.}*/
 
 
  line(const segment& s);
-/*{\Mcreate 
+/*{\Mcreate
 introduces a variable \var\ of type \name. \var\ is initialized to the line
 supporting segment $s$.}*/
 
  line(const point& p, const vector& v);
-/*{\Mcreate 
+/*{\Mcreate
 introduces a variable \var\ of type \name. \var\ is initialized to the line
 of all poinnts $p + \lambda v$. \precond $v.dim() = 2$ and $v.length() > 0$. }*/
 
 
  line(const point& p, double a);
-/*{\Mcreate 
+/*{\Mcreate
 introduces a variable \var\ of type \name. \var\ is initialized to the line
 passing through point $p$ with direction $a$.}*/
 
  line();
-/*{\Mcreate 
+/*{\Mcreate
 introduces a variable \var\ of type \name. \var\ is initialized to the line
 passing through the origin with direction 0.}*/
 
@@ -94,7 +94,7 @@ double direction() const { return angle(); }
 /*{\Mop     returns the direction of \var.}*/
 
 double angle(const line& g) const { return ptr()->seg.angle(g.ptr()->seg); }
-/*{\Mop     returns the angle between \var\ and $g$, i.e., 
+/*{\Mop     returns the angle between \var\ and $g$, i.e.,
 	    $g$.direction() $-$ \var.direction().}*/
 
 double angle() const     { return ptr()->seg.angle();     }
@@ -116,11 +116,11 @@ double slope() const     { return ptr()->seg.slope();     }
 segment seg()  const     { return ptr()->seg; }
 
 double y_proj(double x) const  { return ptr()->seg.y_proj(x); };
-/*{\Mop     returns $p$.ycoord(), where $p \in l$ with $p$.xcoord() 
+/*{\Mop     returns $p$.ycoord(), where $p \in l$ with $p$.xcoord()
 	    = $x$.\\ \precond \var\ is not vertical.}*/
 
 double x_proj(double y) const  { return ptr()->seg.x_proj(y); };
-/*{\Mop     returns $p$.xcoord(), where $p \in l$ with $p$.ycoord() 
+/*{\Mop     returns $p$.xcoord(), where $p \in l$ with $p$.ycoord()
 	    = $y$.\\ \precond \var\ is not horizontal.}*/
 
 double y_abs() const { return ptr()->seg.y_proj(0); }
@@ -128,32 +128,32 @@ double y_abs() const { return ptr()->seg.y_proj(0); }
 	    \precond  \var\  is not vertical.}*/
 
 bool intersection(const line& g, point& inter) const;
-/*{\Mopl    if $l$ and $g$ are not collinear and intersect the 
-            intersection point is assigned to $inter$ and true is 
+/*{\Mopl    if $l$ and $g$ are not collinear and intersect the
+            intersection point is assigned to $inter$ and true is
             returned, otherwise false is returned.}*/
 
 bool intersection(const segment& s, point& inter) const;
-/*{\Mopl    if $l$ and $s$ are not collinear and intersect the 
-	    intersection point is assigned to $inter$ and true is 
+/*{\Mopl    if $l$ and $s$ are not collinear and intersect the
+	    intersection point is assigned to $inter$ and true is
 	    returned, otherwise false is returned.}*/
 
-line translate(double a, double d) const 
+line translate(double a, double d) const
 { return ptr()->seg.translate(a,d); }
 /*{\Mopl     returns the line created by a translation of
 	    \var\ in direction $a$ by distance $d$.}*/
 
-line translate(const vector& v)  const 
+line translate(const vector& v)  const
 { return ptr()->seg.translate(v); }
-/*{\Mop     returns $l+v$, i.e., the line created by 
+/*{\Mop     returns $l+v$, i.e., the line created by
             translating $l$ by vector $v$.\\
-	    \precond $v$.dim() = 2.}*/ 
+	    \precond $v$.dim() = 2.}*/
 
 line rotate(const point& q, double a) const
 { return ptr()->seg.rotate(q,a); }
 /*{\Mopl     returns the line created by a rotation of $l$
 	    about point $q$ by angle $a$.}*/
 
-line rotate(double a) const  
+line rotate(double a) const
 { return rotate(point(0,0),a);}
 /*{\Mop     returns $l$.rotate($point(0,0),\ a$). }*/
 
@@ -180,8 +180,8 @@ friend int cmp_slopes(const line& l1, const line& l2);
 /*{\Mfunc      returns compare(slope($l_1$), slope($l_2$)).}*/
 
 
-friend ostream& operator<<(ostream& out, const line& l);
-friend istream& operator>>(istream& in, line& l);  
+friend std::ostream& operator<<(std::ostream& out, const line& l);
+friend std::istream& operator>>(std::istream& in, line& l);
 
 };
 
@@ -195,8 +195,8 @@ inline bool parallel(const line& l1, const line& l2)
 { return cmp_slopes(l1,l2) == 0; }
 
 
-inline void Print(const line& l, ostream& out) { out << l; } 
-inline void Read(line& l, istream& in)         { in >> l; }
+inline void Print(const line& l, std::ostream& out) { out << l; }
+inline void Read(line& l, std::istream& in)         { in >> l; }
 
 extern line p_bisector(const point& p, const point& q);
 

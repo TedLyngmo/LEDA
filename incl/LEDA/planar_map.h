@@ -5,9 +5,9 @@
 +  planar_map.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -31,11 +31,11 @@ friend class planar_map;
  planar_map*  g;     // face of (*g)
 
 
- face_struct(GenPtr x, planar_map* G) 
- { 
-   inf = x ; 
-   head = nil; 
-   loc = nil; 
+ face_struct(GenPtr x, planar_map* G)
+ {
+   inf = x ;
+   head = nil;
+   loc = nil;
    g = G;
   }
 
@@ -60,9 +60,9 @@ class planar_map : public graph {
 /*{\Mdefinition
     An instance $M$ of the data type $planar\_map$ is the combinatorial
     embedding of a planar graph, i.e., $M$ is bidirected (for every edge
-    $(v,w)$ of $M$ the reverse edge $(w,v)$ is also in $M$) and  
-    there is a planar embedding of $M$ such that for every node $v$ the 
-    ordering of the edges in the adjacency list of $v$ corresponds to the 
+    $(v,w)$ of $M$ the reverse edge $(w,v)$ is also in $M$) and
+    there is a planar embedding of $M$ such that for every node $v$ the
+    ordering of the edges in the adjacency list of $v$ corresponds to the
     counter-clockwise ordering of these edges around $v$ in the embedding.
 
     Planar maps make use of the item type $face$ in addition to nodes and
@@ -103,7 +103,7 @@ public:
 
 /*{\Mcreation M }*/
 
-planar_map() {} 
+planar_map() {}
 
 planar_map(const graph& G);
 /*{\Mcreate creates an instance $M$ of type $planar\_map$ and initializes it to
@@ -155,16 +155,16 @@ edge reverse(edge e)         const { return edge(e->rev); }
 edge first_face_edge(face f) const { return f->head; }
 /*{\Mop      returns the first edge of face $f$ in \var. }*/
 
-edge succ_face_edge(edge e)  const { return cyclic_adj_succ(reverse(e)); } 
+edge succ_face_edge(edge e)  const { return cyclic_adj_succ(reverse(e)); }
 /*{\Mop      returns the successor edge of $e$ in face $M$.adj\_face($e$)
 	     i.e., the next edge in clockwise order.}*/
 
-edge pred_face_edge(edge e)  const { return reverse(cyclic_adj_pred(e)); } 
-/*{\Mop      returns the predecessor edge of $e$ in face $f$, 
+edge pred_face_edge(edge e)  const { return reverse(cyclic_adj_pred(e)); }
+/*{\Mop      returns the predecessor edge of $e$ in face $f$,
              i.e., the next edge in counter-clockwise order.}*/
 
 
-edge next_face_edge(edge e)  const  
+edge next_face_edge(edge e)  const
 { e = succ_face_edge(e);
   return (e==adj_face(e)->head) ? nil : e;
 }
@@ -191,7 +191,7 @@ void    del_edge(edge e) { del_edge(e,0); }
 
 
 edge    split_edge(edge,GenPtr);
-edge    split_edge(edge e) { return split_edge(e,0); } 
+edge    split_edge(edge e) { return split_edge(e,0); }
 /*{\Mop     splits edge $e=(v,w)$ and its reversal $r=(w,v)$
 	    into edges $(v,u)$, $(u,w)$, $(w,u)$, and $(u,v)$.
 	    Returns the edge $(u,w)$. }*/
@@ -296,10 +296,10 @@ void copy_face_entry(GenPtr& x)  const { LEDA_COPY(ftype,x); }
 void clear_node_entry(GenPtr& x) const { LEDA_CLEAR(vtype,x); }
 void clear_face_entry(GenPtr& x) const { LEDA_CLEAR(ftype,x); }
 
-void print_node_entry(ostream& o, GenPtr& x)  const
+void print_node_entry(std::ostream& o, GenPtr& x)  const
 { o << "("; LEDA_PRINT(vtype,x,o); o << ")"; }
 
-void print_edge_entry(ostream& o, GenPtr& x)  const
+void print_edge_entry(std::ostream& o, GenPtr& x)  const
 { o << "(" << x << ")"; }
 
 public:
@@ -370,23 +370,23 @@ bounding edges in $G$.\\
 /*{\Mopl    splits the face bounded by the edges in $el$ by
 	    inserting a new node $u$ and connecting it to all
 	    source nodes of edges in $el$. Assigns information $x$
-            to $u$ and returns $u$.\\ 
-	    \precond all edges in $el$ bound 
+            to $u$ and returns $u$.\\
+	    \precond all edges in $el$ bound
             the same face.}*/
 
    node   new_node(face f, vtype x)
                           { return planar_map::new_node(f,Convert(x)); }
 /*{\Mopl      splits face $f$ into triangles by inserting a new
-              node $u$ with information $x$ and connecting it 
+              node $u$ with information $x$ and connecting it
 	      to all nodes of $f$. Returns $u$.}*/
 
-   void print_node(node v) const 
-   { cout << "["; Print(inf(v),cout); cout << "]";}
+   void print_node(node v) const
+   { std::cout << "["; Print(inf(v),std::cout); std::cout << "]";}
 
 };
 
 /*{\Mimplementation
-Parameterized planar maps are derived from planar maps. All additional 
+Parameterized planar maps are derived from planar maps. All additional
 operations for manipulating the node and edge contents take constant time.}*/
 
 

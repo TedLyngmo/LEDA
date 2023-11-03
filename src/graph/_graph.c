@@ -5,9 +5,9 @@
 +  _graph.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -16,16 +16,16 @@
 
 // constructors, destructor, operator=, ...
 
-graph::graph() 
+graph::graph()
 { max_n_index = -1;
-  max_e_index = -1; 
-  parent = 0; 
+  max_e_index = -1;
+  parent = 0;
   undirected = false;
  }
 
 
 graph& graph::operator=(const graph& G)
-{ 
+{
   if (&G == this) return *this;
 
   clear();
@@ -34,12 +34,12 @@ graph& graph::operator=(const graph& G)
   edge* edge_vec = new edge[G.max_e_index+1];
 
   node v;
-  forall_nodes(v,G) 
+  forall_nodes(v,G)
      node_vec[v->name] = new_node(v->data[0]);
 
   edge e;
-  forall_nodes(v,G) 
-    forall_out_edges(e,v) 
+  forall_nodes(v,G)
+    forall_out_edges(e,v)
        edge_vec[e->name] = new_edge(node_vec[e->s->name],
                                     node_vec[e->t->name], e->data[0]);
 
@@ -68,20 +68,20 @@ void graph::clear_all_entries() const
 }
 
 
-graph::graph(const graph& G)  
-{ 
+graph::graph(const graph& G)
+{
   node* node_vec = new node[G.max_n_index+1];
   edge* edge_vec = new edge[G.max_e_index+1];
 
   max_n_index = max_e_index = -1;
 
   node v;
-  forall_nodes(v,G) 
+  forall_nodes(v,G)
      node_vec[v->name] = new_node(v->data[0]);
 
   edge e;
-  forall_nodes(v,G) 
-    forall_out_edges(e,v) 
+  forall_nodes(v,G)
+    forall_out_edges(e,v)
        edge_vec[e->name] = new_edge(node_vec[e->s->name],
                                     node_vec[e->t->name], e->data[0]);
 
@@ -105,7 +105,7 @@ graph::graph(graph& G, const list<node>& nl, const list<edge>& el)
   node* N = new node[G.max_n_index+1];
 
   forall(v,nl)
-   { if (graph_of(v) != parent) 
+   { if (graph_of(v) != parent)
       error_handler(1,"graph: illegal node in subgraph constructor");
      N[v->name] = new_node((GenPtr)v);
     }
@@ -113,7 +113,7 @@ graph::graph(graph& G, const list<node>& nl, const list<edge>& el)
   forall(e,el)
    { v = source(e);
      w = target(e);
-     if ( graph_of(e)!= parent || N[v->name]==0 || N[w->name]==0 ) 
+     if ( graph_of(e)!= parent || N[v->name]==0 || N[w->name]==0 )
       error_handler(1,"graph: illegal edge in subgraph constructor");
      new_edge(N[v->name],N[w->name],(GenPtr)e);
     }
@@ -155,11 +155,11 @@ graph::graph(graph& G, const list<edge>& el)
 // destructor
 
 void graph::clear()
-{ 
-  while ( ! E.empty() ) 
+{
+  while ( ! E.empty() )
     delete edge(edge_link(E.pop()));
 
-  while ( ! V.empty() ) 
+  while ( ! V.empty() )
   { node v = node(node_link(V.pop()));
     v->adj_edges[0].clear();
     v->adj_edges[1].clear();

@@ -5,9 +5,9 @@
 +  _integer.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -30,8 +30,8 @@
 
 
 #include <LEDA/integer.h>
-#include <math.h>
-#include <ctype.h>
+#include <cmath>
+#include <cctype>
 
 
 typedef int_word_type word;
@@ -39,9 +39,9 @@ typedef int_word_type word;
 typedef unsigned int sz_t;
 
 
-#define WORD_LENGTH  32 
-#define HALF_LENGTH  16 
-#define KARA_LIMIT    8 
+#define WORD_LENGTH  32
+#define HALF_LENGTH  16
+#define KARA_LIMIT    8
 
 #define MAX_WORD     0xFFFFFFFF
 #define RIGHT_MASK   0x0000FFFF
@@ -110,7 +110,7 @@ integer::integer(int n)
     PTR->used = 0;
    }
 
-  if (n < 0) 
+  if (n < 0)
   { PTR->sign = NEGATIVE;
     PTR->vec[0] = -n;
    }
@@ -130,7 +130,7 @@ integer::integer(long n)
     PTR->used = 0;
    }
 
-  if (n < 0) 
+  if (n < 0)
   { PTR->sign = NEGATIVE;
     PTR->vec[0] = -n;
    }
@@ -155,11 +155,11 @@ integer::integer(unsigned long n)
 
 
 
-integer::integer(double x) 
-{ 
+integer::integer(double x)
+{
   int sig = POSITIVE;
 
-  if (x < 0) 
+  if (x < 0)
   { sig = NEGATIVE;
     x = -x;
    }
@@ -223,10 +223,10 @@ integer::integer(double x)
 //------------------------------------------------------------------------------
 
 inline word DivTwoWordsByOne(word high, word low, word D, word* q)
-{ 
-  // precondition:  high < D  
+{
+  // precondition:  high < D
   // *q = [high,low] / D, returns remainder
-  // the result has at most 32 bits  
+  // the result has at most 32 bits
   // we can compute it with double precision floating point division
 
   double H = high;
@@ -241,7 +241,7 @@ inline word DivTwoWordsByOne(word high, word low, word D, word* q)
 
 
 static int absolute_cmp(word* a, int a_used, word* b, int b_used)
-{ 
+{
   if (a_used > b_used) return  1;
   if (a_used < b_used) return -1;
   word* ap = a + a_used;
@@ -257,7 +257,7 @@ static int absolute_cmp(word* a, int a_used, word* b, int b_used)
 
 
 static void Init_Vector(word* a, sz_t a_used)
-{ 
+{
   switch (a_used % 16)
   { case 15:*a++ = 0;
     case 14:*a++ = 0;
@@ -288,7 +288,7 @@ static void Init_Vector(word* a, sz_t a_used)
 
 
 static word* Copy_Vector(word* a, word* b, sz_t b_used)
-{ 
+{
   // copy b[0..b_used-1] to a[]
 
   switch (b_used % 16)
@@ -321,7 +321,7 @@ static word* Copy_Vector(word* a, word* b, sz_t b_used)
 
 
 
-static void Print_Vector(word* a, int a_used, ostream& out) 
+static void Print_Vector(word* a, int a_used, std::ostream& out)
 {
   char* digits   = new char[10*a_used];
   word* tmp      = new word[a_used];
@@ -330,7 +330,7 @@ static void Print_Vector(word* a, int a_used, ostream& out)
   int i = 0;
   while (tmp_high >= tmp)
   { word r = 0;
-    for (word* p = tmp_high; p >= tmp; p--) 
+    for (word* p = tmp_high; p >= tmp; p--)
        r = DivTwoWordsByOne(r,*p,10,p);
     if (*tmp_high == 0) tmp_high--;
     digits[i++] = '0' + char(r);
@@ -378,7 +378,7 @@ inline word Multiply_Words(word a, word b, word* high)
   word bl = LOW_WORD(b);
   word bh = HIGH_WORD(b);
   word c,L,H;
-  c = bl*al;           
+  c = bl*al;
   L = LOW_WORD(c);
   c = HIGH_WORD(c) + bl*ah;
   H = HIGH_WORD(c);
@@ -411,7 +411,7 @@ inline word Mult_Inner_Loop(word* p, word* a, word* a_stop, word B)
 
 
 inline word Div_Inner_Loop(word* p, word* a, word* a_stop, word B)
-{ 
+{
    // p[] -= a[]*B, return carry
 
    word low,high;
@@ -429,7 +429,7 @@ inline word Div_Inner_Loop(word* p, word* a, word* a_stop, word B)
    }
    P = *p;
    *p = P - carry;
-  
+
    return (P < carry);
 }
 
@@ -454,7 +454,7 @@ static sz_t School_Add(word *a, sz_t a_used, word *b, sz_t b_used, word* sum)
 
   int r = b_used % 16;
 
-  switch (r) { 
+  switch (r) {
       case 15: ADD_LOOP_BODY;
       case 14: ADD_LOOP_BODY;
       case 13: ADD_LOOP_BODY;
@@ -475,9 +475,9 @@ static sz_t School_Add(word *a, sz_t a_used, word *b, sz_t b_used, word* sum)
   int n = b_used / 16;
 
   while (n--)
-  { ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; 
-    ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; 
-    ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; 
+  { ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY;
+    ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY;
+    ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY;
     ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY; ADD_LOOP_BODY;
    }
 
@@ -512,7 +512,7 @@ static sz_t School_Sub(word *a, sz_t a_used, word *b, sz_t b_used, word* diff)
 
   word* d_stop = diff + a_used;
 
-  switch (b_used % 16) 
+  switch (b_used % 16)
    { case 15: SUB_LOOP_BODY;
      case 14: SUB_LOOP_BODY;
      case 13: SUB_LOOP_BODY;
@@ -533,9 +533,9 @@ static sz_t School_Sub(word *a, sz_t a_used, word *b, sz_t b_used, word* diff)
   int n = b_used / 16;
 
   while (n--)
-  { SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; 
-    SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; 
-    SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; 
+  { SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY;
+    SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY;
+    SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY;
     SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY; SUB_LOOP_BODY;
    }
 
@@ -553,8 +553,8 @@ static sz_t School_Sub(word *a, sz_t a_used, word *b, sz_t b_used, word* diff)
 #endif
 
 
-static sz_t School_Mult(word *a, sz_t a_used, word *b,int b_used, word* prod) 
-{ 
+static sz_t School_Mult(word *a, sz_t a_used, word *b,int b_used, word* prod)
+{
   sz_t p_used = a_used + b_used;
   word* a_stop = a + a_used;
   word* b_last = b + b_used - 1;
@@ -572,9 +572,9 @@ static sz_t School_Mult(word *a, sz_t a_used, word *b,int b_used, word* prod)
 
 
 static void Karatsuba(word* prod, word* a, word* b, word* tmp, int n)
-{       
+{
 
- /*  Input: 
+ /*  Input:
                 4n      3n      2n       n        0
 
                                          A1       A0
@@ -595,19 +595,19 @@ static void Karatsuba(word* prod, word* a, word* b, word* tmp, int n)
 
   Output:                P3      P2      P1       P0
                  +-------+-------+-------+--------+
-  prod[0..4n-1]  |           a  *  b              | 
+  prod[0..4n-1]  |           a  *  b              |
                  +-------+-------+-------+--------+
 
 
 
- Let  
-         a = a1*B^n + a0 
+ Let
+         a = a1*B^n + a0
          b = b1*B^n + b0
 
  then
        a*b = (a1*b1)*B^2n + (a1*b0)*B^n + (a0*b1)*B^n + (a0*b0)
 
-           = (a0*b0) + (a1*b1)*B^2n + (a1*b1 + a0*b0 + (a1-a0)(b0-b1))*B^n 
+           = (a0*b0) + (a1*b1)*B^2n + (a1*b1 + a0*b0 + (a1-a0)(b0-b1))*B^n
 
 
        4n      3n      2n       n        0
@@ -661,11 +661,11 @@ static void Karatsuba(word* prod, word* a, word* b, word* tmp, int n)
   int a_sign = absolute_cmp(A1,n,A0,n);
   int b_sign = absolute_cmp(B0,n,B1,n);
 
-  Karatsuba(P0,A0,B0,T0,n/2);   // prod[0..2n]  := a0 * b0 
+  Karatsuba(P0,A0,B0,T0,n/2);   // prod[0..2n]  := a0 * b0
 
   if (a_sign >= 0)
      School_Sub(A1,n,A0,n,P2);  // prod[2n..3n] := a1 - a0
-  else 
+  else
      School_Sub(A0,n,A1,n,P2);  // prod[2n..3n] := a0 - a1
 
   if (b_sign >= 0)
@@ -679,12 +679,12 @@ static void Karatsuba(word* prod, word* a, word* b, word* tmp, int n)
 
   Copy_Vector(T0,P0,2*n);
 
-  /* now we have 
+  /* now we have
                       P3      P2      P1      P0
               +-------+-------+-------+-------+
      prod =   |     a1*b1     |     a0*b0     |
               +-------+-------+-------+-------+
-              
+
                               T2      T1      T0
               +-------+-------+-------+-------+
       tmp =   ||a1-a0|*|b0-b1||     a0*b0     |
@@ -697,7 +697,7 @@ static void Karatsuba(word* prod, word* a, word* b, word* tmp, int n)
   School_Add(P1,3*n,P2,2*n,P1);   // prod[1n..3n] += prod[2n..4n]
   School_Add(P1,3*n,T0,2*n,P1);   // prod[1n..3n] +=  tmp[0n..2n]
 
-  if (a_sign == b_sign)  
+  if (a_sign == b_sign)
     School_Add(P1,3*n,T2,2*n,P1); // prod[1n..3n] += tmp[2n..4n]
   else
     School_Sub(P1,3*n,T2,2*n,P1); // prod[1n..3n] -= tmp[2n..4n]
@@ -708,7 +708,7 @@ static void Karatsuba(word* prod, word* a, word* b, word* tmp, int n)
 
 
 static sz_t Kara_Mult(word* a, sz_t a_used, word* b, sz_t b_used, word* prod)
-{ 
+{
   // a_used >= b_used
 
   if (b_used < 4*KARA_LIMIT)
@@ -724,7 +724,7 @@ static sz_t Kara_Mult(word* a, sz_t a_used, word* b, sz_t b_used, word* prod)
   word* ap = a;
   word* bp = b;
 
-  // extend length of b to n (append zeroes) 
+  // extend length of b to n (append zeroes)
   if (n > b_used)
   { bp = new word[n];
     word* p = Copy_Vector(bp,b,b_used);
@@ -761,7 +761,7 @@ static sz_t Kara_Mult(word* a, sz_t a_used, word* b, sz_t b_used, word* prod)
     q += n;
     p += n;
    }
-     
+
   // use School_Mult to multiply rest of a with bp
   while (r--) Mult_Inner_Loop(p++,bp,bp+b_used, *q++);
 
@@ -774,16 +774,16 @@ static sz_t Kara_Mult(word* a, sz_t a_used, word* b, sz_t b_used, word* prod)
   delete[] tmp;
   delete[] res;
 
-  return p_used; 
+  return p_used;
 }
-  
+
 
 
 static word Shift_Left(word *a, word *b, sz_t length, sz_t shift)
-{ 
+{
   // auxiliary function used in School_Div
   // a := (b << shift) and return carry   (0 < shift < 32)
-  
+
   word* b_stop = b + length;
 
   if (shift == 0)
@@ -799,7 +799,7 @@ static word Shift_Left(word *a, word *b, sz_t length, sz_t shift)
     *a++ = carry;
     carry = (B >> r);
    }
-  return carry; 
+  return carry;
 }
 
 
@@ -827,19 +827,19 @@ static sz_t School_Div(word* A, sz_t a_used, word* B, sz_t b_used,
 
   // two often used values
 
-  word b1 = b[b_used-1];               
+  word b1 = b[b_used-1];
   word b2 = (b_used > 1) ? b[b_used-2] : 0;
 
   /* division main loop */
 
   word* a_ptr = a + a_used;        // current position in a
   word* Q_ptr = Q + quot_used - 1; // current position in Q
- 
+
   while (Q_ptr >= Q)
   {
     word q = MAX_WORD;
 
-    if (*a_ptr != b1) 
+    if (*a_ptr != b1)
     { word r = DivTwoWordsByOne(*a_ptr, *(a_ptr-1), b1, &q);
       word h11;
       word h10 = Multiply_Words(q, b2, &h11);
@@ -861,7 +861,7 @@ static sz_t School_Div(word* A, sz_t a_used, word* B, sz_t b_used,
        word* ap;
        word* bp;
        bool  carry = false;
-       for(bp = b, ap = a_ptr-b_used; bp < b_stop; bp++, ap++) 
+       for(bp = b, ap = a_ptr-b_used; bp < b_stop; bp++, ap++)
        { word aa = *ap;
          word bb = *bp;
          bb += aa;
@@ -871,7 +871,7 @@ static sz_t School_Div(word* A, sz_t a_used, word* B, sz_t b_used,
              if (bb < aa) carry = true;
          *ap = bb;
         }
-       if (carry) (*ap)++; 
+       if (carry) (*ap)++;
        q--;
      }
 
@@ -879,12 +879,12 @@ static sz_t School_Div(word* A, sz_t a_used, word* B, sz_t b_used,
      a_ptr--;
   }
 
-  
+
   if (R)  // copy remainder to R[]
   { word* p = a + b_used;
     word* q = R + b_used;
     // copy and shift a to R[]
-    if (shift) 
+    if (shift)
       { int  r = WORD_LENGTH-shift;
         word carry = 0;
         while (p > a)
@@ -897,7 +897,7 @@ static sz_t School_Div(word* A, sz_t a_used, word* B, sz_t b_used,
     else
        while (p > a) *--q = *--p;
 
-    for(q = R+b_used-1; b_used && *q==0; q--)  b_used--; 
+    for(q = R+b_used-1; b_used && *q==0; q--)  b_used--;
 
     *R_used = b_used;
    }
@@ -935,7 +935,7 @@ static sz_t DivByOneWord(word *a, sz_t a_used, word B, word* quot, word* rem)
 
 
 
-integer operator+(const integer & a, const integer & b) 
+integer operator+(const integer & a, const integer & b)
 {
   sz_t a_sign = a.PTR->sign;
   sz_t b_sign = b.PTR->sign;
@@ -961,12 +961,12 @@ integer operator+(const integer & a, const integer & b)
   { if (a_used >= b_used)
      { sum_size = (a_used+1 <= a_size) ? a_size : 2*a_size;
        sum_ptr = new_integer_rep(sum_size);
-       sum_ptr->used = School_Add(av, a_used, bv, b_used, sum_ptr->vec); 
+       sum_ptr->used = School_Add(av, a_used, bv, b_used, sum_ptr->vec);
       }
     else
      { sum_size = (b_used+1 <= b_size) ? b_size : 2*b_size;
        sum_ptr = new_integer_rep(sum_size);
-       sum_ptr->used = School_Add(bv, b_used, av, a_used, sum_ptr->vec); 
+       sum_ptr->used = School_Add(bv, b_used, av, a_used, sum_ptr->vec);
       }
 
     sum_ptr->sign = a_sign;
@@ -983,7 +983,7 @@ integer operator+(const integer & a, const integer & b)
   if (rel == 0)
   { word* p = av + a_used;
     word* q = bv + b_used;
-    while (a_used && *--p == *--q) 
+    while (a_used && *--p == *--q)
     { a_used--;
       b_used--;
      }
@@ -991,7 +991,7 @@ integer operator+(const integer & a, const integer & b)
     rel  = (*p > *q) ? 1 : -1;
    }
 
-  if (rel > 0) 
+  if (rel > 0)
     { // |a| > |b|
       sum_ptr = new_integer_rep(a_size);
       sum_ptr->used = School_Sub(av, a_used, bv, b_used, sum_ptr->vec);
@@ -1035,28 +1035,28 @@ integer operator-(const integer & a, const integer & b)
   /* we distinguish the cases of equal and unequal signs */
 
   if (a_sign == b_sign)
-  { 
+  {
     int rel = a_used - b_used;
 
     if (rel == 0)
     { word* p = av + a_used;
       word* q = bv + b_used;
-      while (a_used && *--p == *--q) 
+      while (a_used && *--p == *--q)
       { a_used--;
         b_used--;
        }
       if (a_used == 0) return 0;
       rel  = (*p > *q) ? 1 : -1;
      }
-    
+
     if (rel > 0)
-    { // |a| > |b| 
+    { // |a| > |b|
       diff_ptr = new_integer_rep(a_size);
       diff_ptr->used = School_Sub(av, a_used, bv, b_used, diff_ptr->vec);
-      diff_ptr->sign = a_sign;  
+      diff_ptr->sign = a_sign;
       return diff_ptr;
      }
-    else 
+    else
     {  // |b| > |a|
       diff_ptr = new_integer_rep(b_size);
       diff_ptr->used = School_Sub(bv, b_used, av, a_used, diff_ptr->vec);
@@ -1090,7 +1090,7 @@ integer operator-(const integer & a, const integer & b)
 
 
 
-integer operator*(const integer& a, const integer& b) 
+integer operator*(const integer& a, const integer& b)
 {
   sz_t a_sign = a.PTR->sign;
   sz_t b_sign = b.PTR->sign;
@@ -1130,8 +1130,8 @@ integer operator*(const integer& a, const integer& b)
 
 
 
-integer operator/(const integer & a, const integer & b) 
-{ 
+integer operator/(const integer & a, const integer & b)
+{
   sz_t a_sign = a.PTR->sign;
   sz_t b_sign = b.PTR->sign;
   sz_t a_used = a.PTR->used;
@@ -1154,10 +1154,10 @@ integer operator/(const integer & a, const integer & b)
 
   quot_ptr->sign = (a_sign == b_sign) ? POSITIVE : NEGATIVE;
 
-  if (b_used == 1) 
+  if (b_used == 1)
       quot_ptr->used = DivByOneWord(a.PTR->vec, a_used, b.PTR->vec[0],
                                     quot_ptr->vec,0);
-  else 
+  else
       // |a| and |b| both have at least 2 digits
       quot_ptr->used = School_Div(a.PTR->vec, a_used, b.PTR->vec, b_used,
                                   quot_ptr->vec,0,0);
@@ -1168,8 +1168,8 @@ integer operator/(const integer & a, const integer & b)
 
 
 
-integer operator%(const integer & a, const integer & b) 
-{ 
+integer operator%(const integer & a, const integer & b)
+{
   sz_t a_sign = a.PTR->sign;
   sz_t b_sign = b.PTR->sign;
   sz_t a_used = a.PTR->used;
@@ -1198,7 +1198,7 @@ integer operator%(const integer & a, const integer & b)
                                     quot_ptr->vec, rem_ptr->vec);
       rem_ptr->used = (rem_ptr->vec[0] == 0) ? 0 : 1;
      }
-  else 
+  else
     { sz_t r_used;
       School_Div(a.PTR->vec, a_used, b.PTR->vec, b_used,
                  quot_ptr->vec,rem_ptr->vec,&r_used);
@@ -1207,7 +1207,7 @@ integer operator%(const integer & a, const integer & b)
 
   delete_integer_rep(quot_ptr);
 
-  if (rem_ptr->used == 0) 
+  if (rem_ptr->used == 0)
      rem_ptr->sign = ZERO;
   else
      rem_ptr->sign = a_sign;
@@ -1233,8 +1233,8 @@ integer operator & (const integer & a, const integer & b)   // bitwise and
 
   word* ap = a.PTR->vec;
   word* bp = b.PTR->vec;
-  word* a_stop = ap + a_used; 
-  word* b_stop = bp + b_used; 
+  word* a_stop = ap + a_used;
+  word* b_stop = bp + b_used;
 
   int used;
   word* p;
@@ -1261,7 +1261,7 @@ integer operator & (const integer & a, const integer & b)   // bitwise and
 
   return and_ptr;
 }
- 
+
 
 integer operator | (const integer & a, const integer & b)   // bitwise or
 {
@@ -1278,8 +1278,8 @@ integer operator | (const integer & a, const integer & b)   // bitwise or
 
   word* ap = a.PTR->vec;
   word* bp = b.PTR->vec;
-  word* a_stop = ap + a_used; 
-  word* b_stop = bp + b_used; 
+  word* a_stop = ap + a_used;
+  word* b_stop = bp + b_used;
 
   if (a_used >= b_used)
      { and_ptr = new_integer_rep(a.PTR->size);
@@ -1302,7 +1302,7 @@ integer operator | (const integer & a, const integer & b)   // bitwise or
 
   return and_ptr;
 }
- 
+
 
 
 bool operator > (const integer & a, const integer & b)
@@ -1370,12 +1370,12 @@ bool operator == (const integer & a, const integer & b)
 
 
 integer gcd(const integer& a, const integer& b)
-{ 
-  // gcd is not efficient. See Knuth 2 for improvements. 
+{
+  // gcd is not efficient. See Knuth 2 for improvements.
 
   int a_sign = a.PTR->sign;
   int b_sign = b.PTR->sign;
-  
+
   if (a_sign == ZERO)
     if (b_sign == ZERO)
         return 1;
@@ -1386,7 +1386,7 @@ integer gcd(const integer& a, const integer& b)
   // a is non-zero
 
   if (b_sign == 0) return abs(a);
-  
+
 
   // both a and b are non-zero
 
@@ -1394,9 +1394,9 @@ integer gcd(const integer& a, const integer& b)
   integer v = abs(b);
 
   if (u < v) v = v%u;
-   
+
   while (sign(v) != 0)
-  { integer tmp = u % v; 
+  { integer tmp = u % v;
     u = v;
     v = tmp;
    }
@@ -1413,8 +1413,8 @@ integer gcd(const integer& a, const integer& b)
 void integer::absolute() // *this = abs(*this), nur effizienter
 {
   if (PTR->count == 1) PTR->sign = POSITIVE;
-  else 
-    *this = abs(*this); 
+  else
+    *this = abs(*this);
 }
 
 int integer::zeros() const
@@ -1432,8 +1432,8 @@ int integer::zeros() const
   return len;
 }
 
-integer integer::div(const integer & b, integer& r) 
-{ 
+integer integer::div(const integer & b, integer& r)
+{
   // returns quotient and assings remainder to r
 
   sz_t a_sign = PTR->sign;
@@ -1443,21 +1443,21 @@ integer integer::div(const integer & b, integer& r)
 
   if (b_sign == ZERO) error_handler(1,"division by zero");
 
-  if (a_sign == ZERO) 
+  if (a_sign == ZERO)
   { r = 0;
     return *this;
    }
 
   int rel = absolute_cmp(PTR->vec,a_used, b.PTR->vec, b_used);
 
-  if (rel == 0) 
+  if (rel == 0)
   { r = 0;
-    return (a_sign == b_sign) ? 1 : -1; 
+    return (a_sign == b_sign) ? 1 : -1;
    }
 
-  if (rel  < 0) 
+  if (rel  < 0)
   { r = *this;
-    return 0;                     
+    return 0;
    }
 
   // |a| > |b|
@@ -1477,7 +1477,7 @@ integer integer::div(const integer & b, integer& r)
                                     quot_ptr->vec, rem_ptr->vec);
       r_used = (rem_ptr->vec[0] == 0) ? 0 : 1;
      }
-  else 
+  else
      School_Div(PTR->vec, a_used, b.PTR->vec, b_used,
                 quot_ptr->vec,rem_ptr->vec,&r_used);
 
@@ -1502,7 +1502,7 @@ int integer::length()  const   // number of bits
    }
   return len;
  }
-  
+
 
 integer integer::operator-()  const
 { // unary minus
@@ -1549,7 +1549,7 @@ bool integer::operator<(int l) const
     if (PTR->used > 1) return false;
     return PTR->vec[0] < word(l);
    }
-  
+
   // l < 0
   if (sig >= 0) return false;
   if (PTR->used > 1) return true;
@@ -1566,7 +1566,7 @@ bool integer::operator>(int l) const
     if (PTR->used > 1) return false;
     return PTR->vec[0] < word(-l);
    }
-  
+
   // l > 0
   if (sig <= 0) return false;
   if (PTR->used > 1) return true;
@@ -1575,7 +1575,7 @@ bool integer::operator>(int l) const
 
 
 double integer::todouble() const
-{ 
+{
   int i = PTR->used;
   if (i == 0) return 0;
   if (i > 32) return 2*MAXDOUBLE; //Infinity
@@ -1605,7 +1605,7 @@ integer integer::sqrt() const
     root = (fix*fix   + *this)/(fix << 1);
   }
 
-  return root;  
+  return root;
 }
 
 
@@ -1633,7 +1633,7 @@ integer integer::operator<<(long n)  const
 
   while (w_shift--) *p++ = 0;
 
-  if (b_shift) 
+  if (b_shift)
     { word carry = 0;
       while (q < q_stop)
       { word B = *q++;
@@ -1658,17 +1658,17 @@ integer integer::operator>>(long n)  const
   int sticks = int(n / WORD_LENGTH);
   int shifts = int(n % WORD_LENGTH);
   int used   = PTR->used - sticks;
- 
+
   int sz = next_power(used);
- 
+
   integer_rep* result;
- 
+
   result = new_integer_rep(sz);
   result->sign = PTR->sign;
- 
+
   word* p = result->vec + used;
   word* q = PTR->vec + PTR->used;
- 
+
   if (shifts != 0)
     { word carry = 0;
       int r = WORD_LENGTH - shifts;
@@ -1681,15 +1681,15 @@ integer integer::operator>>(long n)  const
      }
   else
      while (p > result->vec) *--p = *--q;
- 
+
   if (result->vec[used-1] == 0) used--;
   if (used == 0) result->sign = ZERO;
- 
+
   result->used = used;
- 
+
   return result;
 }
- 
+
 
 
 //------------------------------------------------------------------------------
@@ -1697,7 +1697,7 @@ integer integer::operator>>(long n)  const
 //------------------------------------------------------------------------------
 
 
-void integer::hex_print(ostream& out)
+void integer::hex_print(std::ostream& out)
 { if (PTR->sign == ZERO)
   { out << "0";
     return;
@@ -1709,9 +1709,9 @@ void integer::hex_print(ostream& out)
 
 
 
-ostream & operator << (ostream & out, const integer & x) 
+std::ostream & operator << (std::ostream & out, const integer & x)
 {
-  if (x.PTR->sign == ZERO) 
+  if (x.PTR->sign == ZERO)
   { out << "0";
     return out;
    }
@@ -1725,7 +1725,7 @@ ostream & operator << (ostream & out, const integer & x)
 
 
 
-istream & operator >> (istream & in, integer & a) 
+std::istream & operator >> (std::istream & in, integer & a)
 {
   bool negative = false;
   const int null = '0';
@@ -1733,12 +1733,12 @@ istream & operator >> (istream & in, integer & a)
 
   while (in.get(c) && isspace(c));
 
-  if (c == '-') 
+  if (c == '-')
   { negative = true;
     while (in.get(c) && isspace(c));
    }
 
-  if (isdigit(c)) 
+  if (isdigit(c))
   { a = c - '0';
     while (in.get(c) && isdigit(c)) a = 10*a + (c-null);
    }
@@ -1752,7 +1752,7 @@ istream & operator >> (istream & in, integer & a)
 
 
 //------------------------------------------------------------------------------
-// miscellaneous 
+// miscellaneous
 //------------------------------------------------------------------------------
 
 
@@ -1796,7 +1796,7 @@ int integer::cmp(const integer & a, const integer & b)
   if (a_sign < b_sign) return -1;
   if (a_sign > b_sign) return  1;
 
-  // the signs are equal 
+  // the signs are equal
 
   if (a_sign == ZERO) return 0;
 
@@ -1811,7 +1811,7 @@ int integer::cmp(const integer & a, const integer & b)
 
 
 integer integer::random(int n)  // return n-bit random integer
-{ 
+{
   sz_t w = n / WORD_LENGTH;
   sz_t r = n % WORD_LENGTH;
   if (r) w++;

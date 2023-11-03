@@ -5,37 +5,37 @@
 +  _maxflow.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 
 #include <LEDA/graph_alg.h>
 #include <LEDA/queue.h>
-#include <math.h>
+#include <cmath>
 
 
-static void gt_bfs(node s_vert, int dist_s_vert, 
-                   const graph& G, node s, 
+static void gt_bfs(node s_vert, int dist_s_vert,
+                   const graph& G, node s,
                    const edge_array<num_type>& flow,
                    const edge_array<num_type>& cap,
                          node_array<int>& dist);
 
 
-num_type MAX_FLOW(graph& G, node s, node t, const edge_array<num_type>& cap, 
+num_type MAX_FLOW(graph& G, node s, node t, const edge_array<num_type>& cap,
                                                   edge_array<num_type>& flow)
 {
 
 /* Computes a maximum flow from source s to sink t, using the
    Goldberg-Tarjan algorithm [Journal ACM 35 (Oct 1988) p921-940].
-   ( Applies push steps to vertices with positive preflow, based on 
-     distance labels.  Uses FIFO rule (implemented by FIFO queue) 
+   ( Applies push steps to vertices with positive preflow, based on
+     distance labels.  Uses FIFO rule (implemented by FIFO queue)
      for selecting a vertex with +ve preflow. )
 
-   input:   cap[e]  gives capacity of edge e 
- 
+   input:   cap[e]  gives capacity of edge e
+
    output:  flow[e] flow on edge e
             returns total flow into sink
 
@@ -57,7 +57,7 @@ edge e;
 int N = G.number_of_nodes();
 
 /*
- heuristic: parameter for heuristic suggested by Goldberg to speed up algorithm 
+ heuristic: parameter for heuristic suggested by Goldberg to speed up algorithm
             compute exact distance labels after every "heuristic" relabel steps
 
             experiments indicate that sqrt(|E|) is a good choice  (S.N.)
@@ -69,7 +69,7 @@ int limit_heur   = heuristic;
 int num_relabels = 0;
 
 if (s == t) error_handler(1,"MAXFLOW: source == sink");
- 
+
 forall_edges(e,G) flow[e] = 0;
 
 forall_out_edges(e,s) // saturate all edges leaving from s
@@ -78,11 +78,11 @@ forall_out_edges(e,s) // saturate all edges leaving from s
   flow[e] = cap[e];
   excess[v] += cap[e];
  }
- 
+
 dist[s] = N;
 
 while (! U.empty() )      /* main loop */
-{ 
+{
   v = U.pop();
 
   if (v == t) continue;
@@ -124,21 +124,21 @@ while (! U.empty() )      /* main loop */
        }
      }
 
-    } 
+    }
 
   excess[v] = ev;
-  
+
   if (ev > 0)
   {
     // relabel vertex v (i.e. update dist[v]) because all
-    // admissible edges in the residual graph have been saturated 
+    // admissible edges in the residual graph have been saturated
 
     num_relabels++;
-  
+
     if (heuristic && (num_relabels == limit_heur))
-      { 
+      {
         // heuristic suggested by Goldberg to reduce number of relabels:
-        // periodically compute exact dist[] labels by two backward bfs 
+        // periodically compute exact dist[] labels by two backward bfs
         // one starting at t and another starting at s
 
         limit_heur += heuristic;
@@ -150,7 +150,7 @@ while (! U.empty() )      /* main loop */
        gt_bfs(s,N,G,s,flow,cap,dist);
       }
     else
-      { 
+      {
         int min_dist = MAXINT;
 
         forall_out_edges(e,v)
@@ -166,13 +166,13 @@ while (! U.empty() )      /* main loop */
         dist[v] = min_dist;
        }
 
-    if (! U.member(v) ) U.push(v);    
-     
+    if (! U.member(v) ) U.push(v);
+
   } // if (excess[v] > 0)
 
-}  // while (!U.empty())  
-       
-   
+}  // while (!U.empty())
+
+
 
 /*
 // code to verify that flow is legal
@@ -183,37 +183,37 @@ if (total_s_cap != (excess[s] + excess[t]))
 */
 
 return excess[t];  // value of maximum flow from s to t
-  
+
 }
 
 
 
 
-//procedure to perform backward bfs starting at vertex s_vert with 
+//procedure to perform backward bfs starting at vertex s_vert with
 //distance label dist_s_vert
 
 static
-void gt_bfs(node s_vert, 
-            int dist_s_vert, 
-            const graph& G, 
-            node s, 
+void gt_bfs(node s_vert,
+            int dist_s_vert,
+            const graph& G,
+            node s,
             const edge_array<num_type>& flow,
-            const edge_array<num_type>& cap, 
+            const edge_array<num_type>& cap,
             node_array<int>& dist)
-{ 
+{
   queue<node> Q;
 
   Q.append(s_vert);
   dist[s_vert] = dist_s_vert;
 
   while (! Q.empty() )
-  { 
+  {
     node x = Q.pop();
     int  d = dist[x] + 1;
 
     edge e;
     forall_out_edges(e,x)
-    { node y = target(e); 
+    { node y = target(e);
       if (flow[e] > 0 && dist[y] == MAXINT) // use only edges with positive flow
       { dist[y] = d;
         Q.append(y);
@@ -222,7 +222,7 @@ void gt_bfs(node s_vert,
      }
 
     forall_in_edges(e,x)
-    { node y = source(e); 
+    { node y = source(e);
       if (cap[e] > flow[e] && dist[y] == MAXINT &&  s_vert != s)
       { dist[y] = d;
         Q.append(y);

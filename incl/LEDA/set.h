@@ -5,16 +5,16 @@
 +  set.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_SET_H
 #define LEDA_SET_H
 
 //------------------------------------------------------------------------------
-// set             
+// set
 //------------------------------------------------------------------------------
 
 #include <LEDA/basic.h>
@@ -43,12 +43,12 @@ public:
 /*{\Mcreation S }*/
 
  set() {}
-/*{\Mcreate creates an instance \var\ of type \name\ and initializes it to 
+/*{\Mcreate creates an instance \var\ of type \name\ and initializes it to
             the empty set.}*/
 
  set(const set<E>& S) : rs_tree(S) {}
 ~set() { clear(); }
- set<E>& operator=(const set<E>& S) 
+ set<E>& operator=(const set<E>& S)
  { rs_tree::operator=(S); return *this;}
 
 
@@ -63,7 +63,7 @@ virtual void del(E x) { rs_tree::del(Convert(x)); }
 virtual bool member(E x) const { return (rs_tree::lookup(Convert(x))!=nil); }
 /*{\Mop        returns true if $x$ in \var, false otherwise.}*/
 
-virtual E choose() const 
+virtual E choose() const
 { return LEDA_ACCESS(E,rs_tree::key(rs_tree::min())); }
 /*{\Mop        returns an element of \var.\\
                \precond \var\ is not empty.}*/
@@ -82,7 +82,7 @@ virtual void clear() { rs_tree::clear(); }
 
 virtual GenPtr first_item()  const { return rs_tree::first_item(); }
 
-virtual void loop_to_succ(GenPtr& x) const 
+virtual void loop_to_succ(GenPtr& x) const
 { x=rs_tree::next_item(rs_tree_item(x)); }
 
 virtual GenPtr forall_loop_test(GenPtr it, E& y) const
@@ -101,7 +101,7 @@ virtual GenPtr forall_loop_test(GenPtr it, E& y) const
 {\bf Iteration}
 
 \medskip
-{\bf forall}($x,S$) 
+{\bf forall}($x,S$)
 $\{$  ``the elements of $S$ are successively assigned to $x$''  $\}$ }*/
 
 
@@ -109,7 +109,7 @@ $\{$  ``the elements of $S$ are successively assigned to $x$''  $\}$ }*/
 
 /*{\Mimplementation
 Sets are implemented by randomized search trees \cite{AS89}. Operations insert,
-del, member take time $O(\log n)$, empty, size take time $O(1)$, and clear 
+del, member take time $O(\log n)$, empty, size take time $O(1)$, and clear
 takes time $O(n)$, where $n$ is the current size of the set.}*/
 
 #endif

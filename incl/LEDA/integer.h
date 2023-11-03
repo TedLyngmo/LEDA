@@ -5,9 +5,9 @@
 +  integer.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_INTEGER_H
@@ -30,7 +30,7 @@
 
 
 #include <LEDA/basic.h>
-#include <iostream.h>
+#include <iostream>
 
 #if _MIPS_SZLONG == 64
 typedef unsigned int  int_word_type;
@@ -38,7 +38,9 @@ typedef unsigned int  int_word_type;
 typedef unsigned long int_word_type;
 #endif
 
-class integer_rep 
+class integer;
+class rational;
+class integer_rep
 {
   friend class integer;
   friend class rational;
@@ -76,8 +78,8 @@ class integer_rep
   friend inline bool operator >= (const integer& a, const integer& b);
   friend inline bool operator <= (const integer& a, const integer& b);
 
-  friend ostream & operator << (ostream & out, const integer& a);
-  friend istream & operator >> (istream & in, integer& a);
+  friend std::ostream & operator << (std::ostream & out, const integer& a);
+  friend std::istream & operator >> (std::istream & in, integer& a);
 
   friend integer abs(const integer& a);
   friend integer gcd(const integer&, const integer&);
@@ -120,8 +122,8 @@ class integer {
   friend class rational;
 
 /*{\Mdefinition
-An instance $a$ of the data type \name\ is an integer number of 
-arbitrary length. 
+An instance $a$ of the data type \name\ is an integer number of
+arbitrary length.
 }*/
 
 
@@ -139,7 +141,7 @@ private:
 public:
 
 /*{\Mcreation a }*/
-   
+
    integer();
 
 /*{\Mcreate creates an instance \var\ of type \name\ and initializes it
@@ -149,13 +151,13 @@ with zero.}*/
 
 /*{\Mcreate creates an instance \var\ of type \name\ and initializes it
 with the value of $n$.}*/
-  
+
    integer(unsigned int i);
    integer(long l);
    integer(unsigned long i);
-   
-   integer(double x); 
-   
+
+   integer(double x);
+
 /*{\Mcreate creates an instance \var\ of type \name\ and initializes it
 with the integral part of $x$.}*/
 
@@ -172,7 +174,7 @@ The arithmetic operations $+,\ -,\ *,\ /,\ +=,\
 AND ($\&$, $\& =$), bitwise OR ($\Lvert \Lvert =$), the complement ($\ \tilde{}\ $),
 the shift operations
 ($<<,\ >>$),
-the comparison operations $<,\ <=,\ >,\ 
+the comparison operations $<,\ <=,\ >,\
 >=,\ ==,\ !=$ and the stream operations all are available.
 }*/
 
@@ -202,7 +204,7 @@ the comparison operations $<,\ <=,\ >,\
 
   long   tolong()   const;
 /*{\Mop returns a $long$ number which is initialized with the value of
-\var.\\ 
+\var.\\
 \precond $a$.islong() is $true$.}*/
 
   double todouble() const;
@@ -216,7 +218,7 @@ squareroot of \var. }*/
 
   int_word_type highword() const;
 
-  void hex_print(ostream&);
+  void hex_print(std::ostream&);
 
 
 
@@ -264,7 +266,7 @@ squareroot of \var. }*/
 
   int_word_type contents(int k) const { return PTR->vec[k]; };
 
-  integer       div(const integer&, integer&); 
+  integer       div(const integer&, integer&);
 
   integer operator-() const;
   integer operator~() const;
@@ -310,17 +312,17 @@ squareroot of \var. }*/
   static integer random(int n);
 
 
-  // more friends
+  // more friend s
 
-  friend ostream& operator << (ostream& O, const integer& a);
-  friend istream& operator >> (istream& I, integer& a);
+  friend std::ostream& operator << (std::ostream& O, const integer& a);
+  friend std::istream& operator >> (std::istream& I, integer& a);
 
 #if !defined(__TEMPLATE_FUNCTIONS__)
   friend GenPtr  Create(const integer*) { integer x; return x.copy(); }
   friend void    Clear(integer& y)      { y.clear();}
   friend GenPtr  Convert(integer& y)    { return y.PTR; }
   friend GenPtr  Copy(const integer& y) { return y.copy();}
-  friend char*   Type_Name(const integer*) { return "integer"; }
+  friend const char*   Type_Name(const integer*) { return "integer"; }
 #endif
 
 
@@ -331,8 +333,8 @@ squareroot of \var. }*/
 
 };
 
-inline void Print(const integer& a, ostream & out) { out << a; }
-inline void Read(integer& a, istream & in) { in >> a; }
+inline void Print(const integer& a,std::ostream & out) { out << a; }
+inline void Read(integer& a,std::istream & in) { in >> a; }
 
 inline int compare(const integer& a, const integer& b)
 { return integer::cmp(a,b); }
@@ -375,22 +377,22 @@ inline bool integer::operator>=(int a) const { return !operator<(a);  }
 inline integer integer::operator++ () { return *this = *this + 1; }
 inline integer integer::operator-- () { return *this = *this - 1; }
 
-inline integer integer::operator++ (int) 
+inline integer integer::operator++ (int)
 { integer i = *this;
   *this = *this + 1;
   return i;
  }
 
-inline integer integer::operator-- (int) 
+inline integer integer::operator-- (int)
 { integer i = *this;
   *this = *this - 1;
   return i;
  }
 
 
-/*{\Mimplementation 
-An $integer$ is essentially implemented by a 
-vector $vec$ of $unsigned\ long$ numbers. 
+/*{\Mimplementation
+An $integer$ is essentially implemented by a
+vector $vec$ of $unsigned\ long$ numbers.
 The sign and the size are stored in extra variables.
 Some time critical functions are also implemented in sparc assembler code.}*/
 

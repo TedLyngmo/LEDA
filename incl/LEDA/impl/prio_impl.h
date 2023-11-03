@@ -5,14 +5,14 @@
 +  prio_impl.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 class PRIO_IMPL
-{ 
+{
 
 private:
 
@@ -53,7 +53,7 @@ void del_item(PRIO_IMPL_ITEM);
 void decrease_key(PRIO_IMPL_ITEM,GenPtr);
 void change_inf(PRIO_IMPL_ITEM,GenPtr);
 void clear();
- 
+
 int  size()  const;
 
 };

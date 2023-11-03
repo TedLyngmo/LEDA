@@ -5,9 +5,9 @@
 +  _dictionary.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef __LEDA_DICTIONARY_H
@@ -19,7 +19,7 @@
 //
 // Dictionaries with implementation parameter:
 //
-//   _dictionary<keytype,inftype,dic_impl> 
+//   _dictionary<keytype,inftype,dic_impl>
 //
 //------------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ the key type $K$ must either be linearly ordered or hashed.
 
 /*{\Mtext
 {\bf Example}\\
-Using a dictionary implemented by skiplists to count the number of 
+Using a dictionary implemented by skiplists to count the number of
 occurrences of the elements in a sequence of strings.
 \begingroup
 \ttbig
@@ -46,7 +46,7 @@ occurrences of the elements in a sequence of strings.
 #include <LEDA/_dictionary.h>
 #include <LEDA/impl/skiplist.h>
 
-main()
+int main()
 {
   _dictionary<string,int,skiplist> D;
   string s;
@@ -58,7 +58,7 @@ main()
     else D.change_inf(it,D.inf(it)+1);
   }
 
-  forall_items(it,D) cout << D.key(it) << " : " <<  D.inf(it) << endl;
+  forall_items(it,D) std::cout << D.key(it) << " : " <<  D.inf(it) << std::endl;
 
 }
 \endgroup
@@ -66,7 +66,7 @@ main()
 
 
 
-template <class K, class I, class impl> 
+template <class K, class I, class impl>
 
 class _dictionary : private virtual impl, public dictionary<K,I>
 {
@@ -104,7 +104,7 @@ bool empty() const { return (size()==0) ? true : false; }
 void clear() { impl::clear(); }
 
 dic_item first_item() const { return dic_item(impl::first_item()); }
-dic_item next_item(dic_item it) const 
+dic_item next_item(dic_item it) const
 { return dic_item(impl::next_item(impl::item(it))); }
 
 _dictionary<K,I,impl>& operator=(const _dictionary<K,I,impl>& D)

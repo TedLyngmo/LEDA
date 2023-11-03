@@ -5,24 +5,24 @@
 +  _olist.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/impl/olist.h>
-#include <ctype.h>
+#include <cctype>
 
-#define SWAP(a,b) { register obj_link* x = *a; *a = *b; *b = x; }
+#define SWAP(a,b) { obj_link* x = *a; *a = *b; *b = x; }
 
-#define MIN_D 16 
+#define MIN_D 16
 
 //------------------------------------------------------------------------------
 // Members of class obj_list
 //------------------------------------------------------------------------------
 
-obj_list::obj_list()      
-{ h = nil; 
+obj_list::obj_list()
+{ h = nil;
   t = nil;
   count = 0;
 }
@@ -36,17 +36,17 @@ void obj_list::clear()
 
 obj_link* obj_list::get_item(int i) const
 { obj_link* p = h;
-  while ( p && i--) p = p->succ_link; 
+  while ( p && i--) p = p->succ_link;
   return p;
 }
 
 obj_link* obj_list::succ(obj_link* p, int i)  const
-{ while ( p && i--) p = p->succ_link; 
+{ while ( p && i--) p = p->succ_link;
   return p;
 }
 
 obj_link* obj_list::pred(obj_link* p, int i) const
-{ while ( p && i--) p = p->pred_link; 
+{ while ( p && i--) p = p->pred_link;
   return p;
 }
 
@@ -54,16 +54,16 @@ obj_link* obj_list::pred(obj_link* p, int i) const
 int obj_list::rank(obj_link* x)   const   /* rank by linear search */
 { obj_link* p = h;
   int r = 1;
-  while ( p && p != x) 
-  { p = p->succ_link; 
+  while ( p && p != x)
+  { p = p->succ_link;
     r++;
    }
   return (p) ? r : 0;
-} 
+}
 
 
-obj_link* obj_list::insert(obj_link* n, obj_link* l, int dir) 
-{ 
+obj_link* obj_list::insert(obj_link* n, obj_link* l, int dir)
+{
   if (dir==0) //insert after l
     return insert(n,l);
   else //insert before l
@@ -90,7 +90,7 @@ void obj_list::conc(obj_list& l)
 
 
 void obj_list::split(obj_link* p, obj_list& l1, obj_list& l2)
-{ 
+{
   l1.clear();
   l2.clear();
 
@@ -141,7 +141,7 @@ void obj_list::split(obj_link* p, obj_list& l1, obj_list& l2)
    }
 
   /* make original list empty */
-  
+
   h = t = 0;
   count = 0;
 
@@ -149,11 +149,11 @@ void obj_list::split(obj_link* p, obj_list& l1, obj_list& l2)
 
 
 void obj_list::del(obj_link* x)
-{ 
-  if (x==h)  
+{
+  if (x==h)
     pop();
   else
-    if (x==t)  
+    if (x==t)
        Pop();
     else
        { obj_link*  p = x->pred_link;
@@ -193,7 +193,7 @@ obj_link* obj_list::min(CMP_ITEM f) const
 
 
 void obj_list::apply(APP_ITEM apply)
-{ register obj_link* p = h;
+{ obj_link* p = h;
   while (p)
   { apply(p);
     p = p->succ_link;
@@ -201,75 +201,75 @@ void obj_list::apply(APP_ITEM apply)
 }
 
 void obj_list::permute()
-{ 
+{
   obj_link** A = new obj_link*[count+2];
   obj_link* x = h;
   int j;
 
   A[0] = A[count+1] = 0;
- 
+
   for(j=1; j <= count; j++)
   { A[j] = x;
     x = x->succ_link;
    }
 
-  for(j=1; j<count; j++)  
+  for(j=1; j<count; j++)
   { int r = rand_int(j,count);
     x = A[j];
     A[j] = A[r];
     A[r] = x;
    }
 
-  for(j=1; j<=count; j++) 
+  for(j=1; j<=count; j++)
   { A[j]->succ_link = A[j+1];
     A[j]->pred_link = A[j-1];
    }
 
   h = A[1];
   t = A[count];
-  
+
   delete A;
 }
-        
+
 
 void obj_list::bucket_sort(int i, int j, ORD_ITEM ord)
-{ 
+{
   int n = j-i+1;
 
-  register obj_link** bucket= new obj_link*[n+1];
-  register obj_link** stop = bucket + n;
-  register obj_link** p;
+  obj_link** bucket= new obj_link*[n+1];
+  obj_link** stop = bucket + n;
+  obj_link** p;
 
-  register obj_link* q;
-  register obj_link* x;
+  obj_link* q;
+  obj_link* x;
 
   for(p=bucket;p<=stop;p++)  *p = 0;
 
-  while (h) 
-  { x = h; 
+  while (h)
+  { x = h;
     h = h->succ_link;
     int k = ord(x);
-    if (k >= i && k <= j) 
+    if (k >= i && k <= j)
      { p = bucket+k-i;
        x->succ_link = *p;
        if (*p) (*p)->pred_link = x;
        *p = x;
       }
-    else 
+    else
        error_handler(4,"bucket_sort: value out of range") ;
    }
 
  for(p=bucket; *p==0 && p<stop; p++);
-  
+
  h = *p;
 
- if (h) 
+ if (h)
  { for(q=h;q->succ_link; q = q->succ_link);
    h->pred_link = 0;
    p++;
   }
 
- while(p<stop) 
+ while(p<stop)
  { if (*p)
    { q->succ_link = *p;
      (*p)->pred_link = q;
@@ -283,19 +283,19 @@ void obj_list::bucket_sort(int i, int j, ORD_ITEM ord)
  delete bucket;
 }
 
-        
+
 void obj_list::quick_sort(obj_link** l, obj_link** r, CMP_ITEM usr_cmp)
 { // use parameter usr_cmp
 
-  register obj_link** i = l+(r-l)/2; //rand_int()%(r-l);
-  register obj_link** k;
- 
+  obj_link** i = l+(r-l)/2; //rand_int()%(r-l);
+  obj_link** k;
+
   if (usr_cmp((*i),(*r))>0) SWAP(i,r);
 
   SWAP(l,i);
- 
+
   obj_link* s = (*l);
- 
+
   i = l;
   k = r;
 
@@ -310,28 +310,28 @@ void obj_list::quick_sort(obj_link** l, obj_link** r, CMP_ITEM usr_cmp)
   if (k > l+MIN_D) quick_sort(l,k-1,usr_cmp);
   if (r > k+MIN_D) quick_sort(k+1,r,usr_cmp);
 }
-        
 
 
-void obj_list::insertion_sort(obj_link** l, obj_link** r, obj_link** min_stop, 
+
+void obj_list::insertion_sort(obj_link** l, obj_link** r, obj_link** min_stop,
                                CMP_ITEM usr_cmp)
 {
-  register obj_link** min=l;
-  register obj_link** run;
-  register obj_link** p;
-  register obj_link** q;
+  obj_link** min=l;
+  obj_link** run;
+  obj_link** p;
+  obj_link** q;
 
   for (run = l+1; run <= min_stop; run++)
       if (usr_cmp((*run),(*min)) < 0) min = run;
 
   SWAP(min,l);
 
-  if (r == l+1) return; 
+  if (r == l+1) return;
 
   for(run=l+2; run <= r; run++)
   { for (min = run-1; usr_cmp((*run),(*min)) < 0; min--);
     min++;
-    if (run != min) 
+    if (run != min)
     { obj_link* save = *run;
       for(p=run, q = run-1; p > min; p--,q--) *p = *q;
       *min = save;
@@ -342,14 +342,14 @@ void obj_list::insertion_sort(obj_link** l, obj_link** r, obj_link** min_stop,
 
 
 void obj_list::sort(CMP_ITEM f)
-{ 
+{
   if (count<=1) return;    // nothing to sort
 
   obj_link** A = new obj_link*[count+2];
 
-  register obj_link*  loc = h;
-  register obj_link** p;
-  register obj_link** stop = A+count+1;
+  obj_link*  loc = h;
+  obj_link** p;
+  obj_link** stop = A+count+1;
 
   obj_link** left  = A+1;
   obj_link** right = A+count;
@@ -370,7 +370,7 @@ min_stop = right;
 
   *A = *stop = 0;
 
-  for (p=A+1;p<stop;p++) 
+  for (p=A+1;p<stop;p++)
   { (*p)->succ_link = *(p+1);
     (*p)->pred_link = *(p-1);
    }

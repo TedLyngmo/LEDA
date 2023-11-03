@@ -5,9 +5,9 @@
 +  _avl_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/impl/avl_tree.h>
@@ -27,7 +27,7 @@ void avl_tree::insert_rebal(avl_tree_item v)
   //                 v != root
   //                 height(v) == 1, bal(v) == 0;
 
-  // bal(v) == height(R) - height(L)           
+  // bal(v) == height(R) - height(L)
 
   //                    u
   //                    |
@@ -36,7 +36,7 @@ void avl_tree::insert_rebal(avl_tree_item v)
   //                  L   R
   //
 
-  
+
   while ( v != root() )
   {
     avl_tree_item u = v->parent;
@@ -45,23 +45,23 @@ void avl_tree::insert_rebal(avl_tree_item v)
 
     int b = u->get_bal();
 
-    if (dir==left)   // insertion in left subtree of u 
+    if (dir==left)   // insertion in left subtree of u
        b--;
     else             // insertion in right subtree of u
-       b++; 
+       b++;
 
     u->set_bal(b);
 
-    if (b==0)  break;   // height of u has not changed 
+    if (b==0)  break;   // height of u has not changed
 
     if (b != 1 && b != -1)
-    { 
+    {
       // u is out of balance (-2 or + 2)
 
       int d = (b < 0) ? -1 : +1;
-  
+
       avl_tree_item w = u->child[dir];
-  
+
       if (w->get_bal() == d)
       { rotation(u,w,dir);
         u->set_bal(0);
@@ -75,15 +75,15 @@ void avl_tree::insert_rebal(avl_tree_item v)
            u->set_bal(-d);
         else
            u->set_bal(0);
-  
+
         if (x->get_bal() == -d)
            w->set_bal(d);
         else
            w->set_bal(0);
-  
+
         x->set_bal(0);
        }
-  
+
       break;
     }
 
@@ -100,7 +100,7 @@ void avl_tree::del_rebal(avl_tree_item v, avl_tree_item)
   //                  v is remaining child of p (already linked to parent u)
   //                  v != root
 
-  
+
   while ( v != root() )
   {
     avl_tree_item u = v->parent;
@@ -119,13 +119,13 @@ void avl_tree::del_rebal(avl_tree_item v, avl_tree_item)
     if (b == 1 || b == -1) break;   // height of u has not changed
 
     if (b != 0)
-    { 
+    {
       // u is out of balance (-2 or + 2)
 
       int d = (b < 0) ? -1 : +1;
-  
+
       avl_tree_item w = u->child[1-dir];
-  
+
       if (d * w->get_bal() >= 0)
       { rotation(u,w,1-dir);
         if (w->get_bal() == 0)
@@ -147,12 +147,12 @@ void avl_tree::del_rebal(avl_tree_item v, avl_tree_item)
            u->set_bal(-d);
         else
            u->set_bal(0);
-  
+
         if (x->get_bal() == -d)
            w->set_bal(d);
         else
            w->set_bal(0);
-  
+
         x->set_bal(0);
         v = x;
        }

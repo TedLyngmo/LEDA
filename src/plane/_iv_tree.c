@@ -5,9 +5,9 @@
 +  _iv_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 // -------------------------------------------------------------------
@@ -37,18 +37,18 @@ void iv_tree::lrot(iv_item p, iv_item q)
 // p ist der zentrale Knoten um den rotiert wird
 // q ist der Vater von p
 
-{ 
+{
   iv_item h = p->son[_right];
   p->son[_right] = h->son[_left];
   h->son[_left] = p;
-   
+
   if (!q) root=h;
   else
   {
    if ( p == q->son[_left] )   q->son[_left]=h;
    else q->son[_right]=h;
-  }; 
-  
+  };
+
   p->gr=p->son[_left]->groesse()+p->son[_right]->groesse();
   h->gr=p->groesse()+h->son[_right]->groesse();
 
@@ -60,7 +60,7 @@ void iv_tree::rrot(iv_item p, iv_item q)
 // p ist der zentrale Knoten um den rotiert wird
 // q ist der Vater von p
 
-{ 
+{
   iv_item h = p->son[_left];
   p->son[_left] = h->son[_right];
   h->son[_right] = p;
@@ -69,7 +69,7 @@ void iv_tree::rrot(iv_item p, iv_item q)
   else
   {
    if ( p == q->son[_left] ) q->son[_left] = h;
-   else q->son[_right] = h; 
+   else q->son[_right] = h;
   };
 
   p->gr=p->son[_left]->groesse()+p->son[_right]->groesse();
@@ -79,7 +79,7 @@ void iv_tree::rrot(iv_item p, iv_item q)
 }
 
 void iv_tree::ldrot(iv_item p, iv_item q)
-{ 
+{
   iv_item h = p->son[_right];
   //iv_item t = h->son[_left];
   rrot(h,p);
@@ -93,7 +93,7 @@ void iv_tree::rdrot(iv_item p, iv_item q)
   lrot(h,p);
   rrot(p,q);
 }
- 
+
 // ------------------------------------------------------------------
 // reorganize_nodelist()
 // reorganisiert die nach der Rotation falsch mit Intervallen belegten
@@ -130,7 +130,7 @@ void iv_tree::reorganize_nodelist(iv_item father, iv_item son)
 		         		    // liefert Pointer
 				            // auf x-Dictionary
       {
-	 if (split_in_x_interval(father , x_nodelist(son)->key(it))) 
+	 if (split_in_x_interval(father , x_nodelist(son)->key(it)))
 	    fx->insert(x_nodelist(son)->key(it),x_nodelist(son)->inf(it));
          else
 	    sx->insert(x_nodelist(son)->key(it),x_nodelist(son)->inf(it));
@@ -178,22 +178,22 @@ void iv_tree::reorganize_nodelist(iv_item father, iv_item son)
 
 // ------------------------------------------------------------
 // search()
-// nachher: st = ( pk ,..., p1 ) mit 
-//          pk = locate(y) , p1 = root 
+// nachher: st = ( pk ,..., p1 ) mit
+//          pk = locate(y) , p1 = root
 //          p1 , ... , pk ist Suchpfad nach y
 // liefert inneren Knoten k mit key(k) = y , falls existiert
 //         0                               , sonst
 
 iv_item iv_tree::search(split_item x)
 
-{ 
+{
   st.clear();
   iv_item p = root;
   iv_item searched = 0;
 
   if (!root) return 0;         // Baum leer
   while (!p->blatt())
-  { 
+  {
     if (cmp(x,split_value(p))<=0)
     {
       if (cmp(x,split_value(p))==0) searched = p;
@@ -234,20 +234,20 @@ iv_item iv_tree::iv_insert(x_typ x, x_typ y)
 
 // ------------------------------------------------------------------
 // ins(interval_item,interval_item,int)
-// fuegt den entsprechenden Knoten in die Grundstruktur mit dem 
+// fuegt den entsprechenden Knoten in die Grundstruktur mit dem
 // entsprechenden split_value und fuegt die beiden Intervalle am
 // entsprechenden Knoten in die Knotenlisten
 
-iv_item iv_tree::ins(interval_item x, interval_item y, int lfnr) 
+iv_item iv_tree::ins(interval_item x, interval_item y, int lfnr)
 {
  iv_item p;
  iv_item t;
  iv_item father;
  split_pair x_pair(x->koo1,-lfnr);
- split_item x_split = &x_pair; 
- 
+ split_item x_split = &x_pair;
+
  if (!root)                                     // neuer Baum
- { 
+ {
   root = new iv_node(x_split);
   anzahl=1;
  }
@@ -276,7 +276,7 @@ iv_item iv_tree::ins(interval_item x, interval_item y, int lfnr)
     search(x_split);
     p = st.pop();
     father = st.top();
-  
+
     if(cmp(x_split,split_value(p))<0)
     {
      iv_item help = new iv_node(x_split);
@@ -293,7 +293,7 @@ iv_item iv_tree::ins(interval_item x, interval_item y, int lfnr)
     }
     else
      if (cmp(x_split,split_value(p))>0)
-     {           
+     {
       iv_item help = new iv_node(x_split);
       p = new iv_node(split_value(p),node,p,help);
       // neuer Knoten in p mit split p, p-Blatt links, x-Blatt rechts
@@ -308,10 +308,10 @@ iv_item iv_tree::ins(interval_item x, interval_item y, int lfnr)
   }
 
   while (!st.empty())                          // rebalancieren
-  { 
+  {
     t=st.pop();
     father = st.empty() ? 0 : st.top();
-    t->gr++;  
+    t->gr++;
     float i = t->bal();
     if (i < alpha)
     {
@@ -321,7 +321,7 @@ iv_item iv_tree::ins(interval_item x, interval_item y, int lfnr)
        ldrot(t,father);
     }
     else
-    if (i>1-alpha) 
+    if (i>1-alpha)
     {
       if (t->son[_left]->bal()>d)
 	rrot(t,father);
@@ -329,15 +329,15 @@ iv_item iv_tree::ins(interval_item x, interval_item y, int lfnr)
 	rdrot(t,father);
     }
   }
-  
+
   p = sink(root,x,y,lfnr);
-  return p;	
+  return p;
 }
 
 
 // ------------------------------------------------------------------
 // sink()
-// laesst Intervall im Baum bis zu dem Knoten v abwaerts gleiten an dem 
+// laesst Intervall im Baum bis zu dem Knoten v abwaerts gleiten an dem
 // gilt: 1.Komponente von split_value(v) <in> Intervall <Teilmenge von> x_range(v)
 
 iv_item iv_tree::sink(iv_item v, interval_item x, interval_item y, int lfnr)
@@ -361,7 +361,7 @@ iv_item iv_tree::sink(iv_item v, interval_item x, interval_item y, int lfnr)
      else
      {
        if (x->cmp(x->koo2,split_value(v)->key1) < 0)
-       { 
+       {
 	 return sink(v->son[_left],x,y,lfnr);
        }
        else
@@ -378,11 +378,11 @@ iv_item iv_tree::sink(iv_item v, interval_item x, interval_item y, int lfnr)
 // ------------------------------------------------------------------
 // iv_delete(x_typ,x_typ)
 // loescht ein Intervall (x,y) aus dem Baum
-// gibt Zeiger auf geloeschtes intervall zurueck 
+// gibt Zeiger auf geloeschtes intervall zurueck
 
 void iv_tree::iv_delete(x_typ x, x_typ y)
 {
-  if (y<x) 
+  if (y<x)
   {
    error_handler(0,"kein Intervall!\n");
    return;
@@ -395,14 +395,14 @@ void iv_tree::iv_delete(x_typ x, x_typ y)
    interval xi(x,y);
    interval yi(y,x);
    interval_item x_iv = &xi;
-   interval_item y_iv = &yi; 
+   interval_item y_iv = &yi;
    while ( !split_in_x_interval(v,x_iv) && !v->blatt() )
    {
     if (split_value(v)->cmp(y,split_value(v)->key1) < 0)
     {
       v = v->son[_left];
     }
-    if (split_value(v)->cmp(split_value(v)->key1,x) < 0) 
+    if (split_value(v)->cmp(split_value(v)->key1,x) < 0)
     {
       v = v->son[_right];
     }
@@ -418,12 +418,12 @@ void iv_tree::iv_delete(x_typ x, x_typ y)
    else
    {
     split_pair s(x_nodelist(v)->key(help1)->koo1,-x_nodelist(v)->inf(help1));
-    split_item search_split = &s; 
+    split_item search_split = &s;
     x_nodelist(v)->del_item(help1);
     y_nodelist(v)->del_item(help2);
-    if (!del(search_split)) 
+    if (!del(search_split))
       error_handler(1,"Intervall geloescht, Grundstruktur nicht in Ordnung\n");
-   } 
+   }
   }
 }
 
@@ -441,17 +441,17 @@ int iv_tree::del(split_item y)
 
   if (root->blatt())                             // Wurzel loeschen
     if (cmp(y,split_value(root))==0)
-    { 
-      if (!x_nodelist(root)->empty()) 
+    {
+      if (!x_nodelist(root)->empty())
 	 error_handler(1,"noch Intervalle in zu loeschender Wurzel!\n");
-      anzahl=0; 
+      anzahl=0;
       delete root;
-      root=0; 
-      return 1; 
+      root=0;
+      return 1;
     }
     else
     {
-     error_handler(0,"Element nicht im Baum\n");  
+     error_handler(0,"Element nicht im Baum\n");
      return 0;
     }
   else // Baum nicht trivial
@@ -459,7 +459,7 @@ int iv_tree::del(split_item y)
     iv_item p,father;
     iv_item pp=search(y);
     if (st.size()==2)                            // Sohn der Wurzel
-    { 
+    {
       p=st.pop();
       father=st.pop();
 
@@ -480,7 +480,7 @@ int iv_tree::del(split_item y)
         root=root->son[_left];
 	if(!x_nodelist(father)->empty())
 	  {
-	    if (!root->son[_right]) 
+	    if (!root->son[_right])
 	       nodelist_swap(father,root);
             else
 	    if ((root->son[_right])&&(x_nodelist(father)->size()==2))
@@ -490,18 +490,18 @@ int iv_tree::del(split_item y)
             }
             else
 	       nodelist_swap(father,root->son[_right]);
-          } 
+          }
       }
       if (!x_nodelist(father)->empty() || !x_nodelist(p)->empty())
 	error_handler(1,"Knotenlisten beim Loeschen nicht leer\n");
       delete father;
       delete p;
     }
-    else                                // Blatt mit Tiefe >= 2     
+    else                                // Blatt mit Tiefe >= 2
     {
       iv_item p=st.pop();
       if (cmp(y,split_value(p))!=0)
-      { 
+      {
 	return 0;
       }
       iv_item q = st.pop();
@@ -531,7 +531,7 @@ int iv_tree::del(split_item y)
             }
             else
 	       nodelist_swap(q,father->son[_left]->son[_right]);
-          } 
+          }
         }
       else
 	if (v2<=0)
@@ -555,7 +555,7 @@ int iv_tree::del(split_item y)
             }
             else
 	       nodelist_swap(q,father->son[_right]->son[_right]);
-          } 
+          }
         }
       if (!x_nodelist(p)->empty())
 	error_handler(1,"Knotenlisten von p beim Loeschen nicht leer");
@@ -563,14 +563,14 @@ int iv_tree::del(split_item y)
       delete q;
     }
   }
-  
+
   // REBALANCIEREN
   iv_item p;
   iv_item father;
   while (!st.empty())
   { p = st.pop();
     father = st.empty() ? 0 : st.top() ;
-    p->gr--;              
+    p->gr--;
     float i=p->bal();
     if (i<alpha)
       if (p->son[_right]->bal() <= d)
@@ -590,7 +590,7 @@ int iv_tree::del(split_item y)
 
 // ------------------------------------------------------------------
 // iv_query(x_typ,x_typ)
-// gibt alle Intervalle in einer Liste zurueck, die das mit 
+// gibt alle Intervalle in einer Liste zurueck, die das mit
 // den Parametern uebergebene Intervall schneiden.
 
 interval_list iv_tree::iv_query(x_typ x, x_typ y)
@@ -600,9 +600,9 @@ interval_list iv_tree::iv_query(x_typ x, x_typ y)
  {
    error_handler(0,"Baum ist leer");
    return query_list;
- } 
+ }
  if (y<x)
- { 
+ {
   error_handler(0,"kein Intervall\n");
   return query_list;
  }
@@ -616,7 +616,7 @@ interval_list iv_tree::iv_query(x_typ x, x_typ y)
  // unterwegs Abzweig zu search nach y
  // alle zwischen den Pfaden liegenden Knoten werden mit get_all
  // abgearbeitet
- // jeder Knoten wird mit Hilfe von check_iv() nach den in den 
+ // jeder Knoten wird mit Hilfe von check_iv() nach den in den
  // Knotenmengen vorhandenen Intervallen, die die Schnittbegingung
  // erfuellen abgearbeitet.
  while (!v->blatt())
@@ -667,7 +667,7 @@ void iv_tree::y_search(interval_list& il, iv_item v, split_item ys,
  }
  check_nodelist(il,v,x,y);
 }
-  
+
 // ------------------------------------------------------------------
 // check_nodelist()
 // ueberprueft entsprechend der in MEHLHORN III dargestellten Fall-
@@ -701,7 +701,7 @@ void iv_tree::get_all_in_tree(interval_list& il, iv_item v)
 {
   take_all_iv(il,v);
   if (!v->blatt())
-  { 
+  {
     get_all_in_tree(il,v->son[_left]);
     get_all_in_tree(il,v->son[_right]);
   }
@@ -732,19 +732,19 @@ void iv_tree::take_all_iv(interval_list& il, iv_item v)
 // tervall an die mituebergebene Liste an.
 
   void iv_tree::check_y_iv(interval_list& il, iv_item v, x_typ x)
-  { 
+  {
       if (!y_nodelist(v)->empty())
       {
 	dic_item maxit = y_nodelist(v)->max();
-	if (split_value(v)->cmp(y_nodelist(v)->key(maxit)->koo1,x)>=0) 
+	if (split_value(v)->cmp(y_nodelist(v)->key(maxit)->koo1,x)>=0)
 	{
 	  dic_item it = maxit;
 	  int intersect = 1;
-	  while(it && intersect) 
+	  while(it && intersect)
 	  {
-	    if (split_value(v)->cmp(y_nodelist(v)->key(it)->koo1,x)>=0) 
+	    if (split_value(v)->cmp(y_nodelist(v)->key(it)->koo1,x)>=0)
 	    {
-	     interval_item help = y_nodelist(v)->key(it); 
+	     interval_item help = y_nodelist(v)->key(it);
 	     interval_item ii = new interval(help->koo2, help->koo1);
 	     // die Intervalle der y-Knotenliste haben 1. Komponente
 	     // y und 2. Komponente x, zur Rueckgabe ist aber die
@@ -767,19 +767,19 @@ void iv_tree::take_all_iv(interval_list& il, iv_item v)
 // tervall an die mituebergebene Liste an.
 
   void iv_tree::check_x_iv(interval_list& il, iv_item v, x_typ y)
-  { 
+  {
       if (!x_nodelist(v)->empty())
       {
 	dic_item minit = x_nodelist(v)->min();
-	if (split_value(v)->cmp(x_nodelist(v)->key(minit)->koo1,y)<=0) 
+	if (split_value(v)->cmp(x_nodelist(v)->key(minit)->koo1,y)<=0)
 	{
-	  dic_item it = minit; 
+	  dic_item it = minit;
 	  int intersect = 1;
-	  while(it && intersect) 
+	  while(it && intersect)
 	  {
-	    if (split_value(v)->cmp(x_nodelist(v)->key(it)->koo1,y)<=0) 
+	    if (split_value(v)->cmp(x_nodelist(v)->key(it)->koo1,y)<=0)
 	    {
-	     interval_item help = x_nodelist(v)->key(it); 
+	     interval_item help = x_nodelist(v)->key(it);
 	     interval_item ii = new interval(help->koo1, help->koo2);
 	     // die Intervalle der x-Knotenliste haben 1. Komponente
 	     // x und 2. Komponente y.
@@ -795,18 +795,18 @@ void iv_tree::take_all_iv(interval_list& il, iv_item v)
 
 
 //-----------------------------------------------------------------------
-// void print_split(iv_item) 
+// void print_split(iv_item)
 // gibt split_value von p aus
 
-  void iv_tree::print_split(iv_item it)   
-  { 
+  void iv_tree::print_split(iv_item it)
+  {
     if (it)
       { it->split_value()->print();
         if (it->blatt()) text(" (blatt)\n");
         else text("(Knoten)\n");
        }
     else
-      cout << " Knoten leer!\n";
+      std::cout << " Knoten leer!\n";
   }
 
 
@@ -820,22 +820,22 @@ void iv_tree::pr_iv_tree(iv_item p,int blancs)
 {
  if (p==0)
  {
-  for (int j=1;j<=blancs;j++) cout << " ";
-  cout << "NIL\n";
+  for (int j=1;j<=blancs;j++) std::cout << " ";
+  std::cout << "NIL\n";
   return;
  }
  else
  {
-  pr_iv_tree(p->son[_left],blancs+10); 
-  for (int j=1;j<=blancs;j++) cout << " ";
-  
-  cout << "(" << p->split_value()->key1 << "," << p->split_value()->key2;
-  cout << ") ";
+  pr_iv_tree(p->son[_left],blancs+10);
+  for (int j=1;j<=blancs;j++) std::cout << " ";
+
+  std::cout << "(" << p->split_value()->key1 << "," << p->split_value()->key2;
+  std::cout << ") ";
   pr_iv_list(p);
-  pr_iv_tree(p->son[_right],blancs+10); 
+  pr_iv_tree(p->son[_right],blancs+10);
  }
 }
- 
+
 //-----------------------------------------------------------------------
 // void pr_iv_list(iv_item p)
 // gibt die Intervalliste eines Knotens p aus
@@ -844,17 +844,17 @@ void iv_tree::pr_iv_list(iv_item p)
 {
   dic_item it;
   forall_items(it,*(p->x_nodelist()))
-  { cout << "[" << x_nodelist(p)->key(it)->koo1;
-    cout << "," << x_nodelist(p)->key(it)->koo2 << "]"; 
-    cout << "#" << x_nodelist(p)->inf(it) << ";";
+  { std::cout << "[" << x_nodelist(p)->key(it)->koo1;
+    std::cout << "," << x_nodelist(p)->key(it)->koo2 << "]";
+    std::cout << "#" << x_nodelist(p)->inf(it) << ";";
    }
-  cout << "  *  ";
+  std::cout << "  *  ";
   forall_items(it,*(p->y_nodelist()))
-  { cout << "[" << y_nodelist(p)->key(it)->koo1;
-    cout << "," << y_nodelist(p)->key(it)->koo2<< "]"; 
-    cout << "#" << y_nodelist(p)->inf(it) << ";";
+  { std::cout << "[" << y_nodelist(p)->key(it)->koo1;
+    std::cout << "," << y_nodelist(p)->key(it)->koo2<< "]";
+    std::cout << "#" << y_nodelist(p)->inf(it) << ";";
    }
-  cout << "\n";
+  std::cout << "\n";
 }
 
 //-----------------------------------------------------------------------
@@ -863,18 +863,18 @@ void iv_tree::pr_iv_list(iv_item p)
 
 void iv_tree::pr_list(interval_list& il)
 {
-  cout << "Liste: \n";
-  if(il.empty()) cout << " leer\n";
+  std::cout << "Liste: \n";
+  if(il.empty()) std::cout << " leer\n";
   list_item it;
   forall_list_items(it,il)
-    il.contents(it)->print(); 
+    il.contents(it)->print();
 }
-    
+
 
 //-----------------------------------------------------------------------
 // Funktion fuer Destruktor
 //-----------------------------------------------------------------------
-  
+
 void iv_tree::deltree(iv_item p)
 {
  if (p)

@@ -5,9 +5,9 @@
 +  _strongcomp.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -31,7 +31,7 @@ int STRONG_COMPONENTS(const graph& G, node_array<int>& compnum)
 {
   // int STRONG_COMPONENTS(graph& G, node_array<int>& compnum)
   // computes strong connected components (scc) of digraph G
-  // returns m = number of scc 
+  // returns m = number of scc
   // returns in node_array<int> compnum for each node an integer with
   // compnum[v] = compnum[w] iff v and w belong to the same scc
   // 0 <= compnum[v] <= m-1 for all nodes v
@@ -40,13 +40,13 @@ int STRONG_COMPONENTS(const graph& G, node_array<int>& compnum)
   node_list      unfinished;
   node_array<int> dfsnum(G,-1);
 
-  int count1 = 0; 
+  int count1 = 0;
   int count2 = 0;
 
   node v;
 
-  forall_nodes(v,G) 
-      if (dfsnum[v] == -1) 
+  forall_nodes(v,G)
+      if (dfsnum[v] == -1)
        scc_dfs(G,v,compnum,dfsnum,unfinished,roots,count1,count2);
 
   return count2;
@@ -66,27 +66,27 @@ static void scc_dfs(const graph& G, node v, node_array<int>& compnum,
   roots.push(v);
 
   forall_adj_nodes(w,v)
-    { if (dfsnum[w]==-1) 
+    { if (dfsnum[w]==-1)
        scc_dfs(G,w,compnum,dfsnum,unfinished,roots,count1,count2);
-      else 
+      else
        if (unfinished(w))
         while (dfsnum[roots.head()]>dfsnum[w])  roots.pop();
      }
 
-  if (v==roots.head()) 
+  if (v==roots.head())
    { do { w=unfinished.pop();
           /* w is an element of the scc with root v */
           compnum[w] = count2;
          } while (v!=w);
      count2++;
-     roots.pop(); 
+     roots.pop();
     }
 }
 
 
 
 int STRONG_COMPONENTS1(graph& G, node_array<int>& compnum)
-{ 
+{
   node v,w;
   int n = G.number_of_nodes();
   int count = 0;
@@ -105,7 +105,7 @@ int STRONG_COMPONENTS1(graph& G, node_array<int>& compnum)
   G.rev();
 
   for(int i=n; i>0; i--)
-   { if ( !reached[V[i]] ) 
+   { if ( !reached[V[i]] )
       { S = DFS(G,V[i],reached);
         forall(w,S) compnum[w] = count;
         count++;
@@ -115,6 +115,6 @@ int STRONG_COMPONENTS1(graph& G, node_array<int>& compnum)
  delete V;
 
  return count;
-   
+
  }
 

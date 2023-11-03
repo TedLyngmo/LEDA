@@ -4,7 +4,7 @@
 window W;
 
 list<point> C_HULL(list<point> L)
-{ 
+{
   if (L.length() < 3) return L;
 
   list<point> CH;
@@ -69,10 +69,10 @@ list<point> C_HULL(list<point> L)
 
   return CH;
 }
-     
 
 
-main()
+
+int main()
 {
   //window W;
   W.init(-100,100,-100);
@@ -88,7 +88,7 @@ main()
   int b3 = P.button("quit");
 
   for(;;)
-  { 
+  {
     list<point> L;
     point p,q;
 
@@ -103,22 +103,22 @@ main()
        }
 
     if (but == b2)
-      for(int i = 0; i<N; i++) 
+      for(int i = 0; i<N; i++)
       { point p(rand_int(-90,90),rand_int(-90,90));
         W.draw_filled_node(p,blue2);
         L.append(p);
        }
 
     if (but == b3) break;
-  
+
     list<point> C = C_HULL(L);
 
     W.set_mode(xor_mode);
     W.draw_filled_polygon(C,yellow);
     W.set_mode(src_mode);
-  
+
   }
-   
+
  return 0;
 }
 

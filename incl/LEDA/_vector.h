@@ -5,9 +5,9 @@
 +  _vector.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -38,30 +38,30 @@ template<class T> class _vector
   int d;
 
   void		check_dimensions(const _vector<T>&) const;
- 
+
 public:
 
-  _vector(); 
-  _vector(int); 
+  _vector();
+  _vector(int);
   _vector(const T&, const T&);
   _vector(const T&, const T&, const T&);
   _vector(const _vector<T>&);
 
   ~_vector();
- 
+
 
   T		length()				const;
-  
+
   int		dim()					const;
   _vector<T>	norm()					const;
-  
-  T		angle(const _vector<T>&)			const; 
-  
+
+  T		angle(const _vector<T>&)			const;
+
   _vector<T>&	operator=(const _vector<T>&);
-  
+
   T&		operator[](int);
   T		operator[](int)				const;
-  
+
   _vector<T>	operator+(const _vector<T>&)		const;
   _vector<T>	operator-(const _vector<T>&)		const;
 
@@ -72,12 +72,12 @@ public:
 
   int		operator==(const _vector<T>&)		const;
   int		operator!=(const _vector<T>&)		const;
-  
-  
-  friend _vector<T>	operator-(const _vector<T>&);
-  
-  friend ostream&	operator<<(ostream&, const _vector<T>&);
-  friend istream&	operator>>(istream&, _vector<T>&);
+
+
+  friend_vector<T>	operator-(const _vector<T>&);
+
+  friend std::ostream&	operator<<(std::ostream&, const _vector<T>&);
+  friend std::istream&	operator>>(std::istream&, _vector<T>&);
 
   friend int		compare(const _vector<T>&, const _vector<T>&);
 };
@@ -128,9 +128,9 @@ _vector<T>::_vector(const _vector<T>& p)
   d = p.d;
   if (d > 0) {
     v = new T[d];
-    register int stop = d;
-    register T* pv = v + d;
-    register T* pp = p.v + d;
+    int stop = d;
+    T* pv = v + d;
+    T* pp = p.v + d;
     while (stop--) *--pv = *--pp;
   }
   else v = nil;
@@ -165,7 +165,7 @@ _vector<int>::norm()						const
 };
 
 template<class T>	T
-_vector<T>::angle(const _vector<T>& p)				const 
+_vector<T>::angle(const _vector<T>& p)				const
 {
   T lv = length();
   T lp = p.length();
@@ -183,14 +183,14 @@ int _vector<int>::angle(const _vector<int>&)				const
 template<class T>	_vector<T>&
 _vector<T>::operator=(const _vector<T>& p)
 {
-  register int n = p.d;
+  int n = p.d;
   if (d != n) {
     delete v;
     d = n;
     v = new T[d];
   }
-  register T* pv = v + d;
-  register T* pp = p.v + d;
+  T* pv = v + d;
+  T* pp = p.v + d;
   while (n--) { *--pv = *--pp; }
   return (*this);
 };
@@ -201,7 +201,7 @@ _vector<T>::operator[](int i)
   if ((i < 0) || (i >= d)) {
     error_handler(1,"_vector: index out of range");
   }
-  return v[i]; 
+  return v[i];
 };
 
 template<class T>	T
@@ -210,17 +210,17 @@ _vector<T>::operator[](int i)					const
   if ((i < 0) || (i >= d)) {
     error_handler(1,"_vector: index out of range");
   }
-  return v[i]; 
+  return v[i];
 };
 
 template<class T>	_vector<T>
 _vector<T>::operator+(const _vector<T>& p)			const
 {
   check_dimensions(p);
-  register int n = d;
+  int n = d;
   _vector<T> result(*this);
-  register T* pr = result.v + d;
-  register T* pp = p.v + d;
+  T* pr = result.v + d;
+  T* pp = p.v + d;
   while (n--) { *--pr += *--pp; }
   return result;
 };
@@ -230,9 +230,9 @@ _vector<T>::operator-(const _vector<T>& q)			const
 {
   check_dimensions(q);
   _vector<T> result(*this);
-  register int n = result.d;
-  register T* pr = result.v + n;
-  register T* pq = q.v + q.d;
+  int n = result.d;
+  T* pr = result.v + n;
+  T* pq = q.v + q.d;
   while (n--) { *--pr -= *--pq; }
   return result;
 };
@@ -240,9 +240,9 @@ _vector<T>::operator-(const _vector<T>& q)			const
 template<class T>	_vector<T>
 _vector<T>::operator*(const T& s)				const
 {
-  register int n = d;
+  int n = d;
   _vector<T> result(*this);
-  register T* pr = result.v + d;
+  T* pr = result.v + d;
   while (n--) { *--pr *= s; }
   return result;
 };
@@ -255,9 +255,9 @@ template<class T>	_vector<T>
 _vector<T>::operator/(const T& s)				const
 {
   if (s == 0) error_handler(1,"_vector: division by 0");
-  register int n = d;
+  int n = d;
   _vector<T> result(*this);
-  register T* pr = result.v + d;
+  T* pr = result.v + d;
   while (n--) { *--pr /= s; }
   return result;
 };
@@ -266,21 +266,21 @@ template<class T>	T
 _vector<T>::operator*(const _vector<T>& p)			const
 {
   check_dimensions(p);
-  register int n = d;
+  int n = d;
   T result = 0;
-  register T* pv = v + d;
-  register T* pp = p.v + d;
+  T* pv = v + d;
+  T* pp = p.v + d;
   while (n--) result += ((*--pv) * (*--pp));
   return result;
 };
-  
+
 template<class T>	int
 _vector<T>::operator==(const _vector<T>& p)			const
 {
   if (p.d != d) return false;
-  register int i = d;
-  register T* pv = v + d;
-  register T* pp = p.v + d;
+  int i = d;
+  T* pv = v + d;
+  T* pp = p.v + d;
   while ((i) && ((*--pv) == (*--pp))) i--;
   return (!i);
 };
@@ -297,9 +297,9 @@ operator-(const _vector<T>& p)
 };
 
 template<class T>	ostream&
-operator<<(ostream& out, const _vector<T>& p)
+operator<<(std::ostream& out, const _vector<T>& p)
 {
-  register int i;
+  int i;
   for (i = 0; i < p.d; i++) {
     out << p.v[i] << " ";
   }
@@ -307,7 +307,7 @@ operator<<(ostream& out, const _vector<T>& p)
 }
 
 template<class T>	istream&
-operator>>(istream& in, _vector<T>& p)
+operator>>(std::istream& in, _vector<T>& p)
 { int i=0;
   while (i < p.d && in >> p.v[i++]);
   return in;
@@ -316,20 +316,20 @@ operator>>(istream& in, _vector<T>& p)
 template<class T>	int
 compare(const _vector<T>& v1, const _vector<T>& v2)
 { v1.check_dimensions(v2);
-  register T* pv1 = v1.v;
-  register T* pv2 = v2.v;
-  register T* stopv1 = v1.v + v1.d;
+  T* pv1 = v1.v;
+  T* pv2 = v2.v;
+  T* stopv1 = v1.v + v1.d;
   while ((pv1 < stopv1) && ((*pv1) == (*pv2))) { *pv1++; *pv2++; };
   if (pv1 == stopv1) return 0;
   else return (*pv1 < *pv2) ? -1 : 1;
 }
 
 template<class T>	void
-Print(const _vector<T>& v, ostream& out)
+Print(const _vector<T>& v, std::ostream& out)
 { out << v; };
 
 template<class T>	void
-Read(_vector<T>& v, istream& in)
+Read(_vector<T>& v, std::istream& in)
 { in >> v;  };
 
 #endif

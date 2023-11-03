@@ -5,9 +5,9 @@
 +  leda_panel.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -16,7 +16,7 @@
 typedef void (*action_func)(int);
 
 #define MAX_BUT_NUM  64
-#define MAX_ITEM_NUM 64 
+#define MAX_ITEM_NUM 64
 
 
 class LEDA_PANEL : public LEDA_WINDOW {
@@ -38,11 +38,11 @@ int    last_ycoord;
 char*  button_str[MAX_BUT_NUM];
 char*  label_str [MAX_ITEM_NUM];
 char*  data_str  [MAX_ITEM_NUM];
-int    ycoord[MAX_ITEM_NUM]; 
+int    ycoord[MAX_ITEM_NUM];
 
 int    kind   [MAX_ITEM_NUM];
 void*  ref    [MAX_ITEM_NUM];
-int    dat1   [MAX_ITEM_NUM];   // min (slider), size (choice), 
+int    dat1   [MAX_ITEM_NUM];   // min (slider), size (choice),
                                 // number of menu items (string_menu_item)
 int    dat2   [MAX_ITEM_NUM];   // max (slider)  step (choice)
 int    offset [MAX_ITEM_NUM];   // choice item only

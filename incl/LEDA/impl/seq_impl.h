@@ -32,10 +32,10 @@ seq_impl_item item(GenPtr)        const;
 GenPtr key(seq_impl_item) const;
 GenPtr inf(seq_impl_item) const;
 
-void reverse_items(seq_impl_item,seq_impl_item); 
+void reverse_items(seq_impl_item,seq_impl_item);
 
-void del(GenPtr); 
-void del_item(seq_impl_item); 
+void del(GenPtr);
+void del_item(seq_impl_item);
 void split_at_item(seq_impl_item,seq_impl&,seq_impl&);
 void change_inf(seq_impl_item,GenPtr);
 void clear();

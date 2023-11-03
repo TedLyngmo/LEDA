@@ -9,7 +9,7 @@
 
 #include <LEDA/plane_alg.h>
 
-#include <math.h>
+#include <cmath>
 
 
 #define EPS  0.00001
@@ -20,7 +20,7 @@ class sw_SEGMENT;
 typedef sw_POINT* sw_point;
 typedef sw_SEGMENT* sw_segment;
 
-enum sw_point_type {Cross=0,Rightend=1,Leftend=2}; 
+enum sw_point_type {Cross=0,Rightend=1,Leftend=2};
 
 class sw_POINT
 {
@@ -33,15 +33,15 @@ class sw_POINT
 
   public:
 
-  sw_POINT(double a,double b)  
-  { 
+  sw_POINT(double a,double b)
+  {
     x=a; y=b; seg=0; kind=Cross;
    }
 
 
 
-  sw_POINT(point p)         
-  { 
+  sw_POINT(point p)
+  {
     x=p.xcoord();y=p.ycoord();seg=0;kind=Cross;
    }
 
@@ -59,7 +59,7 @@ class sw_POINT
 inline double     get_x(sw_point p)    { return p->x; }
 inline double     get_y(sw_point p)    { return p->y; }
 inline int        get_kind(sw_point p) { return p->kind; }
-inline sw_segment get_seg(sw_point p)  { return p->seg; }   
+inline sw_segment get_seg(sw_point p)  { return p->seg; }
 
 
 
@@ -94,9 +94,9 @@ class sw_SEGMENT
 
   public:
 
-  sw_SEGMENT(sw_point, sw_point,int,int);     
+  sw_SEGMENT(sw_point, sw_point,int,int);
 
- ~sw_SEGMENT() { delete startpoint; delete endpoint; }     
+ ~sw_SEGMENT() { delete startpoint; delete endpoint; }
 
   LEDA_MEMORY(sw_SEGMENT);
 
@@ -124,26 +124,26 @@ inline node get_left_node(sw_segment seg)         { return seg->left_node; }
 inline void set_left_node(sw_segment seg, node v) { seg->left_node = v; }
 
 
-sw_SEGMENT::sw_SEGMENT(sw_point p1,sw_point p2,int c, int n)    
+sw_SEGMENT::sw_SEGMENT(sw_point p1,sw_point p2,int c, int n)
   {
     left_node  = nil;
     color      = c;
     name       = n;
 
     if (compare(p1,p2) < 0)
-     { startpoint = p1; 
-       endpoint = p2; 
+     { startpoint = p1;
+       endpoint = p2;
        orient = 0;
       }
     else
-     { startpoint = p2; 
-       endpoint = p1; 
+     { startpoint = p2;
+       endpoint = p1;
        orient = 1;
       }
 
-    startpoint->kind = Leftend; 
-    endpoint->kind = Rightend; 
-    startpoint->seg = this; 
+    startpoint->kind = Leftend;
+    endpoint->kind = Rightend;
+    startpoint->seg = this;
     endpoint->seg = this;
 
     if (endpoint->x != startpoint->x)
@@ -176,7 +176,7 @@ static int compare(const sw_segment& s1, const sw_segment& s2)
 
   if (fabs(diff) > EPS2) return (diff > 0.0) ? 1 : -1;
 
-  if (get_slope(s1) == get_slope(s2)) 
+  if (get_slope(s1) == get_slope(s2))
         return compare(get_x(get_startpoint(s1)), get_x(get_startpoint(s2)));
 
   if (y1 <= y_sweep+EPS2)
@@ -187,10 +187,10 @@ static int compare(const sw_segment& s1, const sw_segment& s2)
 }
 
 
-void Print(sw_segment& x) 
+void Print(sw_segment& x)
 { sw_point s = get_startpoint(x);
   sw_point e = get_endpoint(x);
-  cout << 
+  std::cout <<
     string("[(%f,%f)----(%f,%f)]",get_x(s),get_y(s), get_x(e),get_y(e));
 }
 
@@ -209,7 +209,7 @@ bool intersection(sw_segment seg1,sw_segment seg2, sw_point& inter)
   {
     //x-coordinate  of the intersection
     double Cross_x = (seg2->yshift - seg1->yshift) / (seg1->slope - seg2->slope);
- 
+
     if (Cross_x <= x_sweep) return false;
 
     double s1 = seg1->startpoint->x;
@@ -228,12 +228,12 @@ bool intersection(sw_segment seg1,sw_segment seg2, sw_point& inter)
 }
 
 
-static pq_item Xinsert(seq_item i, sw_point p) 
-{ 
+static pq_item Xinsert(seq_item i, sw_point p)
+{
   return X_structure->insert(i,p);
 }
 
-static sw_point Xdelete(pq_item i) 
+static sw_point Xdelete(pq_item i)
 {
   sw_point p = X_structure->inf(i);
   X_structure->del_item(i);
@@ -252,7 +252,7 @@ static void New_Edge(GRAPH<point,int>& G,node v, node w, sw_segment l )
 
 
 void vertical_segment(GRAPH<point,int>& SUB, sw_segment l)
-{ 
+{
   sw_point p = new sw_POINT(get_x(get_startpoint(l)),get_y(get_startpoint(l)));
   sw_point q = new sw_POINT(get_x(get_endpoint(l)),get_y(get_endpoint(l)));
 
@@ -268,7 +268,7 @@ void vertical_segment(GRAPH<point,int>& SUB, sw_segment l)
 
   node u,v,w;
   sw_segment seg;
-  
+
 
   for(sit=Y_structure->succ(bot_it); sit != top_it; sit=Y_structure->succ(sit))
   { seg = Y_structure->key(sit);
@@ -282,7 +282,7 @@ void vertical_segment(GRAPH<point,int>& SUB, sw_segment l)
      }
     else
     { double vx = SUB[v].xcoord();
-      if ( vx < get_x(p)-EPS2) 
+      if ( vx < get_x(p)-EPS2)
       { w = New_Node(SUB,get_x(p),cross_y);
         New_Edge(SUB,v,w,seg);
         set_left_node(seg,w);
@@ -295,18 +295,18 @@ void vertical_segment(GRAPH<point,int>& SUB, sw_segment l)
     set_left_node(l,w);
 
    }
-  
+
   delete l;
   delete top;
   delete bot;
-    
+
   Y_structure->del_item(bot_it);
   Y_structure->del_item(top_it);
 
  }
 
 
-void Sweep_Segments(const list<segment>& L1, const list<segment>& L2, 
+void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
                     GRAPH<point,int>& SUB,
                     priority_queue<seq_item,sw_point>& Q,
                     sortseq<sw_segment,pq_item>& S)
@@ -320,12 +320,12 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
   Y_structure = &S;
 
   int count=1;
- 
+
   //initialization of the X-structure
 
   segment s;
 
-  forall(s,L1) 
+  forall(s,L1)
    { sw_point p = new sw_POINT(s.start());
      sw_point q = new sw_POINT(s.end());
      seg = new sw_SEGMENT(p,q,0,count++);
@@ -334,7 +334,7 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
 
   count = -1;
 
-  forall(s,L2) 
+  forall(s,L2)
    { sw_point p = new sw_POINT(s.start());
      sw_point q = new sw_POINT(s.end());
      seg = new sw_SEGMENT(p,q,1,count--);
@@ -362,9 +362,9 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
     if (get_kind(p) == Leftend)
 
     //left endpoint
-    { 
+    {
 
-      l = get_seg(p); 
+      l = get_seg(p);
 
       x_sweep = get_x(p);
       y_sweep = get_y(p);
@@ -377,7 +377,7 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
 
 /*
       sit = Y_structure->lookup(l);
-      if (sit!=nil)  
+      if (sit!=nil)
            error_handler(1,"plane sweep: sorry, overlapping segments");
 */
 
@@ -389,7 +389,7 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
       sitpred = Y_structure->pred(sit);
       sitsucc = Y_structure->succ(sit);
 
-      if (sitpred != nil) 
+      if (sitpred != nil)
       { if ((pqit = Y_structure->inf(sitpred)) != nil)
           delete Xdelete(pqit);
 
@@ -412,7 +412,7 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
     }
     else if (get_kind(p) == Rightend)
          //right endpoint
-         { 
+         {
            x_sweep = get_x(p);
            y_sweep = get_y(p);
 
@@ -437,17 +437,17 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
          }
          else
          /*point of intersection*/
-         { 
+         {
            node w = New_Node(SUB,get_x(p),get_y(p));
 
            count++;
 
-           /* Let L = list of all lines intersecting in p 
- 
+           /* Let L = list of all lines intersecting in p
+
               we compute sit     = L.head();
               and        sitpred = L.tail();
 
-              by scanning the Y_structure in both directions 
+              by scanning the Y_structure in both directions
               starting at sitmin;
 
            */
@@ -461,7 +461,7 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
 
            while ((pqit=Y_structure->inf(sitpred)) != nil)
            { sw_point q = X_structure->inf(pqit);
-             if (compare(p,q) != 0) break; 
+             if (compare(p,q) != 0) break;
              X_structure->del_item(pqit);
              Y_structure->change_inf(sitpred,nil);
              sitpred = Y_structure->succ(sitpred);
@@ -473,12 +473,12 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
            sit = sitmin;
 
            seq_item sit1;
-           
+
            while ((sit1=Y_structure->pred(sit)) != nil)
            { pqit = Y_structure->inf(sit1);
              if (pqit == nil) break;
              sw_point q = X_structure->inf(pqit);
-             if (compare(p,q) != 0) break; 
+             if (compare(p,q) != 0) break;
              X_structure->del_item(pqit);
              Y_structure->change_inf(sit1,nil);
              sit = sit1;
@@ -487,7 +487,7 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
 
 
            // insert edges to p for all sw_segments in sit, ..., sitpred into SUB
-           // and set left node to w 
+           // and set left node to w
 
            lsit = Y_structure->key(sitpred);
 
@@ -510,7 +510,7 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
 
 
            if (sitpredpred != nil)
-            { 
+            {
               lpredpred=Y_structure->key(sitpredpred);
 
               if ((pqit = Y_structure->inf(sitpredpred)) != nil)
@@ -531,7 +531,7 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
 
               if ((pqit = Y_structure->inf(sitpred)) != nil)
                 delete Xdelete(pqit);
-                 
+
               Y_structure->change_inf(sitpred,nil);
 
               if (intersection(lsucc,lsit,inter))
@@ -558,13 +558,13 @@ void Sweep_Segments(const list<segment>& L1, const list<segment>& L2,
 
 
 
-main()
-{ 
+int main()
+{
   int N = read_int("N = ");
 
   list<segment> seglist1,seglist2;
-  
-  while (N--) 
+
+  while (N--)
   { double x1 = rand_int(-1000,-100);
     double y1 = rand_int(-1000,1000);
     double x2 = rand_int(100,1000);
@@ -586,35 +586,35 @@ main()
   float T;
 
   T = used_time();
-  cout << "SWEEP_SEGMENTS: ";
-  cout.flush(); 
+  std::cout << "SWEEP_SEGMENTS: ";
+  std::cout.flush();
   SWEEP_SEGMENTS(seglist1,SUB0);
-  cout<< string(" # = %d time = %6.2f sec",SUB0.number_of_nodes(), used_time(T));
+  std::cout<< string(" # = %d time = %6.2f sec",SUB0.number_of_nodes(), used_time(T));
   newline;
 
   T = used_time();
-  cout << "rs_tree:        ";
-  cout.flush(); 
+  std::cout << "rs_tree:        ";
+  std::cout.flush();
   Sweep_Segments(seglist1,seglist2,SUB,Q,rst_seq);
-  cout<< string(" # = %d time = %6.2f sec",SUB.number_of_nodes(), used_time(T));
+  std::cout<< string(" # = %d time = %6.2f sec",SUB.number_of_nodes(), used_time(T));
   newline;
 
   SUB.clear();
 
   T = used_time();
-  cout << "ab_tree:        ";
-  cout.flush(); 
+  std::cout << "ab_tree:        ";
+  std::cout.flush();
   Sweep_Segments(seglist1,seglist2,SUB,Q,abt_seq);
-  cout<< string(" # = %d time = %6.2f sec",SUB.number_of_nodes(), used_time(T));
+  std::cout<< string(" # = %d time = %6.2f sec",SUB.number_of_nodes(), used_time(T));
   newline;
 
   SUB.clear();
 
   T = used_time();
-  cout << "skiplist:       ";
-  cout.flush(); 
+  std::cout << "skiplist:       ";
+  std::cout.flush();
   Sweep_Segments(seglist1,seglist2,SUB,Q,skip_seq);
-  cout<< string(" # = %d time = %6.2f sec",SUB.number_of_nodes(), used_time(T));
+  std::cout<< string(" # = %d time = %6.2f sec",SUB.number_of_nodes(), used_time(T));
   newline;
 
 return 0;

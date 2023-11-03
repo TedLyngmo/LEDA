@@ -5,9 +5,9 @@
 +  ab_tree.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_AB_TREE_H
@@ -15,7 +15,7 @@
 
 //------------------------------------------------------------------------------
 //
-// (a,b)-trees 
+// (a,b)-trees
 //
 // Evelyn Haak, Juergen Dedorath, and Dirk Basenach   (1989)
 //
@@ -63,11 +63,11 @@ class ab_tree_node {
   friend void pr_ab_tree(ab_tree_node* localroot,int blancs);
   friend void del_ab_tree(ab_tree_node* localroot);
 
- 
+
   int p;           /* number of sons,a<=p<=b,0 iff leave*/
   int height;      /* height of node*/
   int index;       /* v is index'th son of his father*/
-  ab_tree_node* father;   
+  ab_tree_node* father;
   GenPtr* k;    /* array[1..b] --------------------------  */
                          //-----------------------------------
                          /*to every node v of T we assign p(v)-1 */
@@ -79,7 +79,7 @@ class ab_tree_node {
                          /*------------------------------------*/
                          /* if v is a leave ==> k[1]=key[v]*/
 
-                         
+
   ab_tree_node** son;    /* array [1..b+1] of pointer to sons*/
   ab_tree_node** same;   /* m.w. : links between same keys */
                          /* array [1..b]                   */
@@ -95,15 +95,15 @@ public:
 
   LEDA_MEMORY(ab_tree_node)
 
- }; 
-  
+ };
+
 /*-----------------------------------------------------------------*/
-class ab_tree   
+class ab_tree
    {
 
     friend class ab_tree_node;
 
-    friend void concat(ab_tree&,ab_tree&,ab_tree_node*,GenPtr); 
+    friend void concat(ab_tree&,ab_tree&,ab_tree_node*,GenPtr);
 
 
     friend void pr_ab_tree(ab_tree_node* localroot,int blancs);
@@ -116,7 +116,7 @@ class ab_tree
     int count;              /* number of leaves */
 
     ab_tree_node* root;
-    ab_tree_node* minimum;  
+    ab_tree_node* minimum;
     ab_tree_node* maximum;
 
     ab_tree_node* expand(ab_tree_node* v,int i);
@@ -192,12 +192,12 @@ public:
     bool empty() const { return (count==0) ? true : false;   }
     void print() const { pr_ab_tree(root,1); }
 
-    //ab_tree(int a_=2,int b_=4); 
-    ab_tree(int=2,int=16); 
+    //ab_tree(int a_=2,int b_=4);
+    ab_tree(int=2,int=16);
     ab_tree(const ab_tree& T);
 
     ab_tree& operator=(const ab_tree&);
- 
+
     virtual ~ab_tree(){ clear(); }
  };
 

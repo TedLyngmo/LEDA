@@ -15,7 +15,7 @@ void DELAUNAY_FLIPPING(GRAPH<point,edge>& G)
   list<edge> L;
   edge e;
 
-  forall_edges(e,G) 
+  forall_edges(e,G)
     if ( !marked[e] )
     { L.append(e);
       marked[e] = true;
@@ -44,9 +44,9 @@ void DELAUNAY_FLIPPING(GRAPH<point,edge>& G)
       G.del_edge(r);
 
       for(edge x = e_pred; x != e; x = NEXT_FACE_EDGE(x))
-        if ( !marked[x] ) 
-        { L.push(x); 
-          marked[x] = marked[G[x]] = true; 
+        if ( !marked[x] )
+        { L.push(x);
+          marked[x] = marked[G[x]] = true;
          }
 
       G.del_edge(e);
@@ -69,7 +69,7 @@ random_source& operator>>(random_source& R, point& p)
   return R;
 }
 
-main()
+int main()
 {
    int N = read_int("N = ");
 
@@ -78,7 +78,7 @@ main()
 
    ran.set_seed(12345*N);
 
-   for(int i=0; i<N; i++) 
+   for(int i=0; i<N; i++)
    { point p;
      ran >> p;
      L.append(p);
@@ -94,7 +94,7 @@ flip_count = 0;
 TRIANGULATE_POINTS(L,G);
 DELAUNAY_FLIPPING(G);
 cout << string("visited = %d flips = %d   time = %.2f",
-                visited_edges, flip_count,used_time(T)) << endl;
+                visited_edges, flip_count,used_time(T)) << std::endl;
 
 return 0;
 }

@@ -5,9 +5,9 @@
 +  _planar_map.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -42,8 +42,8 @@ list<face> planar_map::adj_faces(node v) const
   return result;
  }
 
-face  planar_map::new_face(GenPtr i) 
-{ 
+face  planar_map::new_face(GenPtr i)
+{
   face f=new face_struct(i,this);
   f->loc=F_list.append(f);
   return f;
@@ -51,8 +51,8 @@ face  planar_map::new_face(GenPtr i)
 
 
 edge planar_map::split_edge(edge e, GenPtr node_inf)
-{ 
-  /* splits edge e and its reversal by inserting a new node u (node_inf) 
+{
+  /* splits edge e and its reversal by inserting a new node u (node_inf)
 
               e                          e           rr
         ----------->                --------->   --------->
@@ -105,15 +105,15 @@ edge planar_map::split_edge(edge e, GenPtr node_inf)
 
 
 edge planar_map::new_edge(edge e1, edge e2, GenPtr face_i)
-{ 
- /* cout << "NEW_EDGE:\n";
-    print_edge(e1); cout << " F = " << int(adj_face(e1)) << "\n";
-    print_edge(e2); cout << " F = " << int(adj_face(e2)) << "\n";
+{
+ /* std::cout << "NEW_EDGE:\n";
+    print_edge(e1); std::cout << " F = " << int(adj_face(e1)) << "\n";
+    print_edge(e2); std::cout << " F = " << int(adj_face(e2)) << "\n";
     newline;
   */
 
-  if (adj_face(e1) != adj_face(e2)) 
-    error_handler(1,"planar_map::new_edge: new edge must split a face."); 
+  if (adj_face(e1) != adj_face(e2))
+    error_handler(1,"planar_map::new_edge: new edge must split a face.");
 
   face F = adj_face(e1);
   face f = new_face(face_i);
@@ -121,7 +121,7 @@ edge planar_map::new_edge(edge e1, edge e2, GenPtr face_i)
   edge y = graph::new_edge(e1,source(e2),before);
   F->head = y;
   FACE(y) = F;
-  
+
   edge x = graph::new_edge(e2,source(e1),before);
   f->head = x;
   FACE(x) = f;
@@ -129,7 +129,7 @@ edge planar_map::new_edge(edge e1, edge e2, GenPtr face_i)
   x->rev = y;
   y->rev = x;
 
-  for (edge e = succ_face_edge(x); e != x; e = succ_face_edge(e)) 
+  for (edge e = succ_face_edge(x); e != x; e = succ_face_edge(e))
      FACE(e) = f;
 
   return y;
@@ -139,7 +139,7 @@ edge planar_map::new_edge(edge e1, edge e2, GenPtr face_i)
 node planar_map::new_node(const list<edge>& el, GenPtr node_inf)
 {
   if (el.length() < 2)
-      error_handler(1,"planar_map::new_node(el,i):  el.length() < 2."); 
+      error_handler(1,"planar_map::new_node(el,i):  el.length() < 2.");
 
   list_item it = el.first();
 
@@ -152,7 +152,7 @@ node planar_map::new_node(const list<edge>& el, GenPtr node_inf)
   edge e;
   forall(e,el)
   { if (adj_face(e) != f)
-      error_handler(1,"planar_map::new_node: edges bound different faces."); 
+      error_handler(1,"planar_map::new_node: edges bound different faces.");
    }
 
   e = el[it];
@@ -206,8 +206,8 @@ void planar_map::del_edge(edge x, GenPtr face_i)
   { e = succ_face_edge(e);
 
     if (e!=y) // no isolated edge
-      F1->head = e;   
-    else 
+      F1->head = e;
+    else
       del_face(F1);
 
    }
@@ -218,9 +218,9 @@ void planar_map::del_edge(edge x, GenPtr face_i)
 }
 
 
-void planar_map::clear() 
+void planar_map::clear()
 { face f;
-  forall(f,F_list) 
+  forall(f,F_list)
   { clear_face_entry(f->inf);
     delete f;
    }
@@ -233,9 +233,9 @@ static int edge_ord1(const edge& e) { return index(source(e)); }
 static int edge_ord2(const edge& e) { return index(target(e)); }
 
 planar_map::planar_map(const graph& G) : graph(G)
-{ 
+{
 
-  // input: planar embedded graph represented by a bidirected directed graph G 
+  // input: planar embedded graph represented by a bidirected directed graph G
   // i.e., for each node v of G the adjacent edges are sorted counter-clockwise.
   // computes planar map representation (faces!)
   // For each face F the information of one of its edges is copied into F
@@ -243,13 +243,13 @@ planar_map::planar_map(const graph& G) : graph(G)
 
   int n = max_node_index();
 
-  // test whether graph is bidirected and compute for every edge e = (v,w) 
-  // its reversal e->rev = (w,v) 
+  // test whether graph is bidirected and compute for every edge e = (v,w)
+  // its reversal e->rev = (w,v)
 
   list<edge> E1 = all_edges();
   E1.bucket_sort(0,n,&edge_ord2);
   E1.bucket_sort(0,n,&edge_ord1);
-  
+
   list<edge> E2 = all_edges();
   E2.bucket_sort(0,n,&edge_ord1);
   E2.bucket_sort(0,n,&edge_ord2);
@@ -261,8 +261,8 @@ planar_map::planar_map(const graph& G) : graph(G)
   { edge e = E1[it1];
     edge r = E2[it2];
 
-    it1 = E1.succ(it1); 
-    it2 = E2.succ(it2); 
+    it1 = E1.succ(it1);
+    it2 = E2.succ(it2);
 
     if (target(r) == source(e) && source(r) == target(e))
         e->rev = r;
@@ -272,10 +272,10 @@ planar_map::planar_map(const graph& G) : graph(G)
 
 
   // test planarity
-  
-    if (!PLANAR(*this)) 
-       error_handler(1,"planar_map: Graph is not planar."); 
-  
+
+    if (!PLANAR(*this))
+       error_handler(1,"planar_map: Graph is not planar.");
+
 
   // compute faces
 
@@ -295,9 +295,9 @@ planar_map::planar_map(const graph& G) : graph(G)
         marked[e1] = true;
         e1 = succ_face_edge(e1);
        }
-     } 
+     }
 
-} 
+}
 
 
 list<edge> planar_map::triangulate()
@@ -308,15 +308,15 @@ list<edge> planar_map::triangulate()
   list<edge> L;
 
   node_array<bool> marked(*this,false);
- 
+
   forall_nodes(v,*this)
   {
     list<edge> El = adj_edges(v);
- 
+
     forall(e,El) marked[target(e)] = true;
 
     forall(e,El)
-    { 
+    {
       e1 = e;
       e2 = succ_face_edge(e1);
       e3 = succ_face_edge(e2);
@@ -324,19 +324,19 @@ list<edge> planar_map::triangulate()
       face F = FACE(e1);
 
       while (target(e3) != v)
-      { 
+      {
 
-        // e1,e2 and e3 are the first three edges in a clockwise 
+        // e1,e2 and e3 are the first three edges in a clockwise
         // traversal of a face incident to v and t(e3) is not equal
         // to v.
 
         if ( !marked[target(e2)] )
-        { 
+        {
           // we mark w and add the edge {v,w} inside F, i.e., after
           // dart e1 at v and after dart e3 at w.
 
           marked[target(e2)] = true;
-  
+
           e1 = new_edge(e1,e3,F->inf);
           e2 = e3;
           e3 = succ_face_edge(e2);
@@ -345,10 +345,10 @@ list<edge> planar_map::triangulate()
         }
         else
         { // we add the edge {source(e2),target(e3)} inside F, i.e.,
-          // after dart e2 at source(e2) and before dart 
+          // after dart e2 at source(e2) and before dart
           // reversal_of[e3] at target(e3).
 
-          e3 = succ_face_edge(e3); 
+          e3 = succ_face_edge(e3);
 
           e2 = new_edge(e2,e3,F->inf);
 

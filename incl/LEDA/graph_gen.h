@@ -5,9 +5,9 @@
 +  graph_gen.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_GRAPH_GEN_H
@@ -37,13 +37,13 @@ extern void test_graph(graph& G);
 
 
 extern void complete_bigraph(graph& G, int a, int b, list<node>& A, list<node>& B);
-/*{\Mfuncl   creates a complete bipartite graph $G$ with $a$ nodes 
-            on side $A$ and $b$ nodes on side $B$. All edges are 
+/*{\Mfuncl   creates a complete bipartite graph $G$ with $a$ nodes
+            on side $A$ and $b$ nodes on side $B$. All edges are
             directed from $A$ to $B$. }*/
 
 extern void random_bigraph(graph& G, int a, int b, int m, list<node>& A, list<node>& B);
-/*{\Mfuncl   creates a random bipartite graph $G$ with $a$ nodes on 
-            side $A$, $b$ nodes on side $B$, and $m$ edges. All 
+/*{\Mfuncl   creates a random bipartite graph $G$ with $a$ nodes on
+            side $A$, $b$ nodes on side $B$, and $m$ edges. All
             edges are directed from $A$ to $B$. }*/
 
 
@@ -98,7 +98,7 @@ extern void cmdline_graph(graph& G, int argc, char** argv);
 prog \hbox to 1.5cm{\hfill}       $\longrightarrow$ test\_graph()\\
 prog \hbox to 1.5cm{$n$\hfill}    $\longrightarrow$ complete\_graph($n$)\\
 prog \hbox to 1.5cm{$n$ $m$\hfill} $\longrightarrow$ test\_graph($n,m$)\\
-prog \hbox to 1.5cm{$file$\hfill} $\longrightarrow$ $G$.read\_graph($file$). 
+prog \hbox to 1.5cm{$file$\hfill} $\longrightarrow$ $G$.read\_graph($file$).
 }*/
 
 

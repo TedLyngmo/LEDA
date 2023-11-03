@@ -11,9 +11,9 @@
 #include <LEDA/_p_queue.h>
 #include <LEDA/graph.h>
 #include <LEDA/graph_alg.h>
-#include <fstream.h>
-#include <string.h>
-#include <math.h>
+#include <fstream>
+#include <cstring>
+#include <cmath>
 
 
 
@@ -85,5 +85,5 @@ int main(void)
   t_f = used_time(T);
   dijkstra(G, s, cost, dist, pred, *(PQ[1]));
   t_r = used_time(T);
-  cout << string ("f_heap: %6.2f sec, r_heap: %6.2f sec\n", t_f, t_r);
+  std::cout << string ("f_heap: %6.2f sec, r_heap: %6.2f sec\n", t_f, t_r);
 }

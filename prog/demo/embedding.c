@@ -3,7 +3,7 @@
 #include <LEDA/window.h>
 #include <LEDA/graph_edit.h>
 
-main()
+int main()
 {
   window W;
   panel P;
@@ -38,42 +38,42 @@ main()
     else
        graph_edit(W,G,false);
 
-  
+
     W.del_messages();
     W.message(string("PLANARITY TEST  N = %d",G.number_of_nodes()));
-  
+
     if ( ! PLANAR(G,true) )
     { W.acknowledge("Graph is not planar");
       continue;
      }
-  
-  
+
+
      node_array<int> x(G),y(G);
-  
-  
+
+
      W.del_messages();
      W.message("STRAIGHT LINE EMBEDDING");
-  
+
      STRAIGHT_LINE_EMBEDDING(G,x,y);
-     
+
      int xmax=0;
-  
-     forall_nodes(w,G)  
+
+     forall_nodes(w,G)
        if (x[w]>xmax) xmax= x[w];
-     
-     
+
+
      W.init(-5,xmax+5,-5);
-  
+
      forall_nodes(v,G) W.draw_node(x[v],2*y[v]);
-     forall_edges(e,G)  
+     forall_edges(e,G)
      { v = source(e);
        w = target(e);
        W.draw_edge(point(x[v],2*y[v]),point(x[w],2*y[w]),red);
       }
-     
+
       W.read_mouse();
 
     }
-     
+
   return 0;
  }

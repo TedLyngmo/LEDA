@@ -1,6 +1,3 @@
-
-CC = ../../c++ -I../../incl
-
 CFLAGS = -O
 
 LIBS = ../../libP.a ../../libG.a ../../libL.a -lm
@@ -20,13 +17,13 @@ sweep3.o: sweep1.tmp
 sweep4.o: sweep1.tmp
 
 test: test.o sweep0.o sweep1.o sweep2.o sweep3.o sweep4.o
-	$(CC) $(CFLAGS) -o test test.o sweep?.o $(LIBS)
+	$(CXX) $(CFLAGS) -o test test.o sweep?.o $(LIBS)
 
 diffi: diffi.o sweep0.o sweep1.o sweep2.o
-	$(CC) $(CFLAGS) -o diffi diffi.o sweep?.o $(LIBS)
+	$(CXX) $(CFLAGS) -o diffi diffi.o sweep?.o $(LIBS)
 
 demo: demo.o sweep0.o sweep1.o sweep2.o
-	$(CC) $(CFLAGS) -o demo demo.o sweep?.o $(LIBX)
+	$(CXX) $(CFLAGS) -o demo demo.o sweep?.o $(LIBX)
 
 clean:
 	rm -f *.o test demo diffi

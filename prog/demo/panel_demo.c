@@ -1,7 +1,7 @@
 #include <LEDA/window.h>
 
-main()
-{ 
+int main()
+{
   bool   B     = false;
   color  col   = blue2;
   double R     = 3.1415;
@@ -65,7 +65,7 @@ for(;;)
   newline;
 */
 
- 
+
  }
 
   return 0;

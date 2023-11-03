@@ -15,7 +15,7 @@ void   show_face(subdivision<segment>& G, face f, window& W)
 }
 
 
-main()
+int main()
 {
 
   window W;
@@ -27,13 +27,13 @@ main()
 
   panel P("Arrangement of line segments");
 
-  P.text_item("This program computes the subdivision defined by the "); 
+  P.text_item("This program computes the subdivision defined by the ");
   P.text_item("arrangement of a list of straight line segments. Use ");
   P.text_item("the left button to insert a sequence of segments and ");
   P.text_item("terminate the input by clicking the right button. Now");
   P.text_item("you can input query points with the left button. For ");
   P.text_item("each point p the face of the arrangment containing p ");
-  P.text_item("is computed and displayed. Terminate the program by  "); 
+  P.text_item("is computed and displayed. Terminate the program by  ");
   P.text_item("pressing the right mouse key.                        ");
   P.text_item("                                                     ");
 
@@ -46,7 +46,7 @@ main()
   list<segment> seglist;
   segment s;
 
-  while ( W >> s ) 
+  while ( W >> s )
   { W << s;
     seglist.append(s);
    }
@@ -54,12 +54,12 @@ main()
   GRAPH<point,segment> G;
 
 
-  cout << "Computing subdivision.\n";
+  std::cout << "Computing subdivision.\n";
 
 
   SWEEP_SEGMENTS(seglist,G);
 
-  W.clear(); 
+  W.clear();
 
   // Draw Subdivision
 
@@ -69,7 +69,7 @@ main()
 
 
 
-  cout << "Constructing search structure\n";
+  std::cout << "Constructing search structure\n";
 
 
   // insert reverse edges

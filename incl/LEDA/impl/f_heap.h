@@ -5,9 +5,9 @@
 +  f_heap.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -37,11 +37,11 @@ class f_heap_node  {
 
 friend class f_heap;
 
-   f_heap_node* next;          // used to link all used items 
-   f_heap_node* pred;          
+   f_heap_node* next;          // used to link all used items
+   f_heap_node* pred;
 
    f_heap_node* left;          // left and right siblings (circular List)
-   f_heap_node* right;   
+   f_heap_node* right;
    f_heap_node* parent;        // parent node
    f_heap_node* children;      // a child
 
@@ -61,7 +61,7 @@ friend class f_heap;
 
 public:
 
-   f_heap_node(GenPtr k, GenPtr i, f_heap_node* n) 
+   f_heap_node(GenPtr k, GenPtr i, f_heap_node* n)
    {  key = k;
       inf = i;
       next = n;
@@ -90,7 +90,7 @@ class f_heap
     auf den Baum mit kleinstem Schluessel in der Wurzel. Die ei-
     gentlichen Items ( Paare aus NxT ) sind in den Knoten der
     Baeume enthalten.                                               */
- { 
+ {
    int node_count;         // number of nodes
    f_heap_node* minptr;    // entry to the List of roots
    f_heap_node* node_list; // List of all nodes
@@ -129,7 +129,7 @@ virtual ~f_heap()  { clear(); }
 f_heap_node* insert(GenPtr, GenPtr);
 f_heap_node* find_min() const { return(minptr); }
 
-void del_min();  
+void del_min();
 void decrease_key(f_heap_node*,GenPtr);
 void change_inf(f_heap_node*,GenPtr);
 void del_item(f_heap_node *x){ decrease_key(x,minptr->key); del_min();}
@@ -138,7 +138,7 @@ void clear();
 GenPtr  key(f_heap_node *x) const { return x->key ; }
 GenPtr  inf(f_heap_node *x) const { return x->inf; }
 
-  
+
 int  size()  const { return node_count; }
 int  empty() const { return (find_min()==0) ? true : false; }
 
@@ -157,8 +157,8 @@ f_heap_node* next_item(f_heap_node* p) const;
 
 // dummy I/O and cmp functions
 
-inline void Print(const f_heap&, ostream&) { }
-inline void Read (f_heap&, istream&) { }
+inline void Print(const f_heap&, std::ostream&) { }
+inline void Read (f_heap&, std::istream&) { }
 inline int  compare(const f_heap&,const f_heap&) { return 0; }
 
 #endif

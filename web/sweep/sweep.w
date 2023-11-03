@@ -301,7 +301,7 @@ and have to include the corresponding header files.
 #include <LEDA/rat_point.h>
 #include <LEDA/rat_segment.h>
 #include <LEDA/integer.h>
-#include <math.h>
+#include <cmath>
 
 @
 Let us briefly explain these types; for a detailed discussion we refer

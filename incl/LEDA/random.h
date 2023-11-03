@@ -5,9 +5,9 @@
 +  random.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_RANDOM_H
@@ -25,7 +25,7 @@
 
 class random_source {
 
-/*{\Mdefinition 
+/*{\Mdefinition
 An instance of type \name\ is a random source. It allows to generate
 uniformly distributed random bits, characters, integers, and doubles.
 It can be in  either of two modes: In bit mode it generates a random bit string
@@ -43,18 +43,18 @@ public:
 /*{\Mcreation S }*/
 
 random_source();
-/*{\Mcreate  creates an instance \var\ of type \name , 
-             puts it into bit mode, and 
+/*{\Mcreate  creates an instance \var\ of type \name ,
+             puts it into bit mode, and
              sets the precision to 31. }*/
 
 random_source(int p);
-/*{\Mcreate  creates an instance \var\ of type \name , 
-             puts it into bit mode, and 
+/*{\Mcreate  creates an instance \var\ of type \name ,
+             puts it into bit mode, and
              sets the precision to $p$ ($1 \le p \le 31$). }*/
 
 random_source(int low, int high);
-/*{\Mcreate  creates an instance \var\ of type \name , 
-             puts it into integer mode, and 
+/*{\Mcreate  creates an instance \var\ of type \name ,
+             puts it into integer mode, and
              sets the range to $[ low .. high]$. }*/
 
 
@@ -64,7 +64,7 @@ void set_seed(int s);
 /*{\Mop         resets the seed of the random number generator to $s$. }*/
 
 void set_range(int low, int high);
-/*{\Mopl        sets the mode to integer mode and 
+/*{\Mopl        sets the mode to integer mode and
                 changes the range to $[ low .. high]$. }*/
 
 void set_precision(int p);
@@ -82,12 +82,12 @@ random_source& operator>>(char& x);
                  }*/
 
 random_source& operator>>(unsigned char& x);
-/*{\Mbinop      extracts an unsigned character $x$ of default precision or 
+/*{\Mbinop      extracts an unsigned character $x$ of default precision or
                 range and returns \var. }*/
 
 random_source& operator>>(long& x);
 random_source& operator>>(int& x);
-/*{\Mbinop      extracts an integer $x$ of default precision or range and 
+/*{\Mbinop      extracts an integer $x$ of default precision or range and
                 returns \var. }*/
 
 
@@ -95,12 +95,12 @@ random_source& operator>>(unsigned long& x);
 random_source& operator>>(unsigned int& x);
 /*{\Mbinop      extracts an unsigned integer $x$ of default precision or
                 range and returns \var. }*/
-       
+
 
 random_source& operator>>(float& x);
 random_source& operator>>(double& x);
 /*{\Mbinop      extracts a real number $x$ in $[0,1]$, i.e,
-                $u/(2^{31} -1)$ where $u$ is a random integer in 
+                $u/(2^{31} -1)$ where $u$ is a random integer in
                 $[0..2^{31}-1]$,
                 and returns \var.}*/
 
@@ -118,7 +118,7 @@ unsigned get();
 
 // operator()
 
-int operator()();    
+int operator()();
 /*{\Mfunop         returns an integer $x$.}*/
 
 int operator()(int prec);

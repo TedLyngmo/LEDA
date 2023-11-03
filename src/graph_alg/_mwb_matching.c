@@ -5,9 +5,9 @@
 +  _mwb_matching.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -35,12 +35,12 @@ list<edge> MAX_WEIGHT_BIPARTITE_MATCHING( graph& G,
 {
   list<edge> mwm;
 
-  if( ! (A.empty() || B.empty()) ) 
+  if( ! (A.empty() || B.empty()) )
   {
     /* change the graph such that A becomes the node set with
        smaller cardinality (if necessary)
      */
-    if( B.size() < A.size() ) 
+    if( B.size() < A.size() )
     { G.rev();
       mwm = compute_MWBM( G, B, A, weight );
       G.rev();
@@ -57,7 +57,7 @@ list<edge> MAX_WEIGHT_BIPARTITE_MATCHING( graph& G,
 /* return the list of possible endpoints of augmenting paths which
    only need a minimal change of the dual function u
  */
-static list<node> dijkstra( const graph& G, 
+static list<node> dijkstra( const graph& G,
 			    const node_list& free,
                             const node_array<num_type>& u,
                             const edge_array<num_type>& weight,
@@ -65,9 +65,9 @@ static list<node> dijkstra( const graph& G,
                                   node_array<num_type>& dist,
                                   node_array<edge>& pred,
                             const node_array<int>& side)
-{ 
+{
   node_pq<num_type> PQ(G);
-  num_type a_min = maxval,	// minimal distance to an endpoint of 
+  num_type a_min = maxval,	// minimal distance to an endpoint of
   	   b_min = maxval,	// an augmenting path in A resp. B
            dv, dw, c, uv;
   list<node> alist, blist;	// the lists of minimal endpoints
@@ -79,14 +79,14 @@ static list<node> dijkstra( const graph& G,
     PQ.insert(v,0);
     if( u[v]<=a_min ) {		// compute initial nodelist for A
       if( u[v]<a_min ) {
-        alist.clear(); 
-        a_min = u[v]; 
+        alist.clear();
+        a_min = u[v];
       }
       alist.append(v);
     }
   }
 
-  while( !PQ.empty() ) { 
+  while( !PQ.empty() ) {
     v = PQ.del_min();		// dist[v] is the final distance of v
 
     dv = dist[v];
@@ -94,20 +94,20 @@ static list<node> dijkstra( const graph& G,
 
     /* if v is in A, update the nodelist for A
      */
-    if( !side[v] && uv+dv<=a_min ) {	
+    if( !side[v] && uv+dv<=a_min ) {
       if( uv+dv<a_min ) {
-        alist.clear(); 
+        alist.clear();
         a_min = uv+dv;
       }
       alist.append(v);
     }
 
-    /* stop if the actual distance becomes greater than the 
+    /* stop if the actual distance becomes greater than the
        distance to an endpoint of an augmenting path already seen
      */
-    if( a_min<dv || b_min<dv ) 
+    if( a_min<dv || b_min<dv )
       break;
-      	
+
     /* if v is in B, update the nodelist for B
      */
     if( side[v] && !G.outdeg(v) ) {
@@ -117,14 +117,14 @@ static list<node> dijkstra( const graph& G,
 
     /* perform one step of Dijkstra's algorithm
      */
-    forall_adj_edges( e, v ) { 		
-      w = G.target(e);	
+    forall_adj_edges( e, v ) {
+      w = G.target(e);
       dw = dist[w];
       c = dv + uv + u[w] - weight[e];
 
       if (c < dv) c = dv;  /* rounding errors: u[v]+u[w]-weight[e]
                                                might become negative */
-      if( c < dw ) { 
+      if( c < dw ) {
         if( dw == maxval )
            PQ.insert(w,c);
         else
@@ -139,19 +139,19 @@ static list<node> dijkstra( const graph& G,
    */
   if( a_min==b_min )
     alist.conc( blist );
-  
+
   return a_min<=b_min ? alist : blist;
 }
 
 
 
-/* augment matching in one pass along paths of length 1 and 3 
+/* augment matching in one pass along paths of length 1 and 3
 */
-static int mwbm_heuristic( graph& G, 
+static int mwbm_heuristic( graph& G,
 		           const list<node>& A,
-		           const edge_array<num_type>& weight, 
+		           const edge_array<num_type>& weight,
 		           node_array<num_type>& u)
-{ 
+{
   node v, w;
   edge e, e2, eb;
   int n = 0;
@@ -201,14 +201,14 @@ static int mwbm_heuristic( graph& G,
 
 /* compute a maximum weight matching in G
  */
-static list<edge> compute_MWBM( graph& G, 
+static list<edge> compute_MWBM( graph& G,
 				const list<node>& A,
 				const list<node>& B,
 				const edge_array<num_type>& weight )
 {
   num_type MAX, MIN;
   Max_Value(MAX); Min_Value(MIN);
-  
+
   num_type d_min;
   node v, v_min;
   edge e;
@@ -227,7 +227,7 @@ static list<edge> compute_MWBM( graph& G,
       }
       side[v]=0;
   }
-  
+
   while( !free.empty() ) {
     mark++;			// mark all nodes as unused
 
@@ -236,14 +236,14 @@ static list<edge> compute_MWBM( graph& G,
     vlist = dijkstra(G,free,u,weight,MAX,dist,pred,side);
 
     forall( v_min, vlist ) {
-      v=v_min; 
+      v=v_min;
 
       /* if v_min is not the first node of the list, check if the
          augmenting path to v_min contains an used node
        */
       if( v_min!=vlist.head() ) {
         e=pred[v];
-        while( e && used[v]<mark ) { 
+        while( e && used[v]<mark ) {
           v = source(e);
           e = pred[v];
         }
@@ -253,7 +253,7 @@ static list<edge> compute_MWBM( graph& G,
        */
       if( used[v]<mark ) {
         v = v_min; e = pred[v];
-        while( e ) { 
+        while( e ) {
           used[v]=mark;
           v = source(e);
           G.rev_edge(e);
@@ -268,15 +268,15 @@ static list<edge> compute_MWBM( graph& G,
      */
     v_min = vlist.head();
     d_min = side[v_min] ? dist[v_min] : u[v_min]+dist[v_min];
-    
-    forall(v,A) { 
-      if (d_min > dist[v]) 
+
+    forall(v,A) {
+      if (d_min > dist[v])
         u[v] -= d_min-dist[v];
       dist[v] = MAX;
     }
-  
-    forall(v,B) { 
-      if (d_min > dist[v]) 
+
+    forall(v,B) {
+      if (d_min > dist[v])
         u[v] += d_min-dist[v];
       dist[v] = MAX;
     }
@@ -285,9 +285,9 @@ static list<edge> compute_MWBM( graph& G,
   /* compute the result
    */
   list<edge> result;
-  forall(v,B) 
+  forall(v,B)
     forall_adj_edges(e,v) result.append(e);
   forall(e,result) G.rev_edge(e);
-  
+
   return result;
 }

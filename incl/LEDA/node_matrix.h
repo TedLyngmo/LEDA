@@ -5,9 +5,9 @@
 +  node_matrix.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -88,9 +88,9 @@ pairs in $V \times V$ where $V$ is the set of nodes currently contained in $G$.
 
 node_matrix(const graph& G, E x)         { init(G,x); }
 /*{\Mcreate creates an instance $M$ of type \name\ and initializes the index set
-of $M$ to be the set of all node pairs of graph $G$, i.e., $M$ is made valid 
-for all pairs in $V \times V$ where $V$ is the set of nodes currently 
-contained in $G$.  In addition, $M(v,w)$ is initialized with $x$ for all 
+of $M$ to be the set of all node pairs of graph $G$, i.e., $M$ is made valid
+for all pairs in $V \times V$ where $V$ is the set of nodes currently
+contained in $G$.  In addition, $M(v,w)$ is initialized with $x$ for all
 nodes $v,w \in V$.}*/
 
 
@@ -106,7 +106,7 @@ node_matrix(const graph& G, int n, E x)  { init(G,n,x); }
 /*{\Moperations 3.2 3.7}*/
 
 void  init(const graph& G)                { init(G,X); }
-/*{\Mop       sets the index set of $M$ to $V\times V$, where  
+/*{\Mop       sets the index set of $M$ to $V\times V$, where
 	      $V$ is the set of all nodes of $G$. }*/
 
 void  init(const graph& G, int n, E x) { Node_Matrix::init(G,n,Convert(x)); }
@@ -132,12 +132,12 @@ E& operator()(node v, node w)       { return LEDA_ACCESS(E,entry(v,w));}
 };
 
 /*{\Mimplementation
-Node matrices for a graph $G$ are implemented by vectors of node arrays and an 
-internal numbering of the nodes of $G$. The access operation 
-takes constant time, the init operation takes time $O(n^2)$, where $n$ is the 
+Node matrices for a graph $G$ are implemented by vectors of node arrays and an
+internal numbering of the nodes of $G$. The access operation
+takes constant time, the init operation takes time $O(n^2)$, where $n$ is the
 number of nodes currently contained in $G$. The space requirement is $O(n^2)$.
-Note that a node matrix is only valid for the nodes contained in $G$ at the 
-moment of the matrix declaration or initialization ($init$). Access operations 
+Note that a node matrix is only valid for the nodes contained in $G$ at the
+moment of the matrix declaration or initialization ($init$). Access operations
 for later added nodes are not allowed.}*/
 
 

@@ -5,9 +5,9 @@
 +  ch_array.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_CH_HASHING3_H
@@ -21,13 +21,13 @@
 //------------------------------------------------------------------------------
 
 #include <LEDA/basic.h>
- 
+
 
 //------------------------------------------------------------------------------
-// class ch_array_elem  
+// class ch_array_elem
 //------------------------------------------------------------------------------
 
-class ch_array_elem 
+class ch_array_elem
 {
   friend class ch_array;
 
@@ -45,7 +45,7 @@ typedef ch_array_elem*  ch_array_item;
 //--------------------------------------------------------------------
 
 
-class ch_array 
+class ch_array
 {
 
    static ch_array_elem STOP;
@@ -56,8 +56,8 @@ class ch_array
 
    ch_array_elem* iterator;
 
-   int table_size;           
-   int table_size_1;           
+   int table_size;
+   int table_size_1;
    int shift;
 
    virtual int  hash_fct(GenPtr)    const { return 0; }
@@ -83,7 +83,7 @@ class ch_array
 
    ch_array& operator=(const ch_array&);
    ch_array(const ch_array&);
-   ch_array(int n=1024); 
+   ch_array(int n=1024);
 
    virtual ~ch_array() { destroy(); }
 

@@ -5,31 +5,31 @@
 +  _doswin.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/impl/doswin.h>
 #include <LEDA/bitmaps/leda_icon.xbm>
 
 //------------------------------------------------------------------------------
-// event handling, window manager, etc ...                                    
+// event handling, window manager, etc ...
 //------------------------------------------------------------------------------
 
 static char read_kbd()
 {
 #if defined(__EMX__)
-   return _read_kbd(0,0,0); 
+   return _read_kbd(0,0,0);
 #else
-   return (kbhit()) ? getch() : 0; 
+   return (kbhit()) ? getch() : 0;
 #endif
  }
 
 
-const int root_color = blue2; 
+const int root_color = blue2;
 const int label_col0 = grey2;
-const int label_col1 = grey2; 
+const int label_col1 = grey2;
 
 const int  win_max = 16;
 DosWindow  win_stack[win_max];
@@ -37,7 +37,7 @@ int        win_top = 0;
 
 
 #define BORDER_W 5
-#define HEADER_W 20 
+#define HEADER_W 20
 
 static int display = 0;
 static int mouse_installed=0;
@@ -65,20 +65,20 @@ static int save_ls;
 
 
 static void show_pointer()
-{ if (!pointer_visible) 
-     draw_pointer(mouse_x,mouse_y,pointer_shape); 
+{ if (!pointer_visible)
+     draw_pointer(mouse_x,mouse_y,pointer_shape);
   pointer_visible = 1;
  }
 
 static void hide_pointer()
-{ if (pointer_visible) 
-     draw_pointer(mouse_x,mouse_y,pointer_shape); 
+{ if (pointer_visible)
+     draw_pointer(mouse_x,mouse_y,pointer_shape);
   pointer_visible = 0;
  }
 
 
 static void set_pointer_shape(int shape)
-{ if (pointer_shape != shape) 
+{ if (pointer_shape != shape)
   { hide_pointer();
     pointer_shape = shape;
     show_pointer();
@@ -183,7 +183,7 @@ void draw_window(DosWindow win, int clear_win = 1)
 
 Window open_window(int x,int y,int width,int height,int bg,
                    const char* header, const char* label)
-{ 
+{
   if (win_top > 0)  // deactivate top window
   { DosWindow w = win_stack[win_top];
     w->label_col = label_col0;
@@ -209,7 +209,7 @@ Window open_window(int x,int y,int width,int height,int bg,
   win->y1 = y+height-1;
   win->xpos = x+BORDER_W;
   win->ypos = y+HEADER_W;
-  win->width = width - 2*BORDER_W; 
+  win->width = width - 2*BORDER_W;
   win->height = height - HEADER_W - BORDER_W;
 
   win->iconized = 0;
@@ -234,10 +234,10 @@ void clear_window(Window w)
   box(w,0,0,win->width-1,win->height-1);
   set_color(save_col);
   set_mode(save_mode);
-  
-  while (w < win_top) 
+
+  while (w < win_top)
   { w++;
-    DosWindow win = win_stack[w]; 
+    DosWindow win = win_stack[w];
     draw_window(win);
     if (win->redraw) (*(win->redraw))();
    }
@@ -304,10 +304,10 @@ static int handle_next_event(Window* win, int *val, int *x, int *y)
   char c;
 
   if ((c = read_kbd()) > 0)
-  { 
+  {
     int step = 16;
 
-    if (c==27) 
+    if (c==27)
     { close_display();
       exit(0);
      }
@@ -317,7 +317,7 @@ static int handle_next_event(Window* win, int *val, int *x, int *y)
          e = key_press_event;
         }
     else          /* cursor or function key  */
-       { 
+       {
          c = getch();
 
          switch(c) {
@@ -350,7 +350,7 @@ static int handle_next_event(Window* win, int *val, int *x, int *y)
  else
 
   if (mouse_installed)
-  { 
+  {
     int but;
 
     /* check for button press and release events */
@@ -378,7 +378,7 @@ static int handle_next_event(Window* win, int *val, int *x, int *y)
 //	  DX = row at time specified button was last released
 
     for(but=0; but < 3; but++)
-    { 
+    {
       mouse_regs.x.ax=5;
       mouse_regs.x.bx=but;
       int_86(0x33,&mouse_regs,&mouse_regs);
@@ -400,8 +400,8 @@ static int handle_next_event(Window* win, int *val, int *x, int *y)
      }
 
 
-    if (but < 3) 
-    { 
+    if (but < 3)
+    {
       if (but == 0) *val = 1;   // left
       if (but == 1) *val = 3;   // right
       if (but == 2) *val = 2;   // middle
@@ -455,10 +455,10 @@ static int handle_next_event(Window* win, int *val, int *x, int *y)
  }
 
 
-void put_back_event() 
-{ event_buffer_e   = last_event_e;  
-  event_buffer_val = last_event_val; 
-  event_buffer_win = last_event_win; 
+void put_back_event()
+{ event_buffer_e   = last_event_e;
+  event_buffer_val = last_event_val;
+  event_buffer_win = last_event_win;
  }
 
 static void change_geometry(DosWindow win, int x0, int y0, int x1, int y1)
@@ -478,7 +478,7 @@ static void change_geometry(DosWindow win, int x0, int y0, int x1, int y1)
   win->y1 = y1;
   win->xpos = x0+BORDER_W;
   win->ypos = y0+HEADER_W;
-  win->width = w - 2*BORDER_W; 
+  win->width = w - 2*BORDER_W;
   win->height = h - HEADER_W - BORDER_W;
 
   win->image_buf = create_pixrect(root_win->id,win->x0,win->y0,win->x1,win->y1);
@@ -508,7 +508,7 @@ static void iconize(DosWindow win)
   change_geometry(win,x0,y0,x1,y1);
   win->iconized = 1-win->iconized;
 
-  if (win->iconized) 
+  if (win->iconized)
      insert_bitmap(win->id, leda_icon_width, leda_icon_height,
                    (char*)leda_icon_bits);
  }
@@ -523,7 +523,7 @@ static void move_win(DosWindow win, int *x, int *y)
   int xb  = win->xpos - xp0;
   int yb  = win->ypos - yp0;
   int xc = mouse_x; /* absolute cursor coordinates */
-  int yc = mouse_y; 
+  int yc = mouse_y;
   int dx = xc-xp0;  /* relative to upper left corner */
   int dy = yc-yp0;
 
@@ -552,7 +552,7 @@ static void move_win(DosWindow win, int *x, int *y)
 
   if (win_top > 1)  /* move panel */
   { change_geometry(win,xc,yc,xc+wi-1,yc+he-1);
-    if (win->iconized) 
+    if (win->iconized)
        insert_bitmap(win->id, leda_icon_width, leda_icon_height,
                      (char*)leda_icon_bits);
     return;
@@ -573,12 +573,12 @@ static void move_win(DosWindow win, int *x, int *y)
   set_mode(0);
   set_color(root_color);
 
-  if (xc > xp0) 
+  if (xc > xp0)
      box(root_win->id,xp0,yp0,xc-1,yp1);
   else
      box(root_win->id,xc+wi,yp0,xp1,yp1);
 
-  if (yc > yp0) 
+  if (yc > yp0)
      box(root_win->id,xp0,yp0,xp1,yc-1);
   else
      box(root_win->id,xp0,yc+he,xp1,yp1);
@@ -588,12 +588,12 @@ static void move_win(DosWindow win, int *x, int *y)
 
   set_mode(1);
 
-  win->x0 = xc; 
-  win->y0 = yc; 
-  win->x1 = xc+wi-1; 
-  win->y1 = yc+he-1; 
-  win->xpos = xc+xb; 
-  win->ypos = yc+yb; 
+  win->x0 = xc;
+  win->y0 = yc;
+  win->x1 = xc+wi-1;
+  win->y1 = yc+he-1;
+  win->xpos = xc+xb;
+  win->ypos = yc+yb;
 
 }
 
@@ -605,7 +605,7 @@ static void resize_win(DosWindow win, int* x, int* y, int pos)
   int yp1 = win->y1;
   int xb  = win->xpos - xp0;
   int yb  = win->ypos - yp0;
-  
+
   int xc  = mouse_x; /* absolute cursor coordinates */
   int yc  = mouse_y;
 
@@ -615,7 +615,7 @@ static void resize_win(DosWindow win, int* x, int* y, int pos)
   rectangle(root_win->id,xp0-1,yp0-1,xp1+1,yp1+1);
 
   switch(pos) {
-  
+
    case 0: dx = xp0-xc;          /* upper left */
            dy = yp0-yc;
            break;
@@ -636,13 +636,13 @@ static void resize_win(DosWindow win, int* x, int* y, int pos)
 
   do { e = handle_next_event(&w,&val,x,y);
        if (mouse_x != xc || mouse_y != yc)
-        { 
+        {
           switch(pos) {
 
           case 0: rectangle(root_win->id,mouse_x+dx-1,mouse_y+dy-1,xp1+1,yp1+1);
                   rectangle(root_win->id,xc+dx-1,yc+dy-1,xp1+1,yp1+1);
                   break;
-          
+
           case 1: rectangle(root_win->id,xp0-1,mouse_y+dy-1,mouse_x+dx+1,yp1+1);
                   rectangle(root_win->id,xp0-1,yc+dy-1,xc+dx+1,yp1+1);
                   break;
@@ -650,11 +650,11 @@ static void resize_win(DosWindow win, int* x, int* y, int pos)
           case 2: rectangle(root_win->id,xp0-1,yp0-1,mouse_x+dx+1,mouse_y+dy+1);
                   rectangle(root_win->id,xp0-1,yp0-1,xc+dx+1,yc+dy+1);
                   break;
-             
+
           case 3: rectangle(root_win->id,mouse_x+dx-1,yp0-1,xp1+1,mouse_y+dy+1);
                   rectangle(root_win->id,xc+dx-1,yp0-1,xp1+1,yc+dy+1);
                   break;
-          
+
            }
 
           xc = mouse_x;
@@ -667,28 +667,28 @@ static void resize_win(DosWindow win, int* x, int* y, int pos)
 
    switch(pos) {
 
-   case 0: win->x0 = xc; 
-           win->y0 = yc; 
-           break;
-                
-   case 1: win->x1 = xc; 
-           win->y0 = yc; 
-           break;
-              
-   case 2: win->x1 = xc; 
-           win->y1 = yc; 
+   case 0: win->x0 = xc;
+           win->y0 = yc;
            break;
 
-   case 3: win->x0 = xc; 
-           win->y1 = yc; 
+   case 1: win->x1 = xc;
+           win->y0 = yc;
            break;
-           
+
+   case 2: win->x1 = xc;
+           win->y1 = yc;
+           break;
+
+   case 3: win->x0 = xc;
+           win->y1 = yc;
+           break;
+
    }
 
   win->xpos = win->x0 + xb;
   win->ypos = win->y0 + yb;
-  win->width  = win->x1 - win->x0 - 2*xb + 1; 
-  win->height = win->y1 - win->y0 - xb - yb + 1; 
+  win->width  = win->x1 - win->x0 - 2*xb + 1;
+  win->height = win->y1 - win->y0 - xb - yb + 1;
 
   rectangle(root_win->id,win->x0-1,win->y0-1,win->x1+1,win->y1+1);
 
@@ -708,7 +708,7 @@ static void resize_win(DosWindow win, int* x, int* y, int pos)
 int check_next_event(Window* w, int* val, int* x, int *y, unsigned long* t)
 {
   // non-blocking
-  
+
   // a primitive window manager active while searching for next event
 
   int cx[4];
@@ -747,7 +747,7 @@ int check_next_event(Window* w, int* val, int* x, int *y, unsigned long* t)
   cx[3] = x0;
   cy[3] = y1-6;
 
-  if ( (x0 <= mouse_x && mouse_x <= x0+bw) 
+  if ( (x0 <= mouse_x && mouse_x <= x0+bw)
     || (x1 >= mouse_x && mouse_x >= x1-bw)
     || (y0 <= mouse_y && mouse_y <= y0+lw)
     || (y1 >= mouse_y && mouse_y >= y1-bw))
@@ -763,7 +763,7 @@ int check_next_event(Window* w, int* val, int* x, int *y, unsigned long* t)
        if ( cy[i] <= mouse_y && mouse_y <= cy[i]+6 &&
             cx[i] <= mouse_x && mouse_x <= cx[i]+6 )
        { set_pointer_shape(1);
-         if (e == button_press_event && ! win->iconized) 
+         if (e == button_press_event && ! win->iconized)
          { if (win->iconized)
              e = no_event;
            else
@@ -774,7 +774,7 @@ int check_next_event(Window* w, int* val, int* x, int *y, unsigned long* t)
         }
 
     set_pointer_shape(0);
-   
+
     if (x0+13 <= mouse_x && mouse_x <= x0+27 &&
         y0+3  <= mouse_y && mouse_y <= y0+15 && e == button_press_event)
     { iconize(win);
@@ -782,10 +782,10 @@ int check_next_event(Window* w, int* val, int* x, int *y, unsigned long* t)
      }
 
 
-    if (e== button_press_event) 
+    if (e== button_press_event)
     { move_win(win,x,y);
-      if (win_top==1 || win->iconized)  
-         return handle_next_event(w,val,x,y);  
+      if (win_top==1 || win->iconized)
+         return handle_next_event(w,val,x,y);
       else
          return configure_event;
      }
@@ -795,7 +795,7 @@ int check_next_event(Window* w, int* val, int* x, int *y, unsigned long* t)
   }  // if pointer on window boundary
 
   set_pointer_shape(0);
- 
+
   return e;
 }
 
@@ -889,7 +889,7 @@ void close_display()
 int  window_width(Window win)  { return win_stack[win]->width; }
 int  window_height(Window win) { return win_stack[win]->height; }
 
-void window_position(Window win,int* x,int* y) 
-{ *x = win_stack[win]->x0; 
-  *y = win_stack[win]->y0; 
+void window_position(Window win,int* x,int* y)
+{ *x = win_stack[win]->x0;
+  *y = win_stack[win]->y0;
  }

@@ -5,9 +5,9 @@
 +  _bellman_ford.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -21,9 +21,9 @@
 #include <LEDA/b_queue.h>
 
 
-bool BELLMAN_FORD(const graph& G, node s, const edge_array<num_type>& cost, 
-                                                node_array<num_type>& dist, 
-                                                node_array<edge>& pred ) 
+bool BELLMAN_FORD(const graph& G, node s, const edge_array<num_type>& cost,
+                                                node_array<num_type>& dist,
+                                                node_array<edge>& pred )
 
 /* single source shortest paths from s using a queue (breadth first search)
    computes for all nodes v:
@@ -31,7 +31,7 @@ bool BELLMAN_FORD(const graph& G, node s, const edge_array<num_type>& cost,
    b) pred[v] = predecessor edge of v in shortest paths tree
 */
 
-{ 
+{
   node_array<int> count(G,0);
 
   int n = G.number_of_nodes();
@@ -41,9 +41,9 @@ bool BELLMAN_FORD(const graph& G, node s, const edge_array<num_type>& cost,
   node u,v;
   edge e;
 
-  forall_nodes(v,G) 
+  forall_nodes(v,G)
   { pred[v] = 0;
-    dist[v] = max_num; 
+    dist[v] = max_num;
    }
 
   dist[s] = 0;
@@ -56,15 +56,15 @@ bool BELLMAN_FORD(const graph& G, node s, const edge_array<num_type>& cost,
 
     num_type du = dist[u];
 
-    forall_adj_edges(e,u) 
+    forall_adj_edges(e,u)
     { v = target(e);
       num_type c = du + cost[e];
-      if (c < dist[v]) 
-      { dist[v] = c; 
+      if (c < dist[v])
+      { dist[v] = c;
         pred[v] = e;
         if (!Q.member(v)) Q.append(v);
        }
-     } 
+     }
    }
   return true;
 }

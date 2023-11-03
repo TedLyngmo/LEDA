@@ -5,14 +5,16 @@
 +  misc.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #ifndef LEDA_MISC_H
 #define LEDA_MISC_H
+
+#include <istream>
 
 /*{\Manpage {misc} {} {Some Useful Functions}  }*/
 
@@ -31,8 +33,8 @@ double read_real(string s);
 /*{\Mfunc  prints $s$ and reads a real number from $cin$.}*/
 
 
-void skip_line(istream& =cin);
-string read_line(istream& =cin);
+void skip_line(std::istream& = std::cin);
+string read_line(std::istream& = std::cin);
 
 string read_string();
 string read_string(string s);
@@ -58,13 +60,13 @@ float used_time(float& T);
 void  print_time(string s);
 void  print_time();
 
-void  wait(float sec);  
+void  wait(float sec);
 /*{\Mfunc suspends execution for $sec$ seconds.}*/
 
 
 
 /*{\Mtext
-\func void      print\_statistics() { }  
+\func void      print\_statistics() { }
                            {prints a summary of the currently used memory.}
 }*/
 
@@ -87,11 +89,11 @@ inline double Min_Value(double& x)  { return x = -MAXDOUBLE;}
 
 #if defined(__TEMPLATE_FUNCTIONS__) &&  (__SUNPRO_CC != 0x400)
 
-template <class T> inline 
+template <class T> inline
 T Max(const T& a, const T& b) { return (a>b) ? a : b; }
 /*{\Mfunc     returns the maximum of $a$ and $b$. } */
 
-template <class T> inline 
+template <class T> inline
 T Min(const T& a, const T& b) { return (a<b) ? a : b; }
 /*{\Mfunc     returns the minimum of $a$ and $b$. } */
 
@@ -100,7 +102,7 @@ T Min(const T& a, const T& b) { return (a<b) ? a : b; }
 #define Min(a,b)        (((a)>(b)) ? (b) : (a))
 #endif
 
-#define newline         cout << endl
+#define newline         std::cout << std::endl
 
 
 #endif

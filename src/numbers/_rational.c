@@ -5,16 +5,16 @@
 +  _rational.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #include <LEDA/basic.h>
 #include <LEDA/rational.h>
-#include <math.h>
-#include <ctype.h>
+#include <cmath>
+#include <cctype>
 
 
 // hidden functions
@@ -23,18 +23,18 @@
 rational& rational::normalize()
 // divide numerator and denominator by their greatest common divisor
   { // den is assumed to be nonzero and positive
-    if (num == den) 
-      { 
-        num = den = 1; 
-	return (*this); 
+    if (num == den)
+      {
+        num = den = 1;
+	return (*this);
       }
-    if (-num == den) 
-      { 
-        num = -1; den = 1; 
-	return (*this); 
+    if (-num == den)
+      {
+        num = -1; den = 1;
+	return (*this);
       }
     integer ggt = gcd(num, den);
-    if (ggt != 1) 
+    if (ggt != 1)
       {
         num /= ggt;
         den /= ggt;
@@ -97,13 +97,13 @@ rational::rational(double x)
 
 
 rational::rational(int n, int d)
-  { if (d == 0) 
+  { if (d == 0)
       {
         error_handler(1,"Zero denominator!");
       }
-    else 
+    else
       {
-        if (d < 0) 
+        if (d < 0)
           {
             num = -integer(n);   //wegen reference counting notwendig
             den = -integer(d);
@@ -119,13 +119,13 @@ rational::rational(int n, int d)
 
 
 rational::rational(const integer& n, const integer& d)
-  { if (d.PTR->sign == 0) 
+  { if (d.PTR->sign == 0)
       {
         error_handler(1,"Zero denominator!");
       }
-    else 
+    else
       {
-        if (d.PTR->sign == -1) 
+        if (d.PTR->sign == -1)
           {
             num = -integer(n);
             den = -integer(d);
@@ -165,12 +165,12 @@ rational& rational::operator*= (const rational& r)
   }
 
 rational& rational::operator/= (const rational& r)
-  { if (r.num.PTR->sign == 0) 
+  { if (r.num.PTR->sign == 0)
       {
         // r == 0
         error_handler(1,"Division by 0!");
       }
-    else 
+    else
       {
         // r.num != 0
 	if (r.num.PTR->sign == -1)
@@ -205,11 +205,11 @@ rational& rational::operator= (const rational& r)
 // some useful member-functions
 
 void rational::invert()
-  { if (num.PTR->sign == 0) 
+  { if (num.PTR->sign == 0)
       {
         error_handler(1,"Zero denominator!");
       }
-    else 
+    else
       {
         integer tmp = num;
 	if (num.PTR->sign == 1)
@@ -226,7 +226,7 @@ void rational::invert()
   }
 
 rational rational::inverse()
-  { if (num.PTR->sign == 0) 
+  { if (num.PTR->sign == 0)
       {
         error_handler(1,"Zero denominator!");
         return (*this);
@@ -234,7 +234,7 @@ rational rational::inverse()
     else
       {
         if (num.PTR->sign == 1)
-          { 
+          {
             rational tmp(den,num);
             return tmp;
 	  }
@@ -257,7 +257,7 @@ int rational::cmp(const rational& x, const rational& y)
     if (ysign == 0) return xsign;
     // now (x != 0) && (y != 0)
     int diff = xsign - ysign;
-    if (diff == 0) 
+    if (diff == 0)
     { integer leftop  = x.num * y.den;
       integer rightop = y.num * x.den;
       if (leftop < rightop) return -1;
@@ -270,36 +270,36 @@ int rational::cmp(const rational& x, const rational& y)
 
 /*
 int rational::cmp(const rational& x, int y)
-{ 
+{
     int  xsign = sign(x.num), ysign;
     if (y == 0) ysign = 0;
 
     else ysign = (y > 0) ? 1 : -1;
-    if (xsign == 0) 
-      return -ysign; 
-    if (ysign == 0) 
-      return xsign; 
+    if (xsign == 0)
+      return -ysign;
+    if (ysign == 0)
+      return xsign;
     // now (x != 0) && (y != 0)
     return compare(x.num, y*x.den);
     int diff = xsign - ysign;
-    if (diff == 0) 
+    if (diff == 0)
       {
-        if (x.num < y * x.den)  
-          return -1; 
-        else  
-	  return (x.num > y * x.den); 
+        if (x.num < y * x.den)
+          return -1;
+        else
+	  return (x.num > y * x.den);
       }
     else return diff;
 }
 
 int rational::cmp(int x, const rational& y)
-  { 
+  {
     int ysign = sign(y.num), xsign;
     if (x == 0) xsign = 0;
     else xsign = (x > 0) ? 1 : -1;
-    if (xsign == 0) 
+    if (xsign == 0)
       return -ysign;
-    if (ysign == 0) 
+    if (ysign == 0)
       return xsign;
     // now (x != 0) && (y != 0)
     return compare(x*y.den, y.num);
@@ -351,7 +351,7 @@ rational::operator double() const
       denvar = den;
 
     if (numvar == integer(0)) { return 0; }
-    
+
     const integer MDP = 1000000;    // my_double_precision
     long s = 0;
     integer quot = (numvar / denvar); // integer quotient
@@ -381,7 +381,7 @@ rational::operator double() const
       for (int i = 0; i > s; i--) { result *= 10; };
     }
     return result;
-  }; 
+  };
 */
 // floor, ceil und round besser durch schooldiv
 integer floor(const rational& r)
@@ -393,7 +393,7 @@ integer floor(const rational& r)
 
 integer ceil(const rational& r)
   { integer x;
-    x = r.num/r.den; 
+    x = r.num/r.den;
     if ((sign(r.num) == -1) && (r.num%r.den != 0)) x++;
     return x;
   };
@@ -411,7 +411,7 @@ integer round(const rational& r)
   }
 */
 
-istream& operator>> (istream& in, rational& r)
+std::istream& operator>> (std::istream& in, rational& r)
   { // Format: "r.num / r.den"
     integer rx, ry;
     char c;
@@ -419,13 +419,13 @@ istream& operator>> (istream& in, rational& r)
     in.putback(c);
 
     in >> rx;
-   
+
     do in.get(c); while (isspace(c));
     if (c != '/') { error_handler(1,"/ expected"); }
 
     do in.get(c); while (isspace(c));
     in.putback(c);
-   
+
     in >> ry;
     r = rational(rx,ry);
     // to guarantee the value is normalized, denominator is nonzero ...

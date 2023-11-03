@@ -8,14 +8,14 @@ struct Simple1 {
    string str;
 };
 
-void Print(const Simple1& x, ostream& out) { out << x.str; }
+void Print(const Simple1& x, std::ostream& out) { out << x.str; }
 
 
 struct Simple2 {
    integer i;
 };
 
-void Print(const Simple2& x, ostream& out) { out << x.i; }
+void Print(const Simple2& x, std::ostream& out) { out << x.i; }
 
 struct Simple3 {
    real r;
@@ -24,7 +24,7 @@ Simple3(int i) { r = i; }
 Simple3() { r = 0; }
 };
 
-void Print(const Simple3& x, ostream& out) { out << x.r; }
+void Print(const Simple3& x, std::ostream& out) { out << x.r; }
 
 
 
@@ -49,11 +49,11 @@ int main()
    int i = 0;
    node v;
    forall_nodes(v,G1) A[v] = i++;
-   forall_nodes(v,G1) { Print(A[v],cout); cout << endl; }
+   forall_nodes(v,G1) { Print(A[v],cout); std::cout << std::endl; }
 
- 
+
    edge e;
-   forall_edges(e,G1)  cout << B[e] << endl;
+   forall_edges(e,G1)  std::cout << B[e] << std::endl;
 
    return 0;
 }

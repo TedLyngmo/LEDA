@@ -10,25 +10,25 @@ public:
 pair() { x = y = 0; }
 pair(const pair& p) { x = p.x; y = p.y; }
 
-friend istream& operator>>(istream& is, pair& p)
+friend std::istream& operator>>(istream& is, pair& p)
 { return is >> p.x >> p.y; }
 
-friend ostream& operator<<(ostream& os, const pair& p)
+friend std::ostream& operator<<(ostream& os, const pair& p)
 { return os << p.x << " " << p.y; }
 
 friend int compare(const pair&, const pair&);
 
 };
 
-void Print(const pair& p, ostream& out)  { out << p; } 
-void Read(pair& p, istream& in)  { in >> p; } 
+void Print(const pair& p, std::ostream& out)  { out << p; }
+void Read(pair& p, std::istream& in)  { in >> p; }
 
 int compare(const pair& p, const pair& q)
-{  if (p.x < q.x) return -1; 
-   if (p.x > q.x) return  1; 
-   if (p.y < q.y) return -1; 
-   if (p.y > q.y) return  1; 
-   return 0;  
+{  if (p.x < q.x) return -1;
+   if (p.x > q.x) return  1;
+   if (p.y < q.y) return -1;
+   if (p.y > q.y) return  1;
+   return 0;
 }
 
 
@@ -37,7 +37,7 @@ LEDA_TYPE_PARAMETER(pair)
 #endif
 
 
-main()
+int main()
 {
    list<pair> L;
 

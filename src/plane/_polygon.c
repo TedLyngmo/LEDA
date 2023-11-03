@@ -5,15 +5,15 @@
 +  _polygon.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/polygon.h>
 #include <LEDA/plane_alg.h>
 #include <LEDA/map.h>
-#include <math.h>
+#include <cmath>
 
 
 //------------------------------------------------------------------------------
@@ -21,15 +21,15 @@
 //------------------------------------------------------------------------------
 
 
-ostream& operator<<(ostream& out, const polygon& p) 
+std::ostream& operator<<(std::ostream& out, const polygon& p)
 { p.vertices().print(out);
-  return out << endl;
- } 
+  return out << std::endl;
+ }
 
-istream& operator>>(istream& in,  polygon& p) 
-{ list<point> L; 
-  L.read(in,'\n'); 
-  p = polygon(L); 
+std::istream& operator>>(std::istream& in,  polygon& p)
+{ list<point> L;
+  L.read(in,'\n');
+  p = polygon(L);
   return in;
 }
 
@@ -67,7 +67,7 @@ static void check_simplicity(const list<segment>& seg_list)
 
 
 polygon::polygon(const list<point>& pl)
-{ 
+{
   list<segment> seglist;
 
   for(list_item it = pl.first(); it; it = pl.succ(it))
@@ -139,11 +139,11 @@ bool polygon::inside(const point& p) const
 
   forall_items(it,seglist)
   { segment s = seglist[it];
-    if (s.xcoord2() < x0) 
+    if (s.xcoord2() < x0)
     { it0 = it;
       x0 = s.xcoord2();
      }
-    if (s.xcoord2() > x1) 
+    if (s.xcoord2() > x1)
     { it1 = it1;
       x1 = s.xcoord2();
      }
@@ -175,7 +175,7 @@ list<point> polygon::intersection(const segment& s) const
   segment t;
   point p;
 
-  forall(t,ptr()->seg_list) 
+  forall(t,ptr()->seg_list)
     if (s.intersection(t,p))
      if (result.empty()) result.append(p);
      else if (p != result.tail() ) result.append(p);
@@ -189,7 +189,7 @@ list<point> polygon::intersection(const line& l) const
   segment t;
   point p;
 
-  forall(t,ptr()->seg_list) 
+  forall(t,ptr()->seg_list)
     if (l.intersection(t,p))
      if (result.empty()) result.append(p);
      else if (p != result.tail() ) result.append(p);
@@ -218,18 +218,18 @@ static bool test_edge(GRAPH<point,segment>& G, edge i1, int mode)
 
   if (mode == 0) // intersection
   { if (orientation(si1,si2.source()) > 0)
-      return orientation(si1,p1) > 0 && orientation(si2,p1) < 0 && 
+      return orientation(si1,p1) > 0 && orientation(si2,p1) < 0 &&
              orientation(si1,p2) > 0 && orientation(si2,p2) < 0;
    else
-      return (orientation(si1,p1) > 0 || orientation(si2,p1) < 0) && 
+      return (orientation(si1,p1) > 0 || orientation(si2,p1) < 0) &&
              (orientation(si1,p2) > 0 || orientation(si2,p2) < 0);
   }
   else // union
   { if (orientation(si1,si2.source()) < 0)
-      return orientation(si1,p1) < 0 && orientation(si2,p1) > 0 && 
+      return orientation(si1,p1) < 0 && orientation(si2,p1) > 0 &&
              orientation(si1,p2) < 0 && orientation(si2,p2) > 0;
    else
-      return (orientation(si1,p1) < 0 || orientation(si2,p1) > 0) && 
+      return (orientation(si1,p1) < 0 || orientation(si2,p1) > 0) &&
              (orientation(si1,p2) < 0 || orientation(si2,p2) > 0);
    }
 }
@@ -237,7 +237,7 @@ static bool test_edge(GRAPH<point,segment>& G, edge i1, int mode)
 
 
 static edge next_edge(GRAPH<point,segment>& G, edge i1, int dir)
-{ 
+{
   // if dir = +1 turn left
   // if dir = -1 turn right
 
@@ -279,8 +279,8 @@ list_polygon_ polygon::intersection(const polygon& P) const
   bool borders_intersect = false;
 
   node v;
-  forall_nodes(v,G) 
-    if (degree(v) > 2) 
+  forall_nodes(v,G)
+    if (degree(v) > 2)
     { borders_intersect = true;
       break;
      }
@@ -293,7 +293,7 @@ list_polygon_ polygon::intersection(const polygon& P) const
     segment s2 = P.ptr()->seg_list.head();
 
     if ( P.inside(s1.start()) ) result.append(*this);
-    if ( inside(s2.start()) ) result.append(P);                   
+    if ( inside(s2.start()) ) result.append(P);
 
     return result;
 
@@ -302,7 +302,7 @@ list_polygon_ polygon::intersection(const polygon& P) const
   edge_array<bool> marked(G,false);
 
   edge e;
-  forall_edges(e,G) 
+  forall_edges(e,G)
     if ( ! marked[e] && test_edge(G,e,0) )
     { list<segment> pol;
       edge start = e;
@@ -340,7 +340,7 @@ list_polygon_ polygon::unite(const polygon& P) const
     segment s2 = P.ptr()->seg_list.head();
 
     if ( ! P.inside(s1.start())) result.append(*this);
-    if ( ! inside(s2.start())) result.append(P);                   
+    if ( ! inside(s2.start())) result.append(P);
 
     return result;
 
@@ -349,7 +349,7 @@ list_polygon_ polygon::unite(const polygon& P) const
   edge_array<bool> marked(G,false);
 
   edge e;
-  forall_edges(e,G) 
+  forall_edges(e,G)
     if ( ! marked[e] && test_edge(G,e,1) )
     { list<segment> pol;
       edge start = e;

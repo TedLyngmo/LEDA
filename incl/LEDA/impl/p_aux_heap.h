@@ -5,9 +5,9 @@
 +  p_aux_heap.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_PAIRING_AUX_HEAP_H
@@ -24,7 +24,7 @@
 
 class p_aux_heap:public p_heap
 {
-	
+
 	ph_item* head,*minptr;
 	int item_count;
 
@@ -35,16 +35,16 @@ class p_aux_heap:public p_heap
 	virtual void clear_inf(GenPtr&) const {}
 	virtual void copy_key(GenPtr&)  const {}
 	virtual void copy_inf(GenPtr&)  const {}
- 
+
 	virtual int  int_type() const { return 0; }
 
 	void do_copy(ph_item*,ph_item*,bool);
 	ph_item* twopass(ph_item*);
 	ph_item* multipass(ph_item*);
-	
+
 public:
-	
-	
+
+
 	p_aux_heap();
 
 	p_aux_heap(int)     { error_handler(1,"no p_heap(int) constructor");}
@@ -64,20 +64,20 @@ public:
 
 	GenPtr key(ph_item* x) const {return x->key;}
 	GenPtr inf(ph_item* x) const {return x->inf;}
-	
+
 	void change_inf(ph_item* x,GenPtr inf)
 		{clear_inf(x->inf);copy_inf(inf);x->inf=inf;}
 
 	void del_item(ph_item* x)
 		{decrease_key(x,minptr->key);delete_min_twopass();}
-	
-	void clear() 
+
+	void clear()
 		{p_heap::clear();item_count=0;}
 	int  size() const { return item_count;}
 	int  empty() const {return item_count;}
 
-		
-};	
+
+};
 
 
 

@@ -5,9 +5,9 @@
 +  _m_heap.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/impl/m_heap.h>
@@ -28,14 +28,14 @@ void m_heap::clear()
   count = 0;
   start = 0;
   offset = 0;
-} 
+}
 
 m_heap_item m_heap::first_item() const
 { list_item it = L.first();
   while (it && L.inf(it) == Convert(MAXINT)) it = L.succ(it);
   return it;
  }
-  
+
 m_heap_item m_heap::next_item(m_heap_item it) const
 { it = L.succ(it);
   while (it && L.inf(it) == Convert(MAXINT)) it = L.succ(it);
@@ -47,21 +47,21 @@ m_heap_item m_heap::insert(GenPtr kk, GenPtr info)   // int key
   int k;
   if (count)
    { find_min();
-     k = key-offset; 
+     k = key-offset;
     }
-  else 
+  else
    { start = key%M;
      k = 0;
      offset = key;
     }
 
-  if (k<0 || k>=M) 
+  if (k<0 || k>=M)
    error_handler(1,string("m_heap insert: illegal key %d \n",key));
 
   copy_inf(info);
 
   count++;
-  return L.insert(info,T[(start+k)%M]); 
+  return L.insert(info,T[(start+k)%M]);
 }
 
 m_heap_item m_heap::find_min() const
@@ -89,10 +89,10 @@ GenPtr m_heap::del_min()
   return 0;
 }
 
-void m_heap::del_item(m_heap_item it) 
+void m_heap::del_item(m_heap_item it)
 { GenPtr x = L.contents(it);
   clear_inf(x);
-  L.del(it); 
+  L.del(it);
   count--;
 }
 
@@ -100,9 +100,9 @@ void m_heap::change_key(m_heap_item it, GenPtr kk)  // int key
 { int key = LEDA_ACCESS(int,kk);
   find_min();
   GenPtr inf = L.contents(it);
-  L.del(it); 
+  L.del(it);
   int k = key - offset;
-  if (k<0 || k>=M) 
+  if (k<0 || k>=M)
    error_handler(1,string("m_heap change key: illegal key %d\n",key));
   L.insert(inf,T[(start+k)%M]);
 }
@@ -110,18 +110,18 @@ void m_heap::change_key(m_heap_item it, GenPtr kk)  // int key
 
 void m_heap::print() const
 { m_heap_item p;
-  cout << string("count = %d   start = %d   offset = %d\n",count,start,offset);
-  for (int i=0;i<M;i++) 
+  std::cout << string("count = %d   start = %d   offset = %d\n",count,start,offset);
+  for (int i=0;i<M;i++)
   if (L.contents(L.succ(T[i])) != Convert(MAXINT))
-  { cout << string("%3d: ",i);
+  { std::cout << string("%3d: ",i);
     p = L.succ(T[i]);
     while (L.contents(p) != Convert(MAXINT))
-     { cout << string("(%d) ",L.contents(p));
+     { std::cout << string("(%d) ",L.contents(p));
        p = L.succ(p);
       }
-   cout << "\n";
+   std::cout << "\n";
    }
-   cout << "\n";
+   std::cout << "\n";
 }
 
 

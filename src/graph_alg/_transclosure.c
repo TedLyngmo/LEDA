@@ -5,9 +5,9 @@
 +  _transclosure.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -32,7 +32,7 @@ node v,w;
 int i,j,k,h;
 int n = G.number_of_nodes();
 
-TOPSORT1(G); 
+TOPSORT1(G);
 
 node_array<int> marked(G);
 node_array<int> top_ord(G);   // topologic order
@@ -54,20 +54,20 @@ forall_nodes(v,G) { marked[v]=1; top_ord[v] = i; N[i]=v; i++; }
 // compute chain decomposition C[0], C[1], ..., C[k]
 
 k=0;
-forall_nodes(v,G) 
+forall_nodes(v,G)
  { node v0 = v;
    if (marked[v0])
-    {  C[k].append(v0);  
+    {  C[k].append(v0);
        chain[v0]=k;
        while (v0 != nil)
        { node u = nil;
-         forall_adj_nodes(w,v0) 
-           if (marked[w]) 
+         forall_adj_nodes(w,v0)
+           if (marked[w])
            {  u = w;
-              break; 
+              break;
             }
 
-         if (u != nil) 
+         if (u != nil)
          { marked[u]=0;
            chain[u]=k;
            C[k].append(u);
@@ -128,7 +128,7 @@ graph TRANSITIVE_CLOSURE(const graph& G0)
   node_array<int> compnum(G);
   int k = STRONG_COMPONENTS(G,compnum);
 
-/* reduce graph G to graph G1 = (V',E') 
+/* reduce graph G to graph G1 = (V',E')
    with V' = { V[0],V[1],...,V[k] } = set of scc's of G
    and (V[i],V[j]) in E' iff there is an edge from V[i] to V[j] in G
 
@@ -141,11 +141,11 @@ graph TRANSITIVE_CLOSURE(const graph& G0)
 
   for(j=0; j < k; j++) V[j] = G1.new_node(new list<node>);
 
-  forall_nodes(v,G) 
+  forall_nodes(v,G)
   { int i = compnum[v];
     G1[V[i]]->append(v);
    }
-  
+
   forall_edges(e,G)
   { i = compnum[source(e)];
     j = compnum[target(e)];
@@ -153,7 +153,7 @@ graph TRANSITIVE_CLOSURE(const graph& G0)
    }
 
   Make_Simple(G1);  // eliminate parallel edges
-  
+
   // compute transitive closure of acyclic graph G1
 
   acyclic_transitive_closure(G1);
@@ -166,13 +166,13 @@ graph TRANSITIVE_CLOSURE(const graph& G0)
     { list<node>* plw = G1[w];
       list_item x,y;
       forall_items(x,*plv)
-         forall_items(y,*plw) 
+         forall_items(y,*plw)
             G.new_edge(plv->inf(x),plw->inf(y));
      }
    }
 
    forall_nodes(v,G1) delete G1[v];
-  
+
    delete V;
 
    return G;

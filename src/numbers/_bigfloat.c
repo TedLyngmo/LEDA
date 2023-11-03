@@ -5,9 +5,9 @@
 +  _bigfloat.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -18,17 +18,17 @@
 
 
 #include <LEDA/bigfloat.h>
-#include <iostream.h>
-#include <stdio.h>
-#include <math.h>
-#include <string.h>
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+#include <cstring>
 
 
 
 
-void binout(ostream & os, integer);
-void exact_decimal_output(ostream &, bigfloat, long = MAX_PREC);
-void decimal_output(ostream &, bigfloat);
+void binout(std::ostream & os, integer);
+void exact_decimal_output(std::ostream &, bigfloat, long = MAX_PREC);
+void decimal_output(std::ostream &, bigfloat);
 integer powl(const integer &, long);
 bigfloat dec_round(bigfloat, long);
 integer b_round(const integer &, long, rounding_modes = TO_NEAREST);
@@ -67,7 +67,7 @@ long output = DEC_OUT;
 
 
 
-void binout(ostream & os, integer b)
+void binout(std::ostream & os, integer b)
 {
   char temp[bin_maxlen];
   long flag = 0, count = 0;
@@ -217,7 +217,7 @@ bigfloat dec_round(bigfloat b, long prec)
 
 
 /*
-void exact_decimal_output (ostream &os,bigfloat b,long prec)
+void exact_decimal_output (std::ostream &os,bigfloat b,long prec)
 {
   if (sign(b)==-1)
   {
@@ -246,7 +246,7 @@ void exact_decimal_output (ostream &os,bigfloat b,long prec)
 */
 
 
-void decimal_output(ostream & os, bigfloat b)
+void decimal_output(std::ostream & os, bigfloat b)
 {
   if (!b.get_exponent().islong())
     error_handler(1, "decimal_output: not implemented for large exponents");
@@ -879,20 +879,20 @@ long non_zero_sign(const bigfloat & b)
 void bigfloat::print_contents(void) const
 {
   integer s = significant, e = exponent;
-  cout << "Significant: ";
+  std::cout << "Significant: ";
   if (s < 0) {
-    cout << "-";
+    std::cout << "-";
     s = s * integer(-1);
   }
-  binout(cout, s);
-  cout << "\n";
-  cout << "Exponent: ";
+  binout(std::cout, s);
+  std::cout << "\n";
+  std::cout << "Exponent: ";
   if (e < 0) {
-    cout << "-";
+    std::cout << "-";
     e = e * integer(-1);
   }
-  binout(cout, e);
-  cout << "\n";
+  binout(std::cout, e);
+  std::cout << "\n";
 }
 
 
@@ -1315,7 +1315,7 @@ bigfloat sqrt(const bigfloat & a, long prec, rounding_modes mode)
   ne.exponent = ne.exponent + (a.exponent / integer(2));
   t_prec = 52;
 
-/* cout Startwert */
+/* std::cout Startwert */
 
 
 
@@ -1399,7 +1399,7 @@ bigfloat & bigfloat::operator = (const bigfloat & b) {
 
 
 
-ostream & operator << (ostream & os, const bigfloat & b) {
+std::ostream & operator << (std::ostream & os, const bigfloat & b) {
   if (1) {			/* if isSpecial */
     if (isNaN(b))
       return os << "NaN";
@@ -1432,7 +1432,7 @@ ostream & operator << (ostream & os, const bigfloat & b) {
     decimal_output(os, b);
   return os;
 }
-istream & operator >> (istream & is, bigfloat & b) {
+std::istream & operator >> (std::istream & is, bigfloat & b) {
   char temp[bin_maxlen];	/* z.Z. nur binaere-Exponentialeingabe
 				 * moeglich */
   is >> temp;

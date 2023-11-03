@@ -49,23 +49,23 @@ void DELAUNAY_FLIPPING(GRAPH<point,edge>& G)
 #define next_face_edge(x)  G.cyclic_adj_pred(G[x])
 
   edge e;
-  forall_edges(e,G) 
+  forall_edges(e,G)
     if (It[e] == nil && flip_test(G,e)) It[G[e]] = It[e] = L.append(e);
 
   while ( !L.empty() )
   { flip_count++;
 
     edge e = L.pop();
-    edge x = G.cyclic_adj_pred(e); 
+    edge x = G.cyclic_adj_pred(e);
 
     // delete diagonal
     G.del_edge(G[e]);
     G.del_edge(e);
 
     // collect face edges of quadriliteral
-    for(int i = 0; i < 4; i++) 
-    { E[i] = x; 
-      x = next_face_edge(x); 
+    for(int i = 0; i < 4; i++)
+    { E[i] = x;
+      x = next_face_edge(x);
      }
 
     // insert new diagonal
@@ -73,12 +73,12 @@ void DELAUNAY_FLIPPING(GRAPH<point,edge>& G)
     G[e] = G.new_edge(E[3],source(E[1]),e);
 
 
-    // test collected edges 
+    // test collected edges
     for(int j=0; j<4; j++)
     { edge e = E[j];
       if (flip_test(G,e))
-        { if (It[e] == nil) 
-          It[G[e]] = It[e] = L.push(e); 
+        { if (It[e] == nil)
+          It[G[e]] = It[e] = L.push(e);
          }
       else
           if (It[e] != nil)
@@ -98,7 +98,7 @@ random_source& operator>>(random_source& R, point& p)
   return R;
 }
 
-main()
+int main()
 {
    int N = read_int("N = ");
 
@@ -107,7 +107,7 @@ main()
 
    ran.set_seed(12345*N);
 
-   for(int i=0; i<N; i++) 
+   for(int i=0; i<N; i++)
    { point p;
      ran >> p;
      L.append(p);
@@ -120,7 +120,7 @@ main()
    flip_count = 0;
    TRIANGULATE_POINTS(L,G);
    DELAUNAY_FLIPPING(G);
-   cout << string("flips = %d   time = %.2f", flip_count,used_time(T)) << endl;
+   std::cout << string("flips = %d   time = %.2f", flip_count,used_time(T)) << std::endl;
 
    return 0;
 }

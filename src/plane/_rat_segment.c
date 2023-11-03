@@ -5,14 +5,14 @@
 +  _rat_segment.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/rat_segment.h>
-#include <math.h>
-#include <ctype.h>
+#include <cmath>
+#include <cctype>
 
 //------------------------------------------------------------------------------
 // rat_segment : segments with rational coordinates
@@ -33,7 +33,7 @@ rat_segment_rep::rat_segment_rep(const rat_point& p, const rat_point& q) : start
   dy = q.Y()*p.W() - p.Y()*q.W();
   dxd = dx.todouble();
   dyd = dy.todouble();
-  id  = id_counter++; 
+  id  = id_counter++;
  }
 
 rat_segment_rep::rat_segment_rep() : start(0,0,1), end(0,0,1)
@@ -41,9 +41,9 @@ rat_segment_rep::rat_segment_rep() : start(0,0,1), end(0,0,1)
   dy  = 0;
   dxd = 0;
   dyd = 0;
-  id  = id_counter++; 
+  id  = id_counter++;
  }
-  
+
 
 int rat_segment::use_filter = true;
 
@@ -58,15 +58,15 @@ rat_segment rat_segment::translate(const vector& v) const
 */
 
 
-ostream& operator<<(ostream& out, const rat_segment& s) 
-{ out << "[" << s.start() << "===" << s.end() << "]"; 
+std::ostream& operator<<(std::ostream& out, const rat_segment& s)
+{ out << "[" << s.start() << "===" << s.end() << "]";
   return out;
- } 
+ }
 
-istream& operator>>(istream& in, rat_segment& s) 
+std::istream& operator>>(std::istream& in, rat_segment& s)
 { // syntax: {[} p {===} q {]}
 
-  rat_point p,q; 
+  rat_point p,q;
   char c;
 
   do in.get(c); while (isspace(c));
@@ -79,15 +79,15 @@ istream& operator>>(istream& in, rat_segment& s)
   while (isspace(c)) in.get(c);
   in.putback(c);
 
-  in >> q; 
+  in >> q;
 
   do in.get(c); while (c == ' ');
   if (c != ']') in.putback(c);
 
-  s = rat_segment(p,q); 
-  return in; 
+  s = rat_segment(p,q);
+  return in;
 
- } 
+ }
 
 
 
@@ -120,10 +120,10 @@ double  rat_segment::x_proj(double y)  const
 
 
 bool rat_segment::intersection(const rat_segment& s, rat_point& I) const
-{ 
-  // decides whether |s| and |this| segment intersect and, if so, 
-  // returns the intersection in |I|. It is assumed that both segments 
-  // have non-zero length 
+{
+  // decides whether |s| and |this| segment intersect and, if so,
+  // returns the intersection in |I|. It is assumed that both segments
+  // have non-zero length
 
   integer w = dy()*s.dx() - s.dy()*dx();
 
@@ -135,7 +135,7 @@ bool rat_segment::intersection(const rat_segment& s, rat_point& I) const
 
   /* The underlying lines intersect in a point $p = (x,y,w)$.
      We still have to test whether $p$ lies on both segments.
-     $p$ lies on $s$ ($this$)if its x-coordinate $x$ compares 
+     $p$ lies on $s$ ($this$)if its x-coordinate $x$ compares
      diffently with the x-coordinates of the two endpoints of $s$ ($this).
    */
 
@@ -156,12 +156,12 @@ bool rat_segment::intersection(const rat_segment& s, rat_point& I) const
   return true;
 
 }
- 
+
 
 bool rat_segment::intersection_of_lines(const rat_segment& s, rat_point& inter) const
-{ 
-  /* decides whether the lines induced by |s| and |this| segment 
-     intersect and, if so, returns the intersection in |inter|. 
+{
+  /* decides whether the lines induced by |s| and |this| segment
+     intersect and, if so, returns the intersection in |inter|.
      It is assumed that both segments have non-zero length
    */
 
@@ -182,12 +182,12 @@ const double eps0 = ldexp(1,-53);
 const double eps2 = ldexp(1,-47); // 64 * eps0
 
 int cmp_slopes(const rat_segment& s1, const rat_segment& s2)
-{ 
+{
   if (rat_segment::use_filter)
-  { 
+  {
     double dy1dx2 = s1.dyd()*s2.dxd();
     double dy2dx1 = s2.dyd()*s1.dxd();
-    double E = dy1dx2 - dy2dx1; 
+    double E = dy1dx2 - dy2dx1;
 
     //-----------------------------------------------------------------------
     //  ERROR BOUNDS
@@ -205,16 +205,16 @@ int cmp_slopes(const rat_segment& s1, const rat_segment& s2)
     // eps(E) = ind(E) * mes(E) * eps0
     //        = 16 * (fabs(dy1dx2) + fabs(dy2dx2)) * eps0
     //-----------------------------------------------------------------------
-  
+
     FABS(dy1dx2);
     FABS(dy2dx1);
     double eps = 16 * (dy1dx2+dy2dx1) * eps0;
-  
+
     if (E >  eps) return  1;
     if (E < -eps) return -1;
     if (eps < 1)  return 0;
   }
-  
+
   // use big integers
 
   return sign(s1.dy() * s2.dx() - s2.dy() * s1.dx());
@@ -223,19 +223,19 @@ int cmp_slopes(const rat_segment& s1, const rat_segment& s2)
 
 
 int orientation(const rat_segment& s, const rat_point& p)
-{ 
+{
   rat_point a = s.start();
 
   if (rat_segment::use_filter)
-  { 
+  {
     double dx = s.dxd();
     double dy = s.dyd();
     double axpw = a.XD() * p.WD();
     double aypw = a.YD() * p.WD();
     double pxaw = p.XD() * a.WD();
     double pyaw = p.YD() * a.WD();
-  
-    double E =  dy * (axpw - pxaw) - dx * (aypw - pyaw); 
+
+    double E =  dy * (axpw - pxaw) - dx * (aypw - pyaw);
 
     //-----------------------------------------------------------------------
     //  ERROR BOUNDS
@@ -257,22 +257,22 @@ int orientation(const rat_segment& s, const rat_point& p)
     //        =  (0.5 + (1.5 + 1.5 + 1)/2 + 0.5
     //            0.5 + (1.5 + 1.5 + 1)/2 + 0.5 + 1)/2
     //        =  (0.5 + 2 + 0.5 + 0.5 + 2 + 0.5 + 1)/2
-    //        =  3.5 
+    //        =  3.5
     //
     // mes(E) = ind(E) * mes(E) * eps0
     //        = 56 * (fabs(dx) * (fabs(aypw)+fabs(pyaw)) +
     //                fabs(dy) * (fabs(axpw)+fabs(pxaw))) * eps0
     //-----------------------------------------------------------------------
-  
+
     FABS(aypw);
     FABS(pyaw);
     FABS(axpw);
     FABS(pxaw);
     FABS(dx);
     FABS(dy);
-  
+
     double eps = 56 * ((aypw+pyaw)*dx + (axpw+pxaw)*dy) * eps0;
-  
+
     if (E >  eps) return  1;
     if (E < -eps) return -1;
     if (eps < 1)  return 0;
@@ -288,9 +288,9 @@ int orientation(const rat_segment& s, const rat_point& p)
 
 
 
-int cmp_segments_at_xcoord(const rat_segment& s1, const rat_segment& s2, 
+int cmp_segments_at_xcoord(const rat_segment& s1, const rat_segment& s2,
                            const rat_point& r)
-{ 
+{
 
   // filter : still to do
 
@@ -315,17 +315,17 @@ int cmp_segments_at_xcoord(const rat_segment& s1, const rat_segment& s2,
   integer D = sdx * spw * (py * dx * rw + dy * (rx * pw - px * rw))
               - dx * pw * (spy * sdx * rw + sdy * (rx * spw - spx * rw));
 
-  return sign(D); 
+  return sign(D);
 
 }
 
 
 
 bool intersection(const rat_segment& s1, const rat_segment& s2)
-{ 
-  // decides whether |s1| and |s2| intersect 
+{
+  // decides whether |s1| and |s2| intersect
 
-  int o1 = orientation(s1,s2.start()); 
+  int o1 = orientation(s1,s2.start());
   int o2 = orientation(s1,s2.end());
   int o3 = orientation(s2,s1.start());
   int o4 = orientation(s2,s1.end());

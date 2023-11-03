@@ -5,9 +5,9 @@
 +  iv_tree.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -15,7 +15,7 @@
 #define LEDA_IV_TREE_H
 
 //--------------------------------------------------------------------
-//  
+//
 //  Interval Trees
 //
 //  Michael Seel (1990/91)
@@ -81,7 +81,7 @@ typedef split_pair* split_item;
 // zur Abspeicherung der x- und y-orientierten Knotenlisten !!
 // Die Dictionary-Deklaration wird nach erstellen der geeig-
 // neten bb_trees durch diese ersetzt. Bis dahin kostet bei
-// den rb_trees die Vereinigung zweier geordneter Listen 
+// den rb_trees die Vereinigung zweier geordneter Listen
 // (Laenge beider Listen insgesamt n) die Zeit O(n log n)
 // anstatt wie angestrebt O(n) !!!
 // -----------------------------------------------------------
@@ -117,7 +117,7 @@ typedef dictionary<interval_item,int> nodelist;
 typedef nodelist* nodelist_p;
 
 // -------------------------------------------------------
-// class iv_node     
+// class iv_node
 // -------------------------------------------------------
 
 class iv_node {
@@ -147,7 +147,7 @@ public:
         }
 
   iv_node(split_item s_i, leaf_or_node ln=leaf, iv_item ls=0, iv_item rs=0)
-  { 
+  {
     x_nl = new nodelist;
     y_nl = new nodelist;
     split_val = new split_pair(*s_i);
@@ -155,7 +155,7 @@ public:
     son[_right] = rs;
     if (ln==leaf)
 	gr=1;
-    else 
+    else
 	gr = ls->groesse()+rs->groesse();
    }
 
@@ -168,17 +168,17 @@ public:
 
   LEDA_MEMORY(iv_node)
 
-}; 
+};
 
 
 // -------------------------------------------------------
-// class iv_tree     
+// class iv_tree
 // -------------------------------------------------------
 
 class iv_tree {
 
   iv_item root;
-  int   anzahl; 
+  int   anzahl;
   float alpha;
   float d;
   b_stack<iv_item> st;
@@ -198,11 +198,11 @@ class iv_tree {
        return (a) ? a : p->key2 -  q->key2;
     }
 
-  
-  void    lrot(iv_item , iv_item ); 
-  void    rrot(iv_item , iv_item ); 
-  void    ldrot(iv_item , iv_item ); 
-  void    rdrot(iv_item , iv_item ); 
+
+  void    lrot(iv_item , iv_item );
+  void    rrot(iv_item , iv_item );
+  void    ldrot(iv_item , iv_item );
+  void    rdrot(iv_item , iv_item );
   void    reorganize_nodelist(iv_item , iv_item);
   iv_item search(split_item);
   iv_item ins(interval_item,interval_item,int);
@@ -232,7 +232,7 @@ class iv_tree {
   // nodelist_swap vertauscht die Knotenlisten zweier Knoten
 
   void    nodelist_swap(iv_item p, iv_item q)
-	  { 
+	  {
 	    nodelist_p help = p->x_nl;
 	    p->x_nl = q->x_nl;
 	    q->x_nl = help;
@@ -257,7 +257,7 @@ public:
   nodelist_p    x_nodelist(iv_item it)   {return (it) ? it->x_nodelist() : 0;}
   nodelist_p    y_nodelist(iv_item it)   {return (it) ? it->y_nodelist() : 0;}
   split_item    split_value(iv_item it)  {return (it) ? it->split_value() : 0;}
- 
+
  // Operationen auf Intervall-B"aumen:
 
   iv_item         iv_insert(x_typ, x_typ);
@@ -267,14 +267,14 @@ public:
   // zur Datendarstellung folgende Ausgabe-Funktionen:
 
   void          print_split(iv_item);
-  void          text(string s) { cout << s; }
+  void          text(string s) { std::cout << s; }
   void          pr_list(interval_list& il);
-     
+
   void pr_iv_tree() { pr_iv_tree(root,0); }
 
 
-  iv_tree()   :  st(BSTACKSIZE) 
-  { 
+  iv_tree()   :  st(BSTACKSIZE)
+  {
     root = 0;
     anzahl = 0;
     alpha=0.28;
@@ -283,8 +283,8 @@ public:
   }
 
 
-  ~iv_tree()  
-  { 
+  ~iv_tree()
+  {
    if (root)
      deltree(root);
    root = 0;

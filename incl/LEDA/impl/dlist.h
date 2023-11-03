@@ -5,9 +5,9 @@
 +  dlist.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -24,7 +24,7 @@
 // some declarations
 //------------------------------------------------------------------------------
 
-class dlist; 
+class dlist;
 class dlink;
 
 typedef dlink* list_item;
@@ -40,7 +40,7 @@ class dlink {
   GenPtr e;
 
   dlink(GenPtr a, dlink* pre, dlink* suc)
-  { 
+  {
     e = a;
     succ = suc;
     pred = pre;
@@ -75,8 +75,8 @@ class dlist {
 virtual int  cmp(GenPtr, GenPtr) const { return 0; }
 virtual int  ord(GenPtr) const { return 0; }
 virtual void app(GenPtr&) const {}
-virtual void read_el(GenPtr&,istream&) const {}
-virtual void print_el(GenPtr&,ostream&) const {}
+virtual void read_el(GenPtr&,std::istream&) const {}
+virtual void print_el(GenPtr&,std::ostream&) const {}
 virtual void clear_el(GenPtr&) const {}
 virtual void copy_el(GenPtr&)  const {}
 virtual int  int_type() const { return 0; }
@@ -106,9 +106,9 @@ public:
    dlink* pred(dlink* l)        const { return l->pred; }
    dlink* cyclic_succ(dlink*)   const;
    dlink* cyclic_pred(dlink*)   const;
-   dlink* succ(dlink* l, int i) const; 
+   dlink* succ(dlink* l, int i) const;
    dlink* pred(dlink* l, int i) const;
-   dlink* get_item(int = 0)     const; 
+   dlink* get_item(int = 0)     const;
 
    dlink* max() const;
    dlink* min() const;
@@ -127,20 +127,20 @@ protected:
 
    dlink* insert(GenPtr a, dlink* l, int dir=0);
 
-   dlink* push(GenPtr a)   
+   dlink* push(GenPtr a)
    { if (count >= 0) count++;
-     if (h) h = h->pred = new dlink(a,0,h); 
+     if (h) h = h->pred = new dlink(a,0,h);
      else   h = t =  new dlink(a,0,0);
      return h;
     }
-   
+
    dlink* append(GenPtr a)
    { if (count >= 0) count++;
      if (t) t = t->succ = new dlink(a,t,0);
      else   t = h = new dlink(a,0,0);
-     return t; 
-    } 
-   
+     return t;
+    }
+
    void   assign(dlink* l, GenPtr a) { clear_el(l->e); l->e = a; }
 
    void   apply();
@@ -175,7 +175,7 @@ public:
    void set_iterator(dlink* p) const { *(dlink**)&iterator = p; }
    void init_iterator()        const { set_iterator(nil); }
    void reset()                const { set_iterator(nil); }
- 
+
    dlink* get_iterator()       const { return iterator; }
    dlink* move_iterator(int=0) const;
 
@@ -191,31 +191,31 @@ public:
    GenPtr&   operator[](dlink* l)       { return l->e; }
    GenPtr    operator[](dlink* l) const { return l->e; }
 
-   dlist& operator=(const dlist&); 
-   dlist  operator+(const dlist&); 
+   dlist& operator=(const dlist&);
+   dlist  operator+(const dlist&);
 
 
-   void print(ostream&,string, char)       const;    
-   void print(ostream& out,char space=' ') const { print(out,"",space);  }
-   void print(string s, char space=' ')    const { print(cout,s,space);  }
-   void print(char space=' ')              const { print(cout,"",space); }   
+   void print(std::ostream&,string, char)       const;
+   void print(std::ostream& out,char space=' ') const { print(out,"",space);  }
+   void print(string s, char space=' ')    const { print(std::cout,s,space);  }
+   void print(char space=' ')              const { print(std::cout,"",space); }
 
 
-   void read(istream&,string, int);  
+   void read(std::istream&,string, int);
 
-   void read(istream& in,int delim) { read(in,"",delim); }
-   void read(istream& in)           { read(in,"",EOF); }
+   void read(std::istream& in,int delim) { read(in,"",delim); }
+   void read(std::istream& in)           { read(in,"",EOF); }
 
-   void read(string s, int delim)   { read(cin,s,delim); }   
-   void read(string s)              { read(cin,s,'\n'); }   
+   void read(string s, int delim)   { read(std::cin,s,delim); }
+   void read(string s)              { read(std::cin,s,'\n'); }
 
-   void read(char delim)  { read(cin,"",delim);}  
-   void read()            { read(cin,"",'\n');}  
+   void read(char delim)  { read(std::cin,"",delim);}
+   void read()            { read(std::cin,"",'\n');}
 
 
 // constructors & destructors
 
-   dlist();    
+   dlist();
    dlist(GenPtr a);
    dlist(const dlist&);
 
@@ -229,8 +229,8 @@ public:
 #if !defined(__TEMPLATE_FUNCTIONS__)
 // default I/O and cmp functions
 
-inline void Print(const dlist& L,ostream& out) { L.print(out); out << endl; }
-inline void Read(dlist& L, istream& in)        { L.read(in,'\n'); }
+inline void Print(const dlist& L,std::ostream& out) { L.print(out); out << std::endl; }
+inline void Read(dlist& L, std::istream& in)        { L.read(in,'\n'); }
 inline int  compare(const dlist&,const dlist&) { return 0; }
 #endif
 

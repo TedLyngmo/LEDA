@@ -100,7 +100,7 @@ X-Lines: 421
 @s forever while
 @s graph int
 @s int_set int
-@s istream int
+@s std::istream int
 @s list int
 @s list_item int
 @s node int
@@ -109,7 +109,7 @@ X-Lines: 421
 @s node_partition int
 @s node_pq int
 @s num_type int
-@s ostream int
+@s std::ostream int
 @s panel int
 @s partition_item int
 @s partition int

@@ -6,16 +6,16 @@
 
 
 
-void dijkstra(graph& G, 
-              node s, 
-              edge_array<int>&  cost, 
+void dijkstra(graph& G,
+              node s,
+              edge_array<int>&  cost,
               node_array<int>&  dist,
               node_array<edge>& pred,
               p_queue<int,node>&   PQ)
 {
   node_array<pq_item> I(G);
   node v;
-                                                                               
+
   forall_nodes(v,G)
   { pred[v] = nil;
     dist[v] = MAXINT;
@@ -39,7 +39,7 @@ void dijkstra(graph& G,
           PQ.decrease_p(I[v],c);
         dist[v] = c;
         pred[v] = e;
-       }                                                                 
+       }
      }
     PQ.del_item(it);
    }
@@ -55,7 +55,7 @@ void dijkstra(graph& G,
 
 
 
-main()
+int main()
 {
   GRAPH<int,int> G;
 
@@ -93,10 +93,10 @@ main()
   PQ[6] = new _p_queue<int,node,bin_heap>(n);
 
   float T  = used_time();
-  cout << "DIJKSTRA: ";
-  cout.flush();
+  std::cout << "DIJKSTRA: ";
+  std::cout.flush();
   DIJKSTRA(G,s,cost,dist0,pred);
-  cout << string(" %6.2f sec\n",used_time(T));
+  std::cout << string(" %6.2f sec\n",used_time(T));
   newline;
 
   string choice = "0:f_heap 1:k_heap 2:m_heap 3:list_pq 4:p_heap 5:r_heap 6:bin_heap --> ";
@@ -109,14 +109,14 @@ main()
     float T  = used_time();
     dijkstra(G,s,cost,dist,pred,*(PQ[i]));
 
-    cout << string("time: %6.2f sec\n",used_time(T));
+    std::cout << string("time: %6.2f sec\n",used_time(T));
     newline;
 
     node v;
     forall_nodes(v,G)
-       if( dist[v] != dist0[v]) 
+       if( dist[v] != dist0[v])
        { G.print_node(v);
-         cout << string("   dist =  %d   dist0 = %d\n",dist[v],dist0[v]);
+         std::cout << string("   dist =  %d   dist0 = %d\n",dist[v],dist0[v]);
         }
 
    }

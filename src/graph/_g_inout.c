@@ -5,14 +5,14 @@
 +  _g_inout.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #include <LEDA/graph.h>
-#include <fstream.h>
+#include <fstream>
 
 
 //--------------------------------------------------------------------------
@@ -27,7 +27,7 @@ static void put_int(filebuf& fb, int n)
   while (A<E) fb.sputc(*(A++));
 }
 
-static int get_int(istream& from)
+static int get_int(std::istream& from)
 { int n;
   char* A = (char*)&n;
   char* E = A+sizeof(int);
@@ -37,13 +37,13 @@ static int get_int(istream& from)
 */
 
 void graph::write(string file_name) const
-{ ofstream out(file_name);
+{ std::ofstream out(file_name);
   if (out.fail()) error_handler(1,"write: cannot open file");
   write(out);
 }
 
 
-void graph::write(ostream& out) const
+void graph::write(std::ostream& out) const
 {
   int* A = new int[max_n_index+2];
 
@@ -54,13 +54,13 @@ void graph::write(ostream& out) const
   out << "LEDA.GRAPH\n";
   out << node_type() << "\n";
   out << edge_type() << "\n";
- 
+
   out << V.length() << "\n";
 
   node v;
   forall_nodes(v,*this)
   { write_node_entry(out,v->data[0]);
-    out << endl;
+    out << std::endl;
     A[v->name] = count++;
    }
 
@@ -69,18 +69,18 @@ void graph::write(ostream& out) const
   forall_edges(e,*this)
   { out << A[e->s->name] << " " << A[e->t->name] << " ";
     write_edge_entry(out,e->data[0]);
-    out << endl;
+    out << std::endl;
    }
 delete A;
 }
 
 int graph::read(string file_name)
-{ ifstream in(file_name);
+{ std::ifstream in(file_name);
   if (in.fail())  return 1;
   return read(in);
 }
 
-int graph::read(istream& in)
+int graph::read(std::istream& in)
 { int result = 0;
 
   clear();
@@ -105,7 +105,7 @@ int graph::read(istream& in)
 
   // since Type_Name currently does not work for user defined types
   // (produces the string "unknown") we allow "unknown" to match
-  // any node_type 
+  // any node_type
 
   if (this_n_type != "unknown" && n_type != this_n_type)
   { if (this_n_type != "void") result = 2;   // incompatible node types
@@ -119,7 +119,7 @@ int graph::read(istream& in)
     { A[i] = new_node(0);
       read_node_entry(in,A[i]->data[0]);
      }
- 
+
   in >> n;       // number of edges
 
   if (this_e_type != "unknown" && e_type != this_e_type)   // see above remark
@@ -140,7 +140,7 @@ int graph::read(istream& in)
 }
 
 
-void graph::print_node(node v,ostream& o) const
+void graph::print_node(node v,std::ostream& o) const
 { if (super() != 0)
      super()->print_node(node(graph::inf(v)),o);
   else
@@ -149,7 +149,7 @@ void graph::print_node(node v,ostream& o) const
       }
 }
 
-void graph::print_edge(edge e,ostream& o) const
+void graph::print_edge(edge e,std::ostream& o) const
 { if (super() != 0)
      super()->print_edge(edge(graph::inf(e)),o);
   else
@@ -162,16 +162,16 @@ void graph::print_edge(edge e,ostream& o) const
 }
 
 
-void graph::print(string s, ostream& out) const
+void graph::print(string s, std::ostream& out) const
 { node v;
   edge e;
-  out << s << endl;
+  out << s << std::endl;
   forall_nodes(v,*this)
   { print_node(v,out);
     out << " : ";
     forall_adj_edges(e,v) print_edge(e,out);
-    out << endl;
+    out << std::endl;
    }
-  out << endl;
+  out << std::endl;
 }
 

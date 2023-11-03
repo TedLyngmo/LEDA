@@ -1481,7 +1481,7 @@ the graph |G| and then give the user the choice of a new input graph.
 
 @<includes@>;
 @<procedure to draw graphs@>;
-main(){
+int main(){
 @<initiation and declarations@>;
 while (true){
 @<select graph@>;

@@ -4,12 +4,12 @@
 
 void print(d_array<string,string> A)  // by value
 { string s;
-  forall_defined(s,A) cout << s << "  " << A[s] << endl;
+  forall_defined(s,A) std::cout << s << "  " << A[s] << std::endl;
   newline;
  }
 
-main()
-{ 
+int main()
+{
   d_array<string,string> trans, D;
 
   trans["hello"]  = "hallo";

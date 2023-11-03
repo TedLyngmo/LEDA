@@ -5,9 +5,9 @@
 +  b_heap.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_BHEAP_H
@@ -30,8 +30,8 @@ int key;
 GenPtr info;
 list_item loc;
 
-b_heap_node(int k, GenPtr i ) 
-{ 
+b_heap_node(int k, GenPtr i )
+{
   key = k; info = i; loc = 0; }
 
   LEDA_MEMORY(b_heap_node)
@@ -49,7 +49,7 @@ class b_heap {
     int max;
     int low;
     int high;
-    
+
     array<b_heap_bucket>  T;
 
 

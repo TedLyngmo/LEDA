@@ -5,9 +5,9 @@
 +  _graph_edit.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/graph_edit.h>
@@ -38,7 +38,7 @@ static void draw_node_cursor(point q, double dx, double dy)
   point q1(q.xcoord()+dx, q.ycoord()+dy);
   forall(p,cursor_in_edges) Wp->draw_edge(p,q1);
   forall(p,cursor_out_edges) Wp->draw_edge(q1,p);
-  Wp->draw_node(q1); 
+  Wp->draw_node(q1);
 }
 
 
@@ -50,10 +50,10 @@ static void draw_node(node v)
 
 
 static void draw_edge(node v, node w)
-{ 
+{
   // M(v,w) = number of edges from v to w (defines thickness of drawn edge)
 
-  if (v == w) return; // still cannot draw self-loops 
+  if (v == w) return; // still cannot draw self-loops
 
   if (M(v,w) == 0) return;  // there is no edge (v,w)
 
@@ -61,14 +61,14 @@ static void draw_edge(node v, node w)
 
   segment s(Gp->inf(v),Gp->inf(w));
 
-  if (directed) 
+  if (directed)
     if (M(w,v) == 0)
        Wp->draw_edge_arrow(s,edge_color);
     else
        Wp->draw_arc_edge_arrow(s,0.7*s.length(),edge_color);
-  else 
+  else
     if (M(w,v) == 0)
-       Wp->draw_edge(s,edge_color); 
+       Wp->draw_edge(s,edge_color);
     else
        Wp->draw_arc_edge(s,0.7*s.length(),edge_color);
 
@@ -108,7 +108,7 @@ void init_matrix(const graph& g)
 
 static void read_graph(window& W, GRAPH<point,int>& G,string s,bool clear=false)
 {
-  if (s=="") 
+  if (s=="")
   { message(W,"No file.");
     return;
    }
@@ -121,7 +121,7 @@ static void read_graph(window& W, GRAPH<point,int>& G,string s,bool clear=false)
 
   int x = X.read(s);
 
-  if (x == 1) 
+  if (x == 1)
   { message(W,string("Cannot open file %s.",~s));
     return;
    }
@@ -134,21 +134,21 @@ static void read_graph(window& W, GRAPH<point,int>& G,string s,bool clear=false)
       X[v] = point(rand_int(min,max), rand_int(min,max));
    }
 
-  if (clear) 
-  { G.clear(); 
-    W.clear(); 
+  if (clear)
+  { G.clear();
+    W.clear();
    }
 
   node_array<node> corr(X);
 
-  forall_nodes(v,X) 
+  forall_nodes(v,X)
   { node u = G.new_node(X[v]);
     corr[v] = u;
     draw_node(u);
    }
 
   edge e;
-  forall_edges(e,X) 
+  forall_edges(e,X)
   { v = corr[source(e)];
     w = corr[target(e)];
     G.new_edge(v,w);
@@ -158,7 +158,7 @@ static void read_graph(window& W, GRAPH<point,int>& G,string s,bool clear=false)
   if (clear) init_matrix(G);
 
   forall_nodes(v,G)
-     forall_nodes(w,G) 
+     forall_nodes(w,G)
         draw_edge(v,w);
 
 }
@@ -166,7 +166,7 @@ static void read_graph(window& W, GRAPH<point,int>& G,string s,bool clear=false)
 
 
 static void save_graph(window& W, GRAPH<point,int>& G,string s)
-{ if (s=="") 
+{ if (s=="")
   { message(W,"Cannot open file.");
     return;
    }
@@ -226,21 +226,21 @@ static void generate_graph(GRAPH<point,int>& G)
 
     case 4: { random_planar_graph(G,xcoord,ycoord,n);
               node v;
-              forall_nodes(v,G)  
+              forall_nodes(v,G)
                  G[v] = point(x_min + w*xcoord[v], y_min + h*ycoord[v]);
               break;
              }
 
     case 5: { grid_graph(G,xcoord,ycoord,n);
               node v;
-              forall_nodes(v,G)  
+              forall_nodes(v,G)
                  G[v] = point(x_min + w*xcoord[v], y_min + h*ycoord[v]);
               break;
              }
 
     case 6: { triangulated_planar_graph(G,xcoord,ycoord,n);
               node v;
-              forall_nodes(v,G)  
+              forall_nodes(v,G)
                  G[v] = point(x_min + w*xcoord[v], y_min + h*ycoord[v]);
               break;
              }
@@ -249,25 +249,25 @@ static void generate_graph(GRAPH<point,int>& G)
    if ( i==2 || i==3 )
    { double dy = (y_max-y_min)/(n+1);
      double y = y_min + dy;
-     forall(v,A) 
+     forall(v,A)
      { G[v] = point(x_min + (x_max-x_min)/4,y);
        y += dy;
       }
      y = y_min + dy;
-     forall(v,B) 
+     forall(v,B)
      { G[v] = point(x_max - (x_max-x_min)/4,y);
        y += dy;
       }
      }
 
-   if (i==0 || i==1) // circular embedding 
+   if (i==0 || i==1) // circular embedding
    { double R  = (x_max-x_min)/2.5;
      double x0 = (x_max-x_min)/2;
      double y0 = (y_max-y_min)/2;
      point  M(x0,y0);
      double alpha = 0;
      double step  = 6.2832/n;
-     forall_nodes(v,G)  
+     forall_nodes(v,G)
      { G[v] = M.translate(alpha,R);
        alpha+=step;
       }
@@ -278,10 +278,10 @@ static void generate_graph(GRAPH<point,int>& G)
 
 
 static void redraw_func()
-{ 
+{
   Wp->set_mode(xor_mode);
   node v;
-  forall_nodes(v,*Gp) 
+  forall_nodes(v,*Gp)
   { draw_node(v);
     node w;
     forall_nodes(w,*Gp) draw_edge(v,w);
@@ -376,20 +376,20 @@ void graph_edit(window& W, GRAPH<point,int>& G, bool dir, bool redraw)
 
 
     if (wp == (window*)&main_panel)
-    { 
+    {
       int k = main_panel.read();
 
 
-      switch (k) { 
+      switch (k) {
 
-      case 0 : // load 
+      case 0 : // load
                read_graph(W,G,filename,true);
                break;
 
       case 1 : // read
                read_graph(W,G,filename,false);
                break;
-  
+
       case 2 : // save
                save_graph(W,G,filename);
                break;
@@ -410,7 +410,7 @@ void graph_edit(window& W, GRAPH<point,int>& G, bool dir, bool redraw)
                if (W.mono()) node_color = white;
                window_init(W);
                break;
- 
+
       case 6: // help
               help_panel.open();
               break;
@@ -433,7 +433,7 @@ void graph_edit(window& W, GRAPH<point,int>& G, bool dir, bool redraw)
 
      switch(key) {
 
-     case 1:  { 
+     case 1:  {
                 node v = V(p);
 
                 if (v == nil)        // new node
@@ -451,18 +451,18 @@ void graph_edit(window& W, GRAPH<point,int>& G, bool dir, bool redraw)
                   int val;
                   edge e;
 
-                  forall_in_edges(e,v)  
-                    cursor_in_edges.append(G[source(e)]); 
-                   
+                  forall_in_edges(e,v)
+                    cursor_in_edges.append(G[source(e)]);
+
                   forall_out_edges(e,v)
-                    cursor_out_edges.append(G[target(e)]); 
+                    cursor_out_edges.append(G[target(e)]);
 
                   draw_node(v);
                   forall_in_edges(e,v)  draw_edge(source(e),v);
                   forall_out_edges(e,v) draw_edge(v,target(e));
- 
+
                   draw_node_cursor(p,dx,dy);
-                   
+
                   while ( W.read_event(val,x,y) != button_release_event)
                   { point q = point(x,y);
                     if (q != p)
@@ -475,7 +475,7 @@ void graph_edit(window& W, GRAPH<point,int>& G, bool dir, bool redraw)
                   msec = W.button_release_time() - msec;
 
 
-                  if (msec > 200 && V(p) == nil)    // really move 
+                  if (msec > 200 && V(p) == nil)    // really move
                     G[v] = point(p.xcoord()+dx,p.ycoord()+dy);
 
                   draw_node_cursor(p,dx,dy);
@@ -489,12 +489,12 @@ void graph_edit(window& W, GRAPH<point,int>& G, bool dir, bool redraw)
 
 
      case 2:  { // new edge
-                
+
                 node v = V(p);   // start node
 
                 W.message("new edge");
- 
-                if (v != nil)            
+
+                if (v != nil)
                 { p = G[v];
 
                   W.draw_filled_node(p);   // highlight start node
@@ -503,18 +503,18 @@ void graph_edit(window& W, GRAPH<point,int>& G, bool dir, bool redraw)
                   {
                     point q(x,y);
                     node w = V(q);
-  
+
                     if (w == nil)      // no hit: create a new node w at q
                     { w  = G.new_node(q);
                       draw_node(w);
                      }
-  
+
                     draw_edge(v,w);   // delete existing edges between v and w
                     draw_edge(w,v);
-  
+
                     G.new_edge(v,w);  // insert new edge
                     M(v,w)++;
-  
+
                     draw_edge(w,v);   // reinsert old edges
                     draw_edge(v,w);
                    }
@@ -535,8 +535,8 @@ void graph_edit(window& W, GRAPH<point,int>& G, bool dir, bool redraw)
 
                 node v = V(p);
 
-                if (v != nil) 
-                { node w; 
+                if (v != nil)
+                { node w;
                   forall_nodes(w,G)    // remove adjacent edges
                   { draw_edge(v,w);
                     draw_edge(w,v);
@@ -554,12 +554,12 @@ void graph_edit(window& W, GRAPH<point,int>& G, bool dir, bool redraw)
 
                 node v = V(p);
 
-                if (v != nil) 
+                if (v != nil)
                 { p = G[v];
                   W.read_mouse_seg(p.xcoord(),p.ycoord(),x,y);
                   q = point(x,y);
                   node w = V(q);
-                  if (w != nil) 
+                  if (w != nil)
                   { edge e = find_edge(v,w);
                     if (e != nil)
                     { draw_edge(v,w);

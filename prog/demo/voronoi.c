@@ -4,7 +4,7 @@
 
 
 
-main()
+int main()
 {
 
   window W;
@@ -19,7 +19,7 @@ main()
 
   panel P("VORONOI");
 
-  P.text_item("This program computes the Voronoi diagram for a set  "); 
+  P.text_item("This program computes the Voronoi diagram for a set  ");
   P.text_item("of point sites S in the plane. There are two ways of ");
   P.text_item("defining set S. Mouse input: Use the left button to  ");
   P.text_item("insert a sequence of points and terminate the input  ");
@@ -28,7 +28,7 @@ main()
   P.text_item("The Voronoi diagram Vor(S) is computed and shown. Now");
   P.text_item("you can define query points with the left button, for");
   P.text_item("each of which a point location in Vor(S) is performed.");
-  P.text_item("Terminate the program by clicking the right button.  "); 
+  P.text_item("Terminate the program by clicking the right button.  ");
   P.text_item("                                                     ");
 
   P.choice_item("INPUT",input,"RANDOM","MOUSE");
@@ -56,12 +56,12 @@ main()
 
   if (input)
   { W.init(0,1000,0,grid_width);
-    while ( W >> c ) 
+    while ( W >> c )
     { W << c;
       sites.append(c);
      }
    }
-  else 
+  else
    { while (N--)
      { c = point(rand_int(100,900),rand_int(100,900));
        W << c;
@@ -69,7 +69,7 @@ main()
      }
    }
 
-  cout << "Computing Voronoi diagram\n";
+  std::cout << "Computing Voronoi diagram\n";
   newline;
 
   edge e;
@@ -83,9 +83,9 @@ main()
 
   forall_edges(e,G) W.draw_segment(G[source(e)], G[target(e)]);
 
-  cout << "Computing subdivision\n";
+  std::cout << "Computing subdivision\n";
   newline;
-  
+
   subdivision<point> S(G);
 
 
@@ -100,11 +100,11 @@ main()
   while (W.read_mouse(x,y)!=3)
   { if (f!=nil)                      // delete previously located site
       W.draw_filled_node(S.inf(f));
-  
+
     f = S.locate_point(point(x,y));
-  
+
     W.draw_filled_node(S.inf(f));
-    cout << S.inf(f);
+    std::cout << S.inf(f);
     newline;
    }
 

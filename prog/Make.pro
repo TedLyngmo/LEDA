@@ -7,14 +7,14 @@ CFLAGS = -O
 e =
 
 .c.o:
-	../../c++ $(CFLAGS) -I../../incl -c $*.c
+	$(CXX) $(CFLAGS) -I../../incl -c $*.c
 
 .o:
-	../../c++ $(CFLAGS) -o $* $*.o $(UNIXLIB)
+	$(CXX) $(CFLAGS) -o $* $*.o $(UNIXLIB)
 
 .c:
-	../../c++ $(CFLAGS) -I../../incl -c $*.c
-	../../c++ $(CFLAGS) -o $* $*.o $(UNIXLIB)
+	$(CXX) $(CFLAGS) -I../../incl -c $*.c
+	$(CXX) $(CFLAGS) -o $* $*.o $(UNIXLIB)
 
 #-----------------------------------------------------------------------------
 # Programs

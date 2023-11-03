@@ -5,9 +5,9 @@
 +  p_dictionary.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_P_DICTIONARY_H
@@ -94,7 +94,7 @@ We use $\<k,i\>$ to denote an item with key $k$ and information
 $i$ ($i$ is said to be the information associated with key $k$).  For each
 $k \in K$ there is at most one item $\<k,i\> \in D$.
 
-The difference between dictionaries (cf. section \ref{Dictionaries}) and 
+The difference between dictionaries (cf. section \ref{Dictionaries}) and
 persistent dictionaries lies in the fact that update operations performed
 on a persistent dictionary $D$ do not change $D$ but create and return a
 new dictionary $D\'$. For example, $D$.del($k$) returns the dictionary $D\'$
@@ -181,14 +181,14 @@ void print()       { ptr()->print(); }
 
 void draw(DRAW_NODE_FCT f,DRAW_EDGE_FCT g,double x0,double x1,double y,double dy)  { ptr()->draw(f,g,x0,x1,y,dy); }
 
-}; 
+};
 
 /*{\Mimplementation
-Persistent dictionaries are implemented by leaf oriented 
+Persistent dictionaries are implemented by leaf oriented
 persistent red black trees.
-Operations insert, lookup, del\_item, del take time $O(\log^2 n)$, key, inf, 
+Operations insert, lookup, del\_item, del take time $O(\log^2 n)$, key, inf,
 empty, size and change\_inf take time $O(1)$. The space requirement is
 $O(1)$ for each update operation.}*/
- 
+
 #endif
 

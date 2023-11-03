@@ -3,40 +3,40 @@
 
 
 
-main()
+int main()
 {
-  cout << "Maximize               \n";
-  cout << "                  |x1| \n";
-  cout << "                  |x2| \n";
-  cout << "                  |. | \n";
-  cout << "(c1 c2 ...  cn) x |. | \n";
-  cout << "                  |. | \n";
-  cout << "                  |. | \n";
-  cout << "                  |xn| \n";
+  std::cout << "Maximize               \n";
+  std::cout << "                  |x1| \n";
+  std::cout << "                  |x2| \n";
+  std::cout << "                  |. | \n";
+  std::cout << "(c1 c2 ...  cn) x |. | \n";
+  std::cout << "                  |. | \n";
+  std::cout << "                  |. | \n";
+  std::cout << "                  |xn| \n";
   newline;
 
-  cout << "constraints:\n";
+  std::cout << "constraints:\n";
   newline;
 
-  cout << "     <-------  n  -------->                    \n";
-  cout << "                                               \n";
-  cout << "    |.......................|   |x1|       |b1|\n";
-  cout << "    |.......................|   |x2|       |b2|\n";
-  cout << "  i |.......         .......|   |. |  <=   |. |\n";
-  cout << "    |.......         .......|   |. |       |. |\n";
-  cout << "    |.......         .......|   |. |       |. |\n";
-  cout << "                                               \n";
-  cout << "    |.......         .......|   |. |       |. |\n";
-  cout << "    |.......         .......|   |. |       |. |\n";
-  cout << "  j |.......    A    .......| x |. |  >=   |. |\n";
-  cout << "    |.......         .......|   |. |       |. |\n";
-  cout << "    |.......         .......|   |. |       |. |\n";
-  cout << "                                               \n";
-  cout << "    |.......         .......|   |. |       |. |\n";
-  cout << "    |.......         .......|   |. |       |. |\n";
-  cout << "  k |.......         .......|   |. |  ==   |. |\n";
-  cout << "    |.......................|   |. |       |. |\n";
-  cout << "    |.......................|   |xm|       |bm|\n";
+  std::cout << "     <-------  n  -------->                    \n";
+  std::cout << "                                               \n";
+  std::cout << "    |.......................|   |x1|       |b1|\n";
+  std::cout << "    |.......................|   |x2|       |b2|\n";
+  std::cout << "  i |.......         .......|   |. |  <=   |. |\n";
+  std::cout << "    |.......         .......|   |. |       |. |\n";
+  std::cout << "    |.......         .......|   |. |       |. |\n";
+  std::cout << "                                               \n";
+  std::cout << "    |.......         .......|   |. |       |. |\n";
+  std::cout << "    |.......         .......|   |. |       |. |\n";
+  std::cout << "  j |.......    A    .......| x |. |  >=   |. |\n";
+  std::cout << "    |.......         .......|   |. |       |. |\n";
+  std::cout << "    |.......         .......|   |. |       |. |\n";
+  std::cout << "                                               \n";
+  std::cout << "    |.......         .......|   |. |       |. |\n";
+  std::cout << "    |.......         .......|   |. |       |. |\n";
+  std::cout << "  k |.......         .......|   |. |  ==   |. |\n";
+  std::cout << "    |.......................|   |. |       |. |\n";
+  std::cout << "    |.......................|   |xm|       |bm|\n";
   newline;
   newline;
 
@@ -53,27 +53,27 @@ main()
   vector b(m);
   vector c(n);
 
-  cout << string("(%d x %d) - Matrix A:\n",m,n);
+  std::cout << string("(%d x %d) - Matrix A:\n",m,n);
 
   for (int z = 0 ; z<m ; z++ )
-  { if (z < i) 
-       cout << string("<= row %d : ",z);
-    else 
-       if (z < i+j) 
-          cout << string(">= row %d : ",z);
-       else 
-          cout << string("== row %d : ",z);
+  { if (z < i)
+       std::cout << string("<= row %d : ",z);
+    else
+       if (z < i+j)
+          std::cout << string(">= row %d : ",z);
+       else
+          std::cout << string("== row %d : ",z);
 
    	for (int s = 0 ; s<n ; s++ ) cin >> A(z,s);
    }
   newline;
 
 
-  cout << string("%d-vector b: ",m);
+  std::cout << string("%d-vector b: ",m);
   cin >> b;
   newline;
 
-  cout << string("%d-vector c: ",n);
+  std::cout << string("%d-vector c: ",n);
   cin >> c;
   newline;
 
@@ -84,6 +84,6 @@ main()
   if (!S.empty())
     S.print ();
   else
-    cout << "Keine Loesung !";
+    std::cout << "Keine Loesung !";
 
 }

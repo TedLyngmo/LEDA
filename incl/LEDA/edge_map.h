@@ -5,9 +5,9 @@
 +  edge_map.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_EDGE_MAP_H
@@ -43,7 +43,7 @@ void copy_entry(GenPtr& x)  const { LEDA_COPY(E,x);  }
 void init_entry(GenPtr& x)  const { x = Copy(def); }
 
 
-  
+
 public:
 
 /*{\Mcreation M }*/
@@ -55,16 +55,16 @@ edge_map() : graph_map(nil,0) {}
 edge_map(const graph& G) : graph_map(&G,G.max_edge_index()+1)
 { init_table(); }
 /*{\Mcreate  introduces a variable \var\ of type \name\ and initializes
-             it with a mapping $m$ from the set of all edges of $G$ into 
-             the set of variables of type $E$. The variables in the range 
-             of $m$ are initialized by a call of the default constructor 
+             it with a mapping $m$ from the set of all edges of $G$ into
+             the set of variables of type $E$. The variables in the range
+             of $m$ are initialized by a call of the default constructor
              of type $E$. }*/
 
 edge_map(const graph& G, E x) : graph_map(&G,G.max_edge_index()+1)
 { def = x; init_table(); }
 /*{\Mcreate  introduces a variable \var\ of type \name\ and initializes
-             it with a mapping $m$ from the set of all edges of $G$ into 
-             the set of variables of type $E$. The variables in the range 
+             it with a mapping $m$ from the set of all edges of $G$ into
+             the set of variables of type $E$. The variables in the range
              of $m$ are initialized with a copy of $x$. }*/
 
 ~edge_map() {}
@@ -76,20 +76,20 @@ edge_map(const graph& G, E x) : graph_map(&G,G.max_edge_index()+1)
 void init()  { graph_map::init(nil,1); }
 /*{\Mop      makes \var\ an edge map with empty domain. }*/
 
-void init(const graph& G)      
-{ graph_map::init(&G,G.max_edge_index()+1); 
+void init(const graph& G)
+{ graph_map::init(&G,G.max_edge_index()+1);
   init_table(); }
-/*{\Mop       makes \var\ to a mapping $m$ from the set of all edges of $G$ 
-              into the set of variables of type $E$. The variables in the 
-              range of $m$ are initialized by a call of the default 
+/*{\Mop       makes \var\ to a mapping $m$ from the set of all edges of $G$
+              into the set of variables of type $E$. The variables in the
+              range of $m$ are initialized by a call of the default
               constructor of type $E$. }*/
 
-void init(const graph& G, E x) 
-{ graph_map::init(&G,G.max_edge_index()+1); 
+void init(const graph& G, E x)
+{ graph_map::init(&G,G.max_edge_index()+1);
   def = x;
   init_table(); }
-/*{\Mop       makes \var\ to a mapping $m$ from the set of all edges of $G$ 
-              into the set of variables of type $E$. The variables in the 
+/*{\Mop       makes \var\ to a mapping $m$ from the set of all edges of $G$
+              into the set of variables of type $E$. The variables in the
               range of $m$ are initialized with a copy of $x$. }*/
 
 E  operator()(edge v) const {  return LEDA_ACCESS(E,graph_map::map_read(v)); }
@@ -99,9 +99,9 @@ E& operator[](edge e) {  return LEDA_ACCESS(E,graph_map::map_access(e)); }
 };
 
 /*{\Mimplementation
-Edge maps are implemented by an efficient hashing method based on the 
-internal numbering of the edges. An access operation takes expected 
-time $O(1)$. 
+Edge maps are implemented by an efficient hashing method based on the
+internal numbering of the edges. An access operation takes expected
+time $O(1)$.
 }*/
 
 

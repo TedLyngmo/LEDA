@@ -2,7 +2,7 @@
 #include <LEDA/graph_alg.h>
 
 
-main()
+int main()
 {
 
 GRAPH<int,int> G0;
@@ -49,25 +49,25 @@ cout << string("%6.2f sec  \n",used_time(T));
 if (Yes("output	 ? "))
  { forall_nodes(v,G)
    { G.print_node(v);
-    cout << string(" %6d %6d\n",dist1[v],dist2[v]);
+    std::cout << string(" %6d %6d\n",dist1[v],dist2[v]);
     }
    newline;
   }
 
 
 if (Yes("all pairs shortest paths <int> ? "))
-{ 
+{
   node_matrix<int> Mi(G);
 
   used_time(T);
-  cout << "ALL PAIRS SHORTEST PATHS <int> ";
-  cout.flush();
+  std::cout << "ALL PAIRS SHORTEST PATHS <int> ";
+  std::cout.flush();
   ALL_PAIRS_SHORTEST_PATHS(G,cost1,Mi);
-  cout << string("%.2f sec\n",used_time(T));
-  
+  std::cout << string("%.2f sec\n",used_time(T));
+
   if (Yes("output ? "))
     forall_nodes(v,G)
-     { forall_nodes(w,G) cout << string("%6d ",Mi(v,w));
+     { forall_nodes(w,G) std::cout << string("%6d ",Mi(v,w));
        newline;
        }
   newline;
@@ -100,25 +100,25 @@ cout << string("%6.2f sec  \n",used_time(T));
 if (Yes("output ? "))
  { forall_nodes(v,G)
    { G.print_node(v);
-     cout << "  " << dist3[v] << "  " << dist4[v];
+     std::cout << "  " << dist3[v] << "  " << dist4[v];
      newline;
     }
    newline;
   }
 
 if (Yes("all pairs shortest paths <double> ? "))
-{ 
+{
   node_matrix<double> Mr(G);
 
   used_time(T);
-  cout << "ALL PAIRS SHORTEST PATHS <double>  ";
-  cout.flush();
+  std::cout << "ALL PAIRS SHORTEST PATHS <double>  ";
+  std::cout.flush();
   ALL_PAIRS_SHORTEST_PATHS(G,cost2,Mr);
-  cout << string("%.2f sec\n",used_time(T));
-  
+  std::cout << string("%.2f sec\n",used_time(T));
+
   if (Yes("output ? "))
     forall_nodes(v,G)
-     { forall_nodes(w,G) cout << string("%6.2f ",Mr(v,w));
+     { forall_nodes(w,G) std::cout << string("%6.2f ",Mr(v,w));
        newline;
        }
   newline;

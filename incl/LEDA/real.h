@@ -5,9 +5,9 @@
 +  real.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 /* This file has been automatically generated from "real.w"
@@ -87,19 +87,19 @@ introduces a variable \var\ of type $real$ and initializes it to zero.
 
 real(double y);
 /*{\Mcreate
-introduces a variable \var\ of type $real$ and initializes it to the 
+introduces a variable \var\ of type $real$ and initializes it to the
 value of $y$.
 }*/
 
 real(int n);
 /*{\Mcreate
-introduces a variable \var\ of type $real$ and initializes it to the 
+introduces a variable \var\ of type $real$ and initializes it to the
 value of $n$.
 }*/
 
 real(const integer& a);
 /*{\Mcreate
-introduces a variable \var\ of type $real$ and initializes it to the 
+introduces a variable \var\ of type $real$ and initializes it to the
 value of $a$.
 }*/
 
@@ -107,7 +107,7 @@ real(const bigfloat&);
 
 real(const rational& q);
 /*{\Mcreate
-introduces a variable \var\ of type $real$ and initializes it to the 
+introduces a variable \var\ of type $real$ and initializes it to the
 value of $q$
 }*/
 
@@ -123,7 +123,7 @@ real&operator= (const real&);
 
 /*{\Mtext
 The arithmetic operations $+,\ -,\ *,\ /,\ +=,\
--=,\ *=,\ /=,\ -$(unary), the comparison operations $<,\ <=,\ >,\ 
+-=,\ *=,\ /=,\ -$(unary), the comparison operations $<,\ <=,\ >,\
 >=,\ ==,\ !=$ and the stream operations all are available.
 }*/
 
@@ -233,11 +233,11 @@ integer get_precision()const;
    of \var, i.e., $|x - x.num |\leq 2^{-x.get\_precision()}$.\\
 }*/
 
-friend ostream& operator<<(ostream& O, const real& x);
+friend std::ostream& operator<<(std::ostream& O, const real& x);
 /*{\Xbinopfunc writes the best known approximation of the $real$
     number $x$ to the output stream $O$.\\
 }*/
-friend istream& operator>>(istream& I,real& x);
+friend std::istream& operator>>(std::istream& I,real& x);
 /*{\Xbinopfunc reads $real$ number $x$ from the input stream $I$
    (in $double$ format).
 }*/
@@ -248,7 +248,7 @@ friend GenPtr  Create(const real*) { real x; return x.copy(); }
 friend void    Clear(real& y)      { y.clear();}
 friend GenPtr  Convert(real& y)    { return y.PTR; }
 friend GenPtr  Copy(const real& y) { return y.copy();}
-friend char*   Type_Name(const real*) { return "real"; }
+friend const char*   Type_Name(const real*) { return "real"; }
 #endif
 
 
@@ -278,8 +278,8 @@ real powi(const real& x,int n);
 //  Functions necessary to use real as a type parameter in parameterized
 //  data types.
 
-inline void Print(const real& a, ostream & out) { out << a; }
-inline void Read(real& a, istream & in) { in >> a; }
+inline void Print(const real& a, std::ostream & out) { out << a; }
+inline void Read(real& a, std::istream & in) { in >> a; }
 
 inline int compare(const real& x, const real& y)
 { return (x < y) ? -1 : ((x > y) ? 1 : 0); }

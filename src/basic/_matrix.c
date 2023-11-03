@@ -5,15 +5,15 @@
 +  _matrix.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #include <LEDA/matrix.h>
 
-#include <math.h>
+#include <cmath>
 
 #define EPSILON 1e-12
 
@@ -29,48 +29,48 @@ void matrix::flip_rows(int i,int j)
  }
 
 
-matrix::matrix(int dim1, int dim2)  
+matrix::matrix(int dim1, int dim2)
 {
-  if (dim1<0 || dim2<0) 
-  error_handler(1,"matrix: negative dimension."); 
+  if (dim1<0 || dim2<0)
+  error_handler(1,"matrix: negative dimension.");
 
-  d1=dim1; 
-  d2=dim2; 
+  d1=dim1;
+  d2=dim2;
 
-  if (d1 > 0) 
+  if (d1 > 0)
   { v = new vector*[d1];
-    for (int i=0;i<d1;i++) v[i] = new vector(d2); 
+    for (int i=0;i<d1;i++) v[i] = new vector(d2);
    }
   else v = nil;
 }
 
 
-matrix::matrix(const matrix& p)  
-{ 
+matrix::matrix(const matrix& p)
+{
   d1 = p.d1;
   d2 = p.d2;
-    
-  if (d1 > 0) 
+
+  if (d1 > 0)
   { v = new vector*[d1];
-    for (int i=0;i<d1;i++) v[i] = new vector(*p.v[i]); 
+    for (int i=0;i<d1;i++) v[i] = new vector(*p.v[i]);
    }
   else v = nil;
 }
 
-matrix::matrix(int dim1, int dim2, double** p)  
-{ d1=dim1; 
-  d2=dim2; 
+matrix::matrix(int dim1, int dim2, double** p)
+{ d1=dim1;
+  d2=dim2;
   v = new vector*[d1];
-  for(int i=0;i<d1;i++) 
-  { v[i] = new vector(d2); 
+  for(int i=0;i<d1;i++)
+  { v[i] = new vector(d2);
     for(int j=0;j<d2;j++) elem(i,j) = p[i][j];
    }
 
  }
 
-matrix::~matrix()  
-{ if (v) 
-  { while(d1--) delete v[d1]; 
+matrix::~matrix()
+{ if (v)
+  { while(d1--) delete v[d1];
     delete v;
    }
 }
@@ -89,11 +89,11 @@ matrix::matrix(const vector& vec)
   { v[i] = new vector(1);
     elem(i,0) = vec[i];
    }
-    
+
 }
 
 matrix& matrix::operator=(const matrix& mat)
-{ register int i,j;
+{ int i,j;
 
   if (d1 != mat.d1 || d2 != mat.d2)
   { for(i=0;i<d1;i++) delete v[i];
@@ -111,7 +111,7 @@ matrix& matrix::operator=(const matrix& mat)
 }
 
 int matrix::operator==(const matrix& x) const
-{ register int i,j;
+{ int i,j;
   if (d1 != x.d1 || d2 != x.d2) return false;
 
   for(i=0;i<d1;i++)
@@ -149,13 +149,13 @@ vector matrix::col(int i)  const
 }
 
 matrix::operator vector() const
-{ if (d2!=1) 
+{ if (d2!=1)
    error_handler(1,"error: cannot make vector from matrix\n");
   return col(0);
 }
 
 matrix matrix::operator+(const matrix& mat)
-{ register int i,j;
+{ int i,j;
   check_dimensions(mat);
   matrix result(d1,d2);
   for(i=0;i<d1;i++)
@@ -164,8 +164,8 @@ matrix matrix::operator+(const matrix& mat)
   return result;
 }
 
-matrix& matrix::operator+=(const matrix& mat) 
-{ register int i,j;
+matrix& matrix::operator+=(const matrix& mat)
+{ int i,j;
   check_dimensions(mat);
   for(i=0;i<d1;i++)
    for(j=0;j<d2;j++)
@@ -173,8 +173,8 @@ matrix& matrix::operator+=(const matrix& mat)
   return *this;
 }
 
-matrix& matrix::operator-=(const matrix& mat) 
-{ register int i,j;
+matrix& matrix::operator-=(const matrix& mat)
+{ int i,j;
   check_dimensions(mat);
   for(i=0;i<d1;i++)
    for(j=0;j<d2;j++)
@@ -184,7 +184,7 @@ matrix& matrix::operator-=(const matrix& mat)
 
 
 matrix matrix::operator-(const matrix& mat)
-{ register int i,j;
+{ int i,j;
   check_dimensions(mat);
   matrix result(d1,d2);
   for(i=0;i<d1;i++)
@@ -195,7 +195,7 @@ matrix matrix::operator-(const matrix& mat)
 
 
 matrix matrix::operator-()  // unary
-{ register int i,j;
+{ int i,j;
   matrix result(d1,d2);
   for(i=0;i<d1;i++)
    for(j=0;j<d2;j++)
@@ -205,7 +205,7 @@ matrix matrix::operator-()  // unary
 
 
 matrix matrix::operator*(double f)
-{ register int i,j;
+{ int i,j;
   matrix result(d1,d2);
   for(i=0;i<d1;i++)
    for(j=0;j<d2;j++)
@@ -216,9 +216,9 @@ matrix matrix::operator*(double f)
 matrix matrix::operator*(const matrix& mat)
 { if (d2!=mat.d1)
      error_handler(1,"matrix multiplication: incompatible matrix types\n");
-  
+
   matrix result(d1, mat.d2);
-  register int i,j;
+  int i,j;
 
   for (i=0;i<mat.d2;i++)
   for (j=0;j<d1;j++) result.elem(j,i) = *v[j] * mat.col(i);
@@ -229,7 +229,7 @@ matrix matrix::operator*(const matrix& mat)
 
 double matrix::det() const
 {
- if (d1!=d2)  
+ if (d1!=d2)
    error_handler(1,"matrix::det: matrix not quadratic.\n");
 
  int n = d1;
@@ -256,12 +256,12 @@ double matrix::det() const
 
 double** matrix::triang(const matrix& M, int& flips)  const
 {
- register double **p, **q;
- register double *l, *r, *s;
+ double **p, **q;
+ double *l, *r, *s;
 
- register double pivot_el,tmp;
+ double pivot_el,tmp;
 
- register int i,j, col, row;
+ int i,j, col, row;
 
  int n = d1;
  int d = M.d2;
@@ -271,7 +271,7 @@ double** matrix::triang(const matrix& M, int& flips)  const
 
  p = A;
 
- for(i=0;i<n;i++) 
+ for(i=0;i<n;i++)
  { *p = new double[m];
    l = *p++;
    for(j=0;j<n;j++) *l++ = elem(i,j);
@@ -281,13 +281,13 @@ double** matrix::triang(const matrix& M, int& flips)  const
  flips = 0;
 
  for (col=0, row=0; row<n; row++, col++)
- { 
+ {
    // search for row j with maximal absolute entry in current col
    j = row;
    for (i=row+1; i<n; i++)
      if (fabs(A[j][col]) < fabs(A[i][col])) j = i;
 
-   if ( n > j && j > row) 
+   if ( n > j && j > row)
    { double* p = A[j];
      A[j] = A[row];
      A[row] = p;
@@ -305,9 +305,9 @@ double** matrix::triang(const matrix& M, int& flips)  const
     }
 
    for (p = &A[n-1]; p != q; p--)
-   { 
+   {
      l = *p+col;
-     s = *p+m;	
+     s = *p+m;
      r = *q+col;
 
      if (*l != 0.0)
@@ -324,7 +324,7 @@ double** matrix::triang(const matrix& M, int& flips)  const
 
 matrix matrix::inv() const
 {
- if (d1!=d2)  
+ if (d1!=d2)
      error_handler(1,"matrix::inv: matrix not quadratic.\n");
  int n = d1;
  matrix I(n,n);
@@ -340,8 +340,8 @@ matrix matrix::solve(const matrix& M) const
 if (d1 != d2 || d1 != M.d1)
      error_handler(1, "Solve: wrong dimensions\n");
 
- register double **p, ** q;
- register double *l, *r, *s;
+ double **p, ** q;
+ double *l, *r, *s;
 
  int      n = d1;
  int      d = M.d2;
@@ -351,11 +351,11 @@ if (d1 != d2 || d1 != M.d1)
 
  double** A = triang(M,i);
 
- if (A == NULL) 
+ if (A == NULL)
    error_handler(1,"matrix::solve: matrix has not full rank.");
 
  for (col = n-1, p = &A[n-1]; col>=0; p--, col--)
- { 
+ {
    s = *p+m;
 
    double tmp = (*p)[col];
@@ -368,8 +368,8 @@ if (d1 != d2 || d1 != M.d1)
      r = *p+n;
      while(r < s)  *l++ -= *r++ * tmp;
     }
-                 
-  } 
+
+  }
 
   matrix result(n,d);
 
@@ -394,16 +394,16 @@ matrix matrix::trans() const
       result.elem(i,j) = elem(j,i);
   return result;
 }
-     
 
-ostream& operator<<(ostream& s, const matrix& M)
+
+std::ostream& operator<<(std::ostream& s, const matrix& M)
 { int i;
   s <<"\n";
-  for (i=0;i<M.d1;i++) s << M[i] << "\n"; 
+  for (i=0;i<M.d1;i++) s << M[i] << "\n";
   return s;
 }
 
-istream& operator>>(istream& s, matrix& M)
+std::istream& operator>>(std::istream& s, matrix& M)
 { int i=0;
   while (i<M.d1 && s >> M[i++]);
   return s;

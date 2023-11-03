@@ -14,7 +14,7 @@ LEDA_TYPE_PARAMETER(list<node>)
 #endif
 
 
-void FIND_INDEPENDENT_NEIGHBORS(const ugraph& G, const node_array<int>&, 
+void FIND_INDEPENDENT_NEIGHBORS(const ugraph& G, const node_array<int>&,
                                 node v, node& u, node& w);
 
 int  UNUSED_ADJ_COLOR(node v, const node_array<int>& col);
@@ -71,8 +71,8 @@ if (trace) win.message("shrinking graph G ---> G1");
     forall_nodes(v,G1)
     { int d = 0;
       forall_adj_nodes(x,v) if (C1[x] != -1) d++;
-      if (C1[v] != -1 && deg[v] != d) 
-      { win.draw_filled_node(G1[v]); 
+      if (C1[v] != -1 && deg[v] != d)
+      { win.draw_filled_node(G1[v]);
         error_handler(1,string("N = %d  deg = %d   d = %d",N,deg[v],d));
        }
      }
@@ -84,7 +84,7 @@ if (trace) win.message("shrinking graph G ---> G1");
 
     I[v] = nil;
 
-    if (trace) 
+    if (trace)
     { win.set_mode(xor_mode);
       win.draw_text_node(G1[v],"?");
       win.draw_filled_node(G1[v]);
@@ -121,14 +121,14 @@ if (trace) win.message("shrinking graph G ---> G1");
 
       forall_adj_nodes(x,w)
       { if (x == u) error_handler(1,"merging adjacent nodes");
-        if (mark[x]) 
+        if (mark[x])
            { deg[x]--;
-             if (deg[x] == 5) 
+             if (deg[x] == 5)
                 I[x] = small_deg.append(x);
             }
         else
            { G1.new_edge(u,x,0);
-             if (C1[x] != -1) deg[u]++;  
+             if (C1[x] != -1) deg[u]++;
              if(trace) win.draw_edge(G1[u],G1[x]);
             }
        }
@@ -144,7 +144,7 @@ if (trace) win.message("shrinking graph G ---> G1");
        }
 
       L[u].conc(L[w]);
-     
+
       if (I[w] != nil) small_deg.del(I[w]);
 
 
@@ -169,7 +169,7 @@ if (trace) win.message("shrinking graph G ---> G1");
     removed.push(v);
 
     forall_adj_nodes(x,v)
-       if ( --deg[x] == 5) 
+       if ( --deg[x] == 5)
          I[x] = small_deg.append(x);
 
     N--;
@@ -200,7 +200,7 @@ if (trace)
     }
 
 
-    if (trace) 
+    if (trace)
     { edge e;
       win.read_mouse();
       win.del_messages();
@@ -212,7 +212,7 @@ if (trace)
 }
 
 
-     
+
 void  FIND_INDEPENDENT_NEIGHBORS(const ugraph& G, const node_array<int>& col,
                                  node v, node& u, node& w)
 { node x;
@@ -237,7 +237,7 @@ void  FIND_INDEPENDENT_NEIGHBORS(const ugraph& G, const node_array<int>& col,
 
 
 int UNUSED_ADJ_COLOR(node v, const node_array<int>& col)
-{ 
+{
   int used[6];
   int c;
   node x;
@@ -249,7 +249,7 @@ int UNUSED_ADJ_COLOR(node v, const node_array<int>& col)
     if (c != -1) used[c] = 1;
    }
 
-  c = 0; 
+  c = 0;
   while(used[c]) c++;
 
   return c;
@@ -289,7 +289,7 @@ void grid_graph(GRAPH<point,int>& G, int n, float win_width)
     G.new_edge(west,A(i,0));
     G.new_edge(east,A(i,n-1));
    }
-  
+
   //G.new_edge(A(0,n-1),A(n-1,0));
 
 /*
@@ -300,10 +300,10 @@ void grid_graph(GRAPH<point,int>& G, int n, float win_width)
 
 }
 
-         
+
 char* COLOR[] = {"blue","red","green","violet","orange"};
-    
-main()
+
+int main()
 {
   GRAPH<point,int>  G;
   node v;
@@ -326,10 +326,10 @@ main()
   P.button("quit");
 
   for(;;)
-  { 
+  {
 
     int inp = P.open(win);
-    
+
     trace = (t > 0);
     step  = (t == 1);
 
@@ -338,7 +338,7 @@ main()
     win.clear();
 
     if (inp == 0) graph_edit(win,G,false);
-   
+
     if (inp == 1) grid_graph(G,n,1000);
 
     forall_nodes(v,G) win.draw_text_node(G[v],"?");

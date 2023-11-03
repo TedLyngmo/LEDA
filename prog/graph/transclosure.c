@@ -3,7 +3,7 @@
 
 
 
-main()
+int main()
 {
 
 GRAPH<int,int> G;

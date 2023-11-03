@@ -10,7 +10,7 @@ const double R = 1000;  // "length of inifinite rays"
 int ymax;
 
 int segment_to_points(segment s, list<point>& out, double dist)
-{ 
+{
   int n = int(s.length()/dist) + 2;
 
   double dx = (s.xcoord2() - s.xcoord1())/n;
@@ -31,7 +31,7 @@ int segment_to_points(segment s, list<point>& out, double dist)
 }
 
 int circle_to_points(circle C, list<point>& out, double dist)
-{ 
+{
   point c = C.center();
   double r = C.radius();
   int n = int(6.283 * r/dist);
@@ -66,7 +66,7 @@ void draw_vor_seg(double x1, double y1, double x2, double y2,double,double)
 
 
 void draw_triang_seg(double x1, double y1, double x2, double y2)
-{ Wp->draw_segment(x1,y1,x2,y2,triang_color); 
+{ Wp->draw_segment(x1,y1,x2,y2,triang_color);
  }
 
 void infi_pt(double x1, double y1, double x2, double y2, double *x, double* y)
@@ -105,7 +105,7 @@ void insert_circle(circle c)
   point p;
   forall(p,pl) insert_point(p);
 }
-            
+
 
 
 void draw(int display)
@@ -122,7 +122,7 @@ void draw(int display)
             list<point> P;
             DT.convex_hull(L);
             DT_item it;
-            forall(it,L) P.append(DT.key(it)); 
+            forall(it,L) P.append(DT.key(it));
             Wp->draw_filled_polygon(P,hull_color);
             break;
            }
@@ -191,17 +191,17 @@ for(;;)
   DT.trace_voronoi_sites(draw_vor_site);
 
   switch (but) {
-         
+
     case 0: { point p;
               while (W >> p)  insert_point(p);
               break;
              }
-            
+
     case 1: { segment s;
               while (W >> s) insert_segment(s);
               break;
              }
-        
+
     case 2: { circle c;
               while (W >> c) insert_circle(c);
               break;
@@ -212,15 +212,15 @@ for(;;)
                  insert_point(point(rand_int(10,500),rand_int(10,ymax)));
               break;
              }
-   
+
 
     case 4: { // delete point
               point p;
               while (W >> p)
-              { DT_item it = DT.neighbor(p); 
-                if (it) 
+              { DT_item it = DT.neighbor(p);
+                if (it)
                 { W.draw_point(DT.key(it),site_color);
-                  DT.del_item(it); 
+                  DT.del_item(it);
                  }
                }
               break;
@@ -231,7 +231,7 @@ for(;;)
               point p;
               while (W >> p)
               { if (near_it) W.draw_filled_node(DT.key(near_it),red);
-                near_it = DT.neighbor(p); 
+                near_it = DT.neighbor(p);
                 if (near_it) W.draw_filled_node(DT.key(near_it),red);
               }
               if (near_it) W.draw_filled_node(DT.key(near_it),red);
@@ -306,7 +306,7 @@ void demo(int N, int sec)
 */
 
 
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
   int N = (argc > 1) ? atoi(argv[1]) : 0;
 
@@ -320,7 +320,7 @@ main(int argc, char** argv)
 
   ymax = int(W.ymax()-10);
 
-  if (N==0) 
+  if (N==0)
      interactive(W);
   else
      demo(N,2);

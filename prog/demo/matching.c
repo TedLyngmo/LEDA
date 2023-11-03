@@ -2,8 +2,8 @@
 #include <LEDA/graph_alg.h>
 
 
-main()
-{ 
+int main()
+{
   GRAPH<point,int> G;
   window W;
   edge e;
@@ -14,12 +14,12 @@ main()
   graph_edit(W,G,false);
 
   for(;;)
-  { 
+  {
     list<edge> L = MAX_CARD_MATCHING(G);
 
     // show matching
     W.set_line_width(5);
-    forall(e,L) W.draw_edge(G[source(e)],G[target(e)]);       
+    forall(e,L) W.draw_edge(G[source(e)],G[target(e)]);
 
     W.message("MAX_CARD_MATCHING");
     W.message("(press left button to return to graph edit)");
@@ -27,12 +27,12 @@ main()
     W.del_messages();
 
     // restore picture
-    forall(e,L) W.draw_edge(G[source(e)],G[target(e)],white); 
+    forall(e,L) W.draw_edge(G[source(e)],G[target(e)],white);
     W.set_line_width(1);
     forall(e,L) W.draw_edge(G[source(e)],G[target(e)]);
 
     graph_edit(W,G,false,false);     // 2nd false: do not clear window
- 
+
    }
 
   return 0;

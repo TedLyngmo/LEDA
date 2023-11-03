@@ -5,9 +5,9 @@
 +  _rs_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/impl/rs_tree.h>
@@ -46,13 +46,13 @@ void rs_tree::insert_rebal(rs_tree_item v)
       dir = (u == p->child[left]) ? left : right;
       u = p;
      }
-  
+
     // link to parent
-  
+
     u->child[dir] = v;
     v->parent = u;
 
-    if (u != &ROOT) 
+    if (u != &ROOT)
        propagate_modification(6,u,v);
   }
 

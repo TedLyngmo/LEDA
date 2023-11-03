@@ -5,9 +5,9 @@
 +  x_window.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_X_WINDOW_H
@@ -19,15 +19,15 @@
 typedef unsigned long Window;
 
 
-enum { 
-  key_press_event, 
-  key_release_event, 
-  button_press_event, 
+enum {
+  key_press_event,
+  key_release_event,
+  button_press_event,
   button_release_event,
-  configure_event, 
-  motion_event, 
-  destroy_event, 
-  no_event 
+  configure_event,
+  motion_event,
+  destroy_event,
+  no_event
 };
 
 
@@ -47,7 +47,7 @@ enum {
   blue2  = 12,
   grey1  = 13,
   grey2  = 14,
-  grey3  = 15 
+  grey3  = 15
 };
 
 enum line_style   {solid, dashed, dotted};

@@ -5,14 +5,14 @@
 +  _bb1_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 //--------------------------------------------------------------------
-//  
+//
 //  BB[alpha] Trees
 //
 //  Michael Wenzel   (1989)
@@ -35,15 +35,15 @@
 #include <LEDA/impl/bb1_tree.h>
 
 #ifdef TEST
-#define DPRINT(x) cout << string x
+#define DPRINT(x) std::cout << string x
 #else
-#define DPRINT(x)   
+#define DPRINT(x)
 #endif
 
 #ifdef DUMP
-#define DDUMP(x) cout << string x
+#define DDUMP(x) std::cout << string x
 #else
-#define DDUMP(x)   
+#define DDUMP(x)
 #endif
 
 
@@ -59,7 +59,7 @@ enum leaf_or_node { Leaf = 0 , Node = 1 } ;
 
 
   bb1_tree::bb1_tree(float a)   : st(BSTACKSIZE)
-  { 
+  {
     root = first = iterator = 0;
     anzahl=0;
     if ((a<=0.25) || (a>1-SQRT1_2))
@@ -69,7 +69,7 @@ enum leaf_or_node { Leaf = 0 , Node = 1 } ;
   }
 
   bb1_tree::bb1_tree(const bb1_tree& w)  : st(BSTACKSIZE)
-  { 
+  {
     bb1_item p;
     bb1_item l=0;
     anzahl=w.anzahl;
@@ -79,7 +79,7 @@ enum leaf_or_node { Leaf = 0 , Node = 1 } ;
     if (w.root)
     { if (!w.root->blatt())
       { p=new bb1_node(w.root);
-        first=copytree(p,w.root,l); 
+        first=copytree(p,w.root,l);
         first->sohn[left]=l;
         l->sohn[right]=first; }
       else
@@ -107,7 +107,7 @@ bb1_item bb1_tree::locate(GenPtr y)  const
      if (cmp(y,current->key())<=0) current=current->sohn[left];
      else current=current->sohn[right];   }
   return (cmp(y,current->key())<=0) ? current : 0 ;
-}  
+}
 
 // -------------------------------------------------------------
 // located()
@@ -126,7 +126,7 @@ bb1_item bb1_tree::located(GenPtr y)  const
   if (cmp(y,current->key())==0) return current;
   current = current->sohn[left];
   return (cmp(y,current->key())>=0) ? current : 0 ;
-}  
+}
 
 // -------------------------------------------------------------
 // lookup()
@@ -138,9 +138,9 @@ bb1_item bb1_tree::lookup(GenPtr y) const
 { bb1_item current = locate(y);
   if (current==0) return 0;
   return (cmp(y,current->key())==0) ? current : 0;
-}  
+}
 
-// -------------------------------------------------------------  
+// -------------------------------------------------------------
 // member()
 // liefert 1 , falls item existiert mit key(item)=y
 //         0 , sonst
@@ -150,11 +150,11 @@ int bb1_tree::member(GenPtr y)
 { bb1_item current = locate(y);
   if (current==0) return 0;
   return (cmp(y,current->key())==0);
-}  
+}
 
 // ------------------------------------------------------------
 // translate()
-// liefert info(item) , falls item existiert mit item = locate(y) 
+// liefert info(item) , falls item existiert mit item = locate(y)
 //                  0 , sonst
 
 GenPtr bb1_tree::translate(GenPtr y)
@@ -162,7 +162,7 @@ GenPtr bb1_tree::translate(GenPtr y)
 { bb1_item current = locate(y);
   if (current==0) return 0;
   return (cmp(y,current->key())==0) ? current->inf : 0;
-}  
+}
 
 // ------------------------------------------------------------
 // change_obj()
@@ -174,15 +174,15 @@ bb1_item bb1_tree::change_obj(GenPtr y,GenPtr x)
 
 { bb1_item current = lookup(y);
   if ( current != 0 )
-  { current->inf = x ;  
+  { current->inf = x ;
     return current; }
   else return 0;
-}  
+}
 
 // ------------------------------------------------------------
 // search()
-// nachher: st = ( pk ,..., p1 ) mit 
-//          pk = locate(y) , p1 = root 
+// nachher: st = ( pk ,..., p1 ) mit
+//          pk = locate(y) , p1 = root
 //          p1 , ... , pk ist Suchpfad nach y
 // liefert inneren Knoten k mit key(k) = y , falls existiert
 //         0                               , sonst
@@ -215,7 +215,7 @@ bb1_item bb1_tree::search(GenPtr y)
 // liefert item it mit
 //              |{key(it') < key(it) | it' item im Baum}| = k-1
 //         0 , falls kein solches item existiert
-	
+
 bb1_item bb1_tree::ord(int k)
 
 { DPRINT(("ord %d\n",k));
@@ -227,11 +227,11 @@ bb1_item bb1_tree::ord(int k)
     if (k>l)
     { k -= l;
       cur=cur->sohn[right];           }
-    else cur=cur->sohn[left]; 
+    else cur=cur->sohn[left];
   }
   return cur;
 }
-    
+
 // ------------------------------------------------------------
 // move_iterator()
 // bewegt Iterator eine Stelle weiter
@@ -239,17 +239,17 @@ bb1_item bb1_tree::ord(int k)
 
 bb1_item bb1_tree::move_iterator()
 
-  { 
-    if (!root) 
+  {
+    if (!root)
     { iterator = 0;
       return 0;      }
-    
+
     if (!iterator) iterator = first;
     else if (iterator->sohn[right]==first) iterator = 0;
 	 else iterator = iterator->sohn[right];
     return iterator;
   }
-    
+
 // ------------------------------------------------------------
 // lrot() , rrot() , ldrot() , rdrot()
 // Rotationen am Knoten p
@@ -313,13 +313,13 @@ void bb1_tree::rdrot(bb1_item p, bb1_item q)
   h->gr=h->sohn[left]->groesse()+h->sohn[right]->groesse();
   g->gr=p->groesse()+h->groesse();
 }
- 
+
 // ------------------------------------------------------------------
 // sinsert()
 // fuegt ein neues Item (y,x) in den Baum ein
 //                 , falls noch kein Item it vorhanden mit key(it)=y
 // change_obj(y,x) ,sonst
-// fuellt Keller mit zu rebalancierenden Knoten 
+// fuellt Keller mit zu rebalancierenden Knoten
 // gibt eingefuegtes Blatt zurueck
 
       bb1_item bb1_tree::sinsert(GenPtr y,GenPtr x)
@@ -336,11 +336,11 @@ void bb1_tree::rdrot(bb1_item p, bb1_item q)
 		     bb1_item p=new  bb1_node(y,x);
 		     p->sohn[left]=p;
 		     p->sohn[right]=p;
-		     root=p; 
+		     root=p;
 		     first=p;
 		     first->sohn[left]=first;
 		     first->sohn[right]=first;
-		     anzahl=1; 
+		     anzahl=1;
 		     inserted = p;
 		   }
 	else
@@ -356,7 +356,7 @@ void bb1_tree::rdrot(bb1_item p, bb1_item q)
 	      first=p;
 	      root=s;
 	      st.push(s);
-	      anzahl++; 
+	      anzahl++;
 	      inserted = p;
 	     }
 	    else if (cmp(y,root->key())>0)         // hier rechts einfuegen
@@ -376,7 +376,7 @@ void bb1_tree::rdrot(bb1_item p, bb1_item q)
 		       }
 	  else                           // root ist innerer Knoten
 	  { bb1_item father;
-	    search(y);                   // fuelle Suchstack 
+	    search(y);                   // fuelle Suchstack
 	    bb1_item t=st.pop();
 	    father = st.top();
 					 // einfuegen
@@ -390,11 +390,11 @@ void bb1_tree::rdrot(bb1_item p, bb1_item q)
 	      bb1_item s=new bb1_node(y,x,Node,p,t);
 	      if (cmp(s->key(),father->key())<=0) father->sohn[left]=s;
 	      else father->sohn[right]=s;
-	      anzahl++; 
+	      anzahl++;
 	      inserted = p;
 	      st.push(s);
 	    }
-	    else if (cmp(y,t->key())>0)     
+	    else if (cmp(y,t->key())>0)
 		 { DDUMP(("insert rechts von Blatt -> neues Maximum\n"));
 		   help=t->sohn[right];
 		   bb1_item p=new bb1_node(y,x,Leaf,t,help);
@@ -425,7 +425,7 @@ void bb1_tree::rdrot(bb1_item p, bb1_item q)
 // gibt eingefuegtes Blatt zurueck
 
 bb1_item bb1_tree::insert(GenPtr y, GenPtr x)
-{ 
+{
   bb1_item inserted;
   bb1_item t,father;
 
@@ -437,18 +437,18 @@ bb1_item bb1_tree::insert(GenPtr y, GenPtr x)
   inserted = sinsert(y,x);
   if (!st.empty())
     st.pop();                       // pop father of leaf
-  
+
 				    // rebalancieren
   while (!st.empty())
   { t=st.pop();
     father = st.empty() ? 0 : st.top();
-    t->gr++;  
+    t->gr++;
     float i = t->bal();
     DDUMP(("rebal cur=%d groesse=%d bal=%f\n",int(t->key()),t->groesse(),i));
     if (i < alpha)
       if (t->sohn[right]->bal()<=d) lrot(t,father);
       else ldrot(t,father);
-    else if (i>1-alpha) 
+    else if (i>1-alpha)
            if (t->sohn[left]->bal() > d ) rrot(t,father);
 	   else rdrot(t,father);
   }
@@ -477,14 +477,14 @@ bb1_item bb1_tree::sdel(GenPtr y)
       { DDUMP(("Wurzel loeschen\n"));
         bb1_item p = root;
         first=iterator=0;
-        anzahl=0; 
-        root=0; 
-        return p; 
+        anzahl=0;
+        root=0;
+        return p;
        }
-    else 
-      { DPRINT(("Element nicht im Baum\n"));  
+    else
+      { DPRINT(("Element nicht im Baum\n"));
         return 0; }
-  else 
+  else
   { bb1_item p,father;
     bb1_item pp=search(y);
 
@@ -515,9 +515,9 @@ bb1_item bb1_tree::sdel(GenPtr y)
         }
 
       st.push(father);
-      return p; 
+      return p;
     }
-    else                                // Blatt mit Tiefe >= 2     
+    else                                // Blatt mit Tiefe >= 2
     { bb1_item q=st.pop();
 
       if (cmp(y,q->key())!=0)
@@ -559,7 +559,7 @@ bb1_item bb1_tree::sdel(GenPtr y)
 // loescht Item it im Baum mit key(it)=y , falls existiert
 //         und gibt Zeiger auf it zurueck
 // 0 , sonst
-// mittels sdel                                     
+// mittels sdel
 // rebalanciert Baum danach
 
 bb1_item bb1_tree::del(GenPtr y)
@@ -575,7 +575,7 @@ bb1_item bb1_tree::del(GenPtr y)
   while (!st.empty())
   { p = st.pop();
     father = st.empty() ? 0 : st.top() ;
-    p->gr--;              
+    p->gr--;
     float i=p->bal();
     DDUMP(("rebal cur=%d groesse=%d bal=%f\n",int(p->key()),p->groesse(),i));
     if (i<alpha)
@@ -586,7 +586,7 @@ bb1_item bb1_tree::del(GenPtr y)
            else rdrot(p,father);
   }
   return deleted;
-} 
+}
 
 // -----------------------------------------------------------------
 // Gleichheitsoperator
@@ -596,7 +596,7 @@ bb1_tree& bb1_tree::operator=(const bb1_tree& w)
 { DDUMP(("operator = wurzel%d\n",(int)w.root->key()));
   bb1_item p;
   bb1_item l=0;
-  if (anzahl!=0) deltree(root); 
+  if (anzahl!=0) deltree(root);
   st.clear();
   anzahl=w.anzahl;
   alpha=w.alpha;
@@ -617,7 +617,7 @@ bb1_tree& bb1_tree::operator=(const bb1_tree& w)
   return *this;
 }
 
-bb1_item bb1_tree::copytree(bb1_item p, bb1_item q,bb1_item& ll) 
+bb1_item bb1_tree::copytree(bb1_item p, bb1_item q,bb1_item& ll)
 { DDUMP(("copytree %d\n",(int)p->key()));
   bb1_item a;
   bb1_item r;
@@ -629,7 +629,7 @@ bb1_item bb1_tree::copytree(bb1_item p, bb1_item q,bb1_item& ll)
       ll->sohn[right]=p; }
     p->sohn[right]=0;
     a=p;
-    ll=p; 
+    ll=p;
     DDUMP(("ll gesetzt %d\n",int(ll->key()))); }
   else {
     r=new bb1_node(q->sohn[left]);
@@ -638,7 +638,7 @@ bb1_item bb1_tree::copytree(bb1_item p, bb1_item q,bb1_item& ll)
     s=new bb1_node(q->sohn[right]);
     p->sohn[right]=s;
     copytree(p->sohn[right],q->sohn[right],ll); }
-  return a; 
+  return a;
 }
 
 // ------------------------------------------------------------------
@@ -660,7 +660,7 @@ void bb1_tree::deltree(bb1_item p)
   { DDUMP(("deltree : current=%d\n",int(p->key())));
     if (!p->blatt())
     {  deltree(p->sohn[left]);
-       deltree(p->sohn[right]); 
+       deltree(p->sohn[right]);
      }
     delete(p);
   }
@@ -668,11 +668,11 @@ void bb1_tree::deltree(bb1_item p)
 
 
 void bb1_tree::draw(DRAW_BB_NODE_FCT draw_node,
-                   DRAW_BB_EDGE_FCT draw_edge, 
-                   bb1_node* r, 
-                   double x1, double x2, double y, 
+                   DRAW_BB_EDGE_FCT draw_edge,
+                   bb1_node* r,
+                   double x1, double x2, double y,
                    double ydist, double last_x)
-{ 
+{
  double x = (x1+x2)/2;
 
  if (r==nil) return;
@@ -681,7 +681,7 @@ void bb1_tree::draw(DRAW_BB_NODE_FCT draw_node,
 
  draw_node(x,y,r->key());
 
- if (!r->blatt()) 
+ if (!r->blatt())
  { draw(draw_node,draw_edge,r->sohn[0],x1,x,y-ydist,ydist,x);
    draw(draw_node,draw_edge,r->sohn[1],x,x2,y-ydist,ydist,x);
   }
@@ -689,7 +689,7 @@ void bb1_tree::draw(DRAW_BB_NODE_FCT draw_node,
 
 
 void bb1_tree::draw(DRAW_BB_NODE_FCT draw_node,
-                   DRAW_BB_EDGE_FCT draw_edge, 
+                   DRAW_BB_EDGE_FCT draw_edge,
                    double x1, double x2, double y, double ydist)
 { draw(draw_node,draw_edge,root,x1,x2,y,ydist,0); }
 

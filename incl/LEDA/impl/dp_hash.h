@@ -5,9 +5,9 @@
 +  dp_hash.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_DP_HASH_H
@@ -67,14 +67,14 @@ class headertable {
   bool insert(GenPtr ,GenPtr ,stp& ,int& ,bool& ,stp ,stp );
   int dinsert(GenPtr ,GenPtr ,stp ,stp& ,stp& );
 
-  bool del(GenPtr ,stp ,stp ); 
-  int give_elements(stp& ,stp ,stp );  
+  bool del(GenPtr ,stp ,stp );
+  int give_elements(stp& ,stp ,stp );
 
 
   headertable()
-    { 
-      kj = wj = mj=0; 
-      tj=0;   
+    {
+      kj = wj = mj=0;
+      tj=0;
      }
 
 };
@@ -83,7 +83,7 @@ class headertable {
 // class subtable
 //
 // Jedes Subtableelement ist leer,
-// oder von der Headertable wird genau ein Element    
+// oder von der Headertable wird genau ein Element
 // auf eine Position gehasht
 
 class subtable {
@@ -100,19 +100,19 @@ class subtable {
        ke=a; inf=b; }
 
   void clear()
-    { 
+    {
        ke=EMPTY; inf=0; }
 
   subtable()
-    {  
+    {
        ke=EMPTY; inf=0; }
 
   subtable(GenPtr a ,GenPtr b )
-    {  
+    {
        ke=a; inf=b; }
 
   subtable(subtable& s)
-    {  
+    {
        ke=s.ke;
        inf=s.inf; }
 
@@ -135,7 +135,7 @@ class subtable {
 // class dp_hash
 //
 // alle Informationen fuer das Dictionary
-// Elemente werden auf Headertables gehasht, 
+// Elemente werden auf Headertables gehasht,
 // die dann die Elemente weitergeben
 // Der Platzverbrauch der Headertables wird kontrolliert
 
@@ -186,7 +186,7 @@ public:
     return nil;
    }
 
-  dp_hash& operator=(const dp_hash&) 
+  dp_hash& operator=(const dp_hash&)
   { error_handler(1,"sorry, dp_hash::operator= not implemented");
     return *this;
    }

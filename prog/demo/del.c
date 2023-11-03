@@ -1,14 +1,14 @@
 #include <LEDA/plane_alg.h>
 #include <LEDA/window.h>
 
-main()
+int main()
 {
   window W;
 
   list<point> L;
 
   point p;
-  while (W >> p) 
+  while (W >> p)
   { W << p;
     L.append(p);
    }

@@ -5,14 +5,14 @@
 +  _circle.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #include <LEDA/circle.h>
-#include <math.h>
+#include <cmath>
 
 
 //------------------------------------------------------------------------------
@@ -20,17 +20,17 @@
 //------------------------------------------------------------------------------
 
 
-circle::circle() 
+circle::circle()
 { PTR = new circle_rep; }
 
-circle::circle(const point& c, double r)       
+circle::circle(const point& c, double r)
 { PTR = new circle_rep(c,r); }
 
-circle::circle(double x, double y, double r)  
+circle::circle(double x, double y, double r)
 { PTR = new circle_rep(point(x,y),r); }
 
 circle::circle(const point& a, const point& b, const point& c)
-{ if (collinear(a,b,c)) 
+{ if (collinear(a,b,c))
      error_handler(1,"circle::circle(a,b,c): points are collinear.");
   line l1 = p_bisector(a,b);
   line l2 = p_bisector(b,c);
@@ -39,7 +39,7 @@ circle::circle(const point& a, const point& b, const point& c)
   PTR = new circle_rep(m,m.distance(a));
  }
 
-  
+
 
 bool circle::operator==(const circle& c)  const
 { return ptr()->center == c.ptr()->center && ptr()->radius == c.ptr()->radius; }
@@ -60,7 +60,7 @@ double circle::distance(const circle& c) const
   return (d - ptr()->radius - c.ptr()->radius);
  }
 
-bool circle::inside(const point& p) const 
+bool circle::inside(const point& p) const
 { return distance(p)<=0; }
 
 
@@ -75,7 +75,7 @@ circle circle::translate(const vector& v) const
  }
 
 circle  circle::rotate(const point& o, double alpha) const
-{ return circle(ptr()->center.rotate(o,alpha),ptr()->radius); 
+{ return circle(ptr()->center.rotate(o,alpha),ptr()->radius);
  }
 
 circle  circle::rotate(double alpha)          const
@@ -90,7 +90,7 @@ list<point> circle::intersection(const line& l) const
   point   F = s.end();
 
   if (d==r) result.append(F);
-  
+
   if (d < r)
   { double alpha = l.angle();
     double x = sqrt(r*r - d*d);
@@ -161,12 +161,12 @@ segment circle::right_tangent(const point& p) const
   return segment(p,touch);
 }
 
-ostream& operator<<(ostream& out, const circle& c) 
-{ out << c.center() << " "<< c.radius(); 
+std::ostream& operator<<(std::ostream& out, const circle& c)
+{ out << c.center() << " "<< c.radius();
   return out;
- } 
+ }
 
-istream& operator>>(istream& in,  circle& c) 
+std::istream& operator>>(std::istream& in,  circle& c)
 { point cent;
   double rad;
   if (in) in >> cent;

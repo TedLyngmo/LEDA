@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include <LEDA/sortseq.h>
 #include <LEDA/p_queue.h>
 #include <LEDA/graph.h>

@@ -5,9 +5,9 @@
 +  _x11.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -18,16 +18,16 @@
 
 #include <LEDA/impl/x_basic.h>
 
-#include <iostream.h>
+#include <iostream>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
 
 #include <LEDA/bitmaps/leda_icon.xbm>
 
@@ -40,19 +40,19 @@ static char dash_mask[2] = { 4,4 };
 
 
 #if defined(__linux__)
-static char* text_font_name = "7x14";
-static char* bold_font_name = "7x14bold";
-static char* mesg_font_name = "9x15";
+static const char* text_font_name = "7x14";
+static const char* bold_font_name = "7x14bold";
+static const char* mesg_font_name = "9x15";
 #else
-static char* text_font_name = "screen16";
-static char* bold_font_name = "screen-bold16";
-static char* mesg_font_name = "10x20";
+static const char* text_font_name = "screen16";
+static const char* bold_font_name = "screen-bold16";
+static const char* mesg_font_name = "10x20";
 #endif
 
 
-static char* text_font_name2 = "9x15";
-static char* bold_font_name2 = "9x15bold";
-static char* mesg_font_name2 = "lucidasans20";
+static const char* text_font_name2 = "9x15";
+static const char* bold_font_name2 = "9x15bold";
+static const char* mesg_font_name2 = "lucidasans20";
 
 
 
@@ -73,9 +73,9 @@ static int bold_char_width;
 static int text_char_width;
 static int current_char_width;
 
-const  int MAX_COLORS = 256; 
+const  int MAX_COLORS = 256;
 static unsigned long color_pix[MAX_COLORS];
-static char* color_name[MAX_COLORS];
+static const char* color_name[MAX_COLORS];
 static int color_count= 0;
 
 static int LINESTYLE = 0;
@@ -92,10 +92,10 @@ static int get_char_width(XFontStruct* fp)
 
 
 void open_display(void)
-{ 
+{
   if (display!=NULL) return;
 
-  if ((display = XOpenDisplay(0)) == NULL)	
+  if ((display = XOpenDisplay(0)) == NULL)
   { fprintf(stderr, "Can\'t open display: \n");
     abort();
    }
@@ -141,9 +141,9 @@ void open_display(void)
   new_color("darkorange");     // 7: orange
   new_color("cyan");           // 8: cyan
   new_color("sienna");         // 9: brown
-  new_color("magenta");        //10: pink 
+  new_color("magenta");        //10: pink
 //new_color("forestgreen");    //11: green2
-  new_color("#0cb3a0");                    
+  new_color("#0cb3a0");
   new_color("cornflowerblue"); //12: blue2
 
 #if defined(__linux__)
@@ -157,7 +157,7 @@ void open_display(void)
 #endif
 
   gc_val.foreground = color_pix[1];
-  gc_val.function  = GXor; 
+  gc_val.function  = GXor;
   gc_val.line_style = LineSolid;
   gc_val.line_width = 1;
   gc_val.font = text_font->fid;
@@ -183,7 +183,7 @@ void set_palette(int,int,int,int)   { /* not implemented */ }
 void set_redraw(Window,void (*)()) { /* not implemented */ }
 
 int new_color(const char* name)
-{ 
+{
   open_display();
 
   // first test if color has been allocated before
@@ -192,14 +192,14 @@ int new_color(const char* name)
   for(i = 0; i < color_count; i++)
      if (strcmp(color_name[i],name)==0) break;
   if (i < color_count) return i;
-  
+
   // if not, try to allocate it
 
   if (color_count == MAX_COLORS) return 0;
 
   XColor xcolor;
 
-  if (DefaultDepth(display,screen)==1 && strcmp(name,"white")!=0) 
+  if (DefaultDepth(display,screen)==1 && strcmp(name,"white")!=0)
      XParseColor(display, color_map, "black", &xcolor);
   else
      XParseColor(display, color_map, name, &xcolor);
@@ -211,8 +211,8 @@ int new_color(const char* name)
   color_name[color_count] = p;
   return color_count++;
 }
- 
-  
+
+
 
 Window open_window(int x, int y, int width, int height, int bg_col,
                    const char* header, const char* label)
@@ -228,23 +228,23 @@ Window open_window(int x, int y, int width, int height, int bg_col,
 
   win= XCreateWindow(display, RootWindow(display, screen), x, y,
                            width,height,2,DefaultDepth(display,screen),
-                           InputOutput, DefaultVisual(display,screen), 
+                           InputOutput, DefaultVisual(display,screen),
                            CWBackingStore, &attrib);
- 
-  XSelectInput(display,win, KeyPressMask    | PointerMotionMask  | 
-                            ButtonPressMask | ButtonReleaseMask  |
-                            ExposureMask    | StructureNotifyMask ); 
-  
 
-  if (DefaultDepth(display,screen) == 1) 
-    XSetWindowBackground(display,win, WhitePixel(display, screen)); 
+  XSelectInput(display,win, KeyPressMask    | PointerMotionMask  |
+                            ButtonPressMask | ButtonReleaseMask  |
+                            ExposureMask    | StructureNotifyMask );
+
+
+  if (DefaultDepth(display,screen) == 1)
+    XSetWindowBackground(display,win, WhitePixel(display, screen));
   else
     XSetWindowBackground(display,win,color_pix[bg_col]);
- 
+
   XStoreName(display,win,header);
   XSetIconName(display,win,label);
 
-  icon_pixmap = XCreateBitmapFromData(display, win, (char*)leda_icon_bits, 
+  icon_pixmap = XCreateBitmapFromData(display, win, (char*)leda_icon_bits,
 			leda_icon_width, leda_icon_height);
 
   size_hints.flags = PPosition;
@@ -255,12 +255,12 @@ Window open_window(int x, int y, int width, int height, int bg_col,
   wm_hints.initial_state = NormalState;
   wm_hints.icon_pixmap = icon_pixmap;
   wm_hints.input = True;
-  
+
   XSetWMProperties(display,win,0,0,0,0,&size_hints,&wm_hints,0);
 
   XMapWindow(display,win);
 
-  while (1) 
+  while (1)
   { XNextEvent(display, &e);
     if (e.type == Expose) break;
    }
@@ -273,33 +273,33 @@ Window open_window(int x, int y, int width, int height, int bg_col,
 
 int display_width(void)
 { open_display();
-  return DisplayWidth(display,screen);  
+  return DisplayWidth(display,screen);
  }
 
 int display_height(void)
 { open_display();
-  return DisplayHeight(display,screen); 
+  return DisplayHeight(display,screen);
  }
 
 int display_depth(void)
 { open_display();
-  return DefaultDepth(display,screen); 
+  return DefaultDepth(display,screen);
  }
 
 void flush_display(void)
 { XFlush(display); }
 
 void close_display()
-{ if (display) 
-  { XCloseDisplay(display); 
+{ if (display)
+  { XCloseDisplay(display);
     for(int i=0; i < color_count; i++) delete color_name[i];
-    display = 0; 
-   } 
+    display = 0;
+   }
 }
 
 void close_window(Window win)
 { XDestroyWindow(display,win); }
- 
+
 void clear_window(Window win)
 { XClearWindow(display,win);
   //int save_col = set_color(col);
@@ -317,15 +317,15 @@ void pixel(Window win, int x, int y)
 { XDrawPoint(display,win,gc,x,y); }
 
 void point(Window win, int x, int y)
-{ XDrawPoint(display,win,gc,x,y); 
-  XDrawPoint(display,win,gc,x-2,y-2); 
-  XDrawPoint(display,win,gc,x-1,y-1); 
-  XDrawPoint(display,win,gc,x+1,y+1); 
-  XDrawPoint(display,win,gc,x+2,y+2); 
-  XDrawPoint(display,win,gc,x-2,y+2); 
-  XDrawPoint(display,win,gc,x-1,y+1); 
-  XDrawPoint(display,win,gc,x+1,y-1); 
-  XDrawPoint(display,win,gc,x+2,y-2); 
+{ XDrawPoint(display,win,gc,x,y);
+  XDrawPoint(display,win,gc,x-2,y-2);
+  XDrawPoint(display,win,gc,x-1,y-1);
+  XDrawPoint(display,win,gc,x+1,y+1);
+  XDrawPoint(display,win,gc,x+2,y+2);
+  XDrawPoint(display,win,gc,x-2,y+2);
+  XDrawPoint(display,win,gc,x-1,y+1);
+  XDrawPoint(display,win,gc,x+1,y-1);
+  XDrawPoint(display,win,gc,x+2,y-2);
  }
 
 
@@ -350,9 +350,9 @@ void line(Window win, int x1, int y1, int x2, int y2)
   if ((y1/(1<<15)) % 2) y1 = -y1;
   if ((y2/(1<<15)) % 2) y2 = -y2;
 
-  XDrawLine(display,win,gc,x1,y1,x2,y2); 
+  XDrawLine(display,win,gc,x1,y1,x2,y2);
  }
- 
+
 
 void rectangle(Window win, int x1, int y1, int x2, int y2)
 { if (x1 > x2)
@@ -367,8 +367,8 @@ void rectangle(Window win, int x1, int y1, int x2, int y2)
    }
   XDrawRectangle(display,win,gc,x1,y1,x2-x1,y2-y1);
 }
- 
- 
+
+
 void box(Window win, int x1, int y1, int x2, int y2)
 { if (x1 > x2)
   { int x = x1;
@@ -415,7 +415,7 @@ void fill_ellipse(Window win, int x0, int y0, int r1, int r2)
 void fill_polygon(Window win, int n, int *xcoord, int *ycoord)
 { XPoint* edges = new XPoint[n];
   int i;
-  for(i=0;i<n;i++) 
+  for(i=0;i<n;i++)
   { edges[i].x = (short) xcoord[i];
     edges[i].y = (short) ycoord[i];
    }
@@ -454,14 +454,14 @@ void put_ctext(Window win, int x, int y, const char* s, int opaque)
 void show_coordinates(Window win, const char* s)
 { put_text(win,window_width(win)-160,2,s,1); }
 
- 
+
 int text_width(const char* s)
 { return current_char_width * strlen(s); }
- 
- 
+
+
 int text_height(const char*)
 { return(current_font->ascent+(2*current_font->descent)/3); }
- 
+
 
 char* create_pixrect(Window, int, int, int, int) { return (char*)0; }
 
@@ -484,14 +484,14 @@ void copy_pixrect(Window win, int x1, int y1, int x2, int y2, int x, int y)
 void insert_bitmap(Window win, int width, int height, char* data)
 { int save = set_mode(0);
   Pixmap P=XCreatePixmapFromBitmapData(display,win,data,width,height,
-                                       BlackPixel(display,screen), 
-                                       WhitePixel(display,screen), 
+                                       BlackPixel(display,screen),
+                                       WhitePixel(display,screen),
                                        DefaultDepth(display,screen));
   XCopyArea(display,P,win,gc,0,0,width,height,0,0);
   set_mode(save);
  }
 
- 
+
 void set_header(Window win, const char* s)
 { XStoreName(display,win,s); }
 
@@ -531,7 +531,7 @@ int set_mode(int m)
 
 int load_text_font(const char* font_name)
 { XFontStruct* fp = XLoadQueryFont(display,font_name);
-  if (fp)  
+  if (fp)
   { text_font = fp;
     text_char_width = get_char_width(fp);
    }
@@ -541,7 +541,7 @@ int load_text_font(const char* font_name)
 
 int load_bold_font(const char* font_name)
 { XFontStruct* fp = XLoadQueryFont(display,font_name);
-  if (fp)  
+  if (fp)
   { bold_font = fp;
     bold_char_width = get_char_width(fp);
    }
@@ -551,7 +551,7 @@ int load_bold_font(const char* font_name)
 
 int load_message_font(const char* font_name)
 { XFontStruct* fp = XLoadQueryFont(display,font_name);
-  if (fp)  
+  if (fp)
   { mesg_font = fp;
     mesg_char_width = get_char_width(fp);
    }
@@ -605,7 +605,7 @@ int set_line_width(int w)
 
 
 int set_line_style(int s)
-{ 
+{
   int save = LINESTYLE;
 
   LINESTYLE = s;
@@ -631,8 +631,8 @@ int set_line_style(int s)
 
 void set_read_gc(void)
 {XGCValues gc_val0;
- gc_val0.function = GXxor; 
- gc_val0.foreground = BlackPixel(display,screen); 
+ gc_val0.function = GXxor;
+ gc_val0.foreground = BlackPixel(display,screen);
  gc_val0.line_style = LineSolid;
  gc_val0.line_width = 1;
  XChangeGC(display,gc,GCForeground|GCFunction|GCLineStyle|GCLineWidth,&gc_val0);
@@ -697,7 +697,7 @@ static int  handle_event(Window *win,int *val,int *x,int *y,unsigned long *t)
                     *y = event.xbutton.y;
                     *t = event.xbutton.time;
                     kind = button_press_event;
-                    if (event.xbutton.state & Mod1Mask) *val = 2; 
+                    if (event.xbutton.state & Mod1Mask) *val = 2;
                     if (event.xbutton.state & ShiftMask) *val = -*val;
                     if (event.xbutton.state & ControlMask) *val += 3;
                     break;
@@ -706,7 +706,7 @@ static int  handle_event(Window *win,int *val,int *x,int *y,unsigned long *t)
                       *x = event.xbutton.x;
                       *y = event.xbutton.y;
                       *t = event.xbutton.time;
-                      if (event.xbutton.state & Mod1Mask) *val = 2; 
+                      if (event.xbutton.state & Mod1Mask) *val = 2;
                       if (event.xbutton.state & ShiftMask) *val = -*val;
                       if (event.xbutton.state & ControlMask) *val += 3;
                       kind = button_release_event;
@@ -730,14 +730,14 @@ static int  handle_event(Window *win,int *val,int *x,int *y,unsigned long *t)
 }
 
 
-int check_next_event(Window *win, int *val, int *x, int *y, unsigned long *t) 
-{ // non-blocking 
- 
-  if (XCheckMaskEvent(display, 
-                      KeyPressMask    | // PointerMotionMask  | 
+int check_next_event(Window *win, int *val, int *x, int *y, unsigned long *t)
+{ // non-blocking
+
+  if (XCheckMaskEvent(display,
+                      KeyPressMask    | // PointerMotionMask  |
                       ButtonPressMask | ButtonReleaseMask  |
-                      ExposureMask    | StructureNotifyMask, &event) == 0) 
-      return no_event; 
+                      ExposureMask    | StructureNotifyMask, &event) == 0)
+      return no_event;
 
   return handle_event(win,val,x,y,t);
 }

@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include <LEDA/graph.h>
 #include <LEDA/point.h>
 #include <LEDA/segment.h>
@@ -20,8 +20,8 @@ cout << string("%6d / %6d   (%.2f %%)",exact_cmp_count,cmp_count,\
                                        100*float(exact_cmp_count)/cmp_count);\
 newline; }
 
-main()
-{ 
+int main()
+{
   int N  = read_int("N  = ");
   int k  = read_int("k  = ");
   int l = 0;
@@ -49,7 +49,7 @@ main()
       segment s1(x1.todouble(),y1.todouble(),x2.todouble(),y2.todouble());
       seglist1.append(s1);
      }
-  
+
 
    int point_cmp_count;
    int point_exact_cmp_count;
@@ -67,7 +67,7 @@ main()
    newline;
 
    }
-  
+
   return 0;
 }
 

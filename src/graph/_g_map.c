@@ -5,9 +5,9 @@
 +  _g_map.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/graph.h>
@@ -24,18 +24,18 @@ void graph_map::init_table(GenPtr* start, GenPtr* stop)
 
 void graph_map::clear_table()
 { GenPtr* stop = table+table_size;
-  for(GenPtr* q=table; q < stop; q++) clear_entry(*q); 
+  for(GenPtr* q=table; q < stop; q++) clear_entry(*q);
  }
 
 void graph_map::resize_table(int sz)
-{ 
+{
   GenPtr* old_table = table;
   GenPtr* old_stop  = table + table_size;
-  
+
   table_size = sz;
   table = new GenPtr[sz];
 
-  GenPtr* p = old_table; 
+  GenPtr* p = old_table;
   GenPtr* q = table;
   while (p < old_stop) *q++ = *p++;
 
@@ -45,7 +45,7 @@ void graph_map::resize_table(int sz)
 }
 
 
-void graph_map::init(const graph* G, int sz) 
+void graph_map::init(const graph* G, int sz)
 { clear_table();
   if (table_size > 0) delete[] table;
   table = 0;
@@ -54,7 +54,7 @@ void graph_map::init(const graph* G, int sz)
   if (table_size > 0) table = new GenPtr[table_size];
 }
 
-graph_map::graph_map(const graph* G, int sz) 
+graph_map::graph_map(const graph* G, int sz)
 { g = G;
   table = 0;
   table_size = next_power(sz);
@@ -70,9 +70,9 @@ graph_map::graph_map(const graph_map& M)
   { table = new GenPtr[table_size];
     GenPtr* p = table;
     GenPtr* stop = M.table+M.table_size;
-    for(GenPtr* q=M.table; q < stop; q++) 
+    for(GenPtr* q=M.table; q < stop; q++)
     { *p = *q;
-      M.copy_entry(*p); 
+      M.copy_entry(*p);
       p++;
      }
    }
@@ -90,9 +90,9 @@ graph_map& graph_map::operator=(const graph_map& M)
   { table = new GenPtr[table_size];
     GenPtr* p = table;
     GenPtr* stop = M.table+M.table_size;
-    for(GenPtr* q=M.table; q < stop; q++) 
+    for(GenPtr* q=M.table; q < stop; q++)
     { *p = *q;
-      copy_entry(*p); 
+      copy_entry(*p);
       p++;
      }
    }

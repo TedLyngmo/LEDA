@@ -5,9 +5,9 @@
 +  p_heap.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_PAIRING_HEAP_H
@@ -40,16 +40,16 @@ class ph_item
           inf=i;
          }
 
-       ~ph_item()       {} 
-        
+       ~ph_item()       {}
+
   LEDA_MEMORY(ph_item)
-        
+
 };
 
 
 class p_heap
 {
-        
+
         ph_item* head;
         int item_count;
         void do_copy(ph_item*,ph_item*,bool);
@@ -64,9 +64,9 @@ class p_heap
         virtual void clear_inf(GenPtr&) const {}
         virtual void copy_key(GenPtr&)  const {}
         virtual void copy_inf(GenPtr&)  const {}
- 
+
         virtual int  int_type() const { return 0; }
- 
+
 protected:
 
         //ph_item* comparison_link(ph_item*,ph_item*);
@@ -76,7 +76,7 @@ protected:
 
         ph_item* item(void* p) const { return (ph_item*)p; }
 
-        
+
 public:
         p_heap()        { item_count=0; }
 
@@ -109,7 +109,7 @@ virtual ~p_heap() { clear(); }
                 {decrease_key(x,head->key);delete_min_twopass();}
 
         void clear ();
-        
+
         int  size() const  { return item_count; }
         int  empty() const { return item_count>0; }
 
@@ -118,6 +118,6 @@ virtual ~p_heap() { clear(); }
         ph_item* first_item()        const { return 0; }
         ph_item* next_item(ph_item*) const { return 0; }
 
-};      
+};
 
 #endif

@@ -304,13 +304,13 @@ public:@;
   r_heap_item first_item() const;
   r_heap_item next_item(r_heap_item p) const;
 
-  void print_contents (ostream& chk = cout) const;
+  void print_contents (std::ostream& chk = cout) const;
 };@;  
 
 /* dummy I/O and cmp functions */
 
-inline void Print(const r_heap&, ostream&)@+ { @+}
-inline void Read (r_heap&, istream&)@+ {@+ }
+inline void Print(const r_heap&, std::ostream&)@+ { @+}
+inline void Read (r_heap&, std::istream&)@+ {@+ }
 inline int  compare(const r_heap&,const r_heap&)@+ {@+ return 0;@+ }
 
 @ It is necessary to include a header file containing standard
@@ -787,7 +787,7 @@ It is added for maintenance purposes.
 
 @<public...@>=
 
-void r_heap::print_contents (ostream& os) const
+void r_heap::print_contents (std::ostream& os) const
 {
   r_heap_item item;
 
@@ -821,7 +821,7 @@ of |r_heap|.
 @<r\_heap includes@>=
 
 #include "r_heap.h"
-#include <math.h>
+#include <cmath>
 
 @ The source code of the |r_heap| implementation is composed of the 
 following chunks.
@@ -950,9 +950,9 @@ int main(void)
 #include <LEDA/_p_queue.h>
 #include <LEDA/graph.h>
 #include <LEDA/graph_alg.h>
-#include <fstream.h>
-#include <string.h>
-#include <math.h>
+#include <fstream>
+#include <cstring>
+#include <cmath>
 
 @* Experiments.
 

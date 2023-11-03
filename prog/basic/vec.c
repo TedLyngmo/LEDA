@@ -3,7 +3,7 @@
 
 
 
-main()
+int main()
 {
 
   array<vector> A(5);

@@ -5,9 +5,9 @@
 +  rat_point.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -29,7 +29,7 @@ class rat_point_rep  : public handle_rep {
 
 friend class rat_point;
 friend class rat_segment;
-   
+
    integer x;
    integer y;
    integer w;
@@ -47,21 +47,21 @@ public:
     }
 
    rat_point_rep(integer a, integer b) : x(a), y(b), w(1)
-   { xd = a.todouble(); 
-     yd = b.todouble(); 
+   { xd = a.todouble();
+     yd = b.todouble();
      wd = 1;
     }
 
    rat_point_rep(integer a, integer b, integer c) : x(a), y(b), w(c)
-   { xd = a.todouble(); 
-     yd = b.todouble(); 
+   { xd = a.todouble();
+     yd = b.todouble();
      wd = c.todouble();
     }
 
   ~rat_point_rep() {}
 
 friend int orientation(const rat_point&, const rat_point&, const rat_point&);
-   
+
 };
 
 
@@ -71,15 +71,15 @@ friend int orientation(const rat_point&, const rat_point&, const rat_point&);
 class rat_point  : public handle_base {
 
 /*{\Mdefinition
-An instance of the data type $rat\_point$ is a point with rational coordinates 
+An instance of the data type $rat\_point$ is a point with rational coordinates
 in the two-dimensional plane. A point $(a,b)$ is represented by homogeneous
-coordinates $(x,y,w)$ of arbitrary length integers (see \ref{Integers of 
+coordinates $(x,y,w)$ of arbitrary length integers (see \ref{Integers of
 Arbitrary Length}) such that $a = x/w$ and $b = y/w$. }*/
 
 
  friend class rat_segment;
 
- rat_point_rep* ptr() const { return (rat_point_rep*)PTR; } 
+ rat_point_rep* ptr() const { return (rat_point_rep*)PTR; }
 
 public:
 
@@ -108,17 +108,17 @@ initialized to the point with homogeneous coordinates$(x,y,w)$.}*/
  rat_point(const rat_point& p) : handle_base(p) {}
 ~rat_point() {}
 
- rat_point& operator=(const rat_point& p) 
+ rat_point& operator=(const rat_point& p)
  { handle_base::operator=(p); return *this; }
 
 /*{\Moperations 2 3.5 }*/
 
 double xcoord() const { return ptr()->xd/ptr()->wd;}
-/*{\Mop     returns a double precision floating point approximation of the 
+/*{\Mop     returns a double precision floating point approximation of the
             $x$-coordinate of \var.}*/
 
 double ycoord() const { return ptr()->yd/ptr()->wd;}
-/*{\Mop     returns a double precision floating point approximation of the 
+/*{\Mop     returns a double precision floating point approximation of the
             $y$-coordinate of \var.}*/
 
 integer X() const { return ptr()->x; }
@@ -131,15 +131,15 @@ integer W() const { return ptr()->w; }
 /*{\Mop     returns the third homogeneous coordinate of \var.}*/
 
 double XD() const { return ptr()->xd; }
-/*{\Mop     returns a floating point approximation of the first homogeneous 
+/*{\Mop     returns a floating point approximation of the first homogeneous
             coordinate of \var.}*/
 
 double YD() const { return ptr()->yd; }
-/*{\Mop     returns a floating point approximation of the second homogeneous 
+/*{\Mop     returns a floating point approximation of the second homogeneous
             coordinate of \var.}*/
 
 double WD() const { return ptr()->wd; }
-/*{\Mop     returns a floating point approximation of the third homogeneous 
+/*{\Mop     returns a floating point approximation of the third homogeneous
             coordinate of \var.}*/
 
 
@@ -165,12 +165,12 @@ friend bool operator!=(const rat_point& p, const rat_point& q)
 { return (!identical(p,q)) && rat_point::cmp(p,q) != 0; }
 /*{\Mbinopfunc  Test for inequality.}*/
 
-friend ostream& operator<<(ostream& O, const rat_point& p) ;
-/*{\Mbinopfunc  writes the homogeneous coordinates $(x,y,w)$ of \var\ to 
+friend std::ostream& operator<<(std::ostream& O, const rat_point& p) ;
+/*{\Mbinopfunc  writes the homogeneous coordinates $(x,y,w)$ of \var\ to
                 output stream $O$.}*/
 
-friend istream& operator>>(istream& I, rat_point& p) ;
-/*{\Mbinopfunc  reads the homogeneous coordinates $(x,y,w)$ of \var\ from 
+friend std::istream& operator>>(std::istream& I, rat_point& p) ;
+/*{\Mbinopfunc  reads the homogeneous coordinates $(x,y,w)$ of \var\ from
                 input stream $I$.}*/
 
 
@@ -180,7 +180,7 @@ friend int orientation(const rat_point& a, const rat_point& b, const rat_point& 
            \[ \left\Lvert \begin{array}{ccc} a_x & a_y & a_w\\
                                         b_x & b_y & b_w\\
                                         c_x & c_y & c_w
-                       \end{array} \right\Lvert \] 
+                       \end{array} \right\Lvert \]
            }*/
 
 
@@ -189,7 +189,7 @@ static int cmp(const rat_point&, const rat_point&);
 };
 
 
-extern 
+extern
 double area(const rat_point& a, const rat_point& b, const rat_point& c);
 /*{\Mfuncl computes the signed area of the triangle determined by $a$,$b$,$c$,
            positive if $orientation(a,b,c) > 0$ and negative otherwise. }*/
@@ -207,8 +207,8 @@ inline int compare(const rat_point& a, const rat_point& b)
 {  return (identical(a,b))  ? 0 : rat_point::cmp(a,b); }
 
 
-inline void Print(const rat_point& p, ostream& out) { out << p; } 
-inline void Read(rat_point& p,  istream& in)        { in >> p; }
+inline void Print(const rat_point& p, std::ostream& out) { out << p; }
+inline void Read(rat_point& p,  std::istream& in)        { in >> p; }
 
 
 inline bool collinear(const rat_point& a,const rat_point& b,const rat_point& c)
@@ -232,4 +232,4 @@ inline bool left_turn(const rat_point& a,const rat_point& b,const rat_point& c)
 
 #endif
 
-    
+

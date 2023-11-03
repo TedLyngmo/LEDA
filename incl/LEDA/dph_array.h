@@ -5,20 +5,20 @@
 +  dph_array.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_DPHARRAY_H
 #define LEDA_DPHARRAY_H
 
 //------------------------------------------------------------------------------
-// dph_array  
-//------------------------------------------------------------------------------ 
-#include <LEDA/basic.h> 
-#include <LEDA/impl/slist.h> 
-#include <LEDA/impl/dp_hash.h> 
+// dph_array
+//------------------------------------------------------------------------------
+#include <LEDA/basic.h>
+#include <LEDA/impl/slist.h>
+#include <LEDA/impl/dp_hash.h>
 
 
 template<class itype, class etype>
@@ -39,27 +39,27 @@ slist_item iterator;
 
 public:
 
-etype& operator[](itype y) 
+etype& operator[](itype y)
 { stp i=lookup(Convert(y));
-  if (i==nil) 
+  if (i==nil)
   { GenPtr p = Convert(init);
     i=insert(Convert(y),p);
-    def_list.append(Convert(y));  
+    def_list.append(Convert(y));
    }
-  return LEDA_ACCESS(etype,info(i)); 
+  return LEDA_ACCESS(etype,info(i));
 }
 
 etype  operator[](itype y) const
 { stp i=lookup(Convert(y));
   if (i==nil) return init;
-  else return LEDA_ACCESS(etype,info(i)); 
+  else return LEDA_ACCESS(etype,info(i));
  }
 
 bool defined(itype y) const { return (lookup(Convert(y)) != nil); }
 
 slist_item first_item() const { return def_list.first(); }
 
-void loop_to_succ(GenPtr& x) const 
+void loop_to_succ(GenPtr& x) const
 { x = def_list.succ(slist_item(x)); }
 
 GenPtr forall_defined_test(GenPtr it, itype& x) const

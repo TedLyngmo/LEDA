@@ -5,9 +5,9 @@
 +  b_node_pq.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_B_NODE_PQ_H
@@ -24,15 +24,15 @@
 
 /*{\Manpage {b_node_pq} {N} {Bounded Node Priority Queues} }*/
 
-template <int N> class b_node_pq 
+template <int N> class b_node_pq
 {
 /*{\Mdefinition
 An instance of the data type \name\ is a priority queue of nodes with
-integer priorities with the restriction that the size of the minimal interval 
-containing all priorities in the queue is bounded by $N$, the minimum priority 
-is never decreasing, and every node is contained in at most one queue. 
+integer priorities with the restriction that the size of the minimal interval
+containing all priorities in the queue is bounded by $N$, the minimum priority
+is never decreasing, and every node is contained in at most one queue.
 When applied to the empty queue the del\_min - operation returns a special
-default minimum node defined in the constructor of the queue. 
+default minimum node defined in the constructor of the queue.
 }*/
 
   node_list bucket[N+1];
@@ -54,9 +54,9 @@ public:
 /*{\Mcreation PQ }*/
 
 b_node_pq()
-{ stop = bucket+N; 
-  minptr = stop; 
-  val0 = 0; 
+{ stop = bucket+N;
+  minptr = stop;
+  val0 = 0;
   stop->append(&stop_item);
   nil_node = nil;
  }
@@ -64,9 +64,9 @@ b_node_pq()
               it with the empty queue with default minimum node $nil$. }*/
 
 b_node_pq(node v)
-{ stop = bucket+N; 
-  minptr = stop; 
-  val0 = 0; 
+{ stop = bucket+N;
+  minptr = stop;
+  val0 = 0;
   stop->append(&stop_item);
   nil_node = v;
  }
@@ -79,7 +79,7 @@ b_node_pq(node v)
 
 node del_min()
 { while (minptr->empty()) minptr++;
-  if (minptr == stop) 
+  if (minptr == stop)
   { val0 += N;
     minptr = bucket;
     while (minptr->empty()) minptr++;
@@ -87,11 +87,11 @@ node del_min()
   return (minptr==stop) ? nil_node : minptr->pop();
 }
 /*{\Mop     removes the node with minimal priority from \var\ and returns
-            it (the default minimum node if \var\ is empty). }*/ 
+            it (the default minimum node if \var\ is empty). }*/
 
 
-void insert(node w, int p) 
-{ if (minptr == stop) 
+void insert(node w, int p)
+{ if (minptr == stop)
     { // insert in empty queue (initialize val0 and min_ptr)
       val0 = p - p % N;
       p -= val0;
@@ -99,7 +99,7 @@ void insert(node w, int p)
      }
   else
      if ((p-=val0) >= N) p -= N;
-  bucket[p].push(w); 
+  bucket[p].push(w);
 }
 /*{\Mop    adds node $w$ with priority $p$ to \var. }*/
 
@@ -121,15 +121,15 @@ Using a $b\_node\_pq$ in Dijktra's shortest paths algorithm.
 {\obeyspaces\gdef {\ }}
 \ttverbatim
 
-int dijkstra(const GRAPH<int,int>& g, node s, node t) 
+int dijkstra(const GRAPH<int,int>& g, node s, node t)
 { node_array<int> dist(g,MAXINT);
-  b_node_pq<100> PQ(t);  // on empty queue del_min returns t 
+  b_node_pq<100> PQ(t);  // on empty queue del_min returns t
   dist[s] = 0;
 
   for (node v = s;  v != t; v = PQ.del_min() )
   { int dv = dist[v];
     edge e;
-    forall_adj_edges(e,v) 
+    forall_adj_edges(e,v)
     { node w = g.opposite(v,e);
       int d = dv + g.inf(e);
       if (d < dist[w])

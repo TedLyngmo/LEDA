@@ -5,35 +5,35 @@
 +  _line.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #include <LEDA/line.h>
-#include <math.h>
+#include <cmath>
 
 //------------------------------------------------------------------------------
-// lines 
+// lines
 //------------------------------------------------------------------------------
 
 
 line::line()
 { PTR = new line_rep; }
 
-line::line(const segment& s) 
+line::line(const segment& s)
 { PTR = new line_rep(s); }
 
-line::line(const point& x, const point& y)    
+line::line(const point& x, const point& y)
 { PTR = new line_rep(segment(x,y)); }
 
-line::line(const point& p, const vector& v) 
+line::line(const point& p, const vector& v)
 { PTR = new line_rep(segment(p,v)); }
 
-line::line(const point& p, double alpha) 
+line::line(const point& p, double alpha)
 { PTR = new line_rep(segment(p,alpha,1)); }
-  
+
 
 
 bool line::contains(const point& p) const
@@ -43,14 +43,14 @@ bool line::contains(const segment& s) const
 { return contains(s.start()) && contains(s.end()); }
 
 
-ostream& operator<<(ostream& out, const line& l) 
+std::ostream& operator<<(std::ostream& out, const line& l)
 { return out << l.seg(); }
 
-istream& operator>>(istream& in, line& l)  
-{ segment s; 
-  in >> s; 
-  l = line(s); 
-  return in; 
+std::istream& operator>>(std::istream& in, line& l)
+{ segment s;
+  in >> s;
+  l = line(s);
+  return in;
  }
 
 
@@ -60,11 +60,11 @@ bool line::intersection(const line& s, point& inter) const
 
 
 bool line::intersection(const segment& s, point& inter) const
-{ 
+{
   double orient1 = orientation(ptr()->seg,s.start());
   double orient2 = orientation(ptr()->seg,s.end());
 
-  if ( orient1*orient2 <= 0) 
+  if ( orient1*orient2 <= 0)
      { ptr()->seg.intersection_of_lines(s,inter);
        return true;
       }

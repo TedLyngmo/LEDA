@@ -327,7 +327,7 @@ We have to include the corresponding header files.
 #include <LEDA/integer.h>
 #include <LEDA/p_queue.h>
 #include <LEDA/map.h>
-#include <math.h>
+#include <cmath>
 
 @
 Let us briefly explain these types; for a detailed discussion we refer

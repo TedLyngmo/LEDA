@@ -5,9 +5,9 @@
 +  _panel.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -44,19 +44,19 @@ int  panel::open(int x, int y)
 
 
 
-void panel::text_item(string s)   
+void panel::text_item(string s)
 { LEDA_PANEL::text_item(s); }
 
-void panel::int_item(string s,int& x) 
+void panel::int_item(string s,int& x)
 { LEDA_PANEL::int_item(s,&x);}
 
-void panel::int_item(string s,int& x, int l, int h) 
+void panel::int_item(string s,int& x, int l, int h)
 { LEDA_PANEL::slider_item(s,&x,l,h,0);}
 
-void panel::int_item(string s,int& x, int l, int h, void (*F)(int)) 
+void panel::int_item(string s,int& x, int l, int h, void (*F)(int))
 { LEDA_PANEL::slider_item(s,&x,l,h,F);}
 
-void panel::double_item(string s, double& x) 
+void panel::double_item(string s, double& x)
 { LEDA_PANEL::float_item(s,&x);}
 
 void panel::real_item(string s, double& x)
@@ -72,9 +72,9 @@ void  panel::string_item(string label,string& x,list<string>& L)
   const char** p = new const char*[L.length()];
   int    i = 0;
   string s;
-  forall(s,L) 
+  forall(s,L)
      if (s.length() > 0) p[i++] = s;
-  LEDA_PANEL::string_menu_item(label,x.access_ptr(),"",i,p); 
+  LEDA_PANEL::string_menu_item(label,x.access_ptr(),"",i,p);
   delete p;
 }
 
@@ -84,7 +84,7 @@ void  panel::choice_item(string label,int& x,list<string>& L)
   int    i = 0;
   string s;
   forall(s,L) p[i++] = s;
-  LEDA_PANEL::choice_item(label,&x,i,p,1,0); 
+  LEDA_PANEL::choice_item(label,&x,i,p,1,0);
   delete p;
 }
 
@@ -123,7 +123,7 @@ void  panel::choice_item(string head,int& x,string s1, string s2, string s3, str
  }
 
 
-void panel::int_item(string s,int& x,int low, int high, int step)   
+void panel::int_item(string s,int& x,int low, int high, int step)
 { int n = (high-low)/step +1;
   char** p = new char*[n];
   int i;
@@ -156,7 +156,7 @@ void panel::color_item(string s, color& x)
   p[6] = "violet";
   p[7] = "orange";
 
-  if (window::screen_depth()==1) 
+  if (window::screen_depth()==1)
   { n = 2;
     if (x!=white) x = black;
    }
@@ -179,11 +179,11 @@ void panel::lstyle_item(string s, line_style& x)
 
 // buttons:
 
-int panel::button(string s)             
+int panel::button(string s)
 { return LEDA_PANEL::button(s); }
 
 
-void panel::new_button_line()            
+void panel::new_button_line()
 { LEDA_PANEL::button_line(0,0);  }
 
 void panel::new_button_line(list<string>& L)

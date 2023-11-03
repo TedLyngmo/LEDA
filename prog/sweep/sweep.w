@@ -339,7 +339,7 @@ library. We have to include the corresponding header files.
 #include <LEDA/rat_segment.h>
 #include <LEDA/integer.h>
 #include <LEDA/floatf.h>
-#include <math.h>
+#include <cmath>
 
 @
 Let us briefly explain these types; for a detailed discussion we refer
@@ -1788,7 +1788,7 @@ The details of the implementation are given below.
 
 #include <LEDA/basic.h>
 #include <LEDA/integer.h>
-#include <math.h>
+#include <cmath>
 
 const double eps0 = ldexp(1,-53);  // machine $\epsilon = 2^{-53}$
 const float correction = 1 + ldexp(1,-20);  

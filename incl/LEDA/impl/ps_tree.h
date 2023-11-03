@@ -5,16 +5,16 @@
 +  ps_tree.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_PSTREE_H
 #define LEDA_PSTREE_H
 
 //--------------------------------------------------------------------
-//  
+//
 //  Priority Search Trees
 //
 //  Renate Lassen (1990)
@@ -58,7 +58,7 @@ typedef pair* pair_item;
 
 
 // -------------------------------------------------------
-// class ps_node     
+// class ps_node
 // -------------------------------------------------------
 
 class ps_node {
@@ -111,34 +111,34 @@ public:
     }
 
   LEDA_MEMORY(ps_node)
-      
-}; 
+
+};
 
 
 // -------------------------------------------------------
-// class ps_tree     
+// class ps_tree
 // -------------------------------------------------------
 
 class ps_tree {
 
   ps_item root;
-  int   anzahl; 
+  int   anzahl;
   float alpha;
   float d;
   b_stack<ps_item> st;
 
   friend class ps_node;
 
-  void  lrot(ps_item , ps_item ); 
-  void  rrot(ps_item , ps_item ); 
-  void  ldrot(ps_item , ps_item ); 
-  void  rdrot(ps_item , ps_item ); 
+  void  lrot(ps_item , ps_item );
+  void  rrot(ps_item , ps_item );
+  void  ldrot(ps_item , ps_item );
+  void  rdrot(ps_item , ps_item );
 
   ps_item sink(ps_item, x_typ , x_typ);
   void fill(ps_item);
   void delleaf(ps_item);
   void deltree(ps_item);
-   
+
   ps_item search(x_typ, x_typ);
   ps_item locate(x_typ, x_typ);
 
@@ -151,20 +151,20 @@ class ps_tree {
 public:
 
   virtual int cmp(x_typ x,x_typ y) { return int(x)-int(y); }
-  virtual int cmp(x_typ x1,x_typ y1,x_typ x2,x_typ y2) 
+  virtual int cmp(x_typ x1,x_typ y1,x_typ x2,x_typ y2)
                                    { if (int(x1)==int(x2))
-                                        return int(y1)-int(y2); 
+                                        return int(y1)-int(y2);
                                      else return int(x1)-int(x2); }
 
   x_typ   x_value(ps_item it)      { return (it) ? it->x_value() : 0 ; }
   x_typ   y_value(ps_item it)      { return (it) ? it->y_value() : 0 ; }
   x_typ   split_value_x(ps_item it)  { return (it) ? it->split_value_x() : 0 ; }
   x_typ   split_value_y(ps_item it)  { return (it) ? it->split_value_y() : 0 ; }
- 
+
   ps_item insert(x_typ ,x_typ );
   ps_item del(x_typ ,x_typ );
-     
-  pair_item min_x_in_rect(x_typ x1,x_typ x2,x_typ y0) 
+
+  pair_item min_x_in_rect(x_typ x1,x_typ x2,x_typ y0)
                          { return min_x_in_rect(x1,x2,y0,root); }
   pair_item max_x_in_rect(x_typ x1,x_typ x2,x_typ y0)
                          { return max_x_in_rect(x1,x2,y0,root); }
@@ -175,19 +175,19 @@ public:
 
   void pr_ps_tree() { pr_ps_tree(root,0); }
 
-  ps_tree()   :  st(BSTACKSIZE) 
+  ps_tree()   :  st(BSTACKSIZE)
   { root = 0;
     anzahl = 0;
     alpha=0.28;
     d=1/(2-alpha);
    }
 
-  virtual ~ps_tree()  
+  virtual ~ps_tree()
   { if (root)
     { deltree(root);
       delete(root);
-     } 
-    root = 0; 
+     }
+    root = 0;
     anzahl = 0;
     alpha = 0;
     d = 0;

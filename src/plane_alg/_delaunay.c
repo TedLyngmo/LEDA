@@ -5,9 +5,9 @@
 +  _delaunay.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -39,22 +39,22 @@ static void DELAUNAY_FLIPPING(GRAPH<POINT,edge>& G)
 
 
   edge e;
-  forall_edges(e,G) 
+  forall_edges(e,G)
     if (It[e] == nil && flip_test(G,e)) It[G[e]] = It[e] = L.append(e);
 
   while ( !L.empty() )
   { flip_count++;
 
     edge e = L.pop();
-    edge x = G.cyclic_adj_pred(e); 
+    edge x = G.cyclic_adj_pred(e);
 
     // delete diagonal
     G.del_edge(G[e]);
     G.del_edge(e);
 
     // collect face edges of quadriliteral
-    for(int i = 0; i < 4; i++) 
-    { E[i] = x; 
+    for(int i = 0; i < 4; i++)
+    { E[i] = x;
       x = G.cyclic_adj_pred(G[x]);
      }
 
@@ -63,12 +63,12 @@ static void DELAUNAY_FLIPPING(GRAPH<POINT,edge>& G)
     G[e] = G.new_edge(E[3],source(E[1]),e);
 
 
-    // test collected edges 
+    // test collected edges
     for(int j=0; j<4; j++)
     { edge e = E[j];
       if (flip_test(G,e))
-        { if (It[e] == nil) 
-          It[G[e]] = It[e] = L.push(e); 
+        { if (It[e] == nil)
+          It[G[e]] = It[e] = L.push(e);
          }
       else
           if (It[e] != nil)
@@ -89,7 +89,7 @@ void DELAUNAY_TRIANG(const list<POINT>& L, GRAPH<POINT,edge>& T)
 }
 
 
-void DELAUNAY_TRIANG(const list<POINT>& L, graph& T, 
+void DELAUNAY_TRIANG(const list<POINT>& L, graph& T,
                                            node_array<POINT>& pos,
                                            edge_array<edge>&  rev)
 { GRAPH<POINT,edge> G;
@@ -107,7 +107,7 @@ void DELAUNAY_TRIANG(const list<POINT>& L, graph& T,
 }
 
 
-void DELAUNAY_TRIANG(const list<POINT>& L, planar_map& T, 
+void DELAUNAY_TRIANG(const list<POINT>& L, planar_map& T,
                                            node_array<POINT>& pos)
 { GRAPH<POINT,edge> G;
   DELAUNAY_TRIANG(L,G);

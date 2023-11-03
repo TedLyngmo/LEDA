@@ -5,9 +5,9 @@
 +  memory.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_MEMORY_H
@@ -17,17 +17,17 @@
 /*{\Mtext
 \section{Memory Management} \label{Memory Management}
 
-LEDA offers an efficient memory management system that is used internally 
-for all node, edge and item types. This system can easily be customized for 
+LEDA offers an efficient memory management system that is used internally
+for all node, edge and item types. This system can easily be customized for
 user defined classes by the ``LEDA\_MEMORY" macro. You simply have
 to add the macro call ``LEDA\_MEMORY($T$)" to the declaration of a class
 $T$. This redefines new and delete operators for type $T$, such that
-they allocate and deallocate memory using LEDA's internal memory manager. 
+they allocate and deallocate memory using LEDA's internal memory manager.
 
 {\bf Attention:}
 There is a restriction on the size of the type $T$, however. Macro
 LEDA\_MEMORY may only be applied to types $T$ with {\bf sizeof(T) \< 256}.
-Note that this condition is (for efficiency reasons) not checked. 
+Note that this condition is (for efficiency reasons) not checked.
 
 We continue the example from section \ref{Overloading}:
 
@@ -57,8 +57,8 @@ dictionary\<$pair$,$int$\> D;
 // Memory Management
 //------------------------------------------------------------------------------
 
-struct  memory_elem_type { 
-memory_elem_type* next; 
+struct  memory_elem_type {
+memory_elem_type* next;
 };
 
 typedef memory_elem_type* memory_elem_ptr;

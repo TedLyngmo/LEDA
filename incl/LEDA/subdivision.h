@@ -5,9 +5,9 @@
 +  subdivision.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_SUBDIVISION_H
@@ -22,18 +22,18 @@ class SubDivision : public planar_map
   face outer_face;
 
   void* strip_ptr;   //pointer to strip_list
-  
+
 public:
-  
+
   SubDivision(const graph&);
 
  ~SubDivision();
 
   point  position(node v)    const { return LEDA_ACCESS(point,inf(v)); }
-  
+
   face   locate_point(point) const;
   void   print_stripes() const;
-  
+
 };
 
 
@@ -66,7 +66,7 @@ public:
 /*{\Mcreation S }*/
    subdivision(GRAPH<point,I>& G) : SubDivision(G)   {}
 
-/*{\Mcreate 
+/*{\Mcreate
 creates an instance \var\ of type \name\ and initializes it to
 the subdivision represented by the parameterized directed graph $G$.
 The node entries of $G$ (of type point)  define the positions of the
@@ -92,17 +92,17 @@ face locate_point(point p) const { return SubDivision::locate_point(p);}
 point  operator[](node v)  const {return LEDA_ACCESS(point,SubDivision::inf(v));}
 I  operator[](face f)  const {return LEDA_ACCESS(I,SubDivision::inf(f));}
 
-void print_node(node v) const { cout << "[" << index(v) <<"] (";
+void print_node(node v) const { std::cout << "[" << index(v) <<"] (";
                                 Print(position(v),cout);
-                                cout << ") ";}
+                                std::cout << ") ";}
 
 };
 
 /*{\Mimplementation
 Planar subdivisions are implemented by parameterized planar maps and an
 additional data structure for point location based on persistent search trees
-\cite{DSST89}. Operations position and inf take constant time, a locate\_point 
-operation takes time $O(\log^2 n)$. Here $n$ is the number of nodes. 
+\cite{DSST89}. Operations position and inf take constant time, a locate\_point
+operation takes time $O(\log^2 n)$. Here $n$ is the number of nodes.
 The space requirement and the initialization time is $O(n^2)$.}*/
 
 #endif

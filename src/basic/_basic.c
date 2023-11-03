@@ -5,9 +5,9 @@
 +  _basic.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/basic.h>
@@ -30,7 +30,7 @@ float used_time()
 
 #else
 
-#include <time.h>
+#include <ctime>
 
 float used_time() { return  float(clock())/CLOCKS_PER_SEC; }
 
@@ -44,22 +44,22 @@ float used_time(float& T)
 }
 
 
-void print_time() 
-{ cout << string(" time = %.2f sec",used_time()) << endl; }
+void print_time()
+{ std::cout << string(" time = %.2f sec",used_time()) << std::endl; }
 
-void print_time(string s) 
-{ cout << s; print_time(); }
+void print_time(string s)
+{ std::cout << s; print_time(); }
 
 
 
-void wait(float sec) 
-{ 
+void wait(float sec)
+{
 #if defined(unix)
     sleep(int(sec+0.5));
 #endif
   //usleep(int(1000000*sec));
 }
-  
+
 //------------------------------------------------------------------------------
 // Input/Ouput
 //------------------------------------------------------------------------------
@@ -75,51 +75,51 @@ int read_int(string s)
   char c;
 
   for(;;)
-  { cout << s;
-    cin >> answer;
-    if (!cin) 
-      { cin.clear();
-        cin.get(c);
-        cout << string("read_int: illegal input \"%c\"\n",c);
-        if (c != '\n') skip_line(cin);
+  { std::cout << s;
+      std::cin >> answer;
+    if (!std::cin)
+      { std::cin.clear();
+          std::cin.get(c);
+        std::cout << string("read_int: illegal input \"%c\"\n",c);
+        if (c != '\n') skip_line(std::cin);
        }
-    else  
+    else
        break;
    }
 
-  skip_line(cin);
+  skip_line(std::cin);
 
   return answer;
 }
 
 char read_char(string s)
 { char c;
-  cout << s;
-  cin.get(c);
-  if (c != '\n') skip_line(cin);
+    std::cout << s;
+    std::cin.get(c);
+  if (c != '\n') skip_line(std::cin);
   return c;
 }
 
 double read_real(string s)
 { double answer;
-  cout << s;
-  cin >> answer;
-  skip_line(cin);
+    std::cout << s;
+    std::cin >> answer;
+  skip_line(std::cin);
   return answer;
 }
 
-string read_line(istream& in)
+string read_line(std::istream& in)
 { string result;
-  result.read_line(in); 
+  result.read_line(in);
   return result;
  }
 
 string read_string(string s)
-{ cout << s << flush;
-  return read_line(cin); 
+{ std::cout << s << std::flush;
+  return read_line(std::cin);
  }
 
-void skip_line(istream& s)
+void skip_line(std::istream& s)
 { char c;
   while(s.get(c) &&  c != '\n');
  }
@@ -129,11 +129,11 @@ int     Yes()              { return Yes(""); }
 int     read_int()         { return read_int(""); }
 char    read_char()        { return read_char(""); }
 double  read_real()        { return read_real(""); }
-string  read_string()      { return read_string(""); } 
+string  read_string()      { return read_string(""); }
 
 
-LEDA_SIG_PF catch_interrupts(LEDA_SIG_PF handler) 
+LEDA_SIG_PF catch_interrupts(LEDA_SIG_PF handler)
 { error_handler(0,"catch_interrupts not implemented.");
-  return handler; 
+  return handler;
  }
 

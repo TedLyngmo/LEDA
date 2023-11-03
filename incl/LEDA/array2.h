@@ -5,16 +5,16 @@
 +  array2.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_ARRAY2_H
 #define LEDA_ARRAY2_H
 
 //--------------------------------------------------------------------------
-// 2 dimensional arrays                                                   
+// 2 dimensional arrays
 //--------------------------------------------------------------------------
 
 #include <LEDA/array.h>
@@ -22,15 +22,15 @@
 /*{\Manpage {array2} {E} {Two Dimensional Arrays} }*/
 
 
-template<class E> 
+template<class E>
 
 class array2 : private gen_array2 {
 
 /*{\Mdefinition
-An instance $A$ of the parameterized data type \name\ is a mapping from a 
-set of pairs $I = [a..b] \times [c..d]$, called the index set of $A$, to the 
-set of variables of data type $E$, called the element type of $A$, for two 
-fixed intervals of integers $[a..b]$ and $[c..d]$.  $A(i,j)$ is called the 
+An instance $A$ of the parameterized data type \name\ is a mapping from a
+set of pairs $I = [a..b] \times [c..d]$, called the index set of $A$, to the
+set of variables of data type $E$, called the element type of $A$, for two
+fixed intervals of integers $[a..b]$ and $[c..d]$.  $A(i,j)$ is called the
 element at position $(i,j)$.
 }*/
 
@@ -44,11 +44,11 @@ public:
 
 array2(int a, int b, int c, int d) :gen_array2(a,b,c,d) { init(a,b,c,d);}
 
-/*{\Mcreate      creates an instance \var\ of type \name\ with index set 
+/*{\Mcreate      creates an instance \var\ of type \name\ with index set
                  $[a..b]\times [c..d]$.  }*/
 
 array2(int n, int m)             :gen_array2(n,m)     { init(0,n-1,0,m-1);}
-/*{\Mcreate      creates an instance \var\ of type \name\ with index set 
+/*{\Mcreate      creates an instance \var\ of type \name\ with index set
                  $[0..n-1]\times [0..m-1]$.  }*/
 
 

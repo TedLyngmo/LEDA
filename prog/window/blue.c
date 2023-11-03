@@ -1,12 +1,12 @@
-#include <fstream.h>
+#include <fstream>
 #include <LEDA/list.h>
 #include <LEDA/window.h>
 
 
-main(int argc, char** argv)
-{  
+int main(int argc, char** argv)
+{
 
-   ifstream colors("/usr/lib/X11/rgb.txt");
+    std::ifstream colors("/usr/lib/X11/rgb.txt");
 
    int r,g,b;
    char c;
@@ -32,16 +32,16 @@ main(int argc, char** argv)
    W.set_show_coordinates(false);
 
    int i = 0;
-   forall(s, L) 
-   { cout << s << endl;
+   forall(s, L)
+   { std::cout << s << std::endl;
      W.draw_filled_rectangle(i,0,i+1,n,color(~s));
      //W.draw_rectangle(i,0,i+1,n,black);
      i++;
     }
-    cout << i << endl;
+    std::cout << i << std::endl;
 
     W.read_mouse();
 
   return 0;
 }
-  
+

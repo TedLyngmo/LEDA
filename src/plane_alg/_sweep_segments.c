@@ -5,9 +5,9 @@
 +  _sweep_segments.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/graph.h>
@@ -16,7 +16,7 @@
 #include <LEDA/map.h>
 #include <LEDA/hash.h>
 
-#include <math.h>
+#include <cmath>
 
 
 // global variables
@@ -30,9 +30,9 @@ inline int pair(const SEGMENT& p, const SEGMENT& q)
 { return  ID_Number(p) * N + ID_Number(q); }
 
 inline int compare(const SEGMENT& s1, const SEGMENT& s2)
-{ 
+{
   // Precondition: |p_sweep| is identical to the left endpoint of
-  // either |s1| or |s2|. This is true since comparisons are only 
+  // either |s1| or |s2|. This is true since comparisons are only
   // executed when inserting or looking up new segments.
 
   if ( identical(p_sweep,s1.start()) )
@@ -55,8 +55,8 @@ static void compute_intersection(sortseq<POINT,seq_item>& X_structure,
                                  hash<int,seq_item>& inter_dic,
                                  seq_item sit0)
 {
-  // Given an item |sit0| in the Y-structure compute the point of 
-  // intersection with its successor and (if existing) insert it into 
+  // Given an item |sit0| in the Y-structure compute the point of
+  // intersection with its successor and (if existing) insert it into
   // the event queue and do all necessary updates.
 
   seq_item sit1 = Y_structure.succ(sit0);
@@ -66,10 +66,10 @@ static void compute_intersection(sortseq<POINT,seq_item>& X_structure,
 
   // |s1| is the successor of |s0| in the Y-structure, hence,
   // |s0| and |s1| intersect right or above of the sweep line
-  // iff |(s0.start(),s0.end(),s1.end()| is not a left turn and 
+  // iff |(s0.start(),s0.end(),s1.end()| is not a left turn and
   // |(s1.start(),s1.end(),s0.end()| is not a right turn.
   // In this case we intersect the underlying lines
-  
+
   if (orientation(s0,s1.end()) <= 0 && orientation(s1,s0.end()) >=0 )
   { hash_item it = inter_dic.lookup(pair(s0,s1));
     if (it != nil)
@@ -106,15 +106,15 @@ void SWEEP_SEGMENTS(const list<SEGMENT>& S, GRAPH<POINT,SEGMENT>& G)
 
   /* INITIALIZATION
      - clear the output graph.
-     - compute an upper bound |Infinity| for the input coordinates 
-     - make copies of the input segments such that all segments are 
+     - compute an upper bound |Infinity| for the input coordinates
+     - make copies of the input segments such that all segments are
        oriented from left to right or from bottom to top.
      - insert all endpoints of the new segments into the X-structure
      - exploit the fact that insert operations into the X-structure
        leave previously inserted points unchanged to achieve that
        any pair of endpoints $p$ and $q$ with |p == q| are identical
-     - use a map to associate with every segment its original 
-     - for every created segment $(p,q)$ insert the pair $(p,(p,q))$ 
+     - use a map to associate with every segment its original
+     - for every created segment $(p,q)$ insert the pair $(p,(p,q))$
        into priority queue |seg_queue|
    */
 
@@ -123,7 +123,7 @@ void SWEEP_SEGMENTS(const list<SEGMENT>& S, GRAPH<POINT,SEGMENT>& G)
   numtype Infinity = 1;
 
   SEGMENT s;
-  forall(s,S) 
+  forall(s,S)
   {
     while (fabs(s.xcoord1())>=Infinity || fabs(s.ycoord1())>=Infinity ||
            fabs(s.xcoord2())>=Infinity || fabs(s.ycoord2())>=Infinity)
@@ -168,7 +168,7 @@ void SWEEP_SEGMENTS(const list<SEGMENT>& S, GRAPH<POINT,SEGMENT>& G)
 
   // Main Loop
 
-  while (!X_structure.empty()) 
+  while (!X_structure.empty())
   {
     // move |p_sweep| to next event point and insert a new node
     // into the output graph G
@@ -188,9 +188,9 @@ void SWEEP_SEGMENTS(const list<SEGMENT>& S, GRAPH<POINT,SEGMENT>& G)
     seq_item sit = X_structure.inf(event);
 
     if (sit == nil)
-    { // here we do not know any segments ending or passing through 
-      // |p_sweep|. However, |p_sweep| could come to lie on a segment 
-      // inserted before. To check this we look up the zero length 
+    { // here we do not know any segments ending or passing through
+      // |p_sweep|. However, |p_sweep| could come to lie on a segment
+      // inserted before. To check this we look up the zero length
       // segment |(p_sweep,p_sweep)|.
       sit = Y_structure.lookup(SEGMENT(p_sweep,p_sweep));
      }
@@ -200,8 +200,8 @@ void SWEEP_SEGMENTS(const list<SEGMENT>& S, GRAPH<POINT,SEGMENT>& G)
     seq_item sit_first = nil;
     seq_item sit_last  = nil;
 
-    // A value of |nil| for |sit_succ| and |sit_pred| after the 
-    // following computation indicates that there are no segments 
+    // A value of |nil| for |sit_succ| and |sit_pred| after the
+    // following computation indicates that there are no segments
     // ending at or passing through |p_sweep|
 
     if (sit != nil)  // key(sit) is an ending or passing segment
@@ -212,7 +212,7 @@ void SWEEP_SEGMENTS(const list<SEGMENT>& S, GRAPH<POINT,SEGMENT>& G)
       sit_succ = Y_structure.succ(sit);
 
       seq_item xit = Y_structure.inf(sit);
-      if (xit != nil) 
+      if (xit != nil)
       { SEGMENT s1 = Y_structure.key(sit);
         SEGMENT s2 = Y_structure.key(sit_succ);
         inter_dic.insert(pair(s1,s2),xit);
@@ -232,11 +232,11 @@ void SWEEP_SEGMENTS(const list<SEGMENT>& S, GRAPH<POINT,SEGMENT>& G)
            if ( identical(p_sweep,s.end()) )  // ending segment
    	     { seq_item it = Y_structure.pred(sit);
                Y_structure.del_item(sit);
-               sit = it; 
+               sit = it;
               }
            else                               // passing segment
              { Y_structure.change_inf(sit,nil);
-               sit = Y_structure.pred(sit); 
+               sit = Y_structure.pred(sit);
               }
           } while (Y_structure.inf(sit) == event);
 
@@ -270,15 +270,15 @@ void SWEEP_SEGMENTS(const list<SEGMENT>& S, GRAPH<POINT,SEGMENT>& G)
            X_structure.insert(next_seg.end(),sit);
            last_node[next_seg] = v;
 
-           if (sit_succ == nil)  
-           { // there are only starting segments, compute |sit_succ| 
+           if (sit_succ == nil)
+           { // there are only starting segments, compute |sit_succ|
              // and |sit_pred| using the first inserted segment
      	     sit_succ = Y_structure.succ(sit);
      	     sit_pred = Y_structure.pred(sit);
              sit_first = sit_succ;
             }
          }
-      else 
+      else
         { // |next_seg| and |seg0| are collinear; if |next_seg| is
           // longer insert |(seg0.end(),next_seg.end())| into |seg_queue|
           POINT p = seg0.end();
@@ -292,19 +292,19 @@ void SWEEP_SEGMENTS(const list<SEGMENT>& S, GRAPH<POINT,SEGMENT>& G)
       next_seg = seg_queue.inf(seg_queue.find_min());
      }
 
-    // if |sit_pred| still has the value |nil|, there were no ending, 
-    // passing or starting segments, i.e., |p_sweep| is an isolated 
-    // point. In this case we are done, otherwise we delete the event 
-    // associated with |sit_pred| from the X-structure and compute 
+    // if |sit_pred| still has the value |nil|, there were no ending,
+    // passing or starting segments, i.e., |p_sweep| is an isolated
+    // point. In this case we are done, otherwise we delete the event
+    // associated with |sit_pred| from the X-structure and compute
     // possible intersections between new neighbors.
 
-    if (sit_pred != nil) 
+    if (sit_pred != nil)
     {
-      // |sit_pred| is no longer adjacent to its former successor we 
-      // change its intersection event to |nil| 
+      // |sit_pred| is no longer adjacent to its former successor we
+      // change its intersection event to |nil|
 
       seq_item xit = Y_structure.inf(sit_pred);
-      if (xit != nil) 
+      if (xit != nil)
       { SEGMENT s1 = Y_structure.key(sit_pred);
         SEGMENT s2 = Y_structure.key(sit_first);
         inter_dic.insert(pair(s1,s2),xit);

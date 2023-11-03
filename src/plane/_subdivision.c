@@ -5,9 +5,9 @@
 +  _subdivision.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -55,7 +55,7 @@ typedef p_queue<point,edge> X_structure;
 
 
 SubDivision::SubDivision(const graph& G) : planar_map(G)
-{ 
+{
   edge e;
   segment s;
   point p;
@@ -71,11 +71,11 @@ SubDivision::SubDivision(const graph& G) : planar_map(G)
 
   // initialize X-structure
 
-  forall_edges(e,*this) 
+  forall_edges(e,*this)
   { point p = position(source(e));
     point q = position(target(e));
 
-    if (p.xcoord() < q.xcoord()) 
+    if (p.xcoord() < q.xcoord())
     { X.insert(p,e);
       X.insert(q,e);
      }
@@ -90,7 +90,7 @@ SubDivision::SubDivision(const graph& G) : planar_map(G)
 
   x_sweep = -MAXDOUBLE;
 
-  strips->insert(x_sweep, new strip(Y));    
+  strips->insert(x_sweep, new strip(Y));
 
   while( !X.empty() )
   { point    p = X.prio(X.find_min());
@@ -104,9 +104,9 @@ SubDivision::SubDivision(const graph& G) : planar_map(G)
       if (q != p) break;
 
       if (q == position(source(e)))  // left  end
-          L.append(e);    
+          L.append(e);
       else                           // right end
-          R.append(e);    
+          R.append(e);
 
       X.del_item(it);
      }
@@ -117,20 +117,20 @@ SubDivision::SubDivision(const graph& G) : planar_map(G)
     x_sweep = p.xcoord();
 
     edge e;
-    forall(e,R) 
+    forall(e,R)
        Y = Y.del(segment(position(source(e)),position(target(e))));
 
-    forall(e,L) 
+    forall(e,L)
        Y = Y.insert(segment(position(source(e)), position(target(e))), adj_face(e));
 
     L.clear();
     R.clear();
 
-    strips->insert(x_sweep, new strip(Y));    
+    strips->insert(x_sweep, new strip(Y));
 
     }
 
-   strips->insert(MAXDOUBLE, new strip(Y));    
+   strips->insert(MAXDOUBLE, new strip(Y));
 
 
    // compute outer face
@@ -148,7 +148,7 @@ face SubDivision::locate_point(point p) const
 {
   strip_list* strips = (strip_list*)strip_ptr;
 
-  seq_item sit = strips->locate(p.xcoord()); 
+  seq_item sit = strips->locate(p.xcoord());
   Strip_Ptr Y = strips->inf(strips->pred(sit));
   x_sweep = p.xcoord();
   p_dic_item it = Y->locate(segment(p,0,1));
@@ -166,18 +166,18 @@ void SubDivision::print_stripes() const
 
   forall_items(it1,*strips)
   { Strip_Ptr sp = strips->inf(it1);
-    forall_items(it2,*sp) 
-      cout << sp->key(it2) << " f = " << sp->inf(it2) << "\n";
+    forall_items(it2,*sp)
+      std::cout << sp->key(it2) << " f = " << sp->inf(it2) << "\n";
     newline;
   }
   newline;
  }
 
-SubDivision::~SubDivision() 
+SubDivision::~SubDivision()
 { strip_list* strips = (strip_list*)strip_ptr;
   seq_item it;
   forall_items(it,*strips) delete strips->inf(it);
-  delete strips; 
+  delete strips;
 }
 
 

@@ -5,19 +5,19 @@
 +  h_array.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_H_ARRAY_H
 #define LEDA_H_ARRAY_H
 
 //------------------------------------------------------------------------------
-// h_array  
-//------------------------------------------------------------------------------ 
-#include <LEDA/basic.h> 
-#include <LEDA/impl/ch_array.h> 
+// h_array
+//------------------------------------------------------------------------------
+#include <LEDA/basic.h>
+#include <LEDA/impl/ch_array.h>
 
 
 /*{\Manpage {h_array} {I,E} {Hashing Arrays} }*/
@@ -28,9 +28,9 @@ class h_array : private ch_array {
 
 /*{\Mdefinition
 An instance $A$ of the parameterized data type \name\ (hashing array)
-is an injective mapping from a hashed data type $I$ (cf. section 
-\ref{Hashed Types}), called the index type of $A$, to the set of variables 
-of arbitrary type $E$, called the element type of $A$. We use $A(i)$ to 
+is an injective mapping from a hashed data type $I$ (cf. section
+\ref{Hashed Types}), called the index type of $A$, to the set of variables
+of arbitrary type $E$, called the element type of $A$. We use $A(i)$ to
 denote the variable indexed by $i$.}*/
 
  E X;
@@ -51,11 +51,11 @@ h_array(E x, int sz) : ch_array(sz) { X = x; }
 
 h_array(E x) : ch_array(1) { X = x; }
 
-/*{\Mcreate 
+/*{\Mcreate
 creates an injective function $a$ from $I$ to the set of unused variables of
 type $E$, assigns $x$ to all variables in the range of $a$ and initializes $A$
 with $a$. }*/
- 
+
  h_array() { }
  h_array(const h_array<I,E>& A): ch_array((ch_array&)A) { X = A.X; }
 ~h_array() { }
@@ -78,7 +78,7 @@ bool defined(I i) const { return (lookup(Convert(i)) != nil); }
 
 ch_array_item first_item() const { return ch_array::first_item(); }
 
-void loop_to_succ(GenPtr& x) const 
+void loop_to_succ(GenPtr& x) const
 { x = ch_array::next_item(*(ch_array_item*)&x); }
 
 GenPtr forall_loop_test(GenPtr it, E& x) const
@@ -96,13 +96,13 @@ GenPtr forall_defined_test(GenPtr it, I& x) const
 
 /*{\Mtext
 \bigskip
-{\bf forall\_defined}($i,A$) 
+{\bf forall\_defined}($i,A$)
 $\{$ ``the elements from $dom(A)$ are successively assigned to $i$'' $\}$ }*/
 
 
 /*{\Mimplementation
-Hashing arrays are implemented by hashing with chaining. Access operations 
-take expected time $O(1)$. In many cases, hashing arrays are more efficient 
+Hashing arrays are implemented by hashing with chaining. Access operations
+take expected time $O(1)$. In many cases, hashing arrays are more efficient
 than dictionary arrays (cf. \ref{Dictionary Arrays}).}*/
 
 #endif

@@ -2,7 +2,7 @@ Using a sorted sequence to list all elements in a sequence of strings lying
 lexicographically between two given search strings.
 
 \#include $<$LEDA/sortseq.h$>$
-main()
+int main()
 
 $\{$ 
 

@@ -5,14 +5,14 @@
 +  _rat_point.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
-#include <math.h>
-#include <ctype.h>
+#include <cmath>
+#include <cctype>
 #include <LEDA/rat_point.h>
 
 //------------------------------------------------------------------------------
@@ -21,8 +21,8 @@
 
 
 // the fabs function is used very often therefore we provide
-// a fast version for sparc machines (should work on all big-endian 
-// architectures) that simply clears the sign bit to zero  
+// a fast version for sparc machines (should work on all big-endian
+// architectures) that simply clears the sign bit to zero
 //
 // FABS(x) clears the sign bit of (double) floating point number x
 
@@ -41,7 +41,7 @@ int rat_point::exact_orient_count = 0;
 int rat_point::cmp_count= 0;
 int rat_point::exact_cmp_count = 0;
 
-// use_filter flag controls whether the floating point filter is used 
+// use_filter flag controls whether the floating point filter is used
 
 int rat_point::use_filter = 1;
 
@@ -79,13 +79,13 @@ rat_point rat_point::translate(const rat_point& p, int i) const
 
 // basic stream I/O operations
 
-ostream& operator<<(ostream& out, const rat_point& p)
+std::ostream& operator<<(std::ostream& out, const rat_point& p)
 { out << "(" << p.X() << "," << p.Y() << "," << p.W() << ")";
   return out;
- } 
+ }
 
-istream& operator>>(istream& in, rat_point& p) 
-{ // syntax: {(} x {,} y {,} w {)}   
+std::istream& operator>>(std::istream& in, rat_point& p)
+{ // syntax: {(} x {,} y {,} w {)}
 
   int x,y,w;
   char c;
@@ -101,20 +101,20 @@ istream& operator>>(istream& in, rat_point& p)
   do in.get(c); while (isspace(c));
   if (c != ',') in.putback(c);
 
-  in >> y; 
+  in >> y;
 
   do in.get(c); while (isspace(c));
   if (c != ',') in.putback(c);
 
-  in >> w; 
+  in >> w;
 
   do in.get(c); while (c == ' ');
   if (c != ')') in.putback(c);
 
-  p = rat_point(x,y,w ); 
-  return in; 
+  p = rat_point(x,y,w );
+  return in;
 
- } 
+ }
 
 
 
@@ -126,11 +126,11 @@ const double eps0 = ldexp(1,-53);
 // cmp - primitive
 
 int rat_point::cmp(const rat_point& a, const rat_point& b)
-{ 
+{
   rat_point::cmp_count++;
 
 /*
-  if (rat_point::use_filter == -1) 
+  if (rat_point::use_filter == -1)
   { double E = a.XD()*b.WD() - b.XD()*a.WD();
     if (E == 0) E = a.YD()*b.WD() - b.YD()*a.WD();
     if (E > 0) return +1;
@@ -140,7 +140,7 @@ int rat_point::cmp(const rat_point& a, const rat_point& b)
 */
 
   if (use_filter != 0)
-  { 
+  {
     double axbw = a.XD()*b.WD();
     double bxaw = b.XD()*a.WD();
     double E    = axbw - bxaw;       // floating point result
@@ -151,8 +151,8 @@ int rat_point::cmp(const rat_point& a, const rat_point& b)
     //
     // mes(E) = mes(ax*bw - bx*aw)
     //        = 2*(mes(ax)*mes(bw) + mes(bx)*mes(aw))
-    //        = 2*(fabs(ax)*fabs(bw) + fabs(bx)*fabs(aw)) 
-    //        = 2*(fabs(axbw) + fabs(bxaw)) 
+    //        = 2*(fabs(ax)*fabs(bw) + fabs(bx)*fabs(aw))
+    //        = 2*(fabs(axbw) + fabs(bxaw))
     //
     // ind(E) = ind(ax*bw - bx*aw)
     //        = (ind(ax*bw) + ind(bx*aw) + 1)/2
@@ -160,7 +160,7 @@ int rat_point::cmp(const rat_point& a, const rat_point& b)
     //        = (1.5 + 1.5 + 1)/2
     //        = 2
     //
-    // eps(E) = ind(E) * mes(E) * eps0 
+    // eps(E) = ind(E) * mes(E) * eps0
     //        = 4 * (fabs(axbw) + fabs(bxaw)) * eps0
     //----------------------------------------------------------------
 
@@ -171,7 +171,7 @@ int rat_point::cmp(const rat_point& a, const rat_point& b)
 
     if (E > +eps) return +1;
     if (E < -eps) return -1;
-   
+
     if (eps < 1)  // compare y-coordinates
     { double aybw = a.YD()*b.WD();
       double byaw = b.YD()*a.WD();
@@ -181,10 +181,10 @@ int rat_point::cmp(const rat_point& a, const rat_point& b)
       double eps = 4 * (aybw+byaw) * eps0;
       if (E > +eps) return +1;
       if (E < -eps) return -1;
-      if (eps < 1)  return  0; 
+      if (eps < 1)  return  0;
      }
    }
-  
+
     //use big integer arithmetic
 
     rat_point::exact_cmp_count++;
@@ -209,21 +209,21 @@ double area(const rat_point& a, const rat_point& b, const rat_point& c)
 
 
 int orientation(const rat_point& a, const rat_point& b, const rat_point& c)
-{  
+{
     rat_point::orient_count++;
 
     if (rat_point::use_filter != 0)
-    { 
-      double ax =  a.ptr()->xd; 
-      double bx =  b.ptr()->xd; 
-      double cx =  c.ptr()->xd; 
+    {
+      double ax =  a.ptr()->xd;
+      double bx =  b.ptr()->xd;
+      double cx =  c.ptr()->xd;
       double ay =  a.ptr()->yd;
       double by =  b.ptr()->yd;
       double cy =  c.ptr()->yd;
       double aw =  a.ptr()->wd;
       double bw =  b.ptr()->wd;
       double cw =  c.ptr()->wd;
- 
+
       double aybw = ay*bw;
       double byaw = by*aw;
       double axcw = ax*cw;
@@ -232,16 +232,16 @@ int orientation(const rat_point& a, const rat_point& b, const rat_point& c)
       double bxaw = bx*aw;
       double aycw = ay*cw;
       double cyaw = cy*aw;
- 
+
       double E = (axbw-bxaw) * (aycw-cyaw) - (aybw-byaw) * (axcw-cxaw);
- 
+
   //---------------------------------------------------------------------------
   // ERROR BOUNDS
   //---------------------------------------------------------------------------
   // mes(E) = 2*(mes(aybw-byaw)*mes(axcw-cxaw) + mes(axbw-bxaw)*mes(aycw-cyaw))
   //        = 2*(4*(fabs(aybw)+fabs(byaw)) * (fabs(axcw)+fabs(cxaw)) +
   //             4*(fabs(axbw)+fabs(bxaw)) * (fabs(aycw)+fabs(cyaw)))
-  //        = 8*((fabs(aybw)+fabs(byaw)) * (fabs(axcw)+fabs(cxaw)) + 
+  //        = 8*((fabs(aybw)+fabs(byaw)) * (fabs(axcw)+fabs(cxaw)) +
   //             (fabs(axbw)+fabs(bxaw)) * (fabs(aycw)+fabs(cyaw)))
   //
   // ind(E) = ((ind(aybw-byaw) + ind(axcw-cxaw) +0.5) +
@@ -252,7 +252,7 @@ int orientation(const rat_point& a, const rat_point& b, const rat_point& c)
   //        = 40 * ((fabs(aybw)+fabs(byaw))*(fabs(axcw)-fabs(cxaw)) +
   //               (fabs(axbw)-fabs(bxaw))*(fabs(aycw)-fabs(cyaw))) * eps0;
   //---------------------------------------------------------------------------
- 
+
       FABS(aybw);
       FABS(byaw);
       FABS(axcw);
@@ -261,14 +261,14 @@ int orientation(const rat_point& a, const rat_point& b, const rat_point& c)
       FABS(bxaw);
       FABS(aycw);
       FABS(cyaw);
- 
+
       double eps = 40*((aybw+byaw)*(axcw+cxaw)+(axbw+bxaw)*(aycw+cyaw))*eps0;
-   
+
       if (E > eps)  return  1;
       if (E < -eps) return -1;
       if (eps < 1)  return  0;
      }
- 
+
      // big integer arithmetic
 
      rat_point::exact_orient_count++;
@@ -282,7 +282,7 @@ int orientation(const rat_point& a, const rat_point& b, const rat_point& c)
 
 
 
-int incircle(const rat_point& a, const rat_point& b, const rat_point& c, 
+int incircle(const rat_point& a, const rat_point& b, const rat_point& c,
                                                      const rat_point& d)
 {
   integer AX = a.X();
@@ -311,7 +311,7 @@ int incircle(const rat_point& a, const rat_point& b, const rat_point& c,
     cx = CX - AX;
     cy = CY - AY;
     cw = cx*cx + cy*cy;
-    
+
     dx = DX - AX;
     dy = DY - AY;
     dw = dx*dx + dy*dy;

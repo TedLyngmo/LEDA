@@ -1,7 +1,7 @@
 #include <LEDA/plane.h>
 #include <LEDA/window.h>
 
-main()
+int main()
 
 { window W;
 
@@ -32,16 +32,16 @@ main()
 
   double x,y;
 
-  while ((key = W.read_mouse(x,y)) !=3) 
+  while ((key = W.read_mouse(x,y)) !=3)
   { point p(x,y);
-    W << p; 
+    W << p;
     if (key == 1)
     { if (P.inside(p)) W.draw_text(p,"INSIDE");
       else W.draw_text(p,"OUTSIDE");
      }
     else
     { W.clear();
-      W << P; 
+      W << P;
       int n = W.read_int("n = ");
       while (n--)
       { p = point(rand_int(0,1000),rand_int(0,1000));

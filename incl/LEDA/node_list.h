@@ -5,9 +5,9 @@
 +  node_list.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_NODE_LIST_H
@@ -26,8 +26,8 @@ class node_list : public c_obj_list {
 
 /*{\Mdefinition
 An instance of the data type \name\ is a doubly linked list of nodes. It
-is implemented more efficiently than the general list type $list\<node\>$ 
-(\ref{Linear Lists}). However, it can only be used with the 
+is implemented more efficiently than the general list type $list\<node\>$
+(\ref{Linear Lists}). However, it can only be used with the
 restriction that every node is contained in at most one \name.  }*/
 
 
@@ -54,7 +54,7 @@ public:
   void push(node v)   { c_obj_list::push(aux_link(v)); }
 /*{\Mop   adds $v$ at the front of \var. }*/
 
-  void insert(node v, node w) 
+  void insert(node v, node w)
                       { c_obj_list::insert(aux_link(v),aux_link(w)); }
 /*{\Mop   inserts $v$ after $w$ into \var.\\
           \precond $w \in L$. }*/
@@ -86,22 +86,22 @@ public:
 
   node succ(node v) const
   { return node(aux_link(c_obj_list::succ(aux_link(v)))); }
-/*{\Mop    returns the successor of $v$ in \var.\\ 
+/*{\Mop    returns the successor of $v$ in \var.\\
            \precond $v \in L$. }*/
 
   node pred(node v) const
   { return node(aux_link(c_obj_list::pred(aux_link(v)))); }
-/*{\Mop    returns the predecessor of $v$ in \var.\\ 
+/*{\Mop    returns the predecessor of $v$ in \var.\\
            \precond $v \in L$. }*/
 
   node cyclic_succ(node v) const
   { return node(aux_link(c_obj_list::cyclic_succ(aux_link(v)))); }
-/*{\Mop    returns the cyclic successor of $v$ in \var.\\ 
+/*{\Mop    returns the cyclic successor of $v$ in \var.\\
            \precond $v \in L$. }*/
 
   node cyclic_pred(node v) const
   { return node(aux_link(c_obj_list::cyclic_pred(aux_link(v)))); }
-/*{\Mop    returns the cyclic predecessor of $v$ in \var.\\ 
+/*{\Mop    returns the cyclic predecessor of $v$ in \var.\\
            \precond $v \in L$. }*/
 
 // iteration

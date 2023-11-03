@@ -5,9 +5,9 @@
 +  polygon.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_POLYGON_H
@@ -35,7 +35,7 @@ public:
   polygon_rep(const list<segment>& L) : seg_list(L) {}
 
  ~polygon_rep() {}
-   
+
 };
 
 
@@ -43,7 +43,7 @@ public:
 
 class list_polygon_;
 
-class polygon   : public handle_base 
+class polygon   : public handle_base
 {
 /*{\Mdefinition
 An instance $P$ of the data type $polygon$ is a simple polygon
@@ -64,31 +64,31 @@ public:
 /*{\Mcreation P }*/
 
 polygon(const list<point>& pl);
-/*{\Mcreate 
+/*{\Mcreate
 introduces a variable \var\ of type \name. \var\ is initialized to the
 polygon with vertex sequence $pl$.\\
 \precond The vertices in $pl$ are given
 in clockwise order and define a simple polygon.}*/
 
 polygon() { PTR = new polygon_rep; }
-/*{\Mcreate 
+/*{\Mcreate
 introduces a variable \var\ of type \name. \var\ is initialized to the
 empty polygon.}*/
 
 
  polygon(const polygon& P) : handle_base(P) {}
 ~polygon() {}
- polygon& operator=(const polygon& P) 
+ polygon& operator=(const polygon& P)
  { handle_base::operator=(P); return *this;}
 
 
 /*{\Moperations 2.5 4.6}*/
 
-list<point>   vertices() const;  
+list<point>   vertices() const;
 /*{\Mop     returns the vertex sequence of \var.}*/
 
 list<segment> segments() const { return ptr()->seg_list; }
-/*{\Mop     returns the sequence of bounding segments 
+/*{\Mop     returns the sequence of bounding segments
 	    of \var\ in clockwise order.}*/
 
 list<point> intersection(const segment& s) const;
@@ -104,7 +104,7 @@ list<polygon> unite(const polygon& Q) const;
 */
 /*{\Mopl    returns $P \cup Q$ as a list of polygons. The first polygon
             in the list gives the outer boundary of the contour of the union.
-            Possibly following polygons define the inner boundaries (holes) 
+            Possibly following polygons define the inner boundaries (holes)
             of the contour (holes). }*/
 
 
@@ -114,27 +114,27 @@ list<polygon> intersection(const polygon& Q) const;
 */
 /*{\Mopl    returns $P \cap Q$ as a list of polygons.}*/
 
-bool        inside(const point& p) const;  
+bool        inside(const point& p) const;
 /*{\Mop     returns true if $p$ lies inside of $P$,
 	    false otherwise.}*/
 
-bool        outside(const point& p) const; 
+bool        outside(const point& p) const;
 /*{\Mop     returns !\var.inside($p$).}*/
 
 double      area() const { return compute_area(ptr()->seg_list); }
 /*{\Mop     returns the area of $P$.}*/
 
 polygon     translate(double a, double d) const;
-/*{\Mopl    returns the polygon created by a translation 
+/*{\Mopl    returns the polygon created by a translation
 	    of \var\ in direction $a$ by distance $d$.}*/
 
 polygon     translate(const vector& v) const;
-/*{\Mop     returns $P+v$, i.e., the polygon created by 
+/*{\Mop     returns $P+v$, i.e., the polygon created by
 	    translating $P$ by vector $v$.\\
-	    \precond $v.dim() = 2$.}*/ 
+	    \precond $v.dim() = 2$.}*/
 
 polygon     rotate(const point& q, double a) const;
-/*{\Mopl    returns the polygon created by a rotation of 
+/*{\Mopl    returns the polygon created by a rotation of
 	    $P$ about point $q$ by angle $a$.}*/
 
 polygon     rotate(double) const;
@@ -149,14 +149,14 @@ polygon operator+(const vector& v) const { return translate(v); }
 
 bool    operator==(const polygon& P) const { return P.ptr() == ptr(); }
 
-friend ostream& operator<<(ostream& out, const polygon& p);
-friend istream& operator>>(istream& in,  polygon& p);
+friend std::ostream& operator<<(std::ostream& out, const polygon& p);
+friend std::istream& operator>>(std::istream& in,  polygon& p);
 
 
 };
 
-inline void Print(const polygon& P, ostream& out) { out << P; } 
-inline void Read(polygon& P, istream& in)         { in  >> P; }
+inline void Print(const polygon& P, std::ostream& out) { out << P; }
+inline void Read(polygon& P, std::istream& in)         { in  >> P; }
 
 
 struct list_polygon_: public list<polygon>
@@ -167,4 +167,4 @@ struct list_polygon_: public list<polygon>
 };
 
 
-#endif 
+#endif

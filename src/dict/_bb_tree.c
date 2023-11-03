@@ -5,9 +5,9 @@
 +  _bb_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -24,7 +24,7 @@
 void bb_tree::rebal(bb_tree_item v, int delta)
 {
   while ( v != root() )
-  { 
+  {
     bb_tree_item u = v->parent;
     bb_tree_item l = u->child[left];
     bb_tree_item r = u->child[right];
@@ -37,13 +37,13 @@ void bb_tree::rebal(bb_tree_item v, int delta)
 
     if (64*bl < bu*alpha)
        { int brl = r->child[left]->get_bal();
-         if (64*brl <=  d * br) 
+         if (64*brl <=  d * br)
             { rotation(u,r,right);
               r->set_bal(bu);
               u->set_bal(bl + brl);
               v = r;
              }
-         else 
+         else
             { bb_tree_item w = r->child[left];
               int bwl = w->child[left]->get_bal();
               double_rotation(u,r,w,right);
@@ -53,16 +53,16 @@ void bb_tree::rebal(bb_tree_item v, int delta)
               v = w;
              }
         }
-    else 
-       if (64*br < bu*alpha) 
+    else
+       if (64*br < bu*alpha)
        { int bll = l->child[left]->get_bal();
-         if (64*bll >  d * bl) 
+         if (64*bll >  d * bl)
               { rotation(u,l,left);
                 l->set_bal(bu);
                 u->set_bal(bu - bll);
                 v = l;
                }
-	   else 
+	   else
               { bb_tree_item w = l->child[right];
                 int bwr = w->child[right]->get_bal();
                 double_rotation(u,l,w,left);
@@ -74,7 +74,7 @@ void bb_tree::rebal(bb_tree_item v, int delta)
         }
 
         else v = u;
-       
+
    }
 
 }

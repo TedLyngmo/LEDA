@@ -1,6 +1,6 @@
 #include <LEDA/window.h>
-#include <time.h>
-#include <math.h>
+#include <ctime>
+#include <cmath>
 
 const char* month[] =
 { "Januar",
@@ -51,7 +51,7 @@ list<point> make_hand(float rad, float l1, float l2,float pos)
 
 
 void hour_hand(float pos,int mode)
-{ 
+{
   float  length = 0.65 * radius;
   color      bg = (hour_color == black) ? white : black;
   list<point> P = make_hand(radius/11,length,1.3*length,pos);
@@ -67,7 +67,7 @@ void hour_hand(float pos,int mode)
 }
 
 void min_hand(float pos,int mode)
-{ 
+{
   float  length = 0.95*radius;
   color      bg = (min_color == black) ? white : black;
   list<point> P = make_hand(radius/13,length,1.20*length,pos);
@@ -84,7 +84,7 @@ void min_hand(float pos,int mode)
 }
 
 void sec_hand(float pos)
-{ 
+{
   float  length = 0.95*radius;
   color      bg = (min_color == black) ? white : black;
   list<point> P = make_hand(radius/60,length,1.15*length,pos);
@@ -97,7 +97,7 @@ void sec_hand(float pos)
 
 
 void draw_clock()
-{ 
+{
   int i;
   float x,y;
 
@@ -117,7 +117,7 @@ void draw_clock()
     Wp->draw_disc(x,y,radius/30,text_color);
    }
 
-  long clock; 
+  long clock;
   time(&clock);
   tm* T = localtime(&clock);
 
@@ -138,7 +138,7 @@ void draw_clock()
 
 
 void move_hands(int hour, int min, int sec)
-{ 
+{
   if (seconds && sec != s) sec_hand(s);
 
   if (min != m || hour != h)
@@ -157,19 +157,19 @@ void move_hands(int hour, int min, int sec)
 
 
 void sync_time()
-{ long clock; 
+{ long clock;
   time(&clock);
-  tm* T = localtime(&clock); 
+  tm* T = localtime(&clock);
 
   while (T->tm_sec > 50)
   { wait(1);
     time(&clock);
-    T = localtime(&clock); 
-   } 
+    T = localtime(&clock);
+   }
 
   move_hands(T->tm_hour,T->tm_min,T->tm_sec);
 
-  if (h+m+s == 0) 
+  if (h+m+s == 0)
   { datum = string("%d. %s 19%0d",T->tm_mday,month[T->tm_mon], T->tm_year%100);
     Wp->set_frame_label(datum);
    }
@@ -187,9 +187,9 @@ void demo()
 
 #if defined(__MSDOS__)
 int wait_a_second()
-{ long clock; 
+{ long clock;
   time(&clock);
-  long clock1 = clock; 
+  long clock1 = clock;
   while (clock1 == clock && Wp->get_button() == 0) time(&clock1);
   return (clock1 == clock);
 }
@@ -201,8 +201,8 @@ int wait_a_second()
 #endif
 
 
-main(int argc, char** argv)
-{  
+int main(int argc, char** argv)
+{
   int height = 2*window::screen_height()/3;
   int width  = height;
   int xpos   = 0;
@@ -220,8 +220,8 @@ main(int argc, char** argv)
           xpos   = atoi(argv[3]);
           ypos   = atoi(argv[4]);
          }
-      else 
-        { cout << "usage: clock [ width height [ xpos ypos ]]\n";
+      else
+        { std::cout << "usage: clock [ width height [ xpos ypos ]]\n";
           exit(1);
          }
    }

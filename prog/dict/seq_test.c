@@ -5,31 +5,31 @@
 #include <LEDA/impl/bin_tree.h>
 
 
-void seq_test(sortseq<int,int>& D, int N, int* A, char* name)
+void seq_test(sortseq<int,int>& D, int N, int* A, const char* name)
 { int i;
   float T0 = used_time();
   float T  = T0;
 
-  cout << string("%-10s",name);
-  cout.flush();
+  std::cout << string("%-10s",name);
+  std::cout.flush();
 
   for(i=0; i<N; i++)  D.insert(A[i],0);
-  cout << string("%10.2f",used_time(T));
-  cout.flush();
+  std::cout << string("%10.2f",used_time(T));
+  std::cout.flush();
 
   for(i=0; i<N; i++)  D.lookup(A[i]);
-  cout << string("%10.2f",used_time(T));
-  cout.flush();
+  std::cout << string("%10.2f",used_time(T));
+  std::cout.flush();
 
   for(i=0; i<N; i++)  D.del(A[i]);
-  cout << string("%10.2f",used_time(T));
+  std::cout << string("%10.2f",used_time(T));
 
-  cout << string("%10.2f",used_time(T0));
+  std::cout << string("%10.2f",used_time(T0));
   newline;
 }
 
 
-main()
+int main()
 {
 
   sortseq<int,int>           RS_SEQ;
@@ -45,7 +45,7 @@ main()
   for(int i=0; i<N; i++) RAND[i] = rand_int(0,1000000);
 
   newline;
-  cout << "               insert    lookup    delete     total";
+  std::cout << "               insert    lookup    delete     total";
   newline;
   newline;
 

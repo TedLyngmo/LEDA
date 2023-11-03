@@ -2,7 +2,7 @@
 #include <LEDA/graph_alg.h>
 
 void print_face(const PLANAR_MAP<int,int>& M, face f)
-{ cout << string("F%d: ",M.inf(f));
+{ std::cout << string("F%d: ",M.inf(f));
   list<node> L1 = M.adj_nodes(f);
   node v;
   forall(v,L1) M.print_node(v);
@@ -10,7 +10,7 @@ void print_face(const PLANAR_MAP<int,int>& M, face f)
  }
 
 
-main()
+int main()
 
 {  GRAPH<int,int> G;
    node v;
@@ -28,7 +28,7 @@ main()
    forall(e,L) G.new_edge(target(e),source(e));
 
    if (!PLANAR(G,true))
-   { cerr << "G is not planar!\n";
+   { std::cerr << "G is not planar!\n";
      exit(1);
     }
 
@@ -47,12 +47,12 @@ main()
    forall_faces(f,M) print_face(M,f);
 
    newline;
-   cout << "faces adjacent to nodes" << endl;
+   std::cout << "faces adjacent to nodes" << std::endl;
 
    forall_nodes(v,M)
    { M.print_node(v);
-     cout << " : ";
-     forall_adj_faces(f,v) cout << string("F%d ",M[f]);
+     std::cout << " : ";
+     forall_adj_faces(f,v) std::cout << string("F%d ",M[f]);
      newline;
     }
 
@@ -68,12 +68,12 @@ main()
    { list<face> FL= M.all_faces();
       int i = 0;
       forall(f,FL)  M.new_node(f,--i);
-   
+
       forall_faces(f,M) print_face(M,f);
       newline;
    }
-   
-   
+
+
    list<edge> E;
    edge_array<bool> marked(M,false);
 
@@ -81,7 +81,7 @@ main()
     if (!marked[e])
     { E.append(e);
       marked[M.reverse(e)] = true;
-     } 
+     }
 
 
    forall(e,E)

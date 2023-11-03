@@ -5,9 +5,9 @@
 +  _new_embed.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -15,7 +15,7 @@
 // Projektarbeit "Zeichnen planarer Graphen"
 // Fachbereich Mathematik und Informatik
 // Universit\"at Halle
-// Dirk Ambras  24.3.1995 
+// Dirk Ambras  24.3.1995
 //
 // modified by S. Naeher
 //-------------------------------------------------------------------------
@@ -41,7 +41,7 @@ static void Contract(graph& G, node a, node b , node c, list<node>& L)
    }
 
   { forall_adj_nodes(v,a)                         // lade Kandidaten
-     if (deg[v]<=2) cand.append(v);	
+     if (deg[v]<=2) cand.append(v);
    }
 
   while (!cand.empty())
@@ -63,7 +63,7 @@ static void Contract(graph& G, node a, node b , node c, list<node>& L)
 }
 
 
-static void Realizer(graph& G, const list<node>& L, 
+static void Realizer(graph& G, const list<node>& L,
                      node a, node b, node c,
                      GRAPH<node, int>& T, node_array<node>& v_in_T)
 {
@@ -72,11 +72,11 @@ static void Realizer(graph& G, const list<node>& L,
   edge e;
   node_array<int> ord(G,0);
 
-  ord[b] = i++; 
+  ord[b] = i++;
   ord[c] = i++;
   node u;
   forall(u,L) ord[u]=i++;				// V(G) numerieren
-  ord[a] = i++; 
+  ord[a] = i++;
 
   forall_nodes(v, G) v_in_T[v] = T.new_node();		// T = copy of G
 
@@ -104,7 +104,7 @@ static void Realizer(graph& G, const list<node>& L,
   node b_in_T = v_in_T[b];
   node c_in_T = v_in_T[c];
 
-  forall_adj_edges(e,a)			
+  forall_adj_edges(e,a)
   T.new_edge(a_in_T, v_in_T[G.target(e)], 1);
 
   T.new_edge(b_in_T, a_in_T, 2);
@@ -123,7 +123,7 @@ static void Subtree_Sizes(GRAPH<node, int>& T, int i, node r,
 
   int  sum=0;
   edge e;
-  forall_adj_edges(e, r)  
+  forall_adj_edges(e, r)
     if (T[e]==i)
     { node w=T.target(e);
       Subtree_Sizes(T, i, w, size);
@@ -148,7 +148,7 @@ static void Prefix_Sum(GRAPH<node, int>& T, int i, node r,
   while (!Q.empty())
   { node v=Q.pop();
     edge e;
-    forall_adj_edges(e, v)  
+    forall_adj_edges(e, v)
       if (T[e] == i)
       { node w=T.target(e);
         Q.append(w);
@@ -171,9 +171,9 @@ int STRAIGHT_LINE_EMBEDDING2(graph& G,node_array<int>& xcoord,
   // choose outer face a,b,c
 
 
-  node a=G.first_node();  
-  edge e=G.first_adj_edge(a);	
-  node c=G.target(e);  
+  node a=G.first_node();
+  edge e=G.first_adj_edge(a);
+  node c=G.target(e);
   node b = G.target(G.adj_succ(e));
 
 
@@ -223,8 +223,8 @@ int STRAIGHT_LINE_EMBEDDING2(graph& G,node_array<int>& xcoord,
   forall_nodes(v, T) v2[v] += val[v]-t2[v]-P1[v];	// v2' errechnen
 
   forall_nodes(v, G)					// x- & y-Feld kopieren
-  { xcoord[v] = v1[v_in_T[v]];  
-    ycoord[v] = v2[v_in_T[v]]; 
+  { xcoord[v] = v1[v_in_T[v]];
+    ycoord[v] = v2[v_in_T[v]];
    }
 
   forall(e, el) G.del_edge(e);	                        // eingefuegte Kanten

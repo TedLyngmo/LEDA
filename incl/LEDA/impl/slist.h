@@ -5,9 +5,9 @@
 +  slist.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_IMPL_SLIST_H
@@ -21,13 +21,13 @@
 #include <LEDA/basic.h>
 
 
-class SLIST; 
+class SLIST;
 class slink;
 
 typedef slink* slist_item;
 
 //------------------------------------------------------------------------------
-// class slink 
+// class slink
 //------------------------------------------------------------------------------
 
 class slink {
@@ -68,19 +68,19 @@ public:
    slink* insert(GenPtr, slink*);
 
 
-   slink* push(GenPtr a)   
+   slink* push(GenPtr a)
    { count++;
-     h = new slink(a,h); 
+     h = new slink(a,h);
      if (t==0) t = h;
      return h;
    }
 
    slink* append(GenPtr a)
    { count++;
-     if (t) t = t->succ = new slink(a,0); 
-     else   t = h = new slink(a,0); 
+     if (t) t = t->succ = new slink(a,0);
+     else   t = h = new slink(a,0);
      return t;
-   } 
+   }
 
    slink* first()               const { return h; }
    slink* first_item()          const { return h; }
@@ -106,10 +106,10 @@ public:
    slink* get_iterator()  const { return iterator; }
    void   init_iterator() const { set_iterator(0); }
 
-   slink* move_iterator() const  
+   slink* move_iterator() const
    { set_iterator( iterator ? iterator->succ : h);
      return iterator;
-   } 
+   }
 
    void conc(SLIST&);
 
@@ -117,10 +117,10 @@ public:
    GenPtr tail()   const { return t ? t->e : 0;}
    GenPtr pop();
 
-   void del_succ(slink* p)    
+   void del_succ(slink* p)
    { slink* q = p->succ;
      if (q == t) t = p;
-     p->succ = q->succ; 
+     p->succ = q->succ;
      delete q;
      count--;
    }
@@ -131,9 +131,9 @@ public:
             return true; }
     }
 
-   bool next_element(GenPtr& x) const 
-  { move_iterator(); 
-    return current_element(x); 
+   bool next_element(GenPtr& x) const
+  { move_iterator();
+    return current_element(x);
    }
 
    GenPtr  contents(slink* l)  const  { return l->e; }
@@ -143,9 +143,9 @@ public:
 
    void clear();
 
-   SLIST();    
+   SLIST();
    SLIST(GenPtr a);
-   SLIST& operator=(const SLIST&); 
+   SLIST& operator=(const SLIST&);
    SLIST(const SLIST&);
    virtual ~SLIST()     { clear(); }
 };
@@ -154,8 +154,8 @@ public:
 #if !defined(__TEMPLATE_FUNCTIONS__)
 // dummy I/O and cmp functions
 
-inline void Print(const SLIST&,ostream&) { }
-inline void Read(SLIST&, istream&) { }
+inline void Print(const SLIST&,std::ostream&) { }
+inline void Read(SLIST&, std::istream&) { }
 inline int  compare(const SLIST&,const SLIST&) { return 0; }
 #endif
 

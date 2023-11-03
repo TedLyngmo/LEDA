@@ -5,9 +5,9 @@
 +  gen_array.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_GEN_ARRAY_H
@@ -27,13 +27,13 @@ friend class gen_array2;
 protected:
 	GenPtr* v;
 	GenPtr* last;
-	int sz;	
+	int sz;
         int Low;
         int High;
 
 virtual int  cmp(GenPtr, GenPtr)  const { return 0; }
-virtual void print_el(GenPtr&,ostream&) const {}
-virtual void read_el(GenPtr& ,istream&) const {}
+virtual void print_el(GenPtr&,std::ostream&) const {}
+virtual void read_el(GenPtr& ,std::istream&) const {}
 virtual void clear_entry(GenPtr&) const {}
 virtual void copy_entry(GenPtr&)  const {}
 virtual void init_entry(GenPtr&)  const {}
@@ -47,7 +47,7 @@ virtual int  int_type() const { return 0; }
 protected:
 
   int  binary_search(GenPtr);
-  void sort(int,int); 
+  void sort(int,int);
   void init();
   void clear();
 
@@ -84,15 +84,15 @@ virtual ~gen_array() { if (v) delete[] v; }
    void permute(int,int);
    void permute()  { permute(Low,High); }
 
-   void print(ostream&,string, char space) const;    
-   void print(ostream& out,char space=' ') const { print(out,"",space);  }
-   void print(string s, char space=' ')    const { print(cout,s,space);  }
-   void print(char space=' ')              const { print(cout,"",space); }   
+   void print(std::ostream&,string, char space) const;
+   void print(std::ostream& out,char space=' ') const { print(out,"",space);  }
+   void print(string s, char space=' ')    const { print(std::cout,s,space);  }
+   void print(char space=' ')              const { print(std::cout,"",space); }
 
-   void read(istream&,string);  
-   void read(istream& in)      { read(in,"");  }
-   void read(string s )        { read(cin,s);  }   
-   void read()                 { read(cin,""); }   
+   void read(std::istream&,string);
+   void read(std::istream& in)      { read(in,"");  }
+   void read(string s )        { read(std::cin,s);  }
+   void read()                 { read(std::cin,""); }
 
 // Iteration
 
@@ -149,8 +149,8 @@ gen_array2& operator=(const gen_array2& a);
 #if !defined(__TEMPLATE_FUNCTIONS__)
 // default I/O and cmp functions
 
-inline void Print(const gen_array& A, ostream& out) { A.print(out); }
-inline void Read(gen_array& A, istream& in) { A.read(in); }
+inline void Print(const gen_array& A, std::ostream& out) { A.print(out); }
+inline void Read(gen_array& A, std::istream& in) { A.read(in); }
 inline int compare(const gen_array&,const gen_array&) { return 0; }
 #endif
 

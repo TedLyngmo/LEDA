@@ -5,9 +5,9 @@
 +  iteration.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_ITERATION_H
@@ -27,11 +27,11 @@ for(x = (S).first_item(); x; x = (S).next_item(x) )
 //   forall_defined(x,...)
 //------------------------------------------------------------------------------
 
-// As long as the new scoping rules are not supported we avoid multiple 
-// declarations of the forall-loop variable by placing it in the else 
-// part of a dummy if-statement. However, even this does not work with some 
+// As long as the new scoping rules are not supported we avoid multiple
+// declarations of the forall-loop variable by placing it in the else
+// part of a dummy if-statement. However, even this does not work with some
 // compilers (ztc, HP C++).
-  
+
 #if defined(__NEW_SCOPE_RULES__)
 
 #define forall(x,S)\

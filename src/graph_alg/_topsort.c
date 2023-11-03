@@ -5,9 +5,9 @@
 +  _topsort.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -22,35 +22,35 @@
 
 
 bool TOPSORT(const graph& G, node_array<int>& ord)
-{ 
+{
   node_array<int> INDEG(G,0);
   node_list ZEROINDEG;
 
   int count=0;
   node v,w;
 
-  forall_nodes(v,G) if ((INDEG[v]=indeg(v))==0) ZEROINDEG.append(v); 
+  forall_nodes(v,G) if ((INDEG[v]=indeg(v))==0) ZEROINDEG.append(v);
 
   while (!ZEROINDEG.empty())
    { v = ZEROINDEG.pop();
      ord[v] = ++count;
-     forall_adj_nodes(w,v) 
+     forall_adj_nodes(w,v)
         if (--INDEG[w]==0) ZEROINDEG.append(w);
     }
-  
-  if (count==G.number_of_nodes()) 
+
+  if (count==G.number_of_nodes())
      return(true);
-  else 
+  else
      return(false);
 }
-     
 
 
 
-// TOPSORT1 rearrange nodes and edges 
+
+// TOPSORT1 rearrange nodes and edges
 
 bool TOPSORT1(graph& G)
-{ 
+{
   if (G.number_of_nodes()==0 || G.number_of_edges()==0) return true;
 
   node_array<int> node_ord(G);
@@ -65,7 +65,7 @@ bool TOPSORT1(graph& G)
     }
 
   else return false;
-  
+
 }
-     
+
 

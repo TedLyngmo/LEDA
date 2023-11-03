@@ -5,9 +5,9 @@
 +  _random.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -48,7 +48,7 @@
  */
 
 
-#include <stdio.h>
+#include <cstdio>
 
 typedef unsigned int u_int;
 
@@ -84,7 +84,7 @@ static unsigned long  bsd_random();
  * state information, which will allow a degree seven polynomial.  (Note:
  * the zeroeth word of state information also has some other information
  * stored in it -- see setstate() for details).
- * 
+ *
  * The random number generation technique is a linear feedback shift register
  * approach, employing trinomials (since there are fewer terms to sum up that
  * way).  In this approach, the least significant bit of all the numbers in
@@ -216,7 +216,7 @@ static long *end_ptr = &randtbl[DEG_3 + 1];
 
 static void bsd_srandom(u_int x)
 {
-	register int i;
+	int i;
 
 // initialize static variables at first call (s.n.)
 // (should not be necessary, however, some c++ compilers ...)
@@ -255,12 +255,12 @@ static void bsd_srandom(u_int x)
  * the break values for the different R.N.G.'s, we choose the best (largest)
  * one we can and set things up for it.  srandom() is then called to
  * initialize the state information.
- * 
+ *
  * Note that on return from srandom(), we set state[-1] to be the type
  * multiplexed with the current value of the rear pointer; this is so
  * successive calls to initstate() won't lose this information and will be
  * able to restart with setstate().
- * 
+ *
  * Note: the first thing we do is save the current state, if any, just like
  * setstate() so that it doesn't matter when initstate is called.
  *
@@ -269,7 +269,7 @@ static void bsd_srandom(u_int x)
 
 static char* bsd_initstate(u_int seed, char* arg_state, int n)
 {
-	register char *ostate = (char *)(&state[-1]);
+	char *ostate = (char *)(&state[-1]);
 
 	if (rand_type == TYPE_0)
 		state[-1] = rand_type;
@@ -329,9 +329,9 @@ static char* bsd_initstate(u_int seed, char* arg_state, int n)
 
 static char* bsd_setstate(char* arg_state)
 {
-	register long *new_state = (long *)arg_state;
-	register int type = int(new_state[0] % MAX_TYPES);
-	register int rear = int(new_state[0] / MAX_TYPES);
+	long *new_state = (long *)arg_state;
+	int type = int(new_state[0] % MAX_TYPES);
+	int rear = int(new_state[0] / MAX_TYPES);
 	char *ostate = (char *)(&state[-1]);
 
 	if (rand_type == TYPE_0)
@@ -404,7 +404,7 @@ static unsigned long bsd_random()
 
 
 #include <LEDA/random.h>
-#include <time.h>
+#include <ctime>
 
 //we assume that bsd_random() produces a 31 bit integer
 
@@ -413,8 +413,8 @@ static unsigned long bsd_random()
 /* we have:
    the source is in bit mode iff bit_mode == true
    in bit mode: pat = 2^{p+1} - 1 where p is the precision.
-   in integer mode: diff = high - low and 
-                    if diff > 0 then pat = 2^p - 1 where 
+   in integer mode: diff = high - low and
+                    if diff > 0 then pat = 2^p - 1 where
                          p = 1 + \lfloor \log diff \rfloor
                     if diff = 0 then pat = 0
 */
@@ -426,17 +426,17 @@ random_source::random_source()
 { time_t seed;
   time(&seed);
   bsd_srandom(int(seed));
-  pat = 0xFFFFFFFF; 
+  pat = 0xFFFFFFFF;
   bit_mode = true;
   low = diff = 0;
  }
 
-random_source::random_source(int bits) 
+random_source::random_source(int bits)
 { time_t seed;
   time(&seed);
   bsd_srandom(int(seed));
   if (bits <= 0 || bits >= 32)
-     pat = 0xFFFFFFFF; 
+     pat = 0xFFFFFFFF;
   else
      pat = (1 << bits) - 1;
   bit_mode = true;
@@ -453,7 +453,7 @@ void random_source::set_range(int l, int h)
  }
 
 
-random_source::random_source(int l, int h) 
+random_source::random_source(int l, int h)
 { time_t seed;
   time(&seed);
   bsd_srandom(int(seed));
@@ -461,9 +461,9 @@ random_source::random_source(int l, int h)
    }
 
 
-void random_source::set_precision(int bits) 
+void random_source::set_precision(int bits)
 { if (0 >= bits || bits >= 32)
-     pat = 0xFFFFFFFF; 
+     pat = 0xFFFFFFFF;
   else
      pat = (1 << bits) - 1;
   bit_mode = true;
@@ -494,16 +494,16 @@ int  random_source::operator()(int l, int h)
   int  old_diff = diff;
   unsigned long  old_pat = pat;
   bool old_bit_mode = bit_mode;
-  
+
   set_range(l,h);
   int x  = operator()();
 
-  low = old_low; 
-  diff = old_diff; 
-  pat = old_pat; 
+  low = old_low;
+  diff = old_diff;
+  pat = old_pat;
   bit_mode = old_bit_mode;
 
-  return x; 
+  return x;
 }
 
 
@@ -513,12 +513,12 @@ random_source& random_source::operator>>(char& x)
   return *this;
  }
 
-random_source& random_source::operator>>(int& x)      
+random_source& random_source::operator>>(int& x)
 { x = int(operator()());
   return *this;
  }
 
-random_source& random_source::operator>>(long& x)      
+random_source& random_source::operator>>(long& x)
 { x = long(operator()());
   return *this;
  }
@@ -542,19 +542,19 @@ random_source& random_source::operator>>(unsigned long& x)
 
 #if defined(__BUILTIN_BOOL__)
 random_source& random_source::operator>>(bool& x)
-{ x = bsd_random() & 1; 
+{ x = bsd_random() & 1;
   return *this;
  }
 #endif
 
 
 random_source& random_source::operator>>(float&  x)
-{ x = float(bsd_random())/RANDMAX; 
+{ x = float(bsd_random())/RANDMAX;
   return *this;
  }
 
 random_source& random_source::operator>>(double& x)
-{ x = float(bsd_random())/RANDMAX; 
+{ x = float(bsd_random())/RANDMAX;
   return *this;
  }
 

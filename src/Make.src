@@ -7,7 +7,7 @@ ARLIB  = ar r $(LIB) $?
 RANLIB = ranlib $(LIB)
 o      = .o
 .c.o:
-	../../c++  -I../../incl $(CFLAGS) $(DFLAGS) -c $*.c
+	$(CXX)  -I../../incl $(CFLAGS) $(DFLAGS) -c $*.c
 
 .s.o:
 	as -o $*.o $*.s

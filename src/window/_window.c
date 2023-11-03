@@ -5,14 +5,14 @@
 +  _window.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #include <LEDA/window.h>
-#include <math.h>
+#include <cmath>
 
 
 
@@ -23,7 +23,7 @@
 
 
 static void window_error_handler(int i, const char* s)
-{ 
+{
   panel P;
 
   if (i == 0)
@@ -38,7 +38,7 @@ static void window_error_handler(int i, const char* s)
   P.button("dump core");
   if (P.open() == 0)
      exit(0);
-  else 
+  else
      abort();
  }
 
@@ -64,10 +64,10 @@ window::window(int) // do not open
 
 // pixels
 
-void window::draw_pix(double x, double y, color c ) 
+void window::draw_pix(double x, double y, color c )
 { LEDA_WINDOW::draw_pix(x,y,c); }
 
-void window::draw_pix(const point& p, color c ) 
+void window::draw_pix(const point& p, color c )
 { draw_pix(p.xcoord(),p.ycoord(),c); }
 
 void window::draw_text(double x, double y, string s, color c)
@@ -110,7 +110,7 @@ void window::draw_line(const line& l, color c )
 {
   double a,x0,x1,y0,y1;
 
-  if (l.vertical()) 
+  if (l.vertical())
   { draw_vline(l.x_proj(0),c);
     return;
    }
@@ -138,7 +138,7 @@ void window::draw_line(const line& l, color c )
 void window::draw_line(const segment& s, color c )
 { draw_line(line(s),c); }
 
-void window::draw_line(const point& p, const point& q, color c) 
+void window::draw_line(const point& p, const point& q, color c)
 { draw_line(line(p,q),c); }
 
 void window::draw_line(double x1, double y1, double x2, double y2, color c )
@@ -156,7 +156,7 @@ void window::draw_vline(double x, color c )
 
 // nodes
 
-void window::draw_node(double x0,double y0,color c) 
+void window::draw_node(double x0,double y0,color c)
 { LEDA_WINDOW::draw_node(x0,y0,c); }
 
 void window::draw_node(const point& p, color c)
@@ -192,7 +192,7 @@ void window::draw_circle(const point& p,double r,color c)
 void window::draw_circle(const circle& C,color c)
 { point p = C.center();
   double r = C.radius();
-  LEDA_WINDOW::draw_circle(p.xcoord(),p.ycoord(),r,c); 
+  LEDA_WINDOW::draw_circle(p.xcoord(),p.ycoord(),r,c);
  }
 
 
@@ -232,12 +232,12 @@ void window::draw_arc(const segment& s, double r, color col)
 { double d   = s.length()/(2*fabs(r));
   if (d > 1) return;
   double acd = acos(d);
-  if (r < 0) 
+  if (r < 0)
     { point   m  = s.start().translate(s.angle()-acd,-r);
       segment x(m,s.end());
       LEDA_WINDOW::draw_arc(m.xcoord(),m.ycoord(),-r,-r,x.angle(),LEDA_PI-2*acd,col);
      }
-  else 
+  else
     { point   m  = s.start().translate(s.angle()+acd,r);
       segment x(m,s.end());
       LEDA_WINDOW::draw_arc(m.xcoord(),m.ycoord(),r,r,x.angle(),2*acd-LEDA_PI,col);
@@ -274,7 +274,7 @@ void window::draw_polygon(const list<point>& lp, color c)
   double* Y = new double[n];
   n = 0;
   point p;
-  forall(p,lp) 
+  forall(p,lp)
   { X[n] = p.xcoord();
     Y[n] = p.ycoord();
     n++;
@@ -290,7 +290,7 @@ void window::draw_filled_polygon(const list<point>& lp, color c)
   double* Y = new double[n];
   n = 0;
   point p;
-  forall(p,lp) 
+  forall(p,lp)
   { X[n] = p.xcoord();
     Y[n] = p.ycoord();
     n++;
@@ -331,8 +331,8 @@ void window::plot_yx(double y0, double y1, draw_func_ptr f, color c)
 point window::draw_arrow_head(const point& q, double a, color c)
 { double X[4];
   double Y[4];
-  
-  double alpha = a-LEDA_PI; 
+
+  double alpha = a-LEDA_PI;
 
   double d = 2*((get_line_width()+2)/3.0)/scale();
 
@@ -434,12 +434,12 @@ void window::draw_arc_edge_arrow(const segment& s, double r, color c)
 //------------------------------------------------------------------------------
 
 
-int window::get_button() 
+int window::get_button()
 { double x,y;
-  return LEDA_WINDOW::get_button(x,y); 
+  return LEDA_WINDOW::get_button(x,y);
  }
 
-int window::get_button(double& x, double& y) 
+int window::get_button(double& x, double& y)
 { return LEDA_WINDOW::get_button(x,y); }
 
 int  window::get_button(point& q)
@@ -519,8 +519,8 @@ window& window::read(point& p)
 { double x,y;
   state = 1;
   int k;
-  while ((k = read_mouse(x,y)) != 1) 
-   if (k == 3) 
+  while ((k = read_mouse(x,y)) != 1)
+   if (k == 3)
     { state = 0;
       return *this;
      }
@@ -535,13 +535,13 @@ window& window::read(segment& s)
   int key = 0;
   state = 1;
 
-  if (!read(p).state) 
+  if (!read(p).state)
    return *this;
 
   while ((key=read_mouse_seg(p.xcoord(),p.ycoord(),x,y)) != 1)
-  { if (key== 3)  
+  { if (key== 3)
      { state = 0;
-       break; 
+       break;
       }
 
     if (key==-1)
@@ -568,16 +568,16 @@ window& window::read(circle& c)
   int key = 0;
   state = 1;
 
-  if (!read(p).state) 
+  if (!read(p).state)
    return *this;
 
   drawing_mode save = set_mode(xor_mode);
   draw(p);
 
   while ((key=read_mouse_circle(p.xcoord(),p.ycoord(),x,y)) != 1)
-  { if (key== 3)  
+  { if (key== 3)
      { state = 0;
-       break; 
+       break;
       }
 
     if (key==-1)
@@ -586,7 +586,7 @@ window& window::read(circle& c)
       draw(p);
      }
    }
-   if (state) 
+   if (state)
    { double dx = x-p.xcoord();
      double dy = y-p.ycoord();
      c = circle(p,sqrt(dx*dx+dy*dy));
@@ -613,10 +613,10 @@ window& window::read(polygon& P)
   drawing_mode save = set_mode(xor_mode);
 
   while ((key = read_mouse_seg(p.xcoord(),p.ycoord(),x,y)) !=2)
-  { 
+  {
     if (key==3) break;
 
-    if (key==-1 && pl.length() > 1 ) 
+    if (key==-1 && pl.length() > 1 )
     { point l = pl.Pop();
       draw_segment(pl.tail(),l);
       p = pl.tail();
@@ -640,7 +640,7 @@ window& window::read(polygon& P)
 
   if (key!=3)
      P = polygon(pl);
-  else 
+  else
      state = 0;
 
   set_mode(save);
@@ -650,39 +650,39 @@ window& window::read(polygon& P)
 }
 
 
-window& window::operator>>(point& p)    
+window& window::operator>>(point& p)
 { set_frame_label(">> POINT");
-  read(p); 
+  read(p);
   reset_frame_label();
-  return *this; 
+  return *this;
  }
 
-window& window::operator>>(segment& s)  
+window& window::operator>>(segment& s)
 { set_frame_label(">> SEGMENT");
-  read(s); 
+  read(s);
   reset_frame_label();
-  return *this; 
+  return *this;
  }
 
-window& window::operator>>(line& l)     
+window& window::operator>>(line& l)
 { set_frame_label(">> LINE");
-  read(l); 
+  read(l);
   reset_frame_label();
-  return *this; 
+  return *this;
  }
 
-window& window::operator>>(circle& C)   
+window& window::operator>>(circle& C)
 { set_frame_label(">> CIRCLE");
-  read(C); 
+  read(C);
   reset_frame_label();
-  return *this; 
+  return *this;
  }
 
-window& window::operator>>(polygon& P)  
+window& window::operator>>(polygon& P)
 { set_frame_label(">> POLYGON");
-  read(P); 
+  read(P);
   reset_frame_label();
-  return *this; 
+  return *this;
  }
 
 
@@ -723,7 +723,7 @@ int  window::read_panel(string header, int n, string* L)
 int  window::read_vpanel(string header, int n, string* L)
 { panel P("LEDA PANEL");
   P.text_item(header);
-  for(int i = 0; i < n; i++) 
+  for(int i = 0; i < n; i++)
   { P.button(L[i]);
     P.new_button_line();
    }

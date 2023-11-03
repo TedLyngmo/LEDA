@@ -5,9 +5,9 @@
 +  bin_heap.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_BIN_HEAP_H
@@ -92,7 +92,7 @@ void print();
 
 bin_heap& operator=(const bin_heap&);
 
-bin_heap(int n = 1024);  // default start size 
+bin_heap(int n = 1024);  // default start size
 bin_heap(const bin_heap&);
 
 bin_heap(int,int) {}

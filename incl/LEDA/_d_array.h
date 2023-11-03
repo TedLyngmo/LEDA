@@ -5,9 +5,9 @@
 +  _d_array.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef _LEDA_D_ARRAY_H
@@ -19,21 +19,21 @@
 //
 // Dictionary arrays with implementation parameter:
 //
-//   _d_array<I,E,impl> 
+//   _d_array<I,E,impl>
 //
 //------------------------------------------------------------------------------
 
 /*{\Manpage {_d_array} {I,E,impl} {Dictionary Arrays with Implementation Parameter} }*/
 
 /*{\Mdefinition
-An instance of type \name\ is a dictionary array implemented by data type 
+An instance of type \name\ is a dictionary array implemented by data type
 $impl$. $impl$ must be one of the dictionary implementations listed in
 section \ref{Implementations Dictionaries} or a user defined data structure
 fulfilling the specification given in section \ref{User Implementations
 Dictionaries}. Note that depending on the actual implementation $impl$
 the index type $I$ must either be linearly ordered or hashed.
 }*/
-  
+
 /*{\Mtext
 {\bf Example}\\
 Using a dictionary array implemented by hashing with chaining  ($ch\_hash$)
@@ -50,14 +50,14 @@ to count the number of occurences of the elements in a sequence of strings.
 
 int Hash(const string& x) { return (x.length() > 0) ? x[0] : 0; }
 
-main()
-{ 
+int main()
+{
   _d_array<string,int,ch_hash> N(0);
   string s;
 
   while (cin >> s) N[s]++;
 
-  forall_defined(s,N) cout << s << "  " << N[s] << endl;
+  forall_defined(s,N) std::cout << s << "  " << N[s] << std::endl;
 
 }
 \endgroup
@@ -68,7 +68,7 @@ main()
 
 
 
-template <class I, class E, class impl> 
+template <class I, class E, class impl>
 
 class _d_array : private virtual impl, public d_array<I,E>
 {
@@ -121,7 +121,7 @@ _d_array<I,E,impl>& operator=(const _d_array<I,E,impl>& A)
  _d_array() {}
  _d_array(E i) { this->init=i; }
  _d_array(const _d_array<I,E,impl>& A) : impl(A) { this->init=A.init; }
-~_d_array() { impl::clear(); } 
+~_d_array() { impl::clear(); }
 
 };
 

@@ -5,9 +5,9 @@
 +  bigfloat.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -30,6 +30,230 @@
 enum rounding_modes {
   TO_NEAREST, TO_ZERO, TO_P_INF, TO_N_INF, TO_INF, EXACT, DEFAULT
 };
+
+
+class bigfloat;
+
+bigfloat add(const bigfloat &, const bigfloat &, long = -1, rounding_modes = DEFAULT);
+/*{\manual\\
+\func |bigfloat| add {x,y,prec,rmode}
+      {returns $x+y$ computed to the precision prec and rounded in
+       mode rmode}
+}*/
+bigfloat sub(const bigfloat&, const bigfloat &, long = -1, rounding_modes = DEFAULT);
+/*{\manual\\
+\func |bigfloat| sub {x,y,prec,rmode}
+      {returns $x-y$ computed to the precision prec and rounded in
+       mode rmode}
+}*/
+bigfloat mul(const bigfloat&, const bigfloat&, long = -1, rounding_modes = DEFAULT);
+/*{\manual\\
+\func |bigfloat| mul {x,y,prec,rmode}
+      {returns $x*y$ computed to the precision prec and rounded in
+       mode rmode}
+}*/
+
+bigfloat div(const bigfloat&, const bigfloat&, long = -1, rounding_modes = DEFAULT);
+/*{\manual\\
+\func |bigfloat| div {x,y,prec,rmode}
+      {returns $x/y$ computed to the precision prec and rounded in
+       mode rmode}
+}*/
+
+bigfloat sqrt(const bigfloat&, long = -1, rounding_modes = DEFAULT);
+/*{\manual\\
+\func |bigfloat| sqrt {x,prec,rmode}
+      {returns $\sqrt{x}$ computed to the precision prec and rounded in
+       mode rmode}
+}*/
+
+bigfloat operator + (const bigfloat &, const bigfloat &);
+/*{\manual\\
+\binop |bigfloat| + {y}
+      { returns add(\var,y) and uses so default values for precision and
+        round mode}
+}*/
+
+bigfloat operator - (const bigfloat &, const bigfloat &);
+/*{\manual\\
+\binop |bigfloat| - {y}
+      { returns sub(\var,y) }
+}*/
+
+bigfloat operator *(const bigfloat &, const bigfloat &);
+/*{\manual\\
+\binop |bigfloat| * {y}
+      { returns mul(\var,y) }
+}*/
+
+bigfloat operator / (const bigfloat &, const bigfloat &);
+/*{\manual\\
+\binop |bigfloat| / {y}
+      { returns div(\var,y) }
+}*/
+
+bigfloat operator - (const bigfloat &);
+/*{\manual\\
+\unop |bigfloat| -
+      { returns $-x$ }
+}*/
+
+
+bool operator == (const bigfloat &, const bigfloat &);
+/*{\manual\\
+\binop bool == {y}
+      { returns true if \var is equal to y }
+}*/
+
+bool operator != (const bigfloat &, const bigfloat &);
+/*{\manual\\
+\binop bool != {y}
+      { returns true if \var is not equal to y }
+}*/
+
+bool operator > (const bigfloat &, const bigfloat &);
+/*{\manual\\
+\binop bool > {y}
+      { returns true if \var is greater than y }
+}*/
+
+bool operator >= (const bigfloat &, const bigfloat &);
+/*{\manual\\
+\binop bool >= {y}
+      { returns true if \var is greater than or equal to y }
+}*/
+
+bool operator < (const bigfloat &, const bigfloat &);
+/*{\manual\\
+\binop bool < {y}
+      { returns true if \var is smaller than y }
+}*/
+
+bool operator <= (const bigfloat &, const bigfloat &);
+/*{\manual\\
+\binop bool <= {y}
+      { returns true if \var is smaller than or equal to y }
+}*/
+
+
+bool isNaN(const bigfloat &);
+/*{\manual\\
+\func bool isNaN {x}
+      { returns true if x is a NaN}
+}*/
+
+bool isnInf(const bigfloat &);
+/*{\manual\\
+\func bool isnInf {x}
+      { returns true if x is $-\infty$}
+}*/
+
+bool ispInf(const bigfloat &);
+/*{\manual\\
+\func bool ispInf {x}
+      { returns true if x is $+\infty$}
+}*/
+
+bool isnZero(const bigfloat &);
+/*{\manual\\
+\func bool isnZero {x}
+      { returns true if x is $-0$}
+}*/
+
+bool ispZero(const bigfloat &);
+/*{\manual\\
+\func bool ispZero {x}
+      { returns true if x is $+0$}
+}*/
+
+bool isZero(const bigfloat &);
+/*{\manual\\
+\func bool isZero {x}
+      { returns true if x is $\pm 0$}
+}*/
+
+bool isInf(const bigfloat &);
+/*{\manual\\
+\func bool isInf {x}
+      { returns true if x is $\pm \infty$}
+}*/
+
+
+/*{\manual\\
+\implementation
+
+A \type\ is a floating point number of arbitrary precision.\type s are
+represented by a significant and an exponent which are |integers|.
+They are defined on addition, subtraction, multiplication, division
+and square root. Furthermore the user is given some comparison functions on
+\type s. The user is also provided with a couple of mathematical functions.
+In addition to that the user is given a rounding function that performs
+an exact rounding in different modes. The rounding modes conform to IEEE
+standard.
+}*/
+
+
+
+integer ceil(const bigfloat & b);
+/*{\manual\\
+\func |integer| ceil { }
+      { rounds \var\ up to the next integer value}
+}*/
+
+integer floor(const bigfloat & b);
+/*{\manual\\
+\func |integer| floor { }
+      { rounds \var\ down to the next integer value}
+}*/
+
+bigfloat pow2(const integer &);
+/*{\manual\\
+\func |bigfloat| pow2 { y }
+      { returns $2^y$}
+}*/
+
+long sign(const bigfloat &);
+/*{\manual\\
+\func long sign { }
+      { if \var\ is negative sign return -1, if it is zero it returns zero else
+       it returns 1}
+}*/
+
+long non_zero_sign(const bigfloat &);
+/*{\manual\\
+\func long non\_zero\_sign { y }
+      { returns a sign either 1 or -1 as values. This function is needed
+        for special cases in which a signed zero can appear.}
+}*/
+
+bigfloat fabs(const bigfloat &);
+/*{\manual\\
+\func |bigfloat| fabs { }
+      { returns $|\var\|$}
+}*/
+
+
+
+bigfloat outofchar(const char *);
+/*{\manual\\
+\func |bigfloat| outofchar { string }
+      { this routine converts a string of the format $\pm 0.bb\ldots bbEex$ or
+        $\pm d.ddd\ldots$, where $b\in [0,1]$ and $d\in [0,9]$into |bigfloat|,
+        to |bigfloat| format}
+}*/
+
+std::ostream & operator << (std::ostream &, const bigfloat &);
+/*{\manual\\
+\strop std::ostream\& << {O}
+    { writes |real| number \name\ to the output stream $O$ }
+}*/
+
+std::istream & operator >> (std::istream &, bigfloat &);
+/*{\manual\\
+\strop std::ostream\& >> {I}
+    { reads |real| number \name\ from the output stream $I$ (in |double|
+      format) }
+}*/
 
 
 
@@ -129,41 +353,38 @@ value (zero in variant e).
 
 
 
-
-  friend bigfloat add(const bigfloat &, const bigfloat &, long = -1, rounding_modes = DEFAULT);
+  friend bigfloat add(const bigfloat &, const bigfloat &, long, rounding_modes);
 /*{\manual\\
 \func |bigfloat| add {x,y,prec,rmode}
       {returns $x+y$ computed to the precision prec and rounded in
        mode rmode}
 }*/
-  friend bigfloat sub(const bigfloat &, const bigfloat &, long = -1, rounding_modes = DEFAULT);
+  friend bigfloat sub(const bigfloat&, const bigfloat &, long, rounding_modes);
 /*{\manual\\
 \func |bigfloat| sub {x,y,prec,rmode}
       {returns $x-y$ computed to the precision prec and rounded in
        mode rmode}
 }*/
-  friend bigfloat mul(const bigfloat &, const bigfloat &, long = -1, rounding_modes = DEFAULT);
+  friend bigfloat mul(const bigfloat&, const bigfloat&, long, rounding_modes);
 /*{\manual\\
 \func |bigfloat| mul {x,y,prec,rmode}
       {returns $x*y$ computed to the precision prec and rounded in
        mode rmode}
 }*/
 
-  friend bigfloat div(const bigfloat &, const bigfloat &, long = -1, rounding_modes = DEFAULT);
+  friend bigfloat div(const bigfloat&, const bigfloat&, long, rounding_modes);
 /*{\manual\\
 \func |bigfloat| div {x,y,prec,rmode}
       {returns $x/y$ computed to the precision prec and rounded in
        mode rmode}
 }*/
 
-  friend bigfloat sqrt(const bigfloat &, long = -1, rounding_modes = DEFAULT);
+  friend bigfloat sqrt(const bigfloat&, long, rounding_modes);
 /*{\manual\\
 \func |bigfloat| sqrt {x,prec,rmode}
       {returns $\sqrt{x}$ computed to the precision prec and rounded in
        mode rmode}
 }*/
-
-
 
 
   friend bigfloat operator + (const bigfloat &, const bigfloat &);
@@ -196,9 +417,6 @@ value (zero in variant e).
 \unop |bigfloat| -
       { returns $-x$ }
 }*/
-
-
-
 
 
   friend bool operator == (const bigfloat &, const bigfloat &);
@@ -236,8 +454,6 @@ value (zero in variant e).
 \binop bool <= {y}
       { returns true if \var is smaller than or equal to y }
 }*/
-
-
 
 
   friend bool isNaN(const bigfloat &);
@@ -346,15 +562,15 @@ standard.
         to |bigfloat| format}
 }*/
 
-  friend ostream & operator << (ostream &, const bigfloat &);
+  friend std::ostream & operator << (std::ostream &, const bigfloat &);
 /*{\manual\\
-\strop ostream\& << {O}
+\strop std::ostream\& << {O}
     { writes |real| number \name\ to the output stream $O$ }
 }*/
 
-  friend istream & operator >> (istream &, bigfloat &);
+  friend std::istream & operator >> (std::istream &, bigfloat &);
 /*{\manual\\
-\strop ostream\& >> {I}
+\strop std::ostream\& >> {I}
     { reads |real| number \name\ from the output stream $I$ (in |double|
       format) }
 }*/

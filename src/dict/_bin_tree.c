@@ -5,9 +5,9 @@
 +  _bin_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -15,7 +15,7 @@
 //
 //  bin_tree: base class for all binary tree types in LEDA
 //
-//  leaf oriented & doubly linked 
+//  leaf oriented & doubly linked
 //
 //  Stefan N"aher (1993)
 //
@@ -30,10 +30,10 @@ bin_tree_node* bin_tree::lookup(GenPtr x) const
   return 0;
 }
 
-void  bin_tree::change_inf(bin_tree_node* p,GenPtr y) 
+void  bin_tree::change_inf(bin_tree_node* p,GenPtr y)
 { clear_inf(p->i);
   copy_inf(y);
-  p->i = y; 
+  p->i = y;
  }
 
 
@@ -42,7 +42,7 @@ void  bin_tree::change_inf(bin_tree_node* p,GenPtr y)
 //------------------------------------------------------------------------------
 
 bin_tree_node* bin_tree::locate(GenPtr x) const
-{ 
+{
   if (count==0) return 0;
   return  int_type() ? int_search(x) : search(x);
 }
@@ -66,7 +66,7 @@ bin_tree_node* bin_tree::locate_succ(GenPtr x) const
 //                  nil if tree empty
 //------------------------------------------------------------------------------
 
-bin_tree_node* bin_tree::locate_pred(GenPtr x) const 
+bin_tree_node* bin_tree::locate_pred(GenPtr x) const
 { if (count==0) return 0;
   bin_tree_node* p =  int_type() ? int_search(x) : search(x);
   return (cmp(x,p->k) < 0) ? pred(p) : p ;
@@ -91,7 +91,7 @@ bin_tree_node* bin_tree::search(GenPtr x) const
 
 
 //------------------------------------------------------------------------------
-// int_search : search for integer key 
+// int_search : search for integer key
 //------------------------------------------------------------------------------
 
 bin_tree_node* bin_tree::int_search(GenPtr x) const
@@ -116,12 +116,12 @@ bin_tree_node* bin_tree::int_search(GenPtr x) const
 //------------------------------------------------------------------------------
 
 bin_tree_node* bin_tree::insert( GenPtr x, GenPtr y, GenPtr ii)
-{  
+{
   // key x, inf y, iinf ii
 
   bin_tree_node* p;
 
-   if (count==0)  // tree is empty 
+   if (count==0)  // tree is empty
      { copy_key(x);
        copy_inf(y);
        p = new bin_tree_node(x,y,leaf_balance());
@@ -144,16 +144,16 @@ bin_tree_node* bin_tree::insert( GenPtr x, GenPtr y, GenPtr ii)
 
 
 
-bin_tree_node* bin_tree::insert_at_item(bin_tree_node* p, GenPtr x, GenPtr y, 
+bin_tree_node* bin_tree::insert_at_item(bin_tree_node* p, GenPtr x, GenPtr y,
                                                                     GenPtr ii)
 {
 
    bool insert_left;  //  true <==> insert new leaf q to the left of p
 
    copy_inf(y);
-                   
+
    if ( int_type() )
-     { if ( LEDA_ACCESS(int,x) == LEDA_ACCESS(int,p->k) ) 
+     { if ( LEDA_ACCESS(int,x) == LEDA_ACCESS(int,p->k) )
        { // x already stored in tree, overwrite info
          clear_inf(p->i);
          p->i = y;
@@ -178,7 +178,7 @@ bin_tree_node* bin_tree::insert_at_item(bin_tree_node* p, GenPtr x, GenPtr y,
 
    bin_tree_node* q = new bin_tree_node(x,y,leaf_balance()); // new leaf
    bin_tree_node* r = new bin_tree_node(0,0,b);              // new inner node
-   bin_tree_node* u = p->parent; 
+   bin_tree_node* u = p->parent;
 
    q->parent = r;
    p->parent = r;
@@ -205,10 +205,10 @@ bin_tree_node* bin_tree::insert_at_item(bin_tree_node* p, GenPtr x, GenPtr y,
         q->child[right] = p;
         u->child[right] = q;
         p->child[left]  = q;
-        if ( p == min_ptr() ) min_ptr() = q;     
+        if ( p == min_ptr() ) min_ptr() = q;
        }
     else         // insert q right of p
-      { bin_tree_node* pc = p->corr; 
+      { bin_tree_node* pc = p->corr;
         r->k = p->k;
         r->i = pc->i;
         pc->i = ii;
@@ -235,7 +235,7 @@ bin_tree_node* bin_tree::insert_at_item(bin_tree_node* p, GenPtr x, GenPtr y,
 
 
 //------------------------------------------------------------------------------
-// del(x) 
+// del(x)
 // removes leaf with key x from the tree
 // overwrites possible copy of x in an inner node (if key type is not integer)
 //------------------------------------------------------------------------------
@@ -271,7 +271,7 @@ void bin_tree::del_item(bin_tree_item v)
   // overwrite copy of key in corresponding inner node u by its predecessor,
   // but keep its information (not necessary in the case that v is a left child)
 
-  if (v != p->child[left]) 
+  if (v != p->child[left])
   { bin_tree_node* pred =  v->child[left];
     u->k = pred->k;
     clear_iinf(pred->corr->i);
@@ -281,19 +281,19 @@ void bin_tree::del_item(bin_tree_item v)
     clear_iinf(u->i);
 
   count--;
- 
+
   if (count == 0)      // tree is now empty
   { root() = min_ptr() = nil;
     delete v;
     return;
-   } 
+   }
 
 
   bin_tree_node* pred = v->child[left];
   bin_tree_node* succ = v->child[right];
 
   // link neighbors
-  pred->child[right] = succ; 
+  pred->child[right] = succ;
   succ->child[left] = pred;
 
   // adjust min pointer
@@ -333,8 +333,8 @@ void bin_tree::del_item(bin_tree_item v)
 // concatenate
 //------------------------------------------------------------------
 
-bin_tree& bin_tree::conc(bin_tree&) 
-{ error_handler(1,"sorry, bin_tree::conc not implemented"); 
+bin_tree& bin_tree::conc(bin_tree&)
+{ error_handler(1,"sorry, bin_tree::conc not implemented");
   return *this;
  }
 
@@ -342,7 +342,7 @@ bin_tree& bin_tree::conc(bin_tree&)
 // split at item
 //------------------------------------------------------------------
 
-void bin_tree::split_at_item(bin_tree_node*,bin_tree&,bin_tree&) 
+void bin_tree::split_at_item(bin_tree_node*,bin_tree&,bin_tree&)
 { error_handler(1,"sorry, bin_tree::split_at_item not implemented"); }
 
 
@@ -355,7 +355,7 @@ void bin_tree::reverse_items(bin_tree_node* v, bin_tree_node* w)
   bin_tree_node* l = v;
   bin_tree_node* r = w;
 
-  while (l != r && r->child[right] != l) 
+  while (l != r && r->child[right] != l)
   {
     bin_tree_node* pl = l->parent;
     bin_tree_node* pr = r->parent;
@@ -374,17 +374,17 @@ void bin_tree::reverse_items(bin_tree_node* v, bin_tree_node* w)
           pl->child[left] = r;
        else
           pl->child[right] = r;
-    
+
        r->parent = pl;
-    
+
        if (r == pr->child[left])
           pr->child[left] = l;
        else
           pr->child[right] = l;
-    
+
        l->parent = pr;
       }
-  
+
 
    // update corresponding inner nodes
 
@@ -394,7 +394,7 @@ void bin_tree::reverse_items(bin_tree_node* v, bin_tree_node* w)
    r->corr = cl;
    cl->k = r->k;
 
-   l = l->child[right]; 
+   l = l->child[right];
    r = r->child[left];
 
   }
@@ -404,31 +404,31 @@ void bin_tree::reverse_items(bin_tree_node* v, bin_tree_node* w)
   if (count > 2)
   { l = v->child[left];
     r = w->child[right];
-  
+
     r->child[left] = v;
-  
-    bin_tree_node* p = v; 
-  
+
+    bin_tree_node* p = v;
+
     while(p != w)
     { bin_tree_node* q = p->child[right];
       p->child[left] = q;
       p = q;
      }
-  
+
     w->child[left] = l;
-  
+
     p = r;
-  
+
     while ( p != l )
     { bin_tree_node* q = p->child[left];
       q->child[right] = p;
       p = q;
      }
    }
-  
+
 
   // adjust min pointer
-  
+
   if (v == min_ptr()) min_ptr() = w;
 
  }
@@ -444,7 +444,7 @@ bin_tree& bin_tree::operator=(const bin_tree& t)
 
    clear();
 
-   if ( t.root() )   
+   if ( t.root() )
    { bin_tree_node* pre = 0;
      root() = t.copy_tree(t.root(),pre);
      root()->parent = &ROOT;
@@ -457,7 +457,7 @@ bin_tree& bin_tree::operator=(const bin_tree& t)
      count = t.count;
    }
 
-   return *this; 
+   return *this;
 }
 
 //------------------------------------------------------------------
@@ -466,8 +466,8 @@ bin_tree& bin_tree::operator=(const bin_tree& t)
 
   bin_tree::bin_tree(const bin_tree& t)
   { root()  = min_ptr() = 0 ;
-    count = t.count; 
-    if ( t.root() ) 
+    count = t.count;
+    if ( t.root() )
     { bin_tree_node* pre = 0;
       root() = t.copy_tree(t.root(),pre);
       min_ptr() = root();
@@ -482,7 +482,7 @@ bin_tree& bin_tree::operator=(const bin_tree& t)
 
 //------------------------------------------------------------------
 // copy_tree(p) makes a copy of tree with root p and returns a pointer to the
-// root of the copy. pre is last created leaf ( leaves are created from left 
+// root of the copy. pre is last created leaf ( leaves are created from left
 // to right).
 //------------------------------------------------------------------
 
@@ -492,7 +492,7 @@ bin_tree_node* bin_tree::copy_tree( bin_tree_node* p, bin_tree_item& pre) const
 
   q->corr = nil;
 
-  if ( p->is_node() )  // internal node: copy subtrees 
+  if ( p->is_node() )  // internal node: copy subtrees
   {
     q->child[left] = copy_tree(p->child[left],pre);
     pre->corr = q;
@@ -505,7 +505,7 @@ bin_tree_node* bin_tree::copy_tree( bin_tree_node* p, bin_tree_item& pre) const
     copy_key(q->k);
     copy_inf(q->i);
 
-    if (pre) pre->child[right] = q; 
+    if (pre) pre->child[right] = q;
     q->child[left] = pre;
     pre = q;
 
@@ -518,7 +518,7 @@ bin_tree_node* bin_tree::copy_tree( bin_tree_node* p, bin_tree_item& pre) const
 // clear
 //------------------------------------------------------------------
 
-void bin_tree::clear() 
+void bin_tree::clear()
 {
    if ( root() )
    { del_tree(root());
@@ -554,56 +554,56 @@ void bin_tree::del_tree(bin_tree_node* p)
 //----------------------------------------------------------------------------
 
 void bin_tree::print() const
-{ cout << "size = " << size() << endl;
+{ std::cout << "size = " << size() << std::endl;
   if ( root() ) print_tree(root(),1);
   newline;
 }
 
 
 void bin_tree::print_tree(bin_tree_node* p,int h) const
-{  
+{
   if ( p->is_node() ) print_tree(p->child[right],h+1);
 
- for( int j=1; j <= h ; j++ ) cout << "     ";
+ for( int j=1; j <= h ; j++ ) std::cout << "     ";
 
  print_key(key(p));
- cout << " bal=" << p->get_bal();
+ std::cout << " bal=" << p->get_bal();
 
  if ( p->is_leaf() )
- { cout << " [" << p << "] ";  
-   cout << " succ[" << p->child[right] << "] ";  
-   cout << " pred[" << p->child[left] << "] "; 
+ { std::cout << " [" << p << "] ";
+   std::cout << " succ[" << p->child[right] << "] ";
+   std::cout << " pred[" << p->child[left] << "] ";
    newline;
  }
- else cout << "\n";
+ else std::cout << "\n";
 
  if ( p->is_node() ) print_tree(p->child[left],h+1);
 }
 
-        
+
 
 void bin_tree::draw(DRAW_BIN_NODE_FCT draw_node,
                     DRAW_BIN_NODE_FCT draw_leaf,
-                    DRAW_BIN_EDGE_FCT draw_edge, 
+                    DRAW_BIN_EDGE_FCT draw_edge,
                     double x1, double x2, double y, double ydist)
-{ 
+{
   // draw a picture of the tree using the functions
   // draw_node(x,y,k,b)   draws node with key k and balance b at (x,y)
   // draw_leaf(x,y,k,b)   draws leaf with key k and balance b at (x,y)
   // draw_edge(x,y,x',y') draws an edge from (x,y) to (x',y')
 
-  draw(draw_node,draw_leaf,draw_edge,root(),x1,x2,y,ydist,0); 
+  draw(draw_node,draw_leaf,draw_edge,root(),x1,x2,y,ydist,0);
  }
 
 
 
 void bin_tree::draw(DRAW_BIN_NODE_FCT draw_node,
                     DRAW_BIN_NODE_FCT draw_leaf,
-                    DRAW_BIN_EDGE_FCT draw_edge, 
-                    bin_tree_node* r, 
-                    double x1, double x2, double y, 
+                    DRAW_BIN_EDGE_FCT draw_edge,
+                    bin_tree_node* r,
+                    double x1, double x2, double y,
                     double ydist, double last_x)
-{ 
+{
   // draw subtree rooted at r
 
   double x = (x1+x2)/2;
@@ -612,7 +612,7 @@ void bin_tree::draw(DRAW_BIN_NODE_FCT draw_node,
 
   if (last_x != 0) draw_edge(last_x,y+ydist,x,y);
 
-  if (r->is_node()) 
+  if (r->is_node())
      { draw_node(x,y,r->k,r->get_bal());
        draw(draw_node,draw_leaf,draw_edge, r->child[0],x1,x,y-ydist,ydist,x);
        draw(draw_node,draw_leaf,draw_edge, r->child[1],x,x2,y-ydist,ydist,x);

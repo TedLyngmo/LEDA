@@ -5,9 +5,9 @@
 +  _point.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 // generic points, having coordinates of type T
@@ -35,10 +35,10 @@ template<class T> class point
   friend class segment;
   friend class line;
   friend class circle;
-   
+
   T x;
   T y;
-    
+
 public:
 
   point();
@@ -74,11 +74,11 @@ public:
   friend int		operator==(const point<T>&, const point<T>&);
   friend int		operator!=(const point<T>&, const point<T>&);
 
-  friend ostream&	operator<<(ostream&, const point<T>&);
-  friend istream&	operator>>(istream&, point<T>&);
+  friend std::ostream&	operator<<(std::ostream&, const point<T>&);
+  friend std::istream&	operator>>(std::istream&, point<T>&);
 
-  friend void		Print(const point<T>&, ostream&);
-  friend void		Read(point<T>&,  istream&);
+  friend void		Print(const point<T>&, std::ostream&);
+  friend void		Read(point<T>&,  std::istream&);
 /*
   friend int		compare(const point<T>&, const point<T>&);
 */
@@ -126,14 +126,14 @@ point<T>::angle(const point<T>& q, const point<T>& r)		const
   T dx  = q.x - x,
     dy  = q.y - y,
     dxs = r.x - q.x,
-    dys = r.y - q.y; 
-  
+    dys = r.y - q.y;
+
   T norm = sqrt((dx * dx + dy * dy) * (dxs * dxs + dys * dys)),
     cosphi = (dx * dxs + dy * dys) / norm;
 
   if (cosphi >=  1) return 0;
   if (cosphi <= -1) return M_PI;
-  
+
   T phi = acos(cosphi);
 
   if (dx * dys > dy *dxs) return phi;
@@ -209,17 +209,17 @@ operator!=(const point<T>& p, const point<T>& q)
 { return !(p == q); };
 
 template<class T>	ostream&
-operator<<(ostream& out, const point<T>& p)
+operator<<(std::ostream& out, const point<T>& p)
 {
   out << "(" << p.x << "," << p.y << ")";
   return out;
 };
 
 template<class T>	istream&
-operator>>(istream& in, point<T>& p) 
+operator>>(std::istream& in, point<T>& p)
 { // syntax: {(} x {,} y {)}
 
-  T x,y; 
+  T x,y;
   char c;
 
   do in.get(c); while (in && isspace(c));
@@ -233,21 +233,21 @@ operator>>(istream& in, point<T>& p)
   do in.get(c); while (isspace(c));
   if (c != ',') in.putback(c);
 
-  in >> y; 
+  in >> y;
 
   do in.get(c); while (c == ' ');
   if (c != ')') in.putback(c);
 
-  p = point<T>(x,y); 
-  return in; 
+  p = point<T>(x,y);
+  return in;
 };
 
 template<class T>	void
-Print(const point<T>& p, ostream& out)
-{ out << p; }; 
+Print(const point<T>& p, std::ostream& out)
+{ out << p; };
 
 template<class T>	void
-Read(point<T>& p,  istream& in)
+Read(point<T>& p,  std::istream& in)
 { in >> p; };
 
 /*

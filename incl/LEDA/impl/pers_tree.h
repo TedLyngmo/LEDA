@@ -5,9 +5,9 @@
 +  pers_tree.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_PERS_TREE_H
@@ -31,7 +31,7 @@ class VER_pers_tree_node;
 
 typedef list_item Version;
 
- 
+
 class C_pers_tree_node
 {
   friend class pers_rb_tree;
@@ -49,7 +49,7 @@ class C_pers_tree_node
  * persistent node, where the children of that persistent node through the
  * various versions can be found
  */
- 
+
 class F_pers_tree_node
 {
   friend class pers_rb_tree;
@@ -87,7 +87,7 @@ class pers_tree_node
 /* implementation of a node (or member) of the version list */
 
 class VER_pers_tree_node
-{ 
+{
   friend class pers_rb_tree;
 
   pers_tree_node*  acc_pointer;
@@ -124,27 +124,27 @@ virtual void copy_inf(GenPtr&)  {}
 virtual void clear_key(GenPtr&) {}
 virtual void clear_inf(GenPtr&) {}
 
- 
+
 pers_tree_node* child(int leftright, pers_tree_node *p, Version i)
 { return(acc_step(p->link[leftright], i)); }
 
 void* get_key(pers_tree_node *p, Version i)
 { return (acc_step(p->copy, i))->key; }
 
-int isleaf(pers_tree_node *p) 
-{ //return (p == p->link[0]->poin_value); 
+int isleaf(pers_tree_node *p)
+{ //return (p == p->link[0]->poin_value);
   return p->is_leaf;
  }
-  
+
 pers_tree_node* sibling(pers_tree_node *p, Version i)
-{ return acc_step(p->parent->link[1 - p->right], i); } 
+{ return acc_step(p->parent->link[1 - p->right], i); }
 
 
 /* define the order of versions in the version list */
-int vless(Version x, Version y)    
+int vless(Version x, Version y)
 { return  (v_list->vl[x]->ser_num < v_list->vl[y]->ser_num); }
 
-/* find the next to a given version in the version list */ 
+/* find the next to a given version in the version list */
 Version  iplus(Version i)
 { return v_list->vl.succ(i); }
 
@@ -214,7 +214,7 @@ void print(pers_tree_node*,Version);
 
 void del_tree();
 
-void print(Version v) 
+void print(Version v)
 { //cout << form("%5f : ",v_list->vl[v]->ser_num);
   print(v_list->vl[v]->acc_pointer,v);
   newline;

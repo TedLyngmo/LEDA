@@ -3,7 +3,7 @@
 
 
 
-main()
+int main()
 {
 
 GRAPH<int,int> G;
@@ -21,11 +21,11 @@ STRONG_COMPONENTS(G,compnum);
 cout << string("    %6.2f sec\n",used_time(T));
 newline;
 
-if (Yes("Ausgabe?")) 
+if (Yes("Ausgabe?"))
  { node v;
-   forall_nodes(v,G) 
+   forall_nodes(v,G)
    { G.print_node(v);
-     cout << string("  comp = %3d \n", compnum[v]);
+     std::cout << string("  comp = %3d \n", compnum[v]);
     }
   }
 newline;

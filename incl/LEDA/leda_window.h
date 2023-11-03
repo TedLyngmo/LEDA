@@ -5,9 +5,9 @@
 +  leda_window.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -111,8 +111,8 @@ static int event_handler(LEDA_WINDOW*&,int);
 static LEDA_WINDOW* window_list[32]; // list of all opened windows
 static int count;  // number of opened windows
 
-static LEDA_WINDOW*  read_window; 
-static LEDA_WINDOW*  active_window; 
+static LEDA_WINDOW*  read_window;
+static LEDA_WINDOW*  active_window;
 
 static void mouse_default_action(double,double);
 static void mouse_segment_action(double x, double y) ;
@@ -191,7 +191,7 @@ void init(double x0, double x1, double y0, int g_mode=0);
 
 void flush();
 
-void open(int w_width, int w_height, int w_xpos, int w_ypos, 
+void open(int w_width, int w_height, int w_xpos, int w_ypos,
            const char *frame_label, int bg_col=0);
 
 void close();

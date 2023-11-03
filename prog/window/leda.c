@@ -2,21 +2,21 @@
 #include <LEDA/stream.h>
 #include <LEDA/array.h>
 #include <LEDA/window.h>
-#include <math.h>
+#include <cmath>
 
 
 typedef GRAPH<vector,int> polyhedron;
 
 void rotate(float alpha1,float alpha2, vector& p)
-{ 
+{
   // rotate 3d-point p about the origin
   // by alpha2 in yz-plane and alpha1 in xy-plane
 
     double R  = hypot(p[1],p[2]);
     double phi = asin(p[1]/R);
-  
+
     if (p[2] < 0) phi = LEDA_PI - phi;
-  
+
     p[1]  = ((R != 0) ? R*sin(phi+alpha2) : 0);
     p[2]  = ((R != 0) ? R*cos(phi+alpha2) : 0);
 
@@ -24,7 +24,7 @@ void rotate(float alpha1,float alpha2, vector& p)
     phi = asin(p[0]/R);
 
     if (p[2] < 0) phi = LEDA_PI - phi;
-  
+
     p[0]  = ((R != 0) ? R*sin(phi+alpha1) : 0);
     p[2]  = ((R != 0) ? R*cos(phi+alpha1) : 0);
 }
@@ -36,7 +36,7 @@ inline point project(vector p)   // project p into xy-plane
 
 void draw_poly(window& W, polyhedron& poly, vector trans)
 { edge e;
-  forall_edges(e,poly) 
+  forall_edges(e,poly)
   { point a = project(poly[source(e)] + trans );
     point b = project(poly[target(e)] + trans );
     W.draw_segment(a,b,blue);
@@ -117,7 +117,7 @@ void make_side(polyhedron& poly, node* L, float z)
 
 
 void make_logo(polyhedron& poly)
-{ 
+{
   node L[41];
   node R[41];
 
@@ -130,10 +130,10 @@ void make_logo(polyhedron& poly)
 
 
 
-  
 
-main()
-{ 
+
+int main()
+{
   int w,h;
 
   char* map = Read_Leda_Bitmap("../../incl/LEDA/bitmaps/leda.lbm",w,h);
@@ -169,7 +169,7 @@ main()
   vector trans(0,0,0);
 
   draw_poly(W,poly,trans);
-  
+
   for(;;)
   { dir[0] += rand_int(-10000,10000)/1000000.0;
     dir[1] += rand_int(-10000,10000)/1000000.0;
@@ -182,7 +182,7 @@ main()
     if (W.get_button() && W.confirm("quit leda demo ?")) break;
 
     forall_nodes(v,poly) rotate(dir[0],dir[1],poly[v]);
- 
+
     draw_poly(W,poly,trans);   // draw new position
     draw_poly(W,poly0,trans0);  // erase old position  (xor_mode !!)
 
@@ -190,7 +190,7 @@ main()
 
     // poly0 = poly;
     node w = poly.first_node();
-    forall_nodes(v,poly0) 
+    forall_nodes(v,poly0)
     { poly0[v] = poly[w];
       w = poly.succ_node(w);
      }

@@ -5,15 +5,15 @@
 +  _schnyder.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/graph_alg.h>
 
 
-static void compute_labelling(const graph&G, node a, node b, node c, 
+static void compute_labelling(const graph&G, node a, node b, node c,
                               list<node>& L)
 {
    node_array<bool> marked(G,false);  // marked[v] == true iff v adjacent to a
@@ -32,7 +32,7 @@ static void compute_labelling(const graph&G, node a, node b, node c,
    deg[a] = N;
    deg[b] = N;
    deg[c] = N;
-   
+
    node v,w;
 
    forall_adj_nodes(v,a)
@@ -65,12 +65,12 @@ static void compute_labelling(const graph&G, node a, node b, node c,
 
 
 static void compute_realizer(const graph& G, node a, node b, node c,
-                             list<node>& L, 
+                             list<node>& L,
                              GRAPH<node,int>& T, node_array<node>& n)
 { node v;
   edge e,e_1,e_r;
-  node_array<int> ord(G,0); 
-  
+  node_array<int> ord(G,0);
+
   forall_nodes(v,G) n[v] = T.new_node(v);
 
    ord[b] = 0;
@@ -101,9 +101,9 @@ static void compute_realizer(const graph& G, node a, node b, node c,
 }
 
 
-static void compute_subtree_sizes(const GRAPH<node,int>& T, int i, node r, 
+static void compute_subtree_sizes(const GRAPH<node,int>& T, int i, node r,
                                   node_array<int>& s)
-{ 
+{
   // computes the size s[w] of all subtrees rooted at some node w in the
   // the subtree of $T_i$ rooted at node v
 
@@ -120,7 +120,7 @@ static void compute_subtree_sizes(const GRAPH<node,int>& T, int i, node r,
 }
 
 
-void tree_prefix_sum(const GRAPH<node,int>& T, int i, node r, 
+void tree_prefix_sum(const GRAPH<node,int>& T, int i, node r,
                      const node_array<int>& val,
                      node_array<int>& sum)
 {
@@ -143,7 +143,7 @@ void tree_prefix_sum(const GRAPH<node,int>& T, int i, node r,
        }
    }
 }
-  
+
 
 int STRAIGHT_LINE_EMBEDDING2(graph& G,
                              node& a, node& b, node& c,
@@ -218,8 +218,8 @@ int STRAIGHT_LINE_EMBEDDING2(graph& G,
  //tree_prefix_sum(T,2,tb,t3,val);
  //forall_nodes(v,T) r3[v] += val[v] - t3[v] - p2[v] + 1;
 
-   
-   forall_nodes(v,G)  
+
+   forall_nodes(v,G)
    { xcoord[v] = r1[n[v]];
      ycoord[v] = r2[n[v]];
     }

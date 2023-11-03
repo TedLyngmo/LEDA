@@ -3,7 +3,7 @@
 
 
 bool TOPSORT(const graph& G, node_array<int>& ord)
-{ 
+{
   node_array<int> cur_indeg(G);
 
   list<node> zero_indeg;
@@ -12,39 +12,39 @@ bool TOPSORT(const graph& G, node_array<int>& ord)
 
   node v,w;
 
-  forall_nodes(v,G) 
+  forall_nodes(v,G)
   { cur_indeg[v] = G.indeg(v);
-    if (G.indeg(v)==0) 
-       zero_indeg.append(v); 
+    if (G.indeg(v)==0)
+       zero_indeg.append(v);
    }
 
   while ( ! zero_indeg.empty() )
-  { 
+  {
     count++;
 
     v = zero_indeg.pop();
-  
+
     ord[v] = count;
 
-    forall_adj_nodes(w,v) 
+    forall_adj_nodes(w,v)
        if (--cur_indeg[w]==0) zero_indeg.append(w);
    }
-  
+
   return (count==G.number_of_nodes());
 }
-     
 
 
 
 
-main()
+
+int main()
 {
   GRAPH<point,int>  G;
 
   window W;
 
   for(;;)
-  { 
+  {
     graph_edit(W,G);
 
     node_array<int> node_num(G);

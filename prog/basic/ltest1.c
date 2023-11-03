@@ -4,7 +4,7 @@
 typedef int* int_ptr;
 
 
-int main () 
+int main ()
 {
   list<int_ptr>     L;
   list<int_ptr>     L1;
@@ -12,45 +12,45 @@ int main ()
   int i;
   int_ptr p;
 
-  int N = read_int("Number of list entries: "); 
+  int N = read_int("Number of list entries: ");
 
   float T = used_time();
 
-  cout << "allocating    ";
-  cout.flush();
+  std::cout << "allocating    ";
+  std::cout.flush();
   for (i = 0; i < N; i++) L.append((int_ptr)rand_int(1,10000));
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
 
-  cout << "reversing     ";
-  cout.flush();
+  std::cout << "reversing     ";
+  std::cout.flush();
   while (!L.empty()) L1.push(L.pop());
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
-  cout << "assignment    ";
-  cout.flush();
+  std::cout << "assignment    ";
+  std::cout.flush();
   L = L1;
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
-  cout << "sorting(int)  ";
-  cout.flush();
+  std::cout << "sorting(int)  ";
+  std::cout.flush();
   L.sort();
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
-  cout << "iteration     ";
-  cout.flush();
+  std::cout << "iteration     ";
+  std::cout.flush();
   forall(p,L) {}
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
-  cout << "clear         ";
-  cout.flush();
+  std::cout << "clear         ";
+  std::cout.flush();
   L.clear();
-  cout << string("  %5.3f sec",used_time(T));
+  std::cout << string("  %5.3f sec",used_time(T));
   newline;
 
   return 0;

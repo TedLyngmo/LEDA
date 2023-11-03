@@ -9,37 +9,37 @@ typedef float FLOAT;
 
 
 void prio_test(priority_queue<int,int>& D, int N, int* A, char* name)
-{ 
+{
   pq_item* I = new pq_item[N];
 
-  cout << string("%-12s",name);
-  cout.flush();
+  std::cout << string("%-12s",name);
+  std::cout.flush();
 
   float T;
   float T0 = T = used_time();
 
   int i;
   for(i=0; i<N; i++)  I[i] = D.insert(i,A[i]);
-  cout << string("%10.2f",used_time(T));
-  cout.flush();
+  std::cout << string("%10.2f",used_time(T));
+  std::cout.flush();
 
   for(i=0; i<N; i++)  D.decrease_inf(I[i],A[i]/2);
-  cout << string("%14.2f",used_time(T));
-  cout.flush();
+  std::cout << string("%14.2f",used_time(T));
+  std::cout.flush();
 
   int old_min = -MAXINT;
 
-  for(i=0; i<N; i++)  
-  { if (D.inf(D.find_min()) < old_min) cout << "error in del_min\n";
-    old_min = D.inf(D.find_min()); 
+  for(i=0; i<N; i++)
+  { if (D.inf(D.find_min()) < old_min) std::cout << "error in del_min\n";
+    old_min = D.inf(D.find_min());
     D.del_min();
    }
 
-  cout << string("%10.2f",used_time(T));
+  std::cout << string("%10.2f",used_time(T));
 
-  cout << string("%10.2f",used_time(T0));
+  std::cout << string("%10.2f",used_time(T0));
 
-  if (!D.empty()) cout << " NOT EMPTY !!\n";	
+  if (!D.empty()) std::cout << " NOT EMPTY !!\n";
 
   newline;
 
@@ -48,11 +48,11 @@ void prio_test(priority_queue<int,int>& D, int N, int* A, char* name)
 
 
 void prio_test(priority_queue<FLOAT,FLOAT>& D, int N, FLOAT* A, char* name)
-{ 
+{
   pq_item* I = new pq_item[N];
 
-  cout << string("%-12s",name);
-  cout.flush();
+  std::cout << string("%-12s",name);
+  std::cout.flush();
 
   float T;
   float T0 = T = used_time();
@@ -60,26 +60,26 @@ void prio_test(priority_queue<FLOAT,FLOAT>& D, int N, FLOAT* A, char* name)
 
   int i;
   for(i=0; i<N; i++)  I[i] = D.insert(i,A[i]);
-  cout << string("%10.2f",used_time(T));
-  cout.flush();
+  std::cout << string("%10.2f",used_time(T));
+  std::cout.flush();
 
   for(i=0; i<N; i++)  D.decrease_inf(I[i],A[i]/2);
-  cout << string("%14.2f",used_time(T));
-  cout.flush();
+  std::cout << string("%14.2f",used_time(T));
+  std::cout.flush();
 
   FLOAT old_min = -MAXINT;
 
-  for(i=0; i<N; i++)  
-  { if (D.inf(D.find_min()) < old_min) cout << "error in del_min\n";
+  for(i=0; i<N; i++)
+  { if (D.inf(D.find_min()) < old_min) std::cout << "error in del_min\n";
     old_min = D.inf(D.find_min());
     D.del_min();
    }
 
-  cout << string("%10.2f",used_time(T));
+  std::cout << string("%10.2f",used_time(T));
 
-  cout << string("%10.2f",used_time(T0));
+  std::cout << string("%10.2f",used_time(T0));
 
-  if (!D.empty()) cout << " NOT EMPTY !!\n";	
+  if (!D.empty()) std::cout << " NOT EMPTY !!\n";
 
   newline;
 
@@ -88,7 +88,7 @@ void prio_test(priority_queue<FLOAT,FLOAT>& D, int N, FLOAT* A, char* name)
 
 
 
-main()
+int main()
 { priority_queue<int,int>            Q;
   priority_queue<FLOAT,FLOAT>        Qf;
 
@@ -112,7 +112,7 @@ main()
 
 
   newline;
-  cout << "                insert   decrease_inf  del_min    total\n";
+  std::cout << "                insert   decrease_inf  del_min    total\n";
   newline;
 
   prio_test(Q,N,Int,"prio");
@@ -129,6 +129,6 @@ main()
   prio_test(p_qf,N,Float,"p_heap");
   //prio_test(l_qf,N,Float,"list_pq");
   newline;
- 
+
   return 0;
 }

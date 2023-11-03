@@ -3,7 +3,7 @@
 
 
 
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 
 graph G;
@@ -28,17 +28,17 @@ float T = used_time();
 
 cout << "MAX_FLOW<int>             " << flush;
 int f = MAX_FLOW(G,s,t,cap,flow) ;
-cout << string("time: %6.2f sec  f = %d",used_time(T),f) << endl;
+cout << string("time: %6.2f sec  f = %d",used_time(T),f) << std::endl;
 
 cout << "MAX_FLOW<double>          " << flush;
 double f1 = MAX_FLOW(G,s,t,cap1,flow1);
-cout << string("time: %6.2f sec  f = %.2f",used_time(T),f1) << endl;
+cout << string("time: %6.2f sec  f = %.2f",used_time(T),f1) << std::endl;
 
 cout << "MIN_COST_MAX_FLOW<int>    " << flush;
 f = MIN_COST_MAX_FLOW(G,s,t,cap,cost,flow) ;
 int c = 0;
 forall_edges(e,G) c += cost[e]*flow[e];
-cout << string("time: %6.2f sec  f = %d    c = %d",used_time(T),f,c) << endl;
+cout << string("time: %6.2f sec  f = %d    c = %d",used_time(T),f,c) << std::endl;
 
 return 0;
 

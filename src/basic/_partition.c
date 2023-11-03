@@ -5,9 +5,9 @@
 +  _partition.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -25,7 +25,7 @@
 
 void partition::clear()
 { // free all used items
-  partition_item p = used_items; 
+  partition_item p = used_items;
   while (used_items)
   { p = used_items;
     used_items = used_items->next;
@@ -33,17 +33,17 @@ void partition::clear()
     delete p;
    }
  }
-  
 
 
-partition_item partition::find(partition_item y) 
+
+partition_item partition::find(partition_item y)
 { // find with path compression
 
-  register partition_item x = y->father;
+  partition_item x = y->father;
 
   if (x==0) return y;
 
-  register partition_item root = y;
+  partition_item root = y;
 
   while (root->father) root = root->father;
 

@@ -5,9 +5,9 @@
 +  _range_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -45,7 +45,7 @@ rt_elem::rt_elem(int dim, GenPtr* k, GenPtr i) {
 
 // And here are the member functions of class range_tree
 
-// insert new_elem into the primary tree and update its secondary 
+// insert new_elem into the primary tree and update its secondary
 // structures if lev<dim-1
 //
 void range_tree::rt_insert( rt_item new_elem )
@@ -53,8 +53,8 @@ void range_tree::rt_insert( rt_item new_elem )
 
 #ifdef DEBUG
   newline;
-  for( int auxl=0; auxl<lev; auxl++ ) cout << "\t";
-  cout << "insert " << (int) new_elem->inf() << ":   "; cout.flush();
+  for( int auxl=0; auxl<lev; auxl++ ) std::cout << "\t";
+  std::cout << "insert " << (int) new_elem->inf() << ":   "; std::cout.flush();
 #endif
 
   if( lev<dim-1 ) {			// take care of secondary structures
@@ -62,13 +62,13 @@ void range_tree::rt_insert( rt_item new_elem )
     base_tree_item p, new_leaf;
     range_tree* sec;
 
-    // insert the new element into the primary tree 
+    // insert the new element into the primary tree
     //
     aux.clear();
-    new_leaf = base_tree::insert( new_elem, new_range_tree(dim,lev+1), 
+    new_leaf = base_tree::insert( new_elem, new_range_tree(dim,lev+1),
   				            new_range_tree(dim,lev+1) );
-  
-    // now we insert the new element into all secondary structures of 
+
+    // now we insert the new element into all secondary structures of
     // nodes on the path from the root to the new leaf with a non-empty
     // secondary structure (remember that these nodes are not in aux)
     //
@@ -87,7 +87,7 @@ void range_tree::rt_insert( rt_item new_elem )
     //
     ((range_tree*) inf(new_leaf))->rt_insert(new_elem);
 
-    // for all nodes appended to aux by the function propagate_change(), 
+    // for all nodes appended to aux by the function propagate_change(),
     // we rebuild the secondary structure from scratch
     //
     rt_item* elem_array = new rt_item[size()];		// array of elements
@@ -97,7 +97,7 @@ void range_tree::rt_insert( rt_item new_elem )
       elem_no = elements_in_subtree(elem_array, p);
       ((range_tree*) inf(p))->build_tree(elem_array, 0, elem_no-1);
     }
-  
+
     delete elem_array;
   }
   else
@@ -110,21 +110,21 @@ void range_tree::rt_insert( rt_item new_elem )
 
 
 
-// recursively build a range tree for the elements 
+// recursively build a range tree for the elements
 // elem_array[lidx],...,elem_array[ridx]
 // if p==0 we build the tree on this level and the secondary structure of the
 // root, otherwise we just build the secondary structure of p
 //
-void range_tree::build_tree( rt_item* elem_array, int lidx, int ridx, 
+void range_tree::build_tree( rt_item* elem_array, int lidx, int ridx,
 			     base_tree_item p )
 {
 
 #ifdef DEBUG
   newline;
   for( int gg=0; gg<lev; gg++ )
-    cout << "\t";
-  cout << "build_tree " << p << ":   ";
-  cout.flush();
+    std::cout << "\t";
+  std::cout << "build_tree " << p << ":   ";
+  std::cout.flush();
 #endif
 
   int i;
@@ -137,9 +137,9 @@ void range_tree::build_tree( rt_item* elem_array, int lidx, int ridx,
 #ifdef DEBUG
       newline;
       for( int gg=0; gg<lev; gg++ )
-        cout << "\t";
-      cout << "insert " << (int) elem_array[i]->inf() << ":   ";
-      cout.flush();
+        std::cout << "\t";
+      std::cout << "insert " << (int) elem_array[i]->inf() << ":   ";
+      std::cout.flush();
 #endif
 
       base_tree::insert( elem_array[i], 0, 0 );
@@ -156,12 +156,12 @@ void range_tree::build_tree( rt_item* elem_array, int lidx, int ridx,
 #ifdef DEBUG
       newline;
       for( int gg=0; gg<lev; gg++ )
-        cout << "\t";
-      cout << "insert " << (int) elem_array[i]->inf() << ":   ";
-      cout.flush();
+        std::cout << "\t";
+      std::cout << "insert " << (int) elem_array[i]->inf() << ":   ";
+      std::cout.flush();
 #endif
 
-      base_tree::insert( elem_array[i], new_range_tree(dim,lev+1), 
+      base_tree::insert( elem_array[i], new_range_tree(dim,lev+1),
                                         new_range_tree(dim,lev+1) );
     }
     p = root();
@@ -205,10 +205,10 @@ void range_tree::build_tree( rt_item* elem_array, int lidx, int ridx,
 
 
 
-// compute a sorted array (according to the actual level) of all 
+// compute a sorted array (according to the actual level) of all
 // elements in the subtree rooted at subroot and return their number
 //
-int range_tree::elements_in_subtree( rt_item* elem_array, 
+int range_tree::elements_in_subtree( rt_item* elem_array,
 				     base_tree_item subroot )
 {
   int elem_no=0;
@@ -234,7 +234,7 @@ int range_tree::elements_in_subtree( rt_item* elem_array,
 // return a list of all elements in the tree whose key is between
 // left and right on each level
 //
-void range_tree::rt_query( rt_item& Left, rt_item& Right, 
+void range_tree::rt_query( rt_item& Left, rt_item& Right,
 			   list<rt_item>& res )
 {
   if( size()>0 ) {			// avoid special case
@@ -312,7 +312,7 @@ void range_tree::rt_query( rt_item& Left, rt_item& Right,
 
 
 
-// delete elem in the primary tree and update its secondary 
+// delete elem in the primary tree and update its secondary
 // structures if lev<dim-1
 //
 void range_tree::rt_del( rt_item elem )
@@ -336,7 +336,7 @@ void range_tree::rt_del( rt_item elem )
     aux.clear();
     base_tree::del_item(p);
 
-    // for all nodes appended to aux by the function propagate_change(), 
+    // for all nodes appended to aux by the function propagate_change(),
     // we rebuild the secondary structure from scratch
     //
     rt_item* elem_array = new rt_item[size()];		// array of elements
@@ -346,7 +346,7 @@ void range_tree::rt_del( rt_item elem )
       elem_no = elements_in_subtree(elem_array, p);
       ((range_tree*) inf(p))->build_tree(elem_array, 0, elem_no-1);
     }
-  
+
     delete elem_array;
   }
   else
@@ -379,12 +379,12 @@ list<rt_item> range_tree::all_items()
 
 // compute minimum element on a given level
 //
-rt_item range_tree::rt_min( int d ) 
+rt_item range_tree::rt_min( int d )
 {
   if( empty() ) return 0;
   if( lev<d )					// proceed to next level
     return ((range_tree*) inf(root()))->rt_min(d);
-  else 
+  else
     return( (rt_item) key(base_tree::min()) );
 }
 
@@ -396,7 +396,7 @@ rt_item range_tree::rt_max( int d ) {
   if( empty() ) return 0;
   if( lev<d )					// proceed to next level
     return ((range_tree*) inf(root()))->rt_max(d);
-  else 
+  else
     return( (rt_item) key(base_tree::max()) );
 }
 

@@ -5,9 +5,9 @@
 +  seg_tree.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_SEGMENT_TREE_H
@@ -28,8 +28,8 @@
 #include <LEDA/list.h>
 
 // ------------------------------------------------------------------
-// declarations and definitions 
-// ----------------------------------------------------------------- 
+// declarations and definitions
+// -----------------------------------------------------------------
 
 
 class h_segment;
@@ -61,12 +61,12 @@ class h_segment {
  GenPtr& info()  { return _inf;  }
 
  h_segment()
-{ 
+{
    _x0 = _x1 = _y = _inf = 0;
  }
 
  h_segment(GenPtr x0, GenPtr x1, GenPtr y, GenPtr i=0)
-{ 
+{
    _x0  = x0;
    _x1  = x1;
    _y   = y;
@@ -75,7 +75,7 @@ class h_segment {
 
  LEDA_MEMORY(h_segment)
 
- friend ostream& operator<<(ostream&, h_segment&);
+ friend std::ostream& operator<<(ostream&, h_segment&);
  friend class Segment_Tree;
  friend class seg_node_tree;
 
@@ -102,14 +102,14 @@ seg_tree_item  lookup(h_segment_p y)     { return bb1_tree::lookup(Convert(y)); 
 seg_tree_item  locate(h_segment_p y)     { return bb1_tree::locate(Convert(y)); }
 seg_tree_item  ord(int y)                { return bb1_tree::ord(int(y)); }
 seg_tree_item  insert(h_segment_p y, GenPtr i=0 )
-                                 { return bb1_tree::insert(Convert(y),i); } 
-void del(h_segment_p y)          { delete bb1_tree::del(Convert(y)); } 
-void del_item(seg_tree_item it)  { del(key(it)); } 
+                                 { return bb1_tree::insert(Convert(y),i); }
+void del(h_segment_p y)          { delete bb1_tree::del(Convert(y)); }
+void del_item(seg_tree_item it)  { del(key(it)); }
 
-h_segment_p& key(seg_tree_item it)   
+h_segment_p& key(seg_tree_item it)
 	     { if (!it) error_handler(1,"seg_tree_item gleich nil");
                return (h_segment_p&)it->ke  ; }
-GenPtr&   info(seg_tree_item it)              { return key(it)->info(); } 
+GenPtr&   info(seg_tree_item it)              { return key(it)->info(); }
 void         change_inf(seg_tree_item it, GenPtr i) { key(it)->info() = i; }
 
 seg_node_tree(Segment_Tree* p)   {father = p;}
@@ -132,7 +132,7 @@ class Segment_Tree  : public bb1_tree {
 
 
 virtual  h_segment_p new_y_h_segment(GenPtr y)
-{ cout << "error: virtual new_y_h_segmentn"; y=0; return 0; }
+{ std::cout << "error: virtual new_y_h_segmentn"; y=0; return 0; }
 
 virtual int cmp_dim1(GenPtr,GenPtr) {return 0; }
 virtual int cmp_dim2(GenPtr,GenPtr) {return 0; }
@@ -153,10 +153,10 @@ int seg_cmp(h_segment_p p, h_segment_p q);
 
   //void change_inf(bb1_item it, seg_node_list i)   { info(it) = i; }
 
-  GenPtr& key(bb1_item it)       
+  GenPtr& key(bb1_item it)
        { if (!it) error_handler(1,"bb1_item in segment_tree gleich nil");
 	 return it->ke; }
-  seg_node_list& info(bb1_item it)    { return (seg_node_list&)(bb1_tree::info(it)); } 
+  seg_node_list& info(bb1_item it)    { return (seg_node_list&)(bb1_tree::info(it)); }
 
   int start_coord(bb1_item& x,seg_tree_item& i)
       { return (!cmp(key(x),x0(i))); }
@@ -165,7 +165,7 @@ int seg_cmp(h_segment_p p, h_segment_p q);
 
   int empty(bb1_item);
   void clear(bb1_item& );
-  void print(bb1_item , string); 
+  void print(bb1_item , string);
 
   protected:
 
@@ -176,9 +176,9 @@ int seg_cmp(h_segment_p p, h_segment_p q);
 
 
   public :
-  
-  int cmp(GenPtr, GenPtr)  const    
-  { cout << "error: Segment_Tree::cmpn"; return 0; }
+
+  int cmp(GenPtr, GenPtr)  const
+  { std::cout << "error: Segment_Tree::cmpn"; return 0; }
 
   GenPtr x0(seg_tree_item x)    { return (r.key(x))->_x0;  }
   GenPtr x1(seg_tree_item x)    { return (r.key(x))->_x1;  }
@@ -206,7 +206,7 @@ int seg_cmp(h_segment_p p, h_segment_p q);
   list<seg_tree_item> y_infinity_query(GenPtr );
   list<seg_tree_item> all_items();
 
-  void clear_tree();  
+  void clear_tree();
 
    Segment_Tree();
    virtual ~Segment_Tree();
@@ -239,7 +239,7 @@ template <class  type1, class type2, class itype>
 class segment_tree : public Segment_Tree {
 
 h_segment_p new_y_h_segment(GenPtr y)
-{ type1 x1; 
+{ type1 x1;
   type2 x2;
   GenPtr p = Copy(x1);
   GenPtr q = Copy(x2);
@@ -292,10 +292,10 @@ segment_tree()  {}
 ~segment_tree()
  { seg_tree_item z;
   forall_seg_tree_items(z,r)
-  { type1 t1 = x0(z); Clear(t1); 
-          t1 = x1(z); Clear(t1); 
-    type2 t2 = y(z);  Clear(t2); 
-    itype i  = inf(z); Clear(i); 
+  { type1 t1 = x0(z); Clear(t1);
+          t1 = x1(z); Clear(t1);
+    type2 t2 = y(z);  Clear(t2);
+    itype i  = inf(z); Clear(i);
     delete r.key(z); }
  }
 

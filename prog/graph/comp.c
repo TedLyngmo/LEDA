@@ -3,7 +3,7 @@
 #include <LEDA/graph_alg.h>
 
 
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 
 GRAPH<int,int> G;
@@ -28,11 +28,11 @@ COMPONENTS1(G2,compnum1);
 cout << string("   %6.2f sec \n",used_time(T));
 
 
-if (Yes("ausgabe?")) 
+if (Yes("ausgabe?"))
  { node v;
-   forall_nodes(v,G2) 
+   forall_nodes(v,G2)
    { G2.print_node(v);
-     cout << string("  c = %3d   c1 = %3d \n", compnum[v],compnum1[v]);
+     std::cout << string("  c = %3d   c1 = %3d \n", compnum[v],compnum1[v]);
     }
   }
 newline;

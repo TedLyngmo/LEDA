@@ -5,9 +5,9 @@
 +  stack.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_STACK_H
@@ -17,11 +17,11 @@
 #include <LEDA/impl/slist.h>
 
 //------------------------------------------------------------------------------
-// stacks                                                                
+// stacks
 //------------------------------------------------------------------------------
 
 
-/*{\Manpage {stack} {E} {Stacks}}*/ 
+/*{\Manpage {stack} {E} {Stacks}}*/
 
 template<class E>
 
@@ -40,15 +40,15 @@ sequence, a stack of size zero is called the empty stack.}*/
 public:
 
 
-/*{\Mcreation S }*/ 
+/*{\Mcreation S }*/
 
 stack() {}
-/*{\Mcreate creates an instance \var\ of type \name. \var\ is initialized 
+/*{\Mcreate creates an instance \var\ of type \name. \var\ is initialized
             with the empty stack.}*/
 
  stack(const stack<E>& S) : SLIST(S) {}
 ~stack() { clear(); }
- stack<E>& operator=(const stack<E>& S) 
+ stack<E>& operator=(const stack<E>& S)
                      { return (stack<E>&)SLIST::operator=(S); }
 
 
@@ -79,8 +79,8 @@ void clear() { SLIST::clear(); }
 };
 
 /*{\Mimplementation
-Stacks are implemented by singly linked linear lists. All operations take 
-time $O(1)$, except clear which takes time $O(n)$, where $n$ is the size of 
+Stacks are implemented by singly linked linear lists. All operations take
+time $O(1)$, except clear which takes time $O(n)$, where $n$ is the size of
 the stack.}*/
 
 #endif

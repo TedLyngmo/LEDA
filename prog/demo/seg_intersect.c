@@ -2,10 +2,10 @@
 #include <LEDA/window.h>
 
 
-main()
-{ 
+int main()
+{
   window W(700,800);
- 
+
   int input;
   int grid_width = 0;
   int line_width = 1;
@@ -32,8 +32,8 @@ for(;;)
 
   list<segment> seglist;
 
-  if (input) 
-   { 
+  if (input)
+   {
      double ymax = W.ymax()-4*20/W.scale()-100;
 
      int xmin = int(W.xmin())+100;

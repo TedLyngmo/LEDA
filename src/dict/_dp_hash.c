@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // Dynamic Perfect Hashing  [DKMMRT]
 //
-// Michael Wenzel           ( 1990/91 ) 
+// Michael Wenzel           ( 1990/91 )
 //
 //------------------------------------------------------------------------------
 
@@ -26,18 +26,18 @@ random_source ran(1,maxprim-1);
 // 2-er Potenzen, Shift Operationen sparen
 #define dp_exp_31 2147483648
 #define dp_exp_30 1073741824
-#define dp_exp_29 536870912 
-#define dp_exp_28 268435456 
-#define dp_exp_27 134217728 
-#define dp_exp_26 67108864 
-#define dp_exp_25 33554432 
+#define dp_exp_29 536870912
+#define dp_exp_28 268435456
+#define dp_exp_27 134217728
+#define dp_exp_26 67108864
+#define dp_exp_25 33554432
 
 
-// Konstante fuer Groesse beim Rehashing 
+// Konstante fuer Groesse beim Rehashing
 #define _dp_h_c 1
 
 // allgmeine Quadrat- und Multiplikationsfunktion fuer 2-er Potenz
-#define sqr(x) ((x)*(x))                  
+#define sqr(x) ((x)*(x))
 #define mal_pot2(x,y) ((x)<<(y))
 
 // Berechnung von (k*x)%p
@@ -104,39 +104,39 @@ DPMOD_BODY(k,x,dp_erg)
 
 
 // ----------------------------------------------------------------
-// member-functions of class headertable 
+// member-functions of class headertable
 // ----------------------------------------------------------------
 
 //-----------------------------------------------------------------
 // insert
 // fuegt ein Paar (Schluessel,Information) in das Bucket ein
 // berechnet Informationen neu
-// returns true, falls Element eingefuegt     
+// returns true, falls Element eingefuegt
 
 
 bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
 			 stp anf,stp ende)
-{ 
+{
   unsigned long dp_erg=0;
   if (!wj)                             // leere Headertable
-  { 
+  {
     wj=1;
 
     if (!tj)
-    { 
+    {
       mj=1;
       tj=new subtable(a,b);            // einfach einfuegen
       erg=tj;
     }
     else                               // Tafel war angelegt
     {
-      if (mj==1)                       // nur einelementig  
+      if (mj==1)                       // nur einelementig
       {
 	tj->set_s(a,b);
 	erg=tj;
       }
       else                             // groessere Tafel
-        if (mj<=4)                     // nur 2 oder 4-elementig  
+        if (mj<=4)                     // nur 2 oder 4-elementig
         {
 	  tj[0].set_s(a,b);
           erg=tj;
@@ -149,31 +149,31 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
           erg=tj+dp_erg;
         }
     }
-   
-    bed+=2; 
+
+    bed+=2;
     rehash=false;
-    return true;         
+    return true;
   }                                    // leere Tafel jetzt mit Element
 
   if (wj==1)                           // Tafel mit einem Element
-  { 
+  {
     if (mj==1)
     {
       if (a==tj->ke)                   // gleiches Element
-      { 
+      {
         tj->inf=b;
         erg=tj;
         rehash=false;
-        return false; 
+        return false;
       }
       else
-      { 
+      {
         wj=2;                          // Einfuegen
         bed+=6;
         if (bed>=0)                    // Platz genug?
-        { 
+        {
           rehash=true;
-          return true; 
+          return true;
         }
 
         mj=2;                          // Speicher anfordern
@@ -183,8 +183,8 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
         tj[0] = (*lj);
         tj[1].set_s(a,b);
         erg = tj+1;
-    
-        if ((lj>ende)||(lj<anf)) 
+
+        if ((lj>ende)||(lj<anf))
           delete lj;
       }
 
@@ -195,14 +195,14 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
     if (mj<=4)
     {
       if (a==tj[0].ke)               // gleiches Element
-      { 
+      {
         tj[0].inf=b;
         erg=tj;
         rehash=false;
-        return false; 
+        return false;
       }
       else
-      { 
+      {
 	wj = 2;
         bed+=6;
 	tj[1].set_s(a,b);
@@ -217,7 +217,7 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
       dp_erg=dp_erg%mal_pot2(sqr(mj),1);
 
       if (a==tj[dp_erg].ke)            // gleiches Element
-      { 
+      {
 	tj[dp_erg].inf = b;
 	erg=tj+dp_erg;
 	rehash=false;
@@ -228,20 +228,20 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
       bed+=6;
 
       if ( tj[dp_erg].ke == EMPTY )    // Position leer
-      { 
+      {
         tj[dp_erg].set_s(a,b);
         erg=tj+dp_erg;
 	rehash=false;
 	return true;
       }
       else                             // lokales Rehash
-      { 
+      {
 	stp lj = new subtable(tj[dp_erg]);
 	tj[dp_erg].clear();
 	int subsize = mal_pot2(sqr(mj),1);
-        int injektiv=0;            
+        int injektiv=0;
 				       // injektive Funktion suchen
-    
+
         while (!injektiv)
         { injektiv=1;
           ran >> kj;
@@ -260,27 +260,27 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
           }
           else
           {
-            tj[dp_erg].clear(); 
+            tj[dp_erg].clear();
             injektiv=0;
           }
-        }                              // Elemente injektiv verteilt 
+        }                              // Elemente injektiv verteilt
 
         delete lj;
         rehash=false;
-        return true;           
+        return true;
       }
     }
   }                                    // Tafel enthaelt jetzt 2 Elemente
 
   if (wj<4)                            // Tafel mit 2 oder 3 Elementen
-  { 
+  {
     for (int i1=0; i1<wj ; i1++)
       if (a==tj[i1].ke)                // gleiches Element
-      { 
+      {
         tj[i1].inf=b;
         erg=tj+i1;
         rehash=false;
-        return false; 
+        return false;
       }
 
 				       // neues Element
@@ -292,9 +292,9 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
     if (mj==2)
     {
       if (bed>=0)                      // Platz genug?
-      { 
+      {
         rehash=true;
-        return true; 
+        return true;
       }
 
       mj=4;                            // Speicher anfordern
@@ -306,11 +306,11 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
         tj[i1] = lj[i1];
       tj[i1].set_s(a,b);
       erg = tj+wj;
-    
-      if ((lj>ende)||(lj<anf)) 
+
+      if ((lj>ende)||(lj<anf))
         delete lj;
 
-      wj++;       
+      wj++;
       rehash = false;
       return true;
     }
@@ -319,7 +319,7 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
     {
       tj[wj].set_s(a,b);
       erg = tj+wj;
-      wj++;       
+      wj++;
       rehash=false;
       return true;
     }
@@ -328,10 +328,10 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
       dpmod(kj,a,dp_erg);
       dp_erg=dp_erg%mal_pot2(sqr(mj),1);
       if ( tj[dp_erg].ke == EMPTY )    // Position leer
-      { 
+      {
         tj[dp_erg].set_s(a,b);
         erg=tj+dp_erg;
-        wj++;       
+        wj++;
 	rehash=false;
 	return true;
       }
@@ -341,77 +341,77 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
         int i1=0;
                                             // Elemente in Liste kopieren
         for (int i2=0; i1<wj-1 ; i2++ )
-        { 
+        {
 	  if ( tj[i2].ke != EMPTY  )
-          { 
-	    lj[i1++]=tj[i2];  
-            tj[i2].clear(); 
+          {
+	    lj[i1++]=tj[i2];
+            tj[i2].clear();
 	  }
         }
         lj[i1].set_s(a,b);
 
         int subsize = mal_pot2(sqr(mj),1);
         int injektiv=0;                     // injektive Funktion suchen
-    
+
         while (!injektiv)
         { injektiv=1;
           ran >> kj;
 
           for (i1=0; (i1<wj) && injektiv ; i1++)
-          { 
+          {
             dpmod(kj,lj[i1].ke,dp_erg);
             dp_erg=dp_erg%subsize;
 
             if ( tj[dp_erg].ke == EMPTY )
               tj[dp_erg]=lj[i1];
             else
-            { 
+            {
 	      injektiv=0;
               for (int g=0;g<i1;g++)     // belegte Positionen loeschen
-              { 
+              {
 	        GenPtr help=lj[g].ke;
                 dpmod(kj,help,dp_erg);
-                dp_erg=dp_erg%subsize;  
-                tj[dp_erg].ke = EMPTY ; 
+                dp_erg=dp_erg%subsize;
+                tj[dp_erg].ke = EMPTY ;
        	      }
             }
-          }                            // Elemente injektiv verteilt  
-        }       
+          }                            // Elemente injektiv verteilt
+        }
 
         delete lj;
         rehash=false;
-        return true;           
+        return true;
       }                                // lokales Rehash beendet
     }
   }                                    // Tafel enthaelt jetzt 2 oder 3 Elemente
 
   if (wj==4)                           // Tafel mit 4 Elementen
-  { 
+  {
     for (int i1=0; i1<4; i1++)
       if (a==tj[i1].ke)                // gleiches Element
-      { 
+      {
         tj[i1].inf=b;
         erg=tj+i1;
         rehash=false;
-        return false; 
+        return false;
       }
-  
+
 				       // neues Element einfuegen
     bed+=18;
 
     if (bed>=0)                        // Platz genug?
-    { 
+    {
       rehash=true;
-      return true; 
+      return true;
     }
 
     mj=8;                               // Speicher anfordern
 					// und Elemente verteilen
     stp lj=tj;
     tj=new subtable[128];
-    int injektiv=0;       
+    int injektiv=0;
 					// injektive Funktion suchen
-    
+
     while (!injektiv)
     {
       injektiv=1;
@@ -419,21 +419,21 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
 
       int i1;
       for (i1=0; (i1<4) && injektiv ; i1++)
-      { 
+      {
         dpmod(kj,lj[i1].ke,dp_erg);
         dp_erg=dp_erg%128;
 
         if ( tj[dp_erg].ke == EMPTY )
           tj[dp_erg]=lj[i1];
         else
-        { 
+        {
 	  injektiv=0;
           for (int g=0;g<i1;g++)     // belegte Positionen loeschen
-          { 
+          {
 	    GenPtr help=lj[g].ke;
             dpmod(kj,help,dp_erg);
-            dp_erg=dp_erg%128;  
-            tj[dp_erg].ke = EMPTY ; 
+            dp_erg=dp_erg%128;
+            tj[dp_erg].ke = EMPTY ;
        	  }
         }
       }
@@ -442,30 +442,30 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
         dpmod(kj,a,dp_erg);
         dp_erg=dp_erg%128;
         if ( tj[dp_erg].ke == EMPTY )
-        { 
+        {
           tj[dp_erg].set_s(a,b);
           erg=tj+dp_erg;
         }
         else
-        { 
+        {
           injektiv=0;
           for (int g=0;g<i1;g++)     // belegte Positionen loeschen
-          { 
+          {
             GenPtr help=lj[g].ke;
             dpmod(kj,help,dp_erg);
-            dp_erg=dp_erg%128;  
-            tj[dp_erg].clear() ; 
+            dp_erg=dp_erg%128;
+            tj[dp_erg].clear() ;
           }
-        }                            // letztes Element 
-      }             
-    }                                // Elemente injektiv verteilt 
+        }                            // letztes Element
+      }
+    }                                // Elemente injektiv verteilt
 
-    if ((lj>ende)||(lj<anf)) 
+    if ((lj>ende)||(lj<anf))
       delete lj;
 
-    wj=5;                          
+    wj=5;
     rehash=false;
-    return true;           
+    return true;
   }                             // Tafel enthaelt jetzt 5 Elemente
 
                                 // Tafel mit >= 5 Elementen
@@ -476,11 +476,11 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
   dp_erg=dp_erg%subsize;
 
   if ( tj[dp_erg].ke == a)         // gleiches Element
-  { 
+  {
     tj[dp_erg].set_s(a,b);
     erg=tj+dp_erg;
     rehash=false;
-    return false;      
+    return false;
   }
 
   int oldscard=wj;
@@ -488,16 +488,16 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
   bed+=mal_pot2(subcard,2)-2;
 
   if ( tj[dp_erg].ke == EMPTY  )    // Position leer -> einfuegen
-  { 
+  {
     tj[dp_erg].set_s(a,b);
     erg=tj+dp_erg;
     rehash = false;
-    return true; 
+    return true;
   }
-  else                         // Tafelelement besetzt             
-   
+  else                         // Tafelelement besetzt
+
     if (subcard<=mj)           // aber noch Platz in Tafel
-    {  
+    {
       stp lj = new subtable[subcard];
       int i1=0;
                                // Elemente in Liste kopieren
@@ -505,8 +505,8 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
       {
 	if ( tj[i2].ke != EMPTY  )
         {
-          lj[i1++]=tj[i2];  
-          tj[i2].clear(); 
+          lj[i1++]=tj[i2];
+          tj[i2].clear();
         }
       }
       lj[i1].set_s(a,b);
@@ -514,17 +514,17 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
 
       int injektiv=0;
       while (!injektiv)          // injektive Funktion suchen
-      { 
+      {
 	injektiv=1;
         ran >> kj;
 
         for (i1=0; (i1<subcard) && injektiv ; i1++)
-        { 
+        {
           dpmod(kj,lj[i1].ke,dp_erg);
           dp_erg=dp_erg%subsize;
           if ( tj[dp_erg].ke == EMPTY )
           {
-            tj[dp_erg]=lj[i1]; 
+            tj[dp_erg]=lj[i1];
 	    erg=tj+dp_erg;
           }
           else
@@ -534,8 +534,8 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
             {
 	      GenPtr help=lj[g].ke;
 	      dpmod(kj,help,dp_erg);
-              dp_erg=dp_erg%subsize;  
-              tj[dp_erg].ke = EMPTY ; 
+              dp_erg=dp_erg%subsize;
+              tj[dp_erg].ke = EMPTY ;
        	    }
           }
         }                       // Elemente getestet
@@ -544,39 +544,39 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
 
       delete lj;
       rehash = false;
-      return true; 
+      return true;
     }                             // subcard<=mj
 
     else                          // |Wj|>Mj , d.h. Groesse der
                   	          // Subtable verdoppeln
-    { 
+    {
       if (bed>=0)                 // Kontrolle des Platzverbrauchs
       {
         rehash = true;
-        return true;    
+        return true;
       }
-      else                        // Platz in Ordnung             
+      else                        // Platz in Ordnung
                                   // Untertafel verdoppeln
-      { 
+      {
         // int oldssize= mal_pot2(sqr(mj),1); ( never used)
         int i1=0;
                                   // Elemente in Liste retten
-        stp lj = new subtable[subcard]; 
+        stp lj = new subtable[subcard];
         for (int i2=0; i1<oldscard ; i2++)
           if ( tj[i2].ke != EMPTY  )
             lj[i1++]=tj[i2];
         lj[i1].set_s(a,b);
 
         for ( ; mj<wj ; mj<<=1 ) ;    // Subtable vergroessern
-        subsize = mal_pot2(sqr(mj),1); 
+        subsize = mal_pot2(sqr(mj),1);
 
         if ((tj>ende)||(tj<anf))      // Speicherverwaltung
           delete tj;
 
-        tj=new subtable[subsize]; 
+        tj=new subtable[subsize];
         int injektiv=0;
                                       // injektive Funktion suchen
-        while (!injektiv)       
+        while (!injektiv)
         {
           injektiv=1;
           ran >> kj;
@@ -585,8 +585,8 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
             dpmod(kj,lj[i1].ke,dp_erg);
             dp_erg=dp_erg%subsize;
             if ( tj[dp_erg].ke == EMPTY )
-            { 
-              tj[dp_erg]=lj[i1]; 
+            {
+              tj[dp_erg]=lj[i1];
               erg=tj+dp_erg;
             }
 
@@ -598,7 +598,7 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
 		 GenPtr help=lj[g].ke;
 		 dpmod(kj,help,dp_erg);
                  dp_erg=dp_erg%subsize;
-		 tj[dp_erg].ke = EMPTY ; 
+		 tj[dp_erg].ke = EMPTY ;
 	       }
 
 	     }
@@ -612,7 +612,7 @@ bool headertable::insert(GenPtr a,GenPtr b,stp& erg,int& bed,bool& rehash,
       }
     }
   }                       // insert
-   
+
 //-----------------------------------------------------------------
 // dinsert
 // fuegt ein Paar (Schluessel,Information) in das Bucket ein
@@ -624,28 +624,28 @@ int headertable::dinsert(GenPtr a,GenPtr b,
 			  stp ende,stp& wo,stp& erg)
 
 {
-  if (mj==1)                    // nur ein Element in Tafel 
-  {				// und Tafel anlegen  
+  if (mj==1)                    // nur ein Element in Tafel
+  {				// und Tafel anlegen
     tj=wo;
-    wo++; 
-    tj->set_s(a,b);    
+    wo++;
+    tj->set_s(a,b);
     erg=tj;
-    return true;  
+    return true;
   }                             // leere Tafel jetzt mit Element
 
-  if (mj==2)                    // zwei Elemente in Tafel 
+  if (mj==2)                    // zwei Elemente in Tafel
   {
     if (!tj)       		// und Tafel anlegen
-    { 
+    {
       wj=1;
       tj=wo;
-      wo+=2; 
-      tj[0].set_s(a,b);    
+      wo+=2;
+      tj[0].set_s(a,b);
       erg=tj;
-      return true;  
+      return true;
     }                           // leere Tafel jetzt mit Element
     else
-    { 
+    {
       if (a==tj[0].ke)
       {
 	tj[0].inf = b;
@@ -659,19 +659,19 @@ int headertable::dinsert(GenPtr a,GenPtr b,
     }
   }
 
-  if (mj<=4)                    // max 4 Elemente in Tafel 
+  if (mj<=4)                    // max 4 Elemente in Tafel
   {
     if (!tj)       		// und Tafel anlegen
-    { 
+    {
       wj=1;
       tj=wo;
-      wo+=4; 
-      tj[0].set_s(a,b);    
+      wo+=4;
+      tj[0].set_s(a,b);
       erg=tj;
-      return true;  
+      return true;
     }                           // leere Tafel jetzt mit Element
     else
-    { 
+    {
       for (int i1=0; i1<wj; i1++)
         if (a==tj[i1].ke)
         {
@@ -692,10 +692,10 @@ int headertable::dinsert(GenPtr a,GenPtr b,
   if (!tj)                      // Tafel muss angelegt werden
 				// Tafel mit meheren Elementen
 				// erstes Element kommt hinein
-  { 
+  {
     int q=mal_pot2(sqr(mj),1);  // Platz anfordern aus Pool
     tj=wo;
-    wo+=q; 
+    wo+=q;
     if (wo>ende+1)
       error_handler(1,"memory allocation error");
 
@@ -706,7 +706,7 @@ int headertable::dinsert(GenPtr a,GenPtr b,
     tj[dp_erg].set_s(a,b);
     erg=tj+dp_erg;
     wj = 1;                     // jetzt aktuelles wj
-    return true;       
+    return true;
   }                             // leere Tafel jetzt mit 1.Element
 
                                 // Tafel ist schon angelegt und enthaelt Element
@@ -717,27 +717,27 @@ int headertable::dinsert(GenPtr a,GenPtr b,
   dp_erg=dp_erg%subsize;
 
   if ( tj[dp_erg].ke == a)           // gleicher Schluessel
-  { 
+  {
     tj[dp_erg].set_s(a,b);
     erg=tj+dp_erg;
-    return false;      
+    return false;
   }
 
   if ( tj[dp_erg].ke == EMPTY  )     // Position leer
-  { tj[dp_erg].set_s(a,b);   
+  { tj[dp_erg].set_s(a,b);
     erg=tj+dp_erg;
   }
 
-  else                          // Position besetzt -> lokales Rehash 
-  {  
+  else                          // Position besetzt -> lokales Rehash
+  {
 				// Elemente sammeln
      stp lj = new subtable[wj+1];
      int i1=0;
      int i2=0;
      for (i2=0; i1<wj ; i2++)   // Elemente in Liste kopieren
      { if ( tj[i2].ke != EMPTY  )
-       { lj[i1++]=tj[i2];  
-         tj[i2].clear() ; 
+       { lj[i1++]=tj[i2];
+         tj[i2].clear() ;
        }
      }
 
@@ -746,18 +746,18 @@ int headertable::dinsert(GenPtr a,GenPtr b,
                                   // lokales Rehash , alle Elemente in Liste lj
      int injektiv=0;
                                   // injektive Funktion suchen
-     while (!injektiv)         
+     while (!injektiv)
      {
        injektiv=1;
        ran >> kj;
 
        for (i2=0; (i2<i1) && injektiv ; i2++)
-       { 
+       {
          dpmod(kj,lj[i2].ke,dp_erg);
 	 dp_erg=dp_erg%subsize;
          if ( tj[dp_erg].ke == EMPTY )
 	 {
-	   tj[dp_erg]=lj[i2]; 
+	   tj[dp_erg]=lj[i2];
 	   erg=tj+dp_erg;
          }
          else                      // Injektivitaet verletzt
@@ -772,7 +772,7 @@ int headertable::dinsert(GenPtr a,GenPtr b,
              tj[dp_erg].ke = EMPTY ;
 	   }
          }
-       }                           // alle Elemente getestet 
+       }                           // alle Elemente getestet
 
      }                             // neuer Versuch oder fertig
 
@@ -793,21 +793,21 @@ int headertable::dinsert(GenPtr a,GenPtr b,
 
 stp headertable::lookup(GenPtr a)
 
-{ 
+{
    if (!wj)  return 0;              // Headertable leer
 
    if (mj==1)                       // Headertable einelementig
-   { 
-     if (a==tj->ke) 
+   {
+     if (a==tj->ke)
        return tj;
      else
        return 0;
    }
 
    if (mj<=4)                       // Tafel mit max 4 Elementen
-   { 
+   {
      for (int i1=0; i1<wj; i1++)
-       if (a==tj[i1].ke) 
+       if (a==tj[i1].ke)
          return tj+i1;
      return 0;
    }
@@ -819,8 +819,8 @@ stp headertable::lookup(GenPtr a)
    if (tj[dp_erg].ke==a)
      return tj+dp_erg;
    else
-     return 0; 
- } 
+     return 0;
+ }
 
 // ----------------------------------------------------------------
 // del
@@ -833,8 +833,8 @@ bool headertable::del(GenPtr a,stp anf,stp ende)
   if (!wj) return false;             // leere Headertable
 
   if (mj==1)                         // Headertable einelementig
-  { 
-    if (a==tj->ke) 
+  {
+    if (a==tj->ke)
     {
       wj=0;                          // Schluessel gefunden
       tj->clear() ;
@@ -843,21 +843,21 @@ bool headertable::del(GenPtr a,stp anf,stp ende)
 	delete tj;
 	tj = 0;
 	mj = 0;
-      } 
-      return true;    
+      }
+      return true;
     }
     else
       return false;
   }
-	 
-  if (mj<=4)           
-  { 
+
+  if (mj<=4)
+  {
     if (wj>1)                        // Headertable mit mind 2 Elementen
     {
       for (int i1=0; i1<wj; i1++)
-      { 
+      {
 	if (tj[i1].ke==a)            // Element gefunden
-        { 
+        {
           wj--;
           tj[i1]=tj[wj];             // Loch fuellen
           tj[wj].clear();
@@ -868,7 +868,7 @@ bool headertable::del(GenPtr a,stp anf,stp ende)
     }
     else                               // ein Element in Bucket
     {
-      if (tj[0].ke==a) 
+      if (tj[0].ke==a)
       {
 	wj=0;                          // Schluessel gefunden
         tj[0].clear() ;
@@ -877,14 +877,14 @@ bool headertable::del(GenPtr a,stp anf,stp ende)
 	  delete tj;
 	  tj = 0;
 	  mj = 0;
-        } 
-        return true;    
+        }
+        return true;
       }
       else
         return false;
     }
   }
-	 
+
 				      // Headertable mit mehreren Subtables
   unsigned long dp_erg=0;
   dpmod(kj,a,dp_erg);
@@ -901,9 +901,9 @@ bool headertable::del(GenPtr a,stp anf,stp ende)
 	delete tj;
 	tj = 0;
 	mj = 0;
-      } 
-    return true;    
-  } 
+      }
+    return true;
+  }
   else return false;
 }
 
@@ -915,15 +915,15 @@ bool headertable::del(GenPtr a,stp anf,stp ende)
 
 int headertable::give_elements(stp& wo,stp anf,stp ende)
 
-{ 
+{
   int j=0;
 
-  if (!wj) { 
-	     if ( tj && ((tj<anf)||(tj>ende))) 
+  if (!wj) {
+	     if ( tj && ((tj<anf)||(tj>ende)))
              {
 	       if (mj>1)
                  delete tj;
-	       else 
+	       else
                  delete tj;
 
 	       tj = 0;
@@ -933,7 +933,7 @@ int headertable::give_elements(stp& wo,stp anf,stp ende)
 	   }
 
   if (mj==1)                    // Headertable einelementig
-  { 
+  {
     (*wo)=(*tj);                // Element kopieren
     wo++;
     if ((tj<anf)||(tj>ende))     // gebe Speicher frei
@@ -942,26 +942,26 @@ int headertable::give_elements(stp& wo,stp anf,stp ende)
       tj = 0;
       mj = 0;
     }
-    return 1; 
+    return 1;
   }
 
   if (mj<=4)                     // Headertable maximal vierelementig
-  { 
-    j=0;   
+  {
+    j=0;
     while ( (tj[j].ke != EMPTY) && (j<mj) )
-    { 
+    {
       (*wo)=tj[j];
       wo++;
       j++;
     }
 
     if ((tj<anf)||(tj>ende))     // gebe Speicher frei
-    { 
+    {
       delete tj;
       tj = 0;
       mj = 0;
     }
-    return j; 
+    return j;
   }
 
 				 // Headertable mit meheren Elementen
@@ -974,10 +974,10 @@ int headertable::give_elements(stp& wo,stp anf,stp ende)
     {                                    // haenge Element an Liste
       (*wo)=tj[k];
       wo++; j++;
-      if (j>=wj) weiter=false; 
+      if (j>=wj) weiter=false;
     }
   if ((tj<anf)||(tj>ende))               // gebe Speicher frei
-  { 
+  {
     delete tj;
     tj = 0;
     mj = 0;
@@ -998,7 +998,7 @@ int headertable::give_elements(stp& wo,stp anf,stp ende)
 
 stp dp_hash::rehash_all( GenPtr x, GenPtr y )
 
-{ 
+{
   int i,i1,j,nsave,platz;
   unsigned long dp_erg=0;
 
@@ -1010,21 +1010,21 @@ stp dp_hash::rehash_all( GenPtr x, GenPtr y )
   nsave = ( x == EMPTY ? n : n-1 );
 
   while ( (i<sM) && (nsave>0) )  // Sammle Element aus allen Headertables
-  { 
+  {
     if (htablep[i])
     {
       nsave -= htablep[i]->give_elements(pos,anf,ende) ;
       delete htablep[i];
     }
-    i++;   
+    i++;
   }
 
   if ( x != EMPTY )               // fuege neues Element hinzu
     l[n-1].set_s(x,y);
 
   free ((char*)htablep);          // Speicher freigeben
-  if (anf) 
-    delete anf; 
+  if (anf)
+    delete anf;
 					    // neue Parameter setzen
 
   M=int((1+_dp_h_c)*n);
@@ -1040,7 +1040,7 @@ stp dp_hash::rehash_all( GenPtr x, GenPtr y )
   platz=n;
   i1=0;
   while (!i1)                    // Top-Funktion suchen
-  { 
+  {
     bed=0;
     ran >> k;
 
@@ -1051,7 +1051,7 @@ stp dp_hash::rehash_all( GenPtr x, GenPtr y )
       dp_erg=dp_erg%sM;
       buckets[i] = dp_erg;      // Merke Headertable
 
-      if (!htablep[dp_erg]) 
+      if (!htablep[dp_erg])
         htablep[dp_erg] = new headertable;
 
                                 // Aendere Headertables
@@ -1062,21 +1062,21 @@ stp dp_hash::rehash_all( GenPtr x, GenPtr y )
 	 (*groesse)++;
       else
         if (*groesse<f)
-        { 
-	  (*groesse)<<=1;      
-  
+        {
+	  (*groesse)<<=1;
+
 	  if (*groesse==4)       // vergroessere Feld
 	    platz++;
           else
 	    if (*groesse==8)     // Uebergang von Feld auf Tafel
 	      platz+=123;
             else
-	      platz+=3*sqr(*groesse)/2; 
+	      platz+=3*sqr(*groesse)/2;
         }
 	else                     // Tafel nicht vergroessert
 	  platz--;
 
-      bed+=mal_pot2(f,2)-2; 
+      bed+=mal_pot2(f,2)-2;
     }                            // alle Elemente gehasht
 
                                  // bed-=(((8.0*sqr(M))/sM)+2*M);
@@ -1088,10 +1088,10 @@ stp dp_hash::rehash_all( GenPtr x, GenPtr y )
     {
       platz=n;
       for (j=0; j<sM; j++)
-        if (htablep[j]) 
-	{ 
+        if (htablep[j])
+	{
 	  delete htablep[j];
-	  htablep[j] = 0 ;   
+	  htablep[j] = 0 ;
 	}
     }
 
@@ -1103,8 +1103,8 @@ stp dp_hash::rehash_all( GenPtr x, GenPtr y )
   ende=anf+platz-1;
 
   for (i=0; i<n; i++)             // fuege Elemente wieder ein
-  { 
-    int bucket=buckets[i];  
+  {
+    int bucket=buckets[i];
     htablep[bucket]->dinsert(l[i].ke,l[i].inf,ende,wo,erg);
   }
 
@@ -1120,8 +1120,8 @@ stp dp_hash::rehash_all( GenPtr x, GenPtr y )
 
 stp dp_hash::insert(GenPtr x,GenPtr y)
 
-{ 
-  if ( (unsigned long)x>maxuni )  
+{
+  if ( (unsigned long)x>maxuni )
     error_handler(2,string("dp_hash: key %d out of range",x));
 
   copy_key(x);
@@ -1134,7 +1134,7 @@ stp dp_hash::insert(GenPtr x,GenPtr y)
   bool rehash = false;
   stp  erg    = 0;
 
-  if ( !htablep[dp_erg] ) 
+  if ( !htablep[dp_erg] )
     htablep[dp_erg] = new headertable;
 
   if ( htablep[dp_erg]->insert(x,y,erg,bed,rehash,anf,ende) )  n++;
@@ -1151,9 +1151,9 @@ stp dp_hash::insert(GenPtr x,GenPtr y)
 
 void dp_hash::del(GenPtr x)
 
-{ 
+{
 
-  if ( (unsigned long)x>maxuni )  
+  if ( (unsigned long)x>maxuni )
     error_handler(2,string("key %d out of range",x));
 
 // s.n. :
@@ -1171,18 +1171,18 @@ clear_inf(p->inf);
   if ( !htablep[dp_erg] ) return;     // Headertable nicht vorhanden
   				      // in Toptafel loeschen
 
-  if ( htablep[dp_erg]->del(x,anf,ende) ) n--;     
+  if ( htablep[dp_erg]->del(x,anf,ende) ) n--;
 
   if ( !htablep[dp_erg]->wj )
-  { 
+  {
     delete htablep[dp_erg];
     htablep[dp_erg] = 0;
   }
 
   if ((n*(1+3*_dp_h_c)<M) && (n>3))
-    rehash_all(); 
+    rehash_all();
 
-} 
+}
 
 // -------------------------------------------------------
 // lookup,change_inf
@@ -1191,27 +1191,27 @@ clear_inf(p->inf);
 // change_inf setzt Information des Elementes auf y
 
 
-stp dp_hash::lookup(GenPtr x) const 
+stp dp_hash::lookup(GenPtr x) const
 
-{ 
-  if ( (unsigned long)x>maxuni )  
+{
+  if ( (unsigned long)x>maxuni )
     error_handler(2,string("key %d out of range",x));
 
   unsigned long dp_erg=0;
   dpmod(k,x,dp_erg);
   dp_erg=dp_erg%sM;                   // Toptafel
 
-  if (!htablep[dp_erg]) 
+  if (!htablep[dp_erg])
     return 0;
 
   stp y=htablep[dp_erg]->lookup(x);
   return y ;
 
 }
- 
-stp dp_hash::change_inf(GenPtr x,GenPtr y)      
-{ 
-  if ( (unsigned long)x>maxuni )  
+
+stp dp_hash::change_inf(GenPtr x,GenPtr y)
+{
+  if ( (unsigned long)x>maxuni )
     error_handler(2,string("key %d out of range",x));
 
   unsigned long dp_erg=0;
@@ -1237,20 +1237,20 @@ stp dp_hash::change_inf(GenPtr x,GenPtr y)
 
 void dp_hash::clear()
 
-{ 
+{
   stp l = new subtable[n];
   stp pos=l;
 
   for (int i=0;i<sM;i++)           // Headertables loeschen
     if (htablep[i])
-    { 
+    {
       htablep[i]->give_elements(pos,anf,ende);
-      delete htablep[i];                         
+      delete htablep[i];
     }
 
   free ((char*)htablep) ;          // Speicher freigeben
 
-  if (anf) 
+  if (anf)
     delete anf;
 
   delete l;
@@ -1270,7 +1270,7 @@ void dp_hash::clear()
 
 dp_hash::dp_hash()
 
-{ 
+{
   n=0;
   M=4;
   sM=13;
@@ -1282,10 +1282,10 @@ dp_hash::dp_hash()
 
 }
 
-dp_hash::dp_hash(int an,GenPtr* keys,GenPtr* inhalte)   
+dp_hash::dp_hash(int an,GenPtr* keys,GenPtr* inhalte)
                                           // wie rehash_all
                                           // die Elemente stehen aber schon in Listen
-{ 
+{
   int i,i1,j,nsave,platz;
   unsigned long dp_erg=0;
   stp erg=0;
@@ -1311,14 +1311,14 @@ dp_hash::dp_hash(int an,GenPtr* keys,GenPtr* inhalte)
     for (i=0;i<n;i++)
     {
       GenPtr help=keys[i];
-      if ( (unsigned long)help>maxuni )  
+      if ( (unsigned long)help>maxuni )
          error_handler(2,string("key %d out of range",help));
 
       dpmod(k,help,dp_erg);
       dp_erg=dp_erg%sM;
       buckets[i] = dp_erg;
 
-      if (!htablep[dp_erg]) 
+      if (!htablep[dp_erg])
 	htablep[dp_erg] = new headertable;
 
       int f=++(htablep[dp_erg]->wj);
@@ -1328,36 +1328,36 @@ dp_hash::dp_hash(int an,GenPtr* keys,GenPtr* inhalte)
 	 (*groesse)++;
       else
         if (*groesse<f)
-        { 
-	  (*groesse)<<=1;      
-  
+        {
+	  (*groesse)<<=1;
+
 	  if (*groesse==4)       // vergroessere Feld
 	    platz++;
           else
 	    if (*groesse==8)     // Uebergang von Feld auf Tafel
 	      platz+=123;
             else
-	      platz+=3*sqr(*groesse)/2; 
+	      platz+=3*sqr(*groesse)/2;
         }
 	else                     // Tafel nicht vergroessert
 	  platz--;
 
-      bed+=mal_pot2(f,2)-2; 
+      bed+=mal_pot2(f,2)-2;
     }
-	
+
                                  // bed-=(((8.0*sqr(M))/sM)+2*M);
     float _bed=(wursechs+2)*M;   // Vereinfachung durch Einsetzen von sM
     bed-=int(_bed);
     i1=(bed<0);
 
     if (!i1)
-    { 
+    {
       platz=n;
       for (j=0; j<sM; j++)
-	if (htablep[j]) 
-	{ 
+	if (htablep[j])
+	{
 	  delete htablep[j];
-	  htablep[j] = 0;   
+	  htablep[j] = 0;
 	}
     }
   }
@@ -1373,17 +1373,17 @@ dp_hash::dp_hash(int an,GenPtr* keys,GenPtr* inhalte)
   {
     int bucket = buckets[i];
     n += (htablep[bucket]->dinsert(keys[i],inhalte[i],ende,wo,erg));
-  } 
+  }
 
   delete buckets;
 
   if ((n*(1+3*_dp_h_c)<M) && (n>3))
-    rehash_all();   
+    rehash_all();
 
 }
 
 dp_hash::~dp_hash()
-{ 
+{
   clear();                            // loesche alles
 
   free ((char*)htablep);              // gebe Speicher frei

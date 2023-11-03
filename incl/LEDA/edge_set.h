@@ -5,9 +5,9 @@
 +  edge_set.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_EDGE_SET_H
@@ -17,12 +17,12 @@
 
 
 //------------------------------------------------------------------------------
-// edge_set  
+// edge_set
 //------------------------------------------------------------------------------
 
 /*{\Manpage {edge_set} {} {Sets of Edges} }*/
 
-class edge_set 
+class edge_set
 {
 /*{\Mdefinition
 An instance $S$ of the data type $edge\_set$ is a subset of
@@ -38,8 +38,8 @@ public:
 /*{\Mcreation S }*/
 
 edge_set(const graph& G) :A(G,nil) { g = (graph*)&G; }
-/*{\Mcreate creates an instance $S$ of type $edge\_set$ valid for all edges 
-            currently in graph $G$ and initializes it to the empty set.}*/ 
+/*{\Mcreate creates an instance $S$ of type $edge\_set$ valid for all edges
+            currently in graph $G$ and initializes it to the empty set.}*/
 
 
 
@@ -73,10 +73,10 @@ void clear()             { L.clear(); A.init(*g,nil); }
 };
 
 /*{\Mimplementation
-An edge set $S$ for a graph $G$ is implemented by a combination of a 
-list  $L$ of edges and an edge array of list\_items 
-associating with each edge its position in $L$. All operations 
-take constant time, except for clear which takes time $O(|S|)$. The space 
+An edge set $S$ for a graph $G$ is implemented by a combination of a
+list  $L$ of edges and an edge array of list\_items
+associating with each edge its position in $L$. All operations
+take constant time, except for clear which takes time $O(|S|)$. The space
 requirement is $O(n)$, where $n$ is the number of edges of $G$.}*/
 
 #endif

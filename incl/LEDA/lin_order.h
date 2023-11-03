@@ -5,9 +5,9 @@
 +  lin_order.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_LIN_ORDER_H
@@ -32,7 +32,7 @@ inline int compare(const new_type& x, const new_type& y) { return cmp(x,y); }
 
 typedef int (*CMP_INT_TYPE)(const int&, const int&);
 
-template<CMP_INT_TYPE cmp> 
+template<CMP_INT_TYPE cmp>
 class INT {
   int p;
 public:

@@ -5,9 +5,9 @@
 +  _dfsnum.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -22,8 +22,8 @@
 
 static int dfs_count1,dfs_count2;
 
-static void dfs(node v, node_array<bool>& reached, 
-                        node_array<int>& dfsnum, 
+static void dfs(node v, node_array<bool>& reached,
+                        node_array<int>& dfsnum,
                         node_array<int>& compnum,
                         list<edge>& T )
 { node w;
@@ -32,20 +32,20 @@ static void dfs(node v, node_array<bool>& reached,
   reached[v] = true;
   dfsnum[v] = ++dfs_count1;
 
-  forall_adj_edges(e,v) 
+  forall_adj_edges(e,v)
     { w = target(e);
-      if (!reached[w]) 
+      if (!reached[w])
        { T.append(e);
          dfs(w,reached,dfsnum,compnum,T);
         }
      }
 
   compnum[v] = ++dfs_count2;
-} 
+}
 
-list<edge> DFS_NUM(const graph& G, node_array<int>& dfsnum, 
+list<edge> DFS_NUM(const graph& G, node_array<int>& dfsnum,
                                    node_array<int>& compnum)
-{ 
+{
   list<edge> T;
   node_array<bool> reached(G,false);
   node v;

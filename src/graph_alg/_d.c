@@ -5,24 +5,24 @@
 +  _d.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/graph.h>
 #include <LEDA/p_queue.h>
 
 
-void DIJKSTRA(graph& G, node s, 
-              edge_array<int>&  cost, 
+void DIJKSTRA(graph& G, node s,
+              edge_array<int>&  cost,
               node_array<int>&  dist,
               node_array<edge>& pred,
               p_queue<int,node>&   PQ)
 {
   node_array<pq_item> I(G);
   node v;
-                                                                               
+
   forall_nodes(v,G)
   { pred[v] = nil;
     dist[v] = MAXINT;
@@ -46,15 +46,15 @@ void DIJKSTRA(graph& G, node s,
           PQ.decrease_p(I[v],c);
         dist[v] = c;
         pred[v] = e;
-       }                                                                 
+       }
      }
     PQ.del_item(it);
    }
 }
 
 
-void DIJKSTRA(graph& G, node s, 
-              edge_array<int>&  cost, 
+void DIJKSTRA(graph& G, node s,
+              edge_array<int>&  cost,
               node_array<int>&  dist,
               node_array<edge>& pred)
 {

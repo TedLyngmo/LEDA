@@ -2,13 +2,13 @@
 #include <LEDA/plane.h>
 #include <LEDA/window.h>
 
-#include <math.h>
+#include <cmath>
 
 
 
 
-main()
-{ 
+int main()
+{
   segment s,x;
 
   window W;
@@ -18,7 +18,7 @@ main()
   W.set_line_width(1);
 
   panel P("SEGMENT SET");
-  
+
   P.text_item("Use the left mouse button to insert a set of segments, ");
   P.text_item("all with the same orientation. Terminate the input by  ");
   P.text_item("clicking the right button. During input, the segments  ");
@@ -82,7 +82,7 @@ main()
     point q(x,y);
 
     q = p.translate(alpha+LEDA_PI,p.distance(q));
-   
+
     s = segment(p,q);
 
     W << s;
@@ -93,8 +93,8 @@ main()
     W.set_line_width(4);
     forall(it,L) W << S.key(it);
 
-    forall(it,L) 
-      cout << "key = " << S.key(it) << "  info = " << S.inf(it) << "\n";
+    forall(it,L)
+      std::cout << "key = " << S.key(it) << "  info = " << S.inf(it) << "\n";
     newline;
 
 

@@ -12,7 +12,7 @@ prints the number of occurrences of each string on the standard output. More
 examples of LEDA programs can be found throughout this manual.
 
 \#include \<LEDA/d\_array.h\>\\
-main()\\
+int main()\\
 \{
 
 \ \ \ d\_array\<string,int\> $N(0)$;\\
@@ -84,8 +84,8 @@ have to provide the following operations:
 \mbox{c) an assignment operator} &\mbox{T\&\ T::operator=(const T\&)} \\
 \\
 \mbox{and if required by the parameterized data type}\\
-\mbox{d) an input function}  &\mbox{void \ {\bf Read}(T\&,\ istream\&)}\\
-\mbox{e) an output function} &\mbox{void \ {\bf Print}(const T\&,\ ostream\&)}\\
+\mbox{d) an input function}  &\mbox{void \ {\bf Read}(T\&,\ std::istream\&)}\\
+\mbox{e) an output function} &\mbox{void \ {\bf Print}(const T\&,\ std::ostream\&)}\\
 \mbox{f) a compare function} &\mbox{int \ {\bf compare}(const T\&, const T\&)}\\
 \mbox{g) a hash function}    &\mbox{int \ {\bf Hash}(const T\&)}\\
 \end{array}
@@ -219,7 +219,7 @@ instead of the default data structure (cf. section \ref{List of data structures}
 \#include \<LEDA/d\_array.h\>\\
 \#include \<LEDA/impl/skiplist.h\>\\
 \smallskip
-main()\\
+int main()\\
 $\{$
 
 \ \ \ \_d\_array\<string,int,skiplist\> $N(0)$;\\

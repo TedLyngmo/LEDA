@@ -5,9 +5,9 @@
 +  _list_pq.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/impl/list_pq.h>
@@ -17,17 +17,17 @@ list_pq::list_pq(const list_pq&) { /* copy constructor */}
 list_pq& list_pq::operator=(const list_pq&) { /* assignment */ return *this; }
 
 
-list_pq_item list_pq::insert(GenPtr k,GenPtr i) 
+list_pq_item list_pq::insert(GenPtr k,GenPtr i)
 { copy_key(k);
-  copy_inf(i); 
+  copy_inf(i);
   list_pq_item p = new list_pq_elem(k,i,nil,head);
   if (head) head->pred = p;
   head = p;
   count++;
-  return p; 
+  return p;
 }
 
-list_pq_item list_pq::find_min() const  
+list_pq_item list_pq::find_min() const
 { list_pq_item p = head;
   list_pq_item m = head;
   if (int_type())
@@ -44,7 +44,7 @@ list_pq_item list_pq::find_min() const
  }
 
 
-void list_pq::del_item(list_pq_item it)     
+void list_pq::del_item(list_pq_item it)
 { list_pq_item p = it->pred;
   list_pq_item s = it->succ;
   if (p) p->succ = s;
@@ -54,7 +54,7 @@ void list_pq::del_item(list_pq_item it)
  }
 
 
-void list_pq::clear()   
+void list_pq::clear()
 { while (head)
   { list_pq_item p = head->succ;
     clear_key(head->key);

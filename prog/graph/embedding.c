@@ -2,7 +2,7 @@
 #include <LEDA/graph_alg.h>
 
 
-main()
+int main()
 {
 
 GRAPH<int,int> G;
@@ -16,7 +16,7 @@ edge e;
 forall(e,el) G.new_edge(target(e),source(e));
 
 if ( ! PLANAR(G,true) )
- { cout << "Graph is not planar\n";
+ { std::cout << "Graph is not planar\n";
    exit(1);
   }
 
@@ -36,7 +36,7 @@ STRAIGHT_LINE_EMBEDDING2(G,x,y);
 cout << string("%6.2f sec  \n",used_time(T));
 
 /*
-forall_nodes(v,G) cout << string("x = %2d    y = %2d\n",x[v],y[v]);
+forall_nodes(v,G) std::cout << string("x = %2d    y = %2d\n",x[v],y[v]);
 */
 
 return 0;

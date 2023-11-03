@@ -1,7 +1,7 @@
 #include <LEDA/ugraph.h>
 #include <LEDA/graph_alg.h>
 #include <LEDA/graph_edit.h>
-#include <math.h>
+#include <cmath>
 
 
 
@@ -76,7 +76,7 @@ void show_two_node_inf(GRAPH<point,int>& G, node_array<int>& node_num1,
    }
 }
 
-void draw_graph(GRAPH<point,int>& G) 
+void draw_graph(GRAPH<point,int>& G)
 { node v,w;
   int i = 0;
   forall_nodes(v,G)
@@ -86,7 +86,7 @@ void draw_graph(GRAPH<point,int>& G)
     }
 }
 
-void draw_graph(UGRAPH<point,int>& G) 
+void draw_graph(UGRAPH<point,int>& G)
 { node v,w;
   int i = 0;
   forall_nodes(v,G)
@@ -139,24 +139,24 @@ void generate_graph(GRAPH<point,int>& G)
    if (i > 1)
       { double dy = (ymax-ymin)/(n+1);
         double y = ymin + dy;
-        forall(v,A) 
+        forall(v,A)
         { G[v] = point(xmin + (xmax-xmin)/4,y);
           y += dy;
          }
         y = ymin + dy;
-        forall(v,B) 
+        forall(v,B)
         { G[v] = point(xmax - (xmax-xmin)/4,y);
           y += dy;
          }
         }
-    else // circular embedding 
+    else // circular embedding
        { double R  = (xmax-xmin)/2.5;
          double x0 = (xmax-xmin)/2;
          double y0 = (ymax-ymin)/2;
          point  M(x0,y0);
          double alpha = 0;
          double step  = 2*LEDA_PI/n;
-         forall_nodes(v,G)  
+         forall_nodes(v,G)
          { G[v] = M.translate(alpha,R);
            alpha+=step;
           }
@@ -165,7 +165,7 @@ void generate_graph(GRAPH<point,int>& G)
 }
 
 
-main()
+int main()
 {
   panel P("Graph Algorithms");
 
@@ -199,16 +199,16 @@ main()
   edge e;
 
   for(;;)
-  { 
+  {
     W.del_messages();
 
     int key = P.read();
 
     if (key == 4) break;
 
-    switch(key) 
+    switch(key)
     {
-      case 0: { int b = file_panel.open(); 
+      case 0: { int b = file_panel.open();
                 if (b==0)  // load
                 { W.message(string("loading graph from %s",~file));
                   G.clear();
@@ -268,7 +268,7 @@ main()
                   draw_graph(G);
                   break;
                  }
-          
+
                 if (alg == "strongcomp")
                 { W.message("STRONG COMPONENTS");
                   node_array<int> node_num(G);
@@ -295,15 +295,15 @@ main()
                 if (alg == "matching")
                 { W.message("MAX_CARD_MATCHING");
                   list<edge> L = MAX_CARD_MATCHING(G);
-                  forall(e,L) bold_edge(G,e);       
+                  forall(e,L) bold_edge(G,e);
                   W.read_mouse();
-                  forall(e,L) unbold_edge(G,e);       
+                  forall(e,L) unbold_edge(G,e);
                   break;
                  }
 
                 W.acknowledge(alg + " not found");
                 break;
-          
+
               }
 
     } //switch

@@ -5,9 +5,9 @@
 +  _os2.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -19,10 +19,10 @@
 
 #include <LEDA/impl/x_basic.h>
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstring>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
 
 #define INCL_WIN
 #define INCL_GPI
@@ -108,25 +108,25 @@ static int alt_key_down = 0;
 
 static void message(char* s)
 { WinAlarm( HWND_DESKTOP, WA_ERROR );
-  WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, (PSZ) s, 
+  WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, (PSZ) s,
                  (PSZ)"LEDA WINDOW MESSAGE", 256, MB_OK);
-} 
+}
 
 static void message(char* s, int i)
 { WinAlarm( HWND_DESKTOP, WA_ERROR );
   char msg[256];
   sprintf(msg,s,i);
-  WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, (PSZ) msg, 
+  WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, (PSZ) msg,
                 (PSZ)"LEDA WINDOW MESSAGE", 256, MB_OK);
-} 
+}
 
 static void message(char* s, int i, int j)
 { WinAlarm( HWND_DESKTOP, WA_ERROR );
   char msg[256];
   sprintf(msg,s,i,j);
-  WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, (PSZ) msg, 
+  WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, (PSZ) msg,
                 (PSZ)"LEDA WINDOW MESSAGE", 256, MB_OK);
-} 
+}
 
 
 static void init_palette(HWND hwnd,HPS hps)
@@ -135,14 +135,14 @@ static void init_palette(HWND hwnd,HPS hps)
 #define LONGFromRGB(R,G,B) (LONG)(((LONG)R<<16)+((LONG)G<<8)+(LONG)B)
 
              // wi bl  re  gr  bl  ye  vi  or  cy  br  pi  gr  bl  g1  g2  g3
-unsigned char 
+unsigned char
       R[16] = {255, 0,255, 32,  0,255,160,255,  0,192,255,  0,  0,212,180,116};
-unsigned char 
+unsigned char
       G[16] = {255, 0,  0,255,  0,255,  0,160,192,112,  0,160,128,212,180,116};
-unsigned char 
+unsigned char
       B[16] = {255, 0,  0,  0,213,  0,208,  0,192, 56,255,100,255,212,180,116};
 
-  for (int i=0; i < 16; i++) 
+  for (int i=0; i < 16; i++)
   { rgb_table[2*i] = i;
     rgb_table[2*i+1] = LONGFromRGB(R[i],G[i],B[i]);
    }
@@ -153,7 +153,7 @@ unsigned char
 /*
    ULONG   cclr;
    int i;
-   for (i=0; i < 16; i++) 
+   for (i=0; i < 16; i++)
       rgb_table[i] = LONGFromRGB(R[i],G[i],B[i]);
 
    HPAL hPal = GpiCreatePalette( hab,
@@ -164,10 +164,10 @@ unsigned char
 
    if( hPal == NULLHANDLE || hPal == GPI_ERROR)
       message("GpiCreatePalette Error");
-   else 
+   else
       if (GpiSelectPalette(hps, hPal ) == PAL_ERROR)
         message("GpiSelectPalette Error");
-      else 
+      else
         if (WinRealizePalette(hwnd,hps,&cclr) == PAL_ERROR)
           message("WinRealizePalette Error");
 */
@@ -249,8 +249,8 @@ void flush_display(void)
 
 
 static void refresh_win(Window w, int x0=0, int y0=0, int x1=0, int y1=0)
-{ 
-  if (wlist[w].refresh) 
+{
+  if (wlist[w].refresh)
   { if (x0 == 0 && x1 == 0) x1 = wlist[w].xmax;
     if (y0 == 0 && y1 == 0) y1 = wlist[w].ymax;
     if (x0 > x1) { int tmp = x0; x0 = x1; x1 = tmp; }
@@ -273,11 +273,11 @@ static void refresh_win(Window w, int x0=0, int y0=0, int x1=0, int y1=0)
 
 void start_batch(Window w) {  wlist[w].refresh = 0; }
 
-void end_batch(Window w) 
-{  wlist[w].refresh = 1; 
+void end_batch(Window w)
+{  wlist[w].refresh = 1;
    refresh_win(w);
 }
-   
+
 
 int  display_width(void)
 { return WinQuerySysValue(HWND_DESKTOP, SV_CXSCREEN); }
@@ -297,7 +297,7 @@ int  display_depth(void) { return 16; }
 /* windows */
 
 static void font_dialog(HWND hwnd)
-{ 
+{
   FONTDLG FontDlg;
   char szFamilyname[FACESIZE];
   szFamilyname[0] = 0;
@@ -314,12 +314,12 @@ static void font_dialog(HWND hwnd)
   FontDlg.clrBack        = CLR_PALEGRAY;
   FontDlg.fAttrs         = TextFattrs;
   FontDlg.pszTitle       = (PSZ)"FONT SELECTION";
-  
+
   WinFontDlg(HWND_DESKTOP,hwnd,(PFONTDLG)&FontDlg);
   if (FontDlg.lReturn == DID_OK)
   {  char msg[256];
      TextFattrs = FontDlg.fAttrs;
-     sprintf(msg,"Facename = %s  MaxBaseLinExt = %d CharWidth = %d", 
+     sprintf(msg,"Facename = %s  MaxBaseLinExt = %d CharWidth = %d",
              TextFattrs.szFacename,
              TextFattrs.lMaxBaselineExt,
              TextFattrs.lAveCharWidth);
@@ -343,12 +343,12 @@ static MRESULT EXPENTRY ClientWndProc (HWND hwnd, ULONG msg,
 
   switch (msg) {
 
-  case WM_SIZE: 
+  case WM_SIZE:
         { RECTL rcl;
           WinQueryWindowRect(hwnd, &rcl);
           wlist[w].xmax = rcl.xRight;
           wlist[w].ymax = rcl.yTop;
-          if (rcl.xRight != 0  && !wlist[w].iconized) 
+          if (rcl.xRight != 0  && !wlist[w].iconized)
           { cur_event.kind = configure_event;
             cur_event.x = rcl.xRight;
             cur_event.y = rcl.yTop;
@@ -359,7 +359,7 @@ static MRESULT EXPENTRY ClientWndProc (HWND hwnd, ULONG msg,
 /*
           // have to adjust bitmap (how is it done ?)
           HPS hps = wlist[w].hps_scr;
-          BITMAPINFOHEADER2 bmp = {16, 0, 0, 4, 1}; 
+          BITMAPINFOHEADER2 bmp = {16, 0, 0, 4, 1};
           bmp.cx = cur_event.x;
           bmp.cy = cur_event.y;
           HBITMAP hbm = GpiCreateBitmap(hps, &bmp, 0L, NULL, NULL);
@@ -370,21 +370,21 @@ static MRESULT EXPENTRY ClientWndProc (HWND hwnd, ULONG msg,
           break;
          }
 
-  case WM_PAINT: 
-        { HPS hps = WinBeginPaint(hwnd,wlist[w].hps_scr,0); 
+  case WM_PAINT:
+        { HPS hps = WinBeginPaint(hwnd,wlist[w].hps_scr,0);
           refresh_win(w);
           WinEndPaint(hps);
           return ((MRESULT)0);
          }
 
-  case WM_QUIT: 
-  case WM_CLOSE: 
+  case WM_QUIT:
+  case WM_CLOSE:
          cur_event.kind = destroy_event;
          close_display();
          exit(0);
 
-  case WM_BUTTON1DBLCLK: 
-  case WM_BUTTON1DOWN: 
+  case WM_BUTTON1DBLCLK:
+  case WM_BUTTON1DOWN:
          cur_event.kind = button_press_event;
          cur_event.val = 1;
          cur_event.x = SHORT1FROMMP(mp1);
@@ -393,8 +393,8 @@ static MRESULT EXPENTRY ClientWndProc (HWND hwnd, ULONG msg,
          if (ctrl_key_down)  cur_event.val += 3;
          break;
 
-  case WM_BUTTON2DBLCLK: 
-  case WM_BUTTON2DOWN: 
+  case WM_BUTTON2DBLCLK:
+  case WM_BUTTON2DOWN:
          cur_event.kind = button_press_event;
          cur_event.val = 3;
          cur_event.x = SHORT1FROMMP(mp1);
@@ -404,10 +404,10 @@ static MRESULT EXPENTRY ClientWndProc (HWND hwnd, ULONG msg,
          break;
 
 /*
-  case WM_BUTTON3DOWN: 
+  case WM_BUTTON3DOWN:
 */
 
-  case WM_BUTTON1UP: 
+  case WM_BUTTON1UP:
          cur_event.kind = button_release_event;
          cur_event.val = 1;
          cur_event.x = SHORT1FROMMP(mp1);
@@ -416,7 +416,7 @@ static MRESULT EXPENTRY ClientWndProc (HWND hwnd, ULONG msg,
          if (ctrl_key_down)  cur_event.val += 3;
          break;
 
-  case WM_BUTTON2UP: 
+  case WM_BUTTON2UP:
          cur_event.kind = button_release_event;
          cur_event.val = 3;
          cur_event.x = SHORT1FROMMP(mp1);
@@ -426,18 +426,18 @@ static MRESULT EXPENTRY ClientWndProc (HWND hwnd, ULONG msg,
          break;
 
 /*
-  case WM_BUTTON3UP: 
+  case WM_BUTTON3UP:
 */
 
-  case WM_MOUSEMOVE: 
+  case WM_MOUSEMOVE:
          cur_event.kind = motion_event;
          cur_event.x = SHORT1FROMMP(mp1);
          cur_event.y = YCOORD(w,SHORT2FROMMP(mp1));
          break;
 
-  case WM_CHAR: 
+  case WM_CHAR:
         { USHORT fsKeyFlags = (USHORT) SHORT1FROMMP(mp1);
-          if (fsKeyFlags & KC_KEYUP) 
+          if (fsKeyFlags & KC_KEYUP)
              { //key up
                shift_key_down = 0;
                ctrl_key_down = 0;
@@ -458,11 +458,11 @@ static MRESULT EXPENTRY ClientWndProc (HWND hwnd, ULONG msg,
 
     case WM_ERASEBACKGROUND:
           return (MRFROMLONG(1L));
-     
+
 
     case WM_COMMAND:
       switch (SHORT1FROMMP (mp1))
-      { 
+      {
         case IDM_FONT:
            font_dialog(hwnd);
            return ((MRESULT)0);
@@ -481,28 +481,28 @@ static MRESULT EXPENTRY ClientWndProc (HWND hwnd, ULONG msg,
 
 
 
-Window open_window(int x,int y,int width,int height,int bg_col, 
+Window open_window(int x,int y,int width,int height,int bg_col,
                    const char* header, const char* label)
 {
   ULONG flFrameFlags;
   HWND hwndFrame;
   HWND hwnd;
 
-  if (wcount == MAX_WIN) 
+  if (wcount == MAX_WIN)
       message("Maximal number of windows (%d) exceeded",MAX_WIN);
 
   WinRegisterClass (hab,(PSZ)"LEDA-WINDOW", ClientWndProc, CS_SAVEBITS, 0L);
 
   //WinRegisterClass (hab,(PSZ)"LEDA-WINDOW", ClientWndProc, 0, 0L);
 
-  flFrameFlags = (FCF_TITLEBAR      | 
+  flFrameFlags = (FCF_TITLEBAR      |
                   FCF_SYSMENU       |
-                  FCF_SIZEBORDER    | 
+                  FCF_SIZEBORDER    |
                   FCF_MINMAX        |
                   FCF_ACCELTABLE    |
-//                FCF_MENU          | 
-//                FCF_SHELLPOSITION | 
-                  FCF_ICON          | 
+//                FCF_MENU          |
+//                FCF_SHELLPOSITION |
+                  FCF_ICON          |
                   FCF_TASKLIST);
 
   FRAMECDATA FrameData;
@@ -516,19 +516,19 @@ Window open_window(int x,int y,int width,int height,int bg_col,
                                (PVOID)(PFRAMECDATA)&FrameData, NULL);
 
 
-  hwnd = WinCreateWindow(hwndFrame,(PSZ)"LEDA-WINDOW", NULL, 
+  hwnd = WinCreateWindow(hwndFrame,(PSZ)"LEDA-WINDOW", NULL,
                                0L, 0, 0, 0, 0, hwndFrame, HWND_TOP, FID_CLIENT,
                                NULL, NULL);
 
   WinShowWindow(hwndFrame,TRUE);
 
-  //height += WinQuerySysValue(HWND_DESKTOP, SV_CYMENU); 
+  //height += WinQuerySysValue(HWND_DESKTOP, SV_CYMENU);
 
-  height += WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR); 
+  height += WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
   height += WinQuerySysValue(HWND_DESKTOP, SV_CYSIZEBORDER);
   width  += 2*WinQuerySysValue(HWND_DESKTOP, SV_CXSIZEBORDER);
 
-  y = WinQuerySysValue(HWND_DESKTOP, SV_CYSCREEN) - height - y; 
+  y = WinQuerySysValue(HWND_DESKTOP, SV_CYSCREEN) - height - y;
 
   WinSetWindowPos(hwndFrame, 0L, x, y, width, height, SWP_MOVE | SWP_SIZE );
 
@@ -538,29 +538,29 @@ Window open_window(int x,int y,int width,int height,int bg_col,
   SIZEL sizel = {0,0};
 
   HDC hdc = WinOpenWindowDC(hwnd);
-  HPS hps_scr = GpiCreatePS(hab,hdc,&sizel,PU_PELS | GPIF_DEFAULT | 
+  HPS hps_scr = GpiCreatePS(hab,hdc,&sizel,PU_PELS | GPIF_DEFAULT |
                                               GPIT_NORMAL | GPIA_ASSOC);
 
   if (hps_scr == 0) message("cannot create client hps");
 
- 
- // create memory device context and presentation space, 
+
+ // create memory device context and presentation space,
 
   DEVOPENSTRUC dop = {NULL,(PSZ)"DISPLAY",NULL,NULL,NULL,NULL,NULL,NULL,NULL};
 
-  HDC hdc_mem = DevOpenDC(hab, OD_MEMORY, (PSZ)"*", 5L,(PDEVOPENDATA)&dop, 
+  HDC hdc_mem = DevOpenDC(hab, OD_MEMORY, (PSZ)"*", 5L,(PDEVOPENDATA)&dop,
                                                                 NULLHANDLE);
 
   HPS hps_mem = GpiCreatePS(hab,hdc_mem,&sizel, GPIA_ASSOC | GPIT_NORMAL | PU_PELS);
   if (hps_mem == 0) message("cannot create memory hps");
 
-  BITMAPINFOHEADER2 bmp = {16, 0, 0, 4, 1}; 
+  BITMAPINFOHEADER2 bmp = {16, 0, 0, 4, 1};
   bmp.cx =  width;
   bmp.cy =  height;
   HBITMAP hbm = GpiCreateBitmap(hps_mem, &bmp, 0L, NULL, NULL);
   if (hbm == 0) message("cannot create bitmap");
   GpiSetBitmap(hps_mem, hbm);
- 
+
 
   // create and set font
 
@@ -613,12 +613,12 @@ Window open_window(int x,int y,int width,int height,int bg_col,
 
 
 
-void close_window(Window win) 
-{ GpiAssociate(wlist[win].hps_mem, NULLHANDLE); 
-  GpiDestroyPS(wlist[win].hps_mem); 
-  GpiAssociate(wlist[win].hps_scr, NULLHANDLE); 
-  GpiDestroyPS(wlist[win].hps_scr); 
-  WinDestroyWindow(wlist[win].hwndFrame); 
+void close_window(Window win)
+{ GpiAssociate(wlist[win].hps_mem, NULLHANDLE);
+  GpiDestroyPS(wlist[win].hps_mem);
+  GpiAssociate(wlist[win].hps_scr, NULLHANDLE);
+  GpiDestroyPS(wlist[win].hps_scr);
+  WinDestroyWindow(wlist[win].hwndFrame);
  }
 
 void set_header(Window win, const char *s)
@@ -628,7 +628,7 @@ void set_header(Window win, const char *s)
  }
 
 
-void set_redraw(Window w, void (*f)()) 
+void set_redraw(Window w, void (*f)())
 { wlist[w].redraw = f; }
 
 
@@ -717,7 +717,7 @@ void box(Window win, int x1, int y1, int x2, int y2)
 
 void circle(Window win, int x, int y, int r)
 { HPS hps = wlist[win].hps_mem;
-  ARCPARAMS  arcparams; 
+  ARCPARAMS  arcparams;
   POINTL     center;
   y = YCOORD(win,y);
   arcparams.lP = r;
@@ -742,7 +742,7 @@ void circle(Window win, int x, int y, int r)
 
 void fill_circle(Window win, int x, int y, int r)
 { HPS hps = wlist[win].hps_mem;
-  ARCPARAMS  arcparams; 
+  ARCPARAMS  arcparams;
   POINTL     center;
   y = YCOORD(win,y);
   arcparams.lP = r;
@@ -819,7 +819,7 @@ void fill_arc(Window win,int x0,int y0,int r1,int r2,double start,double angle)
 
 void ellipse(Window win, int x, int y, int r1, int r2)
 { HPS hps = wlist[win].hps_mem;
-  ARCPARAMS  arcparams; 
+  ARCPARAMS  arcparams;
   POINTL     center;
   y = YCOORD(win,y);
   arcparams.lP = r1;
@@ -837,7 +837,7 @@ void ellipse(Window win, int x, int y, int r1, int r2)
 
 void fill_ellipse(Window win, int x, int y, int r1, int r2)
 { HPS hps = wlist[win].hps_mem;
-  ARCPARAMS  arcparams; 
+  ARCPARAMS  arcparams;
   POINTL     center;
   y = YCOORD(win,y);
   arcparams.lP = r1;
@@ -856,7 +856,7 @@ void fill_ellipse(Window win, int x, int y, int r1, int r2)
 void fill_polygon(Window win, int n, int* xcoord, int* ycoord)
 { HPS hps = wlist[win].hps_mem;
   POINTL*  p = new POINTL[n];
-  for(int i=0; i < n; i++) 
+  for(int i=0; i < n; i++)
   { p[i].x = xcoord[i];
     p[i].y = YCOORD(win,ycoord[i]);
    }
@@ -870,7 +870,7 @@ void fill_polygon(Window win, int n, int* xcoord, int* ycoord)
   int xmax = 0;
   int ymax = 0;
 
-  for(i=0; i < n; i++) 
+  for(i=0; i < n; i++)
   { if (xmin > p[i].x) xmin = p[i].x;
     if (xmax < p[i].x) xmax = p[i].x;
     if (ymin > p[i].y) ymin = p[i].y;
@@ -903,7 +903,7 @@ void put_text(Window win, int x, int y, const char* s, int l, int opaque)
   GpiCharStringAt(wlist[win].hps_mem,&pos,len, (PSZ)s);
   refresh_win(win,x,y,x+w,y-h);
  }
-  
+
 void put_text(Window win, int x, int y, const char* s, int opaque)
 { put_text(win, x, y, s, 512, opaque); }
 
@@ -933,7 +933,7 @@ void insert_bitmap(Window win, int width, int height, char* data)
 void show_coordinates(Window win, const char* s)
 { int col = set_color(black);
   int mode = set_mode(src_mode);
-  put_text(win,window_width(win)-120,0,s,1); 
+  put_text(win,window_width(win)-120,0,s,1);
   set_mode(mode);
   set_color(col);
  }
@@ -978,27 +978,27 @@ void set_message_font(void)
 int text_width(const char* s)
 { return  strlen(s) * FontMetrics.lAveCharWidth; }
 
-int text_height(const char* s) 
+int text_height(const char* s)
 { return  FontMetrics.lMaxBaselineExt; }
 
 
 /* drawing parameters */
 
-int set_color(int col) 
+int set_color(int col)
 { int c = GCOLOR;
   for(int win=1; win <=wcount; win++)
-  GpiSetColor(wlist[win].hps_mem,color_table[col]); 
+  GpiSetColor(wlist[win].hps_mem,color_table[col]);
   GCOLOR = col;
   return c;
  }
 
-int set_mode(int mod) 
+int set_mode(int mod)
 { int m = MODE;
   for(int win=1; win <=wcount; win++)
-     GpiSetMix(wlist[win].hps_mem,mode_table[mod]); 
+     GpiSetMix(wlist[win].hps_mem,mode_table[mod]);
 
   if (mod == xor_mode) // switch to complementary colors
-  { 
+  {
     color_table = color_table_xor;
    }
   else
@@ -1009,10 +1009,10 @@ int set_mode(int mod)
   return m;
  }
 
-int set_line_width(int w) 
+int set_line_width(int w)
 { int lw = LWIDTH;
   for(int win=1; win <=wcount; win++)
-     GpiSetLineWidthGeom(wlist[win].hps_mem,w); 
+     GpiSetLineWidthGeom(wlist[win].hps_mem,w);
   LWIDTH = w;
   return lw;
  }
@@ -1071,8 +1071,8 @@ static event old_event;
 
 
 int  get_next_event(Window* win, int* val, int* x, int* y, unsigned long *t)
-{ 
-  if (putback) 
+{
+  if (putback)
    { cur_event = old_event;
      putback = 0;
     }
@@ -1082,7 +1082,7 @@ int  get_next_event(Window* win, int* val, int* x, int* y, unsigned long *t)
       WinDispatchMsg (hab, &qmsg);
       cur_event.t = qmsg.time;
       if (cur_event.kind != -1) old_event = cur_event;
-     } 
+     }
 
   *win = cur_event.win;
   *val = cur_event.val;
@@ -1094,9 +1094,9 @@ int  get_next_event(Window* win, int* val, int* x, int* y, unsigned long *t)
 
 
 int  check_next_event(Window* win, int* val, int* x, int* y, unsigned long *t)
-{ 
+{
   if (putback || WinPeekMsg(hab, &qmsg, 0L, 0, 0, PM_NOREMOVE))
-     return get_next_event(win,val,x,y,t); 
+     return get_next_event(win,val,x,y,t);
   else
      return no_event;
  }

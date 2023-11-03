@@ -3,7 +3,7 @@
 
 inline int Hash(const string& s)  { return (s.length() > 0) ? s[0] : 0; }
 
-main()
+int main()
 {
   dictionary<string,int> D;
 
@@ -20,8 +20,8 @@ main()
     else D.change_inf(it,D.inf(it)+1);
    }
 
-  forall_items(it,D) 
-    cout <<  D.key(it) << " : " << D.inf(it) << "\n";
+  forall_items(it,D)
+    std::cout <<  D.key(it) << " : " << D.inf(it) << "\n";
 
 
   return 0;

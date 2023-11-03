@@ -18,7 +18,7 @@ const char EPSILON = '~';
 //------------------------------------------------------------------------------
 // NFA's are directed graphs with
 // node labels of type "int"  (states)
-// edge labels of type "char" 
+// edge labels of type "char"
 //------------------------------------------------------------------------------
 
 
@@ -29,7 +29,7 @@ int compare(node x, node y) { return x-y; }
 /*------------------------------------------------------------------------------
    DFA's are directed graphs with
    node labels of type set<node>*  (pointers to set of nodes of an NFA)
-   edge labels of type "char"      
+   edge labels of type "char"
 ------------------------------------------------------------------------------*/
 
 typedef set<node>* node_set_ptr;
@@ -40,7 +40,7 @@ typedef GRAPH<node_set_ptr,char> DFA;
 
 
 //------------------------------------------------------------------------------
-// We need a test for equality on sets of nodes 
+// We need a test for equality on sets of nodes
 // This implementation is very inefficient!
 //------------------------------------------------------------------------------
 
@@ -52,10 +52,10 @@ bool EQ_NODE_SET(node_set_ptr S1, node_set_ptr S2)
 
   node v;
 
-  forall(v,*S1) 
+  forall(v,*S1)
     if (! S2->member(v)) return false;
 
-  forall(v,*S2) 
+  forall(v,*S2)
     if (! S1->member(v)) return false;
 
   return true;
@@ -83,11 +83,11 @@ void E_CLOSURE(NFA& A, node_set_ptr T)
   while ( ! S.empty() )
    { u = S.pop();
 
-     // visit all neighbors v of u not in T and reachable by an epsilon-edge 
+     // visit all neighbors v of u not in T and reachable by an epsilon-edge
 
      forall_adj_edges(e,u)
      { v = A.target(e);
-       if ( A.inf(e) == EPSILON && !T->member(v) ) 
+       if ( A.inf(e) == EPSILON && !T->member(v) )
         { T->insert(v);
           S.push(v);
          }
@@ -103,14 +103,14 @@ void E_CLOSURE(NFA& A, node_set_ptr T)
 
 node_set_ptr MOVE(NFA& A, node_set_ptr T, char x)
 {
-  /* result is a pointer p to the set of nodes to which there 
+  /* result is a pointer p to the set of nodes to which there
      is a transition on input symbol x from a node in *T
   */
 
   node v;
   edge e;
 
-  node_set_ptr p = new set<node>;  
+  node_set_ptr p = new set<node>;
   /* now p is a pointer to an empty set  of nodes */
 
   forall(v,*T)
@@ -141,9 +141,9 @@ DFA  BUILD_DFA_FROM_NFA(NFA& A, node s0)
   char c;
   node_set_ptr p;
 
-  /* First we create a DFA-node for epsilon-closure(s0)and push it 
-     on the stack S. S contains all nodes of DFA B whose transitions 
-     have not been examined so far.  
+  /* First we create a DFA-node for epsilon-closure(s0)and push it
+     on the stack S. S contains all nodes of DFA B whose transitions
+     have not been examined so far.
   */
 
   p = new set<node>;
@@ -161,16 +161,16 @@ DFA  BUILD_DFA_FROM_NFA(NFA& A, node s0)
        // Is there any NFA-transisition from a node in B.inf(v) ?
        // i.e.: Is p not empty ?
 
-       if ( ! p->empty() )     
+       if ( ! p->empty() )
         {
           // compute the epsilon closure of *p
 
           E_CLOSURE(A,p);
-   
+
 
           /* search for a DFA-node w with B.inf(w) == *p */
 
-          bool found = false;       
+          bool found = false;
           forall_nodes(w,B)
             if (EQ_NODE_SET(B.inf(w),p))
                { found = true;
@@ -178,31 +178,31 @@ DFA  BUILD_DFA_FROM_NFA(NFA& A, node s0)
                 }
 
           /* if no such node exists create it */
-   
-          if ( !found )                     
+
+          if ( !found )
            { w = B.new_node(p);
              S.push(w);
             }
-   
+
           /* insert edge [v] --(c)--> [w] */
 
-          B.new_edge(v,w,c);               
+          B.new_edge(v,w,c);
 
          } // if p not empty
-   
+
       }  // for c = 'a' ... 'z'
 
    } // while S not empty
 
  return B;
-  
+
 }
 
 
-  
 
-main()
-{ 
+
+int main()
+{
 
   // Build a NFA A
 
@@ -212,7 +212,7 @@ main()
 
   int N = read_int("number of states N = ");
 
-  cout << "Start state = 0\n";
+  std::cout << "Start state = 0\n";
 
   array<node> state(0,N-1);
 
@@ -226,11 +226,11 @@ main()
 
   // create edges (transistions)
 
-  cout << "Enter Transitions of NFA (terminate input with   0 0 0)\n";
-  
+  std::cout << "Enter Transitions of NFA (terminate input with   0 0 0)\n";
+
 
   for(;;)
-  { cout << "state1  state2  label : ";
+  { std::cout << "state1  state2  label : ";
     cin >> i >> j >> c;
     if (i==0 && j==0 && c=='0') break;
 
@@ -243,12 +243,12 @@ main()
   // output  NFA A:
 
   newline;
-  cout << "NFA A: \n";
+  std::cout << "NFA A: \n";
 
   forall_nodes(v,A)
-    { cout << string(" [%d] : ",A.inf(v));
-      forall_adj_edges(e,v) 
-        cout << string(" [%d]--%c-->[%d] ",A.inf(v),A.inf(e),A.inf(A.target(e)));
+    { std::cout << string(" [%d] : ",A.inf(v));
+      forall_adj_edges(e,v)
+        std::cout << string(" [%d]--%c-->[%d] ",A.inf(v),A.inf(e),A.inf(A.target(e)));
       newline;
      }
 
@@ -260,20 +260,20 @@ main()
   node_array<int> name(B);
 
   newline;
-  cout << "DFA B:\n";
+  std::cout << "DFA B:\n";
   i=0;
   forall_nodes(v,B)
     { name[v] = i++;
-      cout << string(" [%d] = {",i);
-      forall(u,*B.inf(v)) cout << " " << A.inf(u);
-      cout << " }\n";
+      std::cout << string(" [%d] = {",i);
+      forall(u,*B.inf(v)) std::cout << " " << A.inf(u);
+      std::cout << " }\n";
      }
   newline;
 
   forall_nodes(v,B)
-    { cout << string(" [%d] : ",name[v]);
-      forall_adj_edges(e,v) 
-        cout << string(" [%d]--%c-->[%d] ",name[v],B.inf(e),name[B.target(e)]);
+    { std::cout << string(" [%d] : ",name[v]);
+      forall_adj_edges(e,v)
+        std::cout << string(" [%d]--%c-->[%d] ",name[v],B.inf(e),name[B.target(e)]);
       newline;
      }
 

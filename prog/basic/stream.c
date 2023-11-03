@@ -3,7 +3,7 @@
 #include <LEDA/list.h>
 
 
-main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
   string_istream args(argc,argv);
 
@@ -11,7 +11,7 @@ main(int argc, char* argv[])
 
   string s;
 
-  while(args >> s) cout << s << "\n";
+  while(args >> s) std::cout << s << "\n";
   newline;
 
   cmd_istream IN(read_string("cmd = "));
@@ -30,4 +30,4 @@ main(int argc, char* argv[])
 }
 
 
-    
+

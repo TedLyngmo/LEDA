@@ -8,7 +8,7 @@ edge_array<int>* W;
 int EDGE_CMP(edge& e1, edge& e2)
 { return (*W[e1]-*W[e2]); }
 
-main()
+int main()
 {
 
 GRAPH<int,int> G;

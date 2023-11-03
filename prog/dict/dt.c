@@ -1,6 +1,6 @@
 #include <LEDA/dictionary.h>
 
-main()
+int main()
 {
  dictionary<int,int> D;
  dic_item it;

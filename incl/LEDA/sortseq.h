@@ -5,15 +5,15 @@
 +  sortseq.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_SORTSEQ_H
 #define LEDA_SORTSEQ_H
 
-/*{\Manpage {sortseq} {K,I} {Sorted Sequences}}*/ 
+/*{\Manpage {sortseq} {K,I} {Sorted Sequences}}*/
 
 /*
 #include <LEDA/impl/rs_tree.h>
@@ -57,15 +57,15 @@ void clear_key(GenPtr& x)    const { LEDA_CLEAR(K,x); }
 void clear_inf(GenPtr& x)    const { LEDA_CLEAR(I,x); }
 void copy_key(GenPtr& x)     const { LEDA_COPY(K,x); }
 void copy_inf(GenPtr& x)     const { LEDA_COPY(I,x); }
-void print_key(GenPtr x)     const { LEDA_PRINT(K,x,cout); }
-void print_inf(GenPtr x)     const { LEDA_PRINT(I,x,cout); }
+void print_key(GenPtr x)     const { LEDA_PRINT(K,x,std::cout); }
+void print_inf(GenPtr x)     const { LEDA_PRINT(I,x,std::cout); }
 
 public:
 
 /*{\Mcreation S }*/
 
 sortseq() {}
-/*{\Mcreate creates an instance \var\ of type \name\ and initializes it to 
+/*{\Mcreate creates an instance \var\ of type \name\ and initializes it to
             the empty sorted sequence.}*/
 
 sortseq(const sortseq<K,I>& w) : SEQ_BASE_IMPL(w) {}
@@ -76,18 +76,18 @@ virtual ~sortseq()   { clear(); }
 
 /*{\Moperations 2.8 3.5}*/
 
-virtual K  key(seq_item it) const 
+virtual K  key(seq_item it) const
 { return LEDA_ACCESS(K,SEQ_DEF_IMPL::key(it)); }
 /*{\Mop         returns the key of item $it$.\\
 	        \precond $it$ is an item in \var.}*/
 
-virtual I  inf(seq_item it) const 
-{ return LEDA_ACCESS(I,SEQ_DEF_IMPL::inf(it)); } 
+virtual I  inf(seq_item it) const
+{ return LEDA_ACCESS(I,SEQ_DEF_IMPL::inf(it)); }
 /*{\Mop         returns the information of item $it.$\\
 	        \precond $it$ is an item in \var.}*/
 
 
-virtual seq_item lookup(K k) const 
+virtual seq_item lookup(K k) const
 { return SEQ_DEF_IMPL::lookup(Convert(k)); }
 /*{\Mop         returns the item with key $k$
 	        (nil if no such item exists in \var).}*/
@@ -97,12 +97,12 @@ virtual seq_item insert(K k, I i)
 /*{\Mop         associates information $i$ with key $k$: If
 	        there is an item $\<k,j\>$ in \var\ then $j$ is
 		replaced by $i$, else a new item $\<k,i\>$ is
-		added to \var. In both cases the item is 
+		added to \var. In both cases the item is
 		returned.}*/
 
 virtual seq_item insert_at(seq_item it, K k, I i)
 { return SEQ_DEF_IMPL::insert_at_item(it,Convert(k),Convert(i)); }
-/*{\Mopl        Like insert($k,i$), the item $it$ gives the 
+/*{\Mopl        Like insert($k,i$), the item $it$ gives the
 	        position of the item $\<k,i\>$ in the sequence.\\
 		\precond $it$ is an item in $S$ with either
 		key($it$) is maximal with key($it) \le k$ or
@@ -148,11 +148,11 @@ virtual seq_item max() const { return SEQ_DEF_IMPL::max(); }
 
 virtual void flip_items(seq_item a, seq_item b)    { reverse_items(a,b); }
 
-virtual void del(K k)         { SEQ_DEF_IMPL::del(Convert(k)); } 
+virtual void del(K k)         { SEQ_DEF_IMPL::del(Convert(k)); }
 /*{\Mop         removes the item with key $k$ from \var
 	        (null operation if no such item exists).}*/
 
-virtual void del_item(seq_item it)  { SEQ_DEF_IMPL::del_item(it); } 
+virtual void del_item(seq_item it)  { SEQ_DEF_IMPL::del_item(it); }
 /*{\Mopl        removes the item $it$ from \var.\\
 	        \precond $it$ is an item in \var.}*/
 
@@ -172,7 +172,7 @@ virtual void split(seq_item it,sortseq<K,I>& S1, sortseq<K,I>& S2)
 	      $S_1 = x_1,\dots,x_{k-1},it$ and $S_2 = x_{k+1},\dots,x_n$.\\
 	      \precond $it$ is an item in $S$. }*/
 
-virtual sortseq<K,I>& conc(sortseq<K,I>& S1) 
+virtual sortseq<K,I>& conc(sortseq<K,I>& S1)
 { SEQ_DEF_IMPL::conc((SEQ_DEF_IMPL&)S1); return *this; }
 /*{\Mopl      appends $S_1$ to $S$, makes $S_1$ empty and
 	     returns $S$.\precond
@@ -187,10 +187,10 @@ virtual int      size()  const { return SEQ_DEF_IMPL::size(); }
 virtual bool     empty() const { return (size()==0) ? true : false; }
 /*{\Mop      returns true if \var\ is empty, false otherwise.}*/
 
-virtual seq_item first_item() const 
+virtual seq_item first_item() const
 { return SEQ_DEF_IMPL::first_item(); }
 
-virtual seq_item next_item(seq_item it) const 
+virtual seq_item next_item(seq_item it) const
 { return SEQ_DEF_IMPL::next_item(it);}
 
 
@@ -198,11 +198,11 @@ virtual seq_item next_item(seq_item it) const
 
 
 /*{\Mimplementation
-Sorted sequences are implemented by (2,4)-trees. Operations lookup, locate, 
-insert, del, split, conc take time $O(\log n)$, operations succ, pred, max, 
-min, key, inf, insert\_at and del\_item take time $O(1)$. Clear takes 
-time $O(n)$ and reverse\_items $O(\ell)$, where $\ell$ is the length of the 
-reversed subsequence. The space requirement is $O(n)$. Here $n$ is the current 
+Sorted sequences are implemented by (2,4)-trees. Operations lookup, locate,
+insert, del, split, conc take time $O(\log n)$, operations succ, pred, max,
+min, key, inf, insert\_at and del\_item take time $O(1)$. Clear takes
+time $O(n)$ and reverse\_items $O(\ell)$, where $\ell$ is the length of the
+reversed subsequence. The space requirement is $O(n)$. Here $n$ is the current
 size of the sequence.}*/
 
 /*{\Mexample
@@ -216,8 +216,8 @@ strings that lie lexicographically between the two search strings (inclusive).
 
 #include <LEDA/sortseq.h>
 
-main()
-{ 
+int main()
+{
  sortseq<string,int> S;
  string s1,s2;
 
@@ -228,7 +228,7 @@ main()
    seq_item stop  = S.locate_pred(s2);
    if (S.key(start) <= S.key(stop))
    { for (seq_item it = start; it != stop; it = S.succ(it))
-      cout << S.key(it) << endl; 
+      std::cout << S.key(it) << std::endl;
    }
   }
 

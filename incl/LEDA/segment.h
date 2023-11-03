@@ -5,9 +5,9 @@
 +  segment.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -28,7 +28,7 @@ friend class line;
 friend class circle;
 
 static unsigned long id_counter;
-   
+
    point start;
    point end;
    double dx;
@@ -41,9 +41,9 @@ static unsigned long id_counter;
    unsigned long id;
 
 public:
-   
+
    segment_rep(const point&, const point&);
-   segment_rep();  
+   segment_rep();
 
   ~segment_rep() {}
 
@@ -51,7 +51,7 @@ public:
 
 /*{\Manpage {segment} {} {Segments}}*/
 
-class segment  : public handle_base 
+class segment  : public handle_base
 {
 /*{\Mdefinition
     An instance $s$ of the data type $segment$ is a directed straight line
@@ -71,31 +71,31 @@ public:
 
 /*{\Mcreation s }*/
 
-segment(const point& p, const point& q); 
-/*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized 
+segment(const point& p, const point& q);
+/*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized
             to the segment $(p,q)$ }*/
 
-segment(const point& p, const vector& v); 
-/*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized 
+segment(const point& p, const vector& v);
+/*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized
             to the segment $(p,p+v)$. \precond $v.dim() = 2$. }*/
 
 segment(double x1, double y1, double x2, double y2) ;
-/*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized 
-            to the segment $[(x_1,y_1),(x_2,y_2)]$.}*/ 
+/*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized
+            to the segment $[(x_1,y_1),(x_2,y_2)]$.}*/
 
 segment(const point& p, double dir, double length);
-/*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized 
+/*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized
             to the segment with start point $p$, direction $dir$, and
             length $length$.}*/
 
-segment();                 
-/*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized 
+segment();
+/*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized
             to the empty segment.}*/
 
 
- segment(const segment& s) : handle_base(s) {}     
+ segment(const segment& s) : handle_base(s) {}
 ~segment() {}
- segment& operator=(const segment& s) 
+ segment& operator=(const segment& s)
  { handle_base::operator=(s); return *this;}
 
 
@@ -133,14 +133,14 @@ double length() const { return start().distance(end()); }
 /*{\Mop       returns the length of \var.}*/
 
 double direction() const { return angle(); }
-/*{\Mop       returns the direction of \var\ as an angle in 
+/*{\Mop       returns the direction of \var\ as an angle in
 	      the intervall $(-\pi,\pi]$.}*/
 
 double angle()     const { return ptr()->angle; }
 /*{\Mop       returns \var.direction().}*/
 
 double  angle(const segment& t) const;
-/*{\Mop       returns the angle between \var\ and $t$, i.e., 
+/*{\Mop       returns the angle between \var\ and $t$, i.e.,
               $t$.direction() - \var.direction().}*/
 
 bool vertical()   const { return xcoord1() == xcoord2(); }
@@ -156,13 +156,13 @@ double slope() const { return ptr()->slope; }
 double y_abs() const { return ptr()->y_abs; }
 
 bool intersection(const segment& t, point& p) const;
-/*{\Mopl    if \var\ and $t$ are not collinear and intersect the 
-	    intersection point is assigned to $p$ and true is 
+/*{\Mopl    if \var\ and $t$ are not collinear and intersect the
+	    intersection point is assigned to $p$ and true is
 	    returned, otherwise false is returned.}*/
 
 bool intersection_of_lines(const segment& t, point& p) const;
 /*{\Mopl    if \var\ and $t$ are not collinear and the underlying
-	    lines intersect the point of intersection is assigned 
+	    lines intersect the point of intersection is assigned
             to $p$ and true is returned, otherwise false is returned.}*/
 
 
@@ -171,9 +171,9 @@ segment translate(double a, double d) const;
 	    $s$ in direction $a$ by distance $d$.}*/
 
 segment translate(const vector& v) const;
-/*{\Mop     returns $s+v$, i.e., the segment created by 
+/*{\Mop     returns $s+v$, i.e., the segment created by
 	    translating $s$ by vector $v$.\\
-	    \precond $v$.dim() = 2.}*/ 
+	    \precond $v$.dim() = 2.}*/
 
 double  distance(const segment&) const;
 double  distance(const point&) const;
@@ -184,14 +184,14 @@ double  y_proj(double) const;
 double operator()(double x) { return y_proj(x); }
 
 segment rotate(const point& q, double a) const;
-/*{\Mopl    returns the segment created by a rotation of $s$ 
+/*{\Mopl    returns the segment created by a rotation of $s$
 	    about point $q$ by angle $a$.}*/
 
 segment rotate(double a) const;
 /*{\Mop     returns $s$.rotate($s$.start(), $a$).}*/
 
 segment rotate90(const point& q) const;
-/*{\Mopl    returns the segment created by a rotation of $s$ 
+/*{\Mopl    returns the segment created by a rotation of $s$
 	    about point $q$ by an angle of 90 degrees.}*/
 
 segment rotate90() const;
@@ -214,10 +214,10 @@ segment operator+(const vector& v) const { return translate(v); }
 /*{\Mbinop       Translation by vector $v$.}*/
 
 
-friend ostream& operator<<(ostream& O, const segment& s);
+friend std::ostream& operator<<(std::ostream& O, const segment& s);
 /*{\Mbinopfunc     writes \var\ to output stream $O$.}*/
 
-friend istream& operator>>(istream& I, segment& s);
+friend std::istream& operator>>(std::istream& I, segment& s);
 /*{\Mbinopfunc     reads the coordinates of \var\ (four $double$ numbers)
 	           from input stream $I$.}*/
 
@@ -225,8 +225,8 @@ friend inline bool identical(const segment& s1, const segment& s2);
 
 };
 
-inline void Print(const segment& s, ostream& out) { out << s; } 
-inline void Read(segment& s,  istream& in)        { in >> s; }
+inline void Print(const segment& s, std::ostream& out) { out << s; }
+inline void Read(segment& s,  std::istream& in)        { in >> s; }
 
 
 
@@ -244,8 +244,8 @@ inline bool identical(const segment& s1, const segment& s2)
 inline int orientation(const segment& s, const point& p)
 /*{\Mfuncl      computes orientation($a$, $b$, $p$), where $a \not= b$
 and $a$ and $b$ appear in this order on segment $s$. }*/
-{ return compare(s.dy()*(s.xcoord1()-p.xcoord()), 
-                 s.dx()*(s.ycoord1()-p.ycoord())); 
+{ return compare(s.dy()*(s.xcoord1()-p.xcoord()),
+                 s.dx()*(s.ycoord1()-p.ycoord()));
  }
 
 

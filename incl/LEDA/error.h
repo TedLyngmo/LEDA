@@ -5,9 +5,9 @@
 +  error.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_ERROR_H
@@ -19,18 +19,18 @@
 
 LEDA tests the preconditions of many (not all!) operations. Preconditions
 are never tested, if the test takes more than constant time. If the test
-of a precondition fails an error handling routine is called. It takes 
-an integer error number $i$ and a $char*$ error message string $s$ as 
-arguments. It writes $s$ to the diagnostic output (cerr) and terminates 
+of a precondition fails an error handling routine is called. It takes
+an integer error number $i$ and a $char*$ error message string $s$ as
+arguments. It writes $s$ to the diagnostic output (cerr) and terminates
 the program abnormally if $i \ne 0$.
-Users can provide their own error handling function $handler$ by calling 
+Users can provide their own error handling function $handler$ by calling
 \smallskip
 set\_error\_handler($handler$).
-\smallskip 
-After this function call $handler$ is used instead of the default error 
-handler. $handler$ must be a function of type  $void\ \ handler(int,\ char*)$. 
+\smallskip
+After this function call $handler$ is used instead of the default error
+handler. $handler$ must be a function of type  $void\ \ handler(int,\ char*)$.
 The parameters are replaced by the error number and the error message
-respectively. 
+respectively.
 }*/
 
 

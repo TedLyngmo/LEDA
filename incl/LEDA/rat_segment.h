@@ -5,9 +5,9 @@
 +  rat_segment.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_RAT_SEGMENT_H
@@ -26,7 +26,7 @@ static unsigned long id_counter;
 
 friend class rat_segment;
 friend class rat_line;
-   
+
    rat_point start;
    rat_point end;
 
@@ -39,11 +39,11 @@ friend class rat_line;
    unsigned long id;
 
 public:
-   
+
    rat_segment_rep(const rat_point&, const rat_point&);
-   rat_segment_rep();  
+   rat_segment_rep();
   ~rat_segment_rep() {}
-   
+
 };
 
 /*{\Manpage {rat_segment} {} {Rational Segments} }*/
@@ -54,10 +54,10 @@ class rat_segment  : public handle_base {
 /*{\Mdefinition
 An instance $s$ of the data type $rat\_segment$ is a directed straight line
 segment with rational coordinates in the two-dimensional plane, i.e.,
-a line segment $[p,q]$ connecting two rational points $p$ and $q$ (cf. 
-\ref{Rational Points}). $p$ is called the start point and $q$ is called the 
+a line segment $[p,q]$ connecting two rational points $p$ and $q$ (cf.
+\ref{Rational Points}). $p$ is called the start point and $q$ is called the
 end point of $s$. The segment $[(0,0),(0,0)]$ is said to be empty. }*/
- 
+
   friend class rat_line;
 
   rat_segment_rep* ptr() const { return (rat_segment_rep*)PTR; }
@@ -73,22 +73,22 @@ rat_segment() { PTR = new rat_segment_rep; }
 /*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized
             to the empty segment. }*/
 
-rat_segment(const rat_point& p, const rat_point& q) 
+rat_segment(const rat_point& p, const rat_point& q)
   { PTR = new rat_segment_rep(p,q); }
 /*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized
             to the segment $(p,q)$. }*/
 
 
-rat_segment(const integer& x1, const integer& y1, const integer& x2, const integer& y2) 
+rat_segment(const integer& x1, const integer& y1, const integer& x2, const integer& y2)
 { PTR = new rat_segment_rep(rat_point(x1,y1), rat_point(x2,y2)); }
 /*{\Mcreate introduces a variable \var\ of type \name. \var\ is initialized
             to the segment $[(x1,y1),(x2,y2)]$. }*/
 
 
-  rat_segment(const rat_segment& s) : handle_base(s) {}     
+  rat_segment(const rat_segment& s) : handle_base(s) {}
  ~rat_segment()                {}
 
-  rat_segment& operator=(const rat_segment& s) 
+  rat_segment& operator=(const rat_segment& s)
   { handle_base::operator=(s); return *this;}
 
 
@@ -120,51 +120,51 @@ double ycoord2() const { return ptr()->end.ycoord();   }
               of the end point of segment \var.}*/
 
 integer X1() const { return ptr()->start.X(); }
-/*{\Mop       returns the first homogeneous coordinate of the start point 
+/*{\Mop       returns the first homogeneous coordinate of the start point
               of segment \var.}*/
 
 integer X2() const { return ptr()->end.X();   }
-/*{\Mop       returns the first homogeneous coordinate of the end point 
+/*{\Mop       returns the first homogeneous coordinate of the end point
               of segment \var.}*/
 
 integer Y1() const { return ptr()->start.Y(); }
-/*{\Mop       returns the second homogeneous coordinate of the start point 
+/*{\Mop       returns the second homogeneous coordinate of the start point
               of segment \var.}*/
 
 integer Y2() const { return ptr()->end.Y();   }
-/*{\Mop       returns the second homogeneous coordinate of the end point 
+/*{\Mop       returns the second homogeneous coordinate of the end point
               of segment \var.}*/
 
 integer W1() const { return ptr()->start.W(); }
-/*{\Mop       returns the third homogeneous coordinate of the start point 
+/*{\Mop       returns the third homogeneous coordinate of the start point
               of segment \var.}*/
 
 integer W2() const { return ptr()->end.W();   }
-/*{\Mop       returns the third homogeneous coordinate of the end point 
+/*{\Mop       returns the third homogeneous coordinate of the end point
               of segment \var.}*/
 
 double XD1() const { return ptr()->start.XD(); }
-/*{\Mop       returns a floating point approximation of the first homogeneous 
+/*{\Mop       returns a floating point approximation of the first homogeneous
               coordinate of the start point of segment \var.}*/
 
 double XD2() const { return ptr()->end.XD();   }
-/*{\Mop       returns a floating point approximation of the first homogeneous 
+/*{\Mop       returns a floating point approximation of the first homogeneous
               coordinate of the end point of segment \var.}*/
 
 double YD1() const { return ptr()->start.YD(); }
-/*{\Mop       returns a floating point approximation of the second homogeneous 
+/*{\Mop       returns a floating point approximation of the second homogeneous
               coordinate of the start point of segment \var.}*/
 
 double YD2() const { return ptr()->end.YD();   }
-/*{\Mop       returns a floating point approximation of the second homogeneous 
+/*{\Mop       returns a floating point approximation of the second homogeneous
               coordinate of the end point of segment \var.}*/
 
 double WD1() const { return ptr()->start.WD(); }
-/*{\Mop       returns a floating point approximation of the third homogeneous 
+/*{\Mop       returns a floating point approximation of the third homogeneous
               coordinate of the start point of segment \var.}*/
 
 double WD2() const { return ptr()->end.WD();   }
-/*{\Mop       returns a floating point approximation of the third homogeneous 
+/*{\Mop       returns a floating point approximation of the third homogeneous
               coordinate of the end point of segment \var.}*/
 
 
@@ -177,11 +177,11 @@ integer dy() const { return ptr()->dy; }
               of the segment. }*/
 
 double dxd() const { return ptr()->dxd; }
-/*{\Mop       returns the optimal floating point approximation of the 
+/*{\Mop       returns the optimal floating point approximation of the
               normalized $x$-difference of the segment. }*/
 
 double dyd() const { return ptr()->dyd; }
-/*{\Mop       returns the optimal floating point approximation of the 
+/*{\Mop       returns the optimal floating point approximation of the
               normalized $y$-difference of the segment. }*/
 
 
@@ -191,7 +191,7 @@ bool vertical()   const { return ptr()->dx == 0; }
 bool horizontal() const { return ptr()->dy == 0; }
 /*{\Mop       returns true if \var\ is horizontal and false otherwise. }*/
 
-int cmp_slope(const rat_segment& s1) const 
+int cmp_slope(const rat_segment& s1) const
 { return sign(dy()*s1.dx()-s1.dy()*dx()); }
 /*{\Mopl       compares the slopes of \var\ and $s_1$. }*/
 
@@ -221,11 +221,11 @@ friend bool identical(const rat_segment& s1, const rat_segment& s2)
 /*{\Mbinopfunc  Test for identity ...}*/
 
 
-friend ostream& operator<<(ostream& O, const rat_segment& s);
+friend std::ostream& operator<<(std::ostream& O, const rat_segment& s);
 /*{\Mbinopfunc writes the homogeneous coordinates of $s$ (six $integer$ numbers)
                to output stream $O$.}*/
 
-friend istream& operator>>(istream& I, rat_segment& s);
+friend std::istream& operator>>(std::istream& I, rat_segment& s);
 /*{\Mbinopfunc reads the homogeneous coordinates of $s$ (six $integer$ numbers)
                from input stream $I$.}*/
 
@@ -246,8 +246,8 @@ friend bool intersection(const rat_segment& s1,const rat_segment& s2);
 };
 
 
-inline void Print(const rat_segment& s, ostream& out) { out << s; } 
-inline void Read(rat_segment& s, istream& in) { in >> s; }
+inline void Print(const rat_segment& s, std::ostream& out) { out << s; }
+inline void Read(rat_segment& s, std::istream& in) { in >> s; }
 
 
 inline int parallel(const rat_segment& s1, const rat_segment& s2)

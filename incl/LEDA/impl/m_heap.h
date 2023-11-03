@@ -5,16 +5,16 @@
 +  m_heap.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_M_HEAP_H
 #define LEDA_M_HEAP_H
 
 //------------------------------------------------------------------------------
-// m_heap : monotonic heaps 
+// m_heap : monotonic heaps
 //
 // a) the sequence of minimum keys (over time) is monotonic (non-decreasing)
 // b) the difference of minimum and maximum key is bounded by a constant M
@@ -43,7 +43,7 @@ class m_heap {
 
 virtual void copy_inf(GenPtr&)  const {}
 virtual void clear_inf(GenPtr&) const {}
-virtual void print_inf(GenPtr x) const { cout << x; }
+virtual void print_inf(GenPtr x) const { std::cout << x; }
 
 protected:
 
@@ -68,7 +68,7 @@ GenPtr inf(m_heap_item it) const { return L.inf(it); }
 
 GenPtr key(m_heap_item) const
 { error_handler(1,"m_heap::key not implemented");
-  return 0; 
+  return 0;
  }
 
 int    size()   const     { return count; }
@@ -76,7 +76,7 @@ int    empty()  const     { return count==0; }
 
 void   print() const;
 
- m_heap(int M=1024);         
+ m_heap(int M=1024);
  m_heap(int,int) { error_handler(1,"illegal constuctor"); }
 
 virtual ~m_heap() { delete T; }

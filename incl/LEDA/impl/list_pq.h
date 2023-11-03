@@ -5,9 +5,9 @@
 +  list_pq.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/basic.h>
@@ -23,9 +23,9 @@ class list_pq_elem
   list_pq_elem* succ;
   list_pq_elem* pred;
 
-  list_pq_elem(GenPtr k, GenPtr i, list_pq_elem* p, list_pq_elem* s) 
-  { key = k; 
-    inf = i; 
+  list_pq_elem(GenPtr k, GenPtr i, list_pq_elem* p, list_pq_elem* s)
+  { key = k;
+    inf = i;
     pred = p;
     succ = s;
    }
@@ -62,16 +62,16 @@ inline GenPtr list_pq::inf(list_pq_item it) const { return it->inf; }
 
 inline void list_pq::del_min()  { del_item(find_min());   }
 
-inline void list_pq::decrease_key(list_pq_item it, GenPtr x)  
+inline void list_pq::decrease_key(list_pq_item it, GenPtr x)
 { copy_key(x);
   clear_key(it->key);
-  it->key = x; 
+  it->key = x;
  }
 
 inline void list_pq::change_inf(list_pq_item it, GenPtr y)
 { copy_inf(y);
   clear_inf(it->inf);
-  it->inf = y; 
+  it->inf = y;
  }
 
 inline int  list_pq::size()  const  { return count; }

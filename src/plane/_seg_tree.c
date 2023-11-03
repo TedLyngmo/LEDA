@@ -5,9 +5,9 @@
 +  _seg_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -31,18 +31,18 @@ enum left_or_right {left = 0, right = 1};
 #undef DUMP
 
 #ifdef TEST
-#define DPRINT(x) cout << x
+#define DPRINT(x) std::cout << x
 #else
 #define DPRINT(x)
 #endif
 
 #ifdef DUMP
-#define DDUMP(x) cout << x
+#define DDUMP(x) std::cout << x
 #else
 #define DDUMP(x)
 #endif
 
-ostream& operator<<(ostream& s, h_segment& h) 
+std::ostream& operator<<(std::ostream& s, h_segment& h)
 { s << "(" << h._x0 << "," << h._x1 << ";" << h._y << ")";
   return s;
 }
@@ -59,11 +59,11 @@ int seg_node_tree::cmp(GenPtr x,GenPtr y) const
 // returns a List of all items it with y0 <= y(it) <= y1
 
 list<seg_tree_item> seg_node_tree::query(GenPtr y0, GenPtr y1)
-{ 
+{
   DPRINT(" query in nodelist\n");
 
   list<seg_tree_item> L;
- 
+
 
   h_segment_p r = father->new_y_h_segment(y0);
   seg_tree_item it = locate(r);
@@ -92,14 +92,14 @@ list<seg_tree_item> seg_node_tree::all_items()
 
   forall_seg_tree_items(z,*this)
     L.append(z);
-  
+
   return L;
 }
 
 
 //-------------------------------------------------------------------
 
-Segment_Tree::Segment_Tree() : r(this)  {} 
+Segment_Tree::Segment_Tree() : r(this)  {}
 Segment_Tree::~Segment_Tree() { clear(root); }
 
 int Segment_Tree::seg_cmp(h_segment_p p, h_segment_p q)
@@ -126,7 +126,7 @@ int Segment_Tree::empty(bb1_item it)
 
   DPRINT("empty ergibt "<<erg<<"\n");
   return erg;
-}   
+}
 
 // ------------------------------------------------------------
 // lrot() , rrot() , ldrot() , rdrot()
@@ -136,7 +136,7 @@ void Segment_Tree::lrot(bb1_item p, bb1_item q)
 {
   bb1_item h = p->sohn[right];
 
-  DDUMP("lrot "<< (int)key(p)) ; 
+  DDUMP("lrot "<< (int)key(p)) ;
     if (q) DDUMP(" Vater " << (int)key(q));
   DDUMP("\n");
 
@@ -165,14 +165,14 @@ void Segment_Tree::lrot(bb1_item p, bb1_item q)
  info(p) = new seg_node_tree(this);
 
  forall_seg_tree_items(i,*(info(re)))
-   if ( ( (!re->blatt()) 
+   if ( ( (!re->blatt())
 	  ||((!start_coord(re,i))&&(!end_coord(re,i))) )
       && ( (!s->blatt())
-	   ||((!start_coord(s,i))&&(!end_coord(s,i))) ) 
+	   ||((!start_coord(s,i))&&(!end_coord(s,i))) )
       && (info(s)->member(r.key(i))) )
 
      info(p)->insert(r.key(i));
- 
+
  forall_seg_tree_items(i,*(info(p)))
  { info(re)->del(r.key(i));
    info(s)->del(r.key(i));
@@ -181,7 +181,7 @@ void Segment_Tree::lrot(bb1_item p, bb1_item q)
  forall_seg_tree_items(i,*help)
  { info(re)->insert(r.key(i));
    info(h->sohn[right])->insert(r.key(i));
- } 
+ }
 
  delete help;
 
@@ -191,7 +191,7 @@ void Segment_Tree::rrot(bb1_item p, bb1_item q)
 {
   bb1_item h = p->sohn[left];
 
-  DDUMP("rrot "<< (int)key(p)) ; 
+  DDUMP("rrot "<< (int)key(p)) ;
     if (q) DDUMP(" Vater " << (int)key(q));
   DDUMP("\n");
 
@@ -219,12 +219,12 @@ void Segment_Tree::rrot(bb1_item p, bb1_item q)
  /* forall_seg_tree_items(i,*(info(s)))
     if (info(re)->member(r.key(i)))
       info(p)->insert(r.key(i));    */
- 
+
  forall_seg_tree_items(i,*(info(s)))
-   if ( ( (!s->blatt()) 
+   if ( ( (!s->blatt())
 	  ||((!start_coord(s,i))&&(!end_coord(s,i))) )
       && ( (!re->blatt())
-	   ||((!start_coord(re,i))&&(!end_coord(re,i))) ) 
+	   ||((!start_coord(re,i))&&(!end_coord(re,i))) )
       && (info(re)->member(r.key(i))) )
 
      info(p)->insert(r.key(i));
@@ -237,7 +237,7 @@ void Segment_Tree::rrot(bb1_item p, bb1_item q)
  forall_seg_tree_items(i,*help)
  { info(s)->insert(r.key(i));
    info(h->sohn[left])->insert(r.key(i));
- } 
+ }
 
  delete help;
 
@@ -248,7 +248,7 @@ void Segment_Tree::ldrot(bb1_item p, bb1_item q)
   bb1_item h = p->sohn[right];
   bb1_item g = h->sohn[left];
 
-  DDUMP("ldrot "<< (int)key(p)) ; 
+  DDUMP("ldrot "<< (int)key(p)) ;
     if (q) DDUMP(" Vater " << (int)key(q));
   DDUMP("\n");
 
@@ -264,7 +264,7 @@ void Segment_Tree::ldrot(bb1_item p, bb1_item q)
   else
   { if (cmp(key(h),key(q))>0)
       q->sohn[right] =g ;
-    else 
+    else
       q->sohn[left] = g ; }
   p->gr=p->sohn[left]->groesse()+p->sohn[right]->groesse();
   h->gr=h->sohn[left]->groesse()+h->sohn[right]->groesse();
@@ -287,7 +287,7 @@ void Segment_Tree::ldrot(bb1_item p, bb1_item q)
   { info(p->sohn[left])->del(r.key(i));
     info(p->sohn[right])->del(r.key(i));
   }
-  
+
   forall_seg_tree_items(i,*(info(h)))
     info(p->sohn[right])->insert(r.key(i));
 
@@ -311,7 +311,7 @@ void Segment_Tree::ldrot(bb1_item p, bb1_item q)
   delete help;
   delete help1;
 */
-   
+
 }
 
 void Segment_Tree::rdrot(bb1_item p, bb1_item q)
@@ -320,7 +320,7 @@ void Segment_Tree::rdrot(bb1_item p, bb1_item q)
   bb1_item h = p->sohn[left];
   bb1_item g = h->sohn[right];
 
-  DDUMP("rdrot "<< (int)key(p)) ; 
+  DDUMP("rdrot "<< (int)key(p)) ;
     if (q) DDUMP(" Vater " << (int)key(q));
   DDUMP("\n");
 
@@ -335,7 +335,7 @@ void Segment_Tree::rdrot(bb1_item p, bb1_item q)
   else
   { if (cmp(key(h),key(q))>0)
       q->sohn[right] =g ;
-    else 
+    else
       q->sohn[left] = g ; }
   p->gr=p->sohn[left]->groesse()+p->sohn[right]->groesse();
   h->gr=h->sohn[left]->groesse()+h->sohn[right]->groesse();
@@ -358,7 +358,7 @@ void Segment_Tree::rdrot(bb1_item p, bb1_item q)
   { info(p->sohn[left])->del(r.key(i));
     info(p->sohn[right])->del(r.key(i));
   }
-  
+
   forall_seg_tree_items(i,*(info(h)))
     info(p->sohn[left])->insert(r.key(i));
 
@@ -382,16 +382,16 @@ void Segment_Tree::rdrot(bb1_item p, bb1_item q)
   delete help;
   delete help1;
 */
-   
+
 }
- 
+
 
 //-------------------------------------------------------------------
 // insert
-// insert a segment into a Segment_tree:             
-// - insert x-coordinates in main tree (bb-alpha) 
+// insert a segment into a Segment_tree:
+// - insert x-coordinates in main tree (bb-alpha)
 //          and rotate (if necessary)
-// - insert segment on nodes 
+// - insert segment on nodes
 //          immediately below the paths to x-coordinates
 // - insert segment into the tree of all segments
 
@@ -412,7 +412,7 @@ seg_tree_item Segment_Tree::insert(GenPtr x0, GenPtr x1, GenPtr y, GenPtr inf)
 
   h_segment_p i = new h_segment(x0,x1,y,inf);
 
-  if (inserted=r.lookup(i)) 
+  if (inserted=r.lookup(i))
   { delete i;
     r.info(inserted)=inf;
     return inserted;
@@ -428,12 +428,12 @@ seg_tree_item Segment_Tree::insert(GenPtr x0, GenPtr x1, GenPtr y, GenPtr inf)
   { h=new seg_node_tree(this);
     start = sinsert(x0,h);
     t=start;
-  
+
     if (!st.empty())
     { father = st.pop();         // pop father of leaf and set nodelist
       h=new seg_node_tree(this);
       info(father) = h;
-      p = succ(t); 
+      p = succ(t);
       if (p)
       { list<seg_tree_item> L;
         L=info(p)->all_items();
@@ -448,12 +448,12 @@ seg_tree_item Segment_Tree::insert(GenPtr x0, GenPtr x1, GenPtr y, GenPtr inf)
         }
       }
     }
-    
+
                                  // rebalancieren
     while (!st.empty())
     { t=st.pop();
       father = st.empty() ? 0 : st.top();
-      t->gr++;  
+      t->gr++;
       float i = t->bal();
 
       DDUMP("rebal cur=" << (int)key(t) << " groesse= " << t->groesse() << " bal= " << i << " in main tree\n");
@@ -461,7 +461,7 @@ seg_tree_item Segment_Tree::insert(GenPtr x0, GenPtr x1, GenPtr y, GenPtr inf)
       if (i < alpha)
         if (t->sohn[right]->bal()<=d) lrot(t,father);
         else ldrot(t,father);
-      else if (i>1-alpha) 
+      else if (i>1-alpha)
              if (t->sohn[left]->bal() > d ) rrot(t,father);
              else rdrot(t,father);
     }
@@ -480,7 +480,7 @@ seg_tree_item Segment_Tree::insert(GenPtr x0, GenPtr x1, GenPtr y, GenPtr inf)
     { father = st.pop();         // pop father of leaf and set nodelist
       h=new seg_node_tree(this);
       info(father) = h;
-      p = succ(t); 
+      p = succ(t);
       if (p)
       { list<seg_tree_item> L;
         L=info(p)->all_items();
@@ -498,7 +498,7 @@ seg_tree_item Segment_Tree::insert(GenPtr x0, GenPtr x1, GenPtr y, GenPtr inf)
     while (!st.empty())
     { t=st.pop();
       father = st.empty() ? 0 : st.top();
-      t->gr++;  
+      t->gr++;
       float i = t->bal();
 
       DDUMP("rebal cur=" << (int)key(t) << " groesse= " << t->groesse() << " bal= " << i << " in main tree\n");
@@ -506,7 +506,7 @@ seg_tree_item Segment_Tree::insert(GenPtr x0, GenPtr x1, GenPtr y, GenPtr inf)
       if (i < alpha)
         if (t->sohn[right]->bal()<=d) lrot(t,father);
         else ldrot(t,father);
-      else if (i>1-alpha) 
+      else if (i>1-alpha)
              if (t->sohn[left]->bal() > d ) rrot(t,father);
              else rdrot(t,father);
     }
@@ -515,7 +515,7 @@ seg_tree_item Segment_Tree::insert(GenPtr x0, GenPtr x1, GenPtr y, GenPtr inf)
 
      // insert segment into nodelists of leaves of coordinates
 
-  info(start)->insert(i);  
+  info(start)->insert(i);
   info(end)->insert(i);
 
   p=t=root;
@@ -532,34 +532,34 @@ seg_tree_item Segment_Tree::insert(GenPtr x0, GenPtr x1, GenPtr y, GenPtr inf)
   }
 				     // now paths to lower and upper part
   while (!p->blatt())                // follow lower path
-  { 
+  {
     x2=key(p);
     DDUMP(" lower path " << (int)x0 << " " << (int)x2 << "\n");
-    if ( cmp(x0,x2)>0 ) 
+    if ( cmp(x0,x2)>0 )
       p=p->sohn[right];
     else
     { info(p->sohn[right])->insert(i);   // insertion into nodelist
       p=p->sohn[left];
-    } 
+    }
   }
 
   while (!t->blatt())               // follow upper path
-  { 
+  {
     x3=key(t);
     DDUMP(" upper path " << (int)x1 << " " << (int)x3 << "\n");
-    if ( cmp(x1,x3)<=0 ) 
+    if ( cmp(x1,x3)<=0 )
       t=t->sohn[left];
     else
     { info(t->sohn[left])->insert(i);  // insertion into nodelist
       t=t->sohn[right];
-    } 
+    }
   }
 
 #ifdef DUMP
   print_tree();
 #endif
 
-  return (r.insert(i)); 
+  return (r.insert(i));
 }
 
 
@@ -567,9 +567,9 @@ seg_tree_item Segment_Tree::insert(GenPtr x0, GenPtr x1, GenPtr y, GenPtr inf)
 // delete
 // delete a segment in a Segment_tree:
 // - delete segment out of the tree of all segments
-// - delete segment on nodes 
+// - delete segment on nodes
 //          immediately below the paths to x-coordinates
-// - delete x-coordinates in main tree (bb-alpha) 
+// - delete x-coordinates in main tree (bb-alpha)
 //          and rotate (if necessary)
 
 void Segment_Tree::del(GenPtr x0, GenPtr x1, GenPtr y)
@@ -611,28 +611,28 @@ void Segment_Tree::del(GenPtr x0, GenPtr x1, GenPtr y)
   }
 				     // now paths to lower and upper part
   while (!s->blatt())                // follow lower path
-  { 
+  {
     x2=key(s);
     DDUMP(" lower path " << (int)x2 << " groesse " << s->groesse() << "\n");
-    if ( cmp(x0,x2)>0 ) 
+    if ( cmp(x0,x2)>0 )
       s=s->sohn[right];
     else
     { info(s->sohn[right])->del(i);   // delete out of nodelist
       s=s->sohn[left];
-    } 
+    }
   }
   info(s)->del(i);
 
   while (!t->blatt())               // follow upper path
-  { 
+  {
     x3=key(t);
     DDUMP(" upper path " << (int)x3 << " groesse " << t->groesse() << "\n");
-    if ( cmp(x1,x3)<=0 ) 
+    if ( cmp(x1,x3)<=0 )
       t=t->sohn[left];
     else
     { info(t->sohn[left])->del(i);   // delete out of nodelist
       t=t->sohn[right];
-    } 
+    }
   }
   info(t)->del(i);
 				    // delete in main tree if necessary
@@ -640,7 +640,7 @@ void Segment_Tree::del(GenPtr x0, GenPtr x1, GenPtr y)
   if(empty(s))                      // delete item of start coordinate
   {
     sdel(x0);
-    if (!st.empty())                // father exists 
+    if (!st.empty())                // father exists
     { q = st.pop();                 // pop father of leaf and set nodelist
 
       if (!st.empty())
@@ -649,8 +649,8 @@ void Segment_Tree::del(GenPtr x0, GenPtr x1, GenPtr y)
           p = p->sohn[left];
         else                        // right son deleted
 	  p = p->sohn[right];
-      } 
-      else                          // root deleted 
+      }
+      else                          // root deleted
 	p = root;
 
                                           // set nodelist
@@ -672,7 +672,7 @@ void Segment_Tree::del(GenPtr x0, GenPtr x1, GenPtr y)
     while (!st.empty())
     { p=st.pop();
       father = st.empty() ? 0 : st.top();
-      p->gr--;  
+      p->gr--;
       float i = p->bal();
 
       DDUMP("rebal cur=" << (int)key(p) << " groesse= " << p->groesse() << " bal= " << i << " in main tree \n");
@@ -680,7 +680,7 @@ void Segment_Tree::del(GenPtr x0, GenPtr x1, GenPtr y)
       if (i < alpha)
         if (p->sohn[right]->bal()<=d) lrot(p,father);
         else ldrot(p,father);
-      else if (i>1-alpha) 
+      else if (i>1-alpha)
              if (p->sohn[left]->bal() > d ) rrot(p,father);
   	   else rdrot(p,father);
     }
@@ -689,7 +689,7 @@ void Segment_Tree::del(GenPtr x0, GenPtr x1, GenPtr y)
   if(empty(t))                      // delete item of end coordinate
   {
     sdel(x1);
-    if (!st.empty())                // father exists 
+    if (!st.empty())                // father exists
     { q = st.pop();                 // pop father of leaf and set nodelist
 
       if (!st.empty())
@@ -698,8 +698,8 @@ void Segment_Tree::del(GenPtr x0, GenPtr x1, GenPtr y)
           p = p->sohn[left];
         else                        // right son deleted
 	  p = p->sohn[right];
-      } 
-      else                          // root deleted 
+      }
+      else                          // root deleted
 	p = root;
                                           // set nodelist
       help = info(p);
@@ -721,7 +721,7 @@ void Segment_Tree::del(GenPtr x0, GenPtr x1, GenPtr y)
     while (!st.empty())
     { p=st.pop();
       father = st.empty() ? 0 : st.top();
-      p->gr--;  
+      p->gr--;
       float i = p->bal();
 
       DDUMP("rebal cur=" << (int)key(p) << " groesse= " << p->groesse() << " bal= " << i << " in main tree \n");
@@ -729,7 +729,7 @@ void Segment_Tree::del(GenPtr x0, GenPtr x1, GenPtr y)
       if (i < alpha)
         if (p->sohn[right]->bal()<=d) lrot(p,father);
         else ldrot(p,father);
-      else if (i>1-alpha) 
+      else if (i>1-alpha)
              if (p->sohn[left]->bal() > d ) rrot(p,father);
   	   else rdrot(p,father);
     }
@@ -754,15 +754,15 @@ void Segment_Tree::del(GenPtr x0, GenPtr x1, GenPtr y)
 // query
 // returns all items it in the Segment_tree with
 //     x0(it) <= x <= x1(it) and y0 <= y(it) <= y1
-//    
+//
 // by:
-// - look for x in the main tree   
-//   
+// - look for x in the main tree
+//
 // - for all nodes on the path perform a query(y0,y1) on nodelists
 
 list<seg_tree_item> Segment_Tree::query(GenPtr x, GenPtr y0, GenPtr y1)
 
-{ 
+{
   DPRINT("query in main tree " << (int)x << " " << (int)y0 << " " << (int)y1 << "\n");
 
   bb1_item it;
@@ -783,7 +783,7 @@ list<seg_tree_item> Segment_Tree::query(GenPtr x, GenPtr y0, GenPtr y1)
   {
      if ((cmp(x,key(bb1_tree::min()))<0) || (cmp(x,key(bb1_tree::max()))>0))
        return L;
-   
+
      list<seg_tree_item> L1;
      while (!st.empty())
      { it = st.pop();
@@ -831,7 +831,7 @@ list<seg_tree_item> Segment_Tree::y_infinity_query(GenPtr x)
   {
      if ((cmp(x,key(bb1_tree::min()))<0) || (cmp(x,key(bb1_tree::max()))>0))
        return L;
-   
+
      list<seg_tree_item> L1;
      while (!st.empty())
      { it = st.pop();
@@ -860,10 +860,10 @@ list<seg_tree_item> Segment_Tree::all_items()
 // returns a seg_tree_item it with key(it) = (x0,x1,y) if there is one
 
 seg_tree_item Segment_Tree::lookup(GenPtr x0, GenPtr x1, GenPtr y)
-{ 
+{
   DPRINT(" lookup in main tree " << (int)x0 << " " << (int)x1 << " " << (int)y << "\n");
   h_segment_p z = new h_segment(x0,x1,y);
-  seg_tree_item i = r.lookup(z);   
+  seg_tree_item i = r.lookup(z);
   delete z;
   return i;
 }
@@ -883,7 +883,7 @@ void Segment_Tree::clear_tree()
   h_segment_p q;
 
   forall_seg_tree_items(z,r)
-  { 
+  {
     q=r.key(z);
     clear_dim1(x0(q));
     clear_dim1(x1(q));
@@ -905,7 +905,7 @@ void Segment_Tree::clear_tree()
 void Segment_Tree::clear(bb1_item& it)
 {
   if (it == 0) return;
-  
+
   if(!it->blatt())
   { clear(it->sohn[left]);
     clear(it->sohn[right]);
@@ -918,7 +918,7 @@ void Segment_Tree::clear(bb1_item& it)
 }
 
 //-------------------------------------------------------------------
-// print     
+// print
 // prints the tree with nodelists
 
 void Segment_Tree::print(bb1_item it,string s)
@@ -930,10 +930,10 @@ void Segment_Tree::print(bb1_item it,string s)
   if (!it->blatt())
     print(it->sohn[left],s + string("     "));
 
-  cout<< s << key(it) << "\n";
-  cout<< s ; 
+  std::cout<< s << key(it) << "\n";
+  std::cout<< s ;
   forall_seg_tree_items(i,*info(it))
-    cout << "[" << r.key(i) << "]:" << *(r.key(i)) << " ";
+    std::cout << "[" << r.key(i) << "]:" << *(r.key(i)) << " ";
   newline;
 
   if (!it->blatt())

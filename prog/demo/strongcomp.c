@@ -4,7 +4,7 @@
 
 
 int STRONG(graph& G, node_array<int>& compnum)
-{ 
+{
   node v,w;
   int n = G.number_of_nodes();
   int count = 0;
@@ -23,7 +23,7 @@ int STRONG(graph& G, node_array<int>& compnum)
   G.rev();
 
   for(int i = n; i > 0; i--)
-   { if ( ! reached[V[i]] ) 
+   { if ( ! reached[V[i]] )
      { S = DFS(G,V[i],reached);
        forall(w,S) compnum[w] = count;
        count++;
@@ -31,12 +31,12 @@ int STRONG(graph& G, node_array<int>& compnum)
     }
 
  return count;
-   
+
 }
 
 
 
-main()
+int main()
 {
   GRAPH<point,int>  G;
 
@@ -44,7 +44,7 @@ main()
 
 
   for(;;)
-  { 
+  {
     graph_edit(W,G);
 
     node_array<int> comp_num(G);

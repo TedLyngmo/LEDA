@@ -34,7 +34,7 @@ node next_segment(segment s, node v )
   node w;
   point Q;
   forall_adj_nodes(w,v)
-    if (s.intersection(DAG[w]->s,Q)) 
+    if (s.intersection(DAG[w]->s,Q))
     { u = w;
       break;
      }
@@ -44,8 +44,8 @@ node next_segment(segment s, node v )
 
 
 
-main()
-{ 
+int main()
+{
 
   window W;
 
@@ -66,7 +66,7 @@ main()
 
   W << sa << sb << sc;
 
-  if (sa.angle(sb) < 0) 
+  if (sa.angle(sb) < 0)
   { sa = segment(A,C);
     sb = segment(C,B);
     sc = segment(B,A);
@@ -117,8 +117,8 @@ main()
      node    w = v;
 
      it = DAG[w]->it;
-     while (rtangent.angle(DAG[w]->s) <= 0) 
-     { 
+     while (rtangent.angle(DAG[w]->s) <= 0)
+     {
        it = POL.cyclic_succ(it);
        w = POL[it];
        rtouch   = DAG[w]->s.start();
@@ -130,7 +130,7 @@ main()
      node    u = v;
 
      it = DAG[u]->it;
-     while (ltangent.angle(DAG[u]->s) >= 0) 
+     while (ltangent.angle(DAG[u]->s) >= 0)
      { it = POL.cyclic_pred(it);
        u = POL[it];
        ltouch   = DAG[u]->s.end();
@@ -147,7 +147,7 @@ main()
 
 
      it = POL.cyclic_succ(DAG[u]->it);
-     
+
      while (it != DAG[w]->it)
      { list_item i = it;
        it = POL.cyclic_succ(it);
@@ -155,7 +155,7 @@ main()
        DAG.new_edge(POL[i],y);
        POL.del(i);
       }
-     
+
      DAG[x]->it = POL.insert(x,it,before);
      DAG[y]->it = POL.insert(y,it,before);
 

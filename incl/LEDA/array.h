@@ -5,9 +5,9 @@
 +  array.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_ARRAY_H
@@ -23,14 +23,14 @@
 /*{\Manpage {array} {E} {One Dimensional Arrays} }*/
 
 
-template<class E> 
+template<class E>
 
 class array : public gen_array {
 
 /*{\Mdefinition
-    An instance $A$ of the parameterized data type \name\ is a mapping from 
-    an interval $I =[a..b]$ of integers, the index set of $A$, to the set of 
-    variables of data type $E$, the element type of $A$. $A(i)$ is called the 
+    An instance $A$ of the parameterized data type \name\ is a mapping from
+    an interval $I =[a..b]$ of integers, the index set of $A$, to the set of
+    variables of data type $E$, the element type of $A$. $A(i)$ is called the
     element at position $i$.  }*/
 
 
@@ -38,17 +38,17 @@ int (*cmp_ptr)(const E&, const E&);   // user supplied cmp function
 
 // define virtual functions for element type E
 
-int cmp(GenPtr x, GenPtr y) const 
+int cmp(GenPtr x, GenPtr y) const
 { if (cmp_ptr == 0)
      return LEDA_COMPARE(E,x,y);
   else
-     return (*cmp_ptr)(LEDA_ACCESS(E,x),LEDA_ACCESS(E,y)); 
+     return (*cmp_ptr)(LEDA_ACCESS(E,x),LEDA_ACCESS(E,y));
  }
 
 
 int  int_type()                       const { return LEDA_INT_TYPE(E); }
-void print_el(GenPtr& x,ostream& out) const { LEDA_PRINT(E,x,out);}
-void read_el(GenPtr& x,istream& in)   const { LEDA_READ(E,x,in); }
+void print_el(GenPtr& x,std::ostream& out) const { LEDA_PRINT(E,x,out);}
+void read_el(GenPtr& x,std::istream& in)   const { LEDA_READ(E,x,in); }
 void clear_entry(GenPtr& x)           const { LEDA_CLEAR(E,x); }
 void copy_entry(GenPtr& x)            const { LEDA_COPY(E,x); }
 void init_entry(GenPtr& x)            const { LEDA_CREATE(E,x); }
@@ -64,7 +64,7 @@ array(int a, int b) : gen_array(a,b) { init(); }
 
 
 array(int n) : gen_array(n)   { init(); }
-/*{\Mcreate  creates an instance \var\ of type \name\ with index set $[0..n-1]$. }*/ 
+/*{\Mcreate  creates an instance \var\ of type \name\ with index set $[0..n-1]$. }*/
 
 array()  {}
 /*{\Mcreate  creates an instance \var\ of type \name\ with empty index set.}*/
@@ -77,7 +77,7 @@ array()  {}
 
 ~array()  { clear(); }
 
- array<E>& operator=(const array<E>& A) 
+ array<E>& operator=(const array<E>& A)
  { gen_array::operator=(A); return *this; }
 
 
@@ -105,7 +105,7 @@ int high() const {return gen_array::high();}
 /*{\Mop        returns the maximal index $b$. }*/
 
 
-void sort(int (*cmp)(const E&, const E&)) 
+void sort(int (*cmp)(const E&, const E&))
 { cmp_ptr = cmp; gen_array::sort(low(),high()); }
 /*{\Mopl       sorts the elements of \var, using function $cmp$
 	      to compare two elements, i.e., if $(in_a,\dots,in_b)$
@@ -131,7 +131,7 @@ void sort(int (*cmp)(const E&, const E&), int l, int h)
 
 
 
-void sort(int l, int h) 
+void sort(int l, int h)
 { cmp_ptr = 0; gen_array::sort(l,h); }
 /*{\Mop        sorts sub-array \var$[l..h]$ using the linear order on $E$.}*/
 
@@ -158,14 +158,14 @@ int binary_search(int (*cmp)(const E&,const E&), E x)
 
 
 
-int binary_search(E x)   
+int binary_search(E x)
 { cmp_ptr = 0; return gen_array::binary_search(Convert(x)); }
 /*{\Mop       performs a binary search for $x$ using the default
               linear order on $E$.\\
 	      \precond $A$ must be sorted.}*/
 
 
-void read(istream& I) {gen_array::read(I);}
+void read(std::istream& I) {gen_array::read(I);}
 
 /*{\Mop       reads $b-a+1$ objects of type $E$ from the
 	      input stream $I$ into the array $A$ using the
@@ -183,7 +183,7 @@ void read(string s) {gen_array::read(s);}
 
 
 
-void print(ostream& O, char space = ' ') const { gen_array::print(O,space);}
+void print(std::ostream& O, char space = ' ') const { gen_array::print(O,space);}
 /*{\Mopl      prints the contents of array $A$ to the output
 	      stream $O$ using the overloaded $Print$ function
 	      (cf.~section \ref{Overloading}) to print each element. The
@@ -191,7 +191,7 @@ void print(ostream& O, char space = ' ') const { gen_array::print(O,space);}
 
 
 void print(char space = ' ') const {gen_array::print(space);}
-/*{\Mop       calls $A$.print($cout$, $space$) to print $A$ on 
+/*{\Mop       calls $A$.print($cout$, $space$) to print $A$ on
 	      the standard output stream $cout$.}*/
 
 
@@ -203,13 +203,13 @@ void print(string s, char space = ' ') const {gen_array::print(s,space);}
 // Iteration
 
 GenPtr forall_loop_test(GenPtr it, E& x) const
-{ if (it) x = LEDA_ACCESS(E,*(GenPtr*)it); 
+{ if (it) x = LEDA_ACCESS(E,*(GenPtr*)it);
   return it;
  }
 
 /*
-friend void Print(const array<E>& A, ostream& out) { A.print(out); }
-friend void Read(array<E>& A, istream& in)         { A.read(in); }
+friend void Print(const array<E>& A, std::ostream& out) { A.print(out); }
+friend void Read(array<E>& A, std::istream& in)         { A.read(in); }
 */
 
 };

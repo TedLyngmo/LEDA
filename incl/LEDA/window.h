@@ -5,9 +5,9 @@
 +  window.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_WINDOW_H
@@ -86,7 +86,7 @@ i.e., void (*F)();
 
 public:
 
-/*{\Mcreation W }*/ 
+/*{\Mcreation W }*/
 
 enum placement {min = -1, center =-2, max = -3 };
 
@@ -114,7 +114,7 @@ window(const char* = LEDA::version_string);
 /*
 window();
 */
-/*{\Mcreate creates a maximal squared window $W$ positioned into the 
+/*{\Mcreate creates a maximal squared window $W$ positioned into the
     upper right corner of the screen.}*/
 
 /*{\Mtext
@@ -130,9 +130,9 @@ be used to change the window coordinates and scaling.}*/
  window(const window& w) : LEDA_WINDOW(w) {}
 ~window() {}   // ~LEDA_WINDOW does this job
 
- window& operator=(const window& w) 
+ window& operator=(const window& w)
  { LEDA_WINDOW::operator=(w); return *this; }
- 
+
 
 /*{\Moperations 3.1 4.4}*/
 
@@ -145,7 +145,7 @@ void init(double x0,double x1,double y0) { LEDA_WINDOW::init(x0,x1,y0); }
 
 
 void set_grid_mode(int d) {LEDA_WINDOW::set_grid_mode(d);}
-/*{\Mopl     adds a rectangular grid with integer coordinates and  
+/*{\Mopl     adds a rectangular grid with integer coordinates and
              grid distance $d$ to $W$, if $d > 0$. Removes grid from
              $W$, if $d\le 0$.}*/
 
@@ -181,7 +181,7 @@ text_mode set_text_mode(text_mode m)
 
 drawing_mode set_mode(drawing_mode m)
 {return LEDA_WINDOW::set_mode(m);}
-/*{\Mopl     sets the drawing mode parameter to $m$ and returns 
+/*{\Mopl     sets the drawing mode parameter to $m$ and returns
 	     its previous value.}*/
 
 void set_frame_label(string s){ LEDA_WINDOW::set_frame_label(s); }
@@ -195,7 +195,7 @@ void set_redraw(void (*F)()) { LEDA_WINDOW::set_redraw(*F);}
 
 
 void set_flush(bool b)     { LEDA_WINDOW::set_flush(b); }
-/*{\Mopl      flushes $X11$ output stream after each draw action 
+/*{\Mopl      flushes $X11$ output stream after each draw action
              iff $b = true$.}*/
 
 bool load_text_font(string fn)    { return LEDA_WINDOW::load_text_font(fn); }
@@ -216,34 +216,34 @@ bool load_message_font(string fn) { return LEDA_WINDOW::load_message_font(fn); }
 {\bf 3.3 Reading parameters and window coordinates} }*/
 
 int get_line_width() {return LEDA_WINDOW::get_line_width();}
-/*{\Mop      returns the current line width.}*/ 
+/*{\Mop      returns the current line width.}*/
 
 line_style get_line_style() {return LEDA_WINDOW::get_line_style();}
-/*{\Mop      returns the current line style.}*/ 
+/*{\Mop      returns the current line style.}*/
 
 int get_node_width() {return LEDA_WINDOW::get_node_width();}
-/*{\Mop      returns the current node width.}*/ 
+/*{\Mop      returns the current node width.}*/
 
 text_mode get_text_mode() {return LEDA_WINDOW::get_text_mode();}
-/*{\Mop      returns the current text mode.}*/ 
+/*{\Mop      returns the current text mode.}*/
 
 drawing_mode get_mode() {return LEDA_WINDOW::get_mode();}
-/*{\Mop      returns the current drawing mode.}*/ 
+/*{\Mop      returns the current drawing mode.}*/
 
 double xmin() {return LEDA_WINDOW::xmin();}
-/*{\Mop      returns $x_0$, the minimal x-coordinate of $W$.}*/ 
+/*{\Mop      returns $x_0$, the minimal x-coordinate of $W$.}*/
 
 double ymin() {return LEDA_WINDOW::ymin();}
-/*{\Mop      returns $y_0$, the minimal y-coordinate of $W$.}*/ 
+/*{\Mop      returns $y_0$, the minimal y-coordinate of $W$.}*/
 
 double xmax() {return LEDA_WINDOW::xmax();}
-/*{\Mop      returns $x_1$, the maximal x-coordinate of $W$.}*/ 
+/*{\Mop      returns $x_1$, the maximal x-coordinate of $W$.}*/
 
 double ymax() {return LEDA_WINDOW::ymax();}
-/*{\Mop      returns $y_1$, the maximal y-coordinate of $W$.}*/ 
+/*{\Mop      returns $y_1$, the maximal y-coordinate of $W$.}*/
 
 double scale() {return LEDA_WINDOW::scale();}
-/*{\Mop      returns the number of pixels of a unit length 
+/*{\Mop      returns the number of pixels of a unit length
 	     line segment.}*/
 
 operator void*() { return (state==0) ? 0 : this; }
@@ -253,12 +253,12 @@ operator void*() { return (state==0) ? 0 : this; }
 // points
 /*{\Mtext
 \medskip
-{\bf 3.4 Drawing points} 
+{\bf 3.4 Drawing points}
 \setopdims 1.2 4.4
 }*/
 
 void draw_point(double x, double y, color c=FG_color);
-/*{\Mopl     draws the point $(x,y)$ as a cross of a vertical 
+/*{\Mopl     draws the point $(x,y)$ as a cross of a vertical
 	     and a horizontal segment intersecting at $(x,y)$.}*/
 
 void draw_point(const point& p, color c=FG_color);
@@ -295,7 +295,7 @@ void draw_segment(const segment& s, color c=FG_color );
 }*/
 
 void draw_line(double x1, double y1, double x2, double y2, color c=FG_color );
-/*{\Mopl     draws a straight line passing through points $(x_1,y_1)$ and 
+/*{\Mopl     draws a straight line passing through points $(x_1,y_1)$ and
 	     $(x_2,y_2)$.}*/
 
 void draw_line(const point& p, const point& q, color c=FG_color);
@@ -320,7 +320,7 @@ void draw_vline(double x, color c=FG_color );
 void draw_arc(double x1, double y1, double x2, double y2, double r, color c=FG_color);
 void draw_arc(const segment&, double, color c=FG_color);
 void draw_arc(const point& p, const point& q, double r , color c=FG_color);
-/*{\Mopl     draws a circular arc with radius r from p to q 
+/*{\Mopl     draws a circular arc with radius r from p to q
              with the center lying  to the right of the
              directed segment $p\longrightarrow q$.  }*/
 
@@ -346,7 +346,7 @@ void draw_arrow(const segment& s, color=FG_color );
 void draw_arc_arrow(double x1, double y1, double x2, double y2, double r,color c=FG_color);
 void draw_arc_arrow(const segment& s, double r, color c=FG_color);
 void draw_arc_arrow(const point& p , const point& q, double r, color c=FG_color);
-/*{\Mopl      draws a circular arc arrow with radius r pointing from 
+/*{\Mopl      draws a circular arc arrow with radius r pointing from
              p to q with the center lying  to the right of the
              directed segment $p\longrightarrow q$.  }*/
 
@@ -397,7 +397,7 @@ void draw_filled_ellipse(const point& p, double r1, double r2, color c=FG_color)
 /*{\Mopl  draws a filled ellipse with center $p$ and radii $r1$ and $r2$.}*/
 
 
-//polygons 
+//polygons
 /*{\Mtext
 \medskip
 {\bf 3.10 Drawing polygons }
@@ -426,11 +426,11 @@ void draw_filled_rectangle(double a, double  b, double c, double d, color=FG_col
 }*/
 
 void plot_xy(double x0, double x1, draw_func_ptr F, color c=FG_color);
-/*{\Mopl     draws function $F$ in range $[x_0,x_1]$, i.e., all points 
+/*{\Mopl     draws function $F$ in range $[x_0,x_1]$, i.e., all points
 	     $(x,y)$ with $y = F(x)$ and $x_0\le x\le x_1$.}*/
 
 void plot_yx(double y0, double y1, draw_func_ptr F, color c=FG_color);
-/*{\Mopl     draws function $F$ in range $[y_0,y_1]$, i.e., all points 
+/*{\Mopl     draws function $F$ in range $[y_0,y_1]$, i.e., all points
 	     $(x,y)$ with $x = F(y)$ and $y_0\le y\le y_1$.}*/
 
 
@@ -482,7 +482,7 @@ void draw_text_node(const point& p, string s, color c=BG_color);
 /*{\Mopl     draws a node with label $s$ at position $p$. }*/
 
 void draw_int_node(double x, double y, int i, color c=BG_color);
-/*{\Mopl     draws a node with integer label $i$ at position 
+/*{\Mopl     draws a node with integer label $i$ at position
 	     $(x,y)$. }*/
 
 void draw_int_node(const point& p, int i, color c=BG_color);
@@ -494,7 +494,7 @@ void draw_int_node(const point& p, int i, color c=BG_color);
 /*{\Mtext
 \medskip
 {\bf 3.14 Drawing edges}
-%Edges are straigth line segments or arrows with a clearance of 
+%Edges are straigth line segments or arrows with a clearance of
 %$node\_width/2$ at each end.
 }*/
 
@@ -514,19 +514,19 @@ void draw_edge_arrow(const point& p, const point& q, color c=FG_color);
 /*{\Mopl     draws a directed edge from $p$ to $q$.}*/
 
 void draw_edge_arrow(const segment& s, color c=FG_color);
-/*{\Mopl     draws a directed edge from $s$.start() to $s$.end().}*/ 
+/*{\Mopl     draws a directed edge from $s$.start() to $s$.end().}*/
 
 void draw_arc_edge(double x1, double y1, double x2, double y2, color c=FG_color);
 void draw_arc_edge(const segment& s, double r, color c=FG_color);
 void draw_arc_edge(const point& p, const point& q, double r, color c=FG_color);
-/*{\Mopl     draws a circular edge arc with radius r from p to q 
+/*{\Mopl     draws a circular edge arc with radius r from p to q
              with the center lying  to the right of the
              directed segment $p\longrightarrow q$.  }*/
 
 void draw_arc_edge_arrow(double x1, double y1, double x2, double y2, color c=FG_color);
 void draw_arc_edge_arrow(const segment& s, double r, color c=FG_color );
 void draw_arc_edge_arrow(const point& p, const point& q, double r, color c=FG_color);
-/*{\Mopl     draws a circular directed edge arc with radius r from p 
+/*{\Mopl     draws a circular directed edge arc with radius r from p
              to q with the center lying  to the right of the
              directed segment $p\longrightarrow q$.  }*/
 
@@ -567,38 +567,38 @@ int read_mouse_seg(double x0, double y0, double& x, double& y);
 	     button is returned.}*/
 
 int read_mouse_seg(const point& p, point& q);
-/*{\Mopl     displays a line segment from $p$ to the current 
+/*{\Mopl     displays a line segment from $p$ to the current
              cursor position until a mouse button is
 	     pressed. When a button is pressed the current
 	     position is assigned to $q$ and the pressed
 	     button is returned.}*/
 
 int read_mouse_rect(double x0, double y0, double& x, double& y);
-/*{\Mopl     displays a rectangle with diagonal from $(x_0,y_0)$ 
-     	     to the current cursor position until a mouse button 
-	     is pressed. When a button is pressed the current 
-	     position is assigned to $(x,y)$ and the pressed 
+/*{\Mopl     displays a rectangle with diagonal from $(x_0,y_0)$
+     	     to the current cursor position until a mouse button
+	     is pressed. When a button is pressed the current
+	     position is assigned to $(x,y)$ and the pressed
 	     button is returned.}*/
 
 int read_mouse_rect(const point& p, point& q);
-/*{\Mopl     displays a rectangle with diagonal from $p$ 
-     	     to the current cursor position until a mouse button 
-	     is pressed. When a button is pressed the current 
-	     position is assigned to $q$ and the pressed 
+/*{\Mopl     displays a rectangle with diagonal from $p$
+     	     to the current cursor position until a mouse button
+	     is pressed. When a button is pressed the current
+	     position is assigned to $q$ and the pressed
 	     button is returned.}*/
 
 int read_mouse_circle(double x0, double y0, double& x, double& y);
-/*{\Mopl     displays a circle with center $(x_0,y_0)$ passing 
-	     through the current cursor position until a mouse 
-	     button is pressed. When a button is pressed the 
-	     current position is assigned to $(x,y)$ and the 
+/*{\Mopl     displays a circle with center $(x_0,y_0)$ passing
+	     through the current cursor position until a mouse
+	     button is pressed. When a button is pressed the
+	     current position is assigned to $(x,y)$ and the
 	     pressed button is returned.}*/
 
 int read_mouse_circle(const point& p, point& q);
-/*{\Mopl     displays a circle with center $p$ passing 
-	     through the current cursor position until a mouse 
-	     button is pressed. When a button is pressed the 
-	     current position is assigned to $q$ and the 
+/*{\Mopl     displays a circle with center $p$ passing
+	     through the current cursor position until a mouse
+	     button is pressed. When a button is pressed the
+	     current position is assigned to $q$ and the
 	     pressed button is returned.}*/
 
 int read_mouse_action(mouse_action_func_ptr, double&, double&);
@@ -606,17 +606,17 @@ int read_mouse_action(mouse_action_func_ptr, point&);
 
 
 int get_button();
-/*{\Mop     non-blocking read operation, i.e., if a button was pressed 
+/*{\Mop     non-blocking read operation, i.e., if a button was pressed
             its number is returned, otherwise $0$ is returned. }*/
 
 int get_button(double& x, double& y);
 /*{\Mopl     if a button was pressed the corresponding position is
-            assigned to $(x,y)$ and the button number is returned, 
+            assigned to $(x,y)$ and the button number is returned,
             otherwise $0$ is returned. }*/
 
 int get_button(point& p);
 /*{\Mop     if a button was pressed the corresponding position is
-            assigned to $p$ and the button number is returned, 
+            assigned to $p$ and the button number is returned,
             otherwise $0$ is returned. }*/
 
 /*{\Mtext
@@ -627,12 +627,12 @@ int get_button(point& p);
 /* inherited:
 int  read_event(int& val, double& x, double& y);
 */
-/*\{\Mop    waits for next event in window W and returns it. 
+/*\{\Mop    waits for next event in window W and returns it.
             Assigns the button or key to $val$ and the position
-            in $W$ to  $(x,y)$. Possible events are 
-            (cf. <LEDA/impl/x_window.h>): 
+            in $W$ to  $(x,y)$. Possible events are
+            (cf. <LEDA/impl/x_window.h>):
             key_press_event, key_release_event,
-            button_press_event, button_release_event, 
+            button_press_event, button_release_event,
             configure_event,motion_event, destroy_event. }*/
 
 
@@ -646,8 +646,8 @@ unsigned button_press_time();
 unsigned button_release_time();
 */
 /*{\Mop     returns $X11$ time-stamp of last button release event. }*/
-        
- 
+
+
 
 /*{\Mtext
 \bigskip
@@ -655,7 +655,7 @@ unsigned button_release_time();
 }*/
 
 int     confirm(string s);
-/*{\Mop      displays string $s$ and asks for confirmation. 
+/*{\Mop      displays string $s$ and asks for confirmation.
 	     Returns true iff the answer was ``yes''.}*/
 
 void    notice(string s);
@@ -664,23 +664,23 @@ void    acknowledge(string s);
 
 
 int     read_panel(string h, int n, string*);
-/*{\Mopl     displays a panel with header $h$ and an array $S[1..n]$  
-	     of $n$ string buttons, returns the index of the selected 
+/*{\Mopl     displays a panel with header $h$ and an array $S[1..n]$
+	     of $n$ string buttons, returns the index of the selected
 	     button.}*/
 
 int     read_vpanel(string h, int n, string*);
 /*{\Mopl     like read\_panel with vertical button layout.}*/
 
 string  read_string(string p);
-/*{\Mop      displays a panel with prompt $p$ for string input, 
+/*{\Mop      displays a panel with prompt $p$ for string input,
     	     returns the input.}*/
 
 double  read_real(string p);
-/*{\Mop      displays a panel with prompt $p$ for real input 
+/*{\Mop      displays a panel with prompt $p$ for real input
  	     returns the input.}*/
 
 int     read_int(string p);
-/*{\Mop      displays a panel with prompt $p$ for integer input, 
+/*{\Mop      displays a panel with prompt $p$ for integer input,
 	     returns the input.}*/
 
 
@@ -694,7 +694,7 @@ void message(string s) {LEDA_WINDOW::message(s);};
 
 void del_message()  { LEDA_WINDOW::del_messages(); };
 void del_messages() { LEDA_WINDOW::del_messages(); };
-/*{\Mop      deletes the text written by all previous message 
+/*{\Mop      deletes the text written by all previous message
 	     operations.}*/
 
 void fill(double x, double y, color c=FG_color);
@@ -716,17 +716,17 @@ void clear_buf(int i=0);
 \bigskip
 {\bf 3.18 Input and output operators}
 
-For input and output of basic geometric objects in the plane such as points, 
-lines, line segments, circles, and polygons the $<<$ and $>>$ operators can 
+For input and output of basic geometric objects in the plane such as points,
+lines, line segments, circles, and polygons the $<<$ and $>>$ operators can
 be used. Similar to \CC input streams windows have an internal state indicating
-whether there is more input to read or not. Its initial value is true and it 
-is turned to false if an input sequence is terminated  by clicking the right 
-mouse button (similar to ending stream input by the eof character). In 
-conditional statements objects of type $window$ are automatically converted 
-to boolean by returning this internal state. Thus, they can be used in 
+whether there is more input to read or not. Its initial value is true and it
+is turned to false if an input sequence is terminated  by clicking the right
+mouse button (similar to ending stream input by the eof character). In
+conditional statements objects of type $window$ are automatically converted
+to boolean by returning this internal state. Thus, they can be used in
 conditional statements in the same way as \CC input streams. For example,
-to read a sequence of points terminated by a right button click,  use 
-`` {\bf while} ($W\ >>\ p$) $\{\  \dots\ \}$ ''. 
+to read a sequence of points terminated by a right button click,  use
+`` {\bf while} ($W\ >>\ p$) $\{\  \dots\ \}$ ''.
 }*/
 
 /*{\Mtext
@@ -735,16 +735,16 @@ to read a sequence of points terminated by a right button click,  use
 \setopdims 2.5 4.4
 }*/
 
-window& draw(const point& p,color c=FG_color)   
+window& draw(const point& p,color c=FG_color)
 { draw_point(p,c); return *this; }
 
-window& draw(const segment& s,color c=FG_color) 
+window& draw(const segment& s,color c=FG_color)
 { draw_segment(s,c); return *this;}
 
-window& draw(const line& l,color c=FG_color)    
+window& draw(const line& l,color c=FG_color)
 { draw_line(l,c); return *this; }
 
-window& draw(const circle& C,color c=FG_color)  
+window& draw(const circle& C,color c=FG_color)
 { draw_circle(C,c); return *this;}
 
 window& draw(const polygon& P,color c=FG_color )
@@ -777,55 +777,55 @@ window& read(circle&);
 window& read(polygon&);
 
 window& operator>>(point& p);
-/*{\Mbinop   reads a point $p$: clicking the left button 
+/*{\Mbinop   reads a point $p$: clicking the left button
 	     assigns the current cursor position to $p$.}*/
 
 window& operator>>(segment& s);
-/*{\Mbinop   reads a segment $s$: use the left button to input 
+/*{\Mbinop   reads a segment $s$: use the left button to input
 	     the start and end point of $s$.}*/
 
 window& operator>>(line& l);
-/*{\Mbinop   reads a line $l$: use the left button to input 
+/*{\Mbinop   reads a line $l$: use the left button to input
 	     two different points on $l$.}*/
 
 window& operator>>(circle& C);
-/*{\Mbinop   reads a circle $C$: use the left button to input 
+/*{\Mbinop   reads a circle $C$: use the left button to input
 	     the center of $C$ and a point on $C$.}*/
 
 window& operator>>(polygon& P);
-/*{\Mbinop   reads a polygon $P$: use the left button to input 
-	     the sequence of vertices of $P$, end the sequence 
+/*{\Mbinop   reads a polygon $P$: use the left button to input
+	     the sequence of vertices of $P$, end the sequence
 	     by clicking the middle button.}*/
 
 /*{\Mtext
-As long as an input operation has not been completed the last read point can 
+As long as an input operation has not been completed the last read point can
 be erased by simultaneously pressing the shift key and the left mouse button.
 }*/
 
 
 /*{\Mtext
 \bigskip
-{\bf 3.19 Non-Member Functions} 
+{\bf 3.19 Non-Member Functions}
 }*/
 
 
 friend int read_mouse(window*& w, double& x, double& y)
 { return LEDA_WINDOW::read_mouse((LEDA_WINDOW*&)w,x,y); }
-/*{\Mfunc   waits for mouse input, assigns a pointer to the 
-            corresonding window to $w$ and the position in 
+/*{\Mfunc   waits for mouse input, assigns a pointer to the
+            corresonding window to $w$ and the position in
             $*w$ to $(x,y)$ and returns the pressed button. }*/
 
 
- 
-        
+
+
 /*
 friend void put_back_event();
 */
 /*{\Mfunc   puts last read event back to the input stream of events. }*/
- 
+
 
 }; // end of class window
- 
+
 
 #include <LEDA/panel.h>
 

@@ -1,7 +1,7 @@
 #include <LEDA/window.h>
 
 
-main()
+int main()
 {
    // we open five windows w1, w2, w3, w4, and w5
    // for points, segments, lines, and circles
@@ -24,10 +24,10 @@ main()
    window* w;
 
 
-   // wait for mouse click and get pointer to the corresponding window 
+   // wait for mouse click and get pointer to the corresponding window
 
-   while(read_mouse(w,x,y) != 3)  
-   { 
+   while(read_mouse(w,x,y) != 3)
+   {
      if (w == &w1) // draw points
      { put_back_event();
        w1 >> p;

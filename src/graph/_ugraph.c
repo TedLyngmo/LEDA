@@ -5,9 +5,9 @@
 +  _ugraph.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -15,7 +15,7 @@
 
 
 //------------------------------------------------------------------------------
-// undirected graphs 
+// undirected graphs
 //------------------------------------------------------------------------------
 
 // ugraph subgraph constructors:
@@ -30,7 +30,7 @@ ugraph::ugraph(ugraph& G, const list<node>& nl, const list<edge>& el)
   node* N = new node[G.max_n_index+1];
 
   forall(v,nl)
-   { if (graph_of(v) != parent) 
+   { if (graph_of(v) != parent)
       error_handler(1,"ugraph: illegal node in subgraph constructor");
      N[v->name] = new_node(v);
     }
@@ -38,7 +38,7 @@ ugraph::ugraph(ugraph& G, const list<node>& nl, const list<edge>& el)
   forall(e,el)
    { v = source(e);
      w = target(e);
-     if ( graph_of(e)!= parent || N[v->name]==0 || N[w->name]==0 ) 
+     if ( graph_of(e)!= parent || N[v->name]==0 || N[w->name]==0 )
       error_handler(1,"ugraph: illegal edge in subgraph constructor");
      new_edge(N[v->name],N[w->name],e);
     }
@@ -48,7 +48,7 @@ ugraph::ugraph(ugraph& G, const list<node>& nl, const list<edge>& el)
  }
 
 ugraph::ugraph(ugraph& G, const list<edge>& el)
-{ // construct subgraph of ugraph G with edgelist el 
+{ // construct subgraph of ugraph G with edgelist el
 
   node  v,w;
   edge  e;

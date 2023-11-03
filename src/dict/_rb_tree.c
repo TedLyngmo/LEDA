@@ -5,9 +5,9 @@
 +  _rb_tree.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #include <LEDA/impl/rb_tree.h>
@@ -39,7 +39,7 @@ void rb_tree::insert_rebal(rb_tree_item v)
   {
     int dir = (v == u->child[left]) ? left : right;
 
-    rb_tree_item p = u->parent; 
+    rb_tree_item p = u->parent;
     int dir1 = (u == p->child[left]) ? left : right;
 
     rb_tree_item w = p->child[1-dir1];
@@ -47,21 +47,21 @@ void rb_tree::insert_rebal(rb_tree_item v)
     if ( w->get_bal() == red )    // p has two red children (u and w)
        { u->set_bal(black);
          w->set_bal(black);
-         if (p == root())  
-         { p->set_bal(black); 
-           break; 
+         if (p == root())
+         { p->set_bal(black);
+           break;
           }
          p->set_bal(red);
          v = p;
          u = p->parent;
         }
-    else 
+    else
        if (dir1 == dir)      // rebalancing by one rotation
          { rotation(p,u,dir1);
            p->set_bal(red);
            u->set_bal(black);
            break;
-          }       
+          }
        else
         { double_rotation(p,u,v,dir1);
           p->set_bal(red);
@@ -85,9 +85,9 @@ void rb_tree::del_rebal(rb_tree_item w, rb_tree_item p)
   if (p->get_bal()==red) return;  // case 1 : nothing to do
 
   if (w->get_bal()==red)          // case 2
-  { w->set_bal(black); 
-    return; 
-   } 
+  { w->set_bal(black);
+    return;
+   }
 
 
   rb_tree_item u = w->parent;
@@ -96,8 +96,8 @@ void rb_tree::del_rebal(rb_tree_item w, rb_tree_item p)
   while (true)
   {
     rb_tree_item w = u->child[1-dir];
-  
-    // situation: black height of subtree rooted at black node 
+
+    // situation: black height of subtree rooted at black node
     // v = u->child[dir] is by one too small, w = sibling of v
     //
     // => increase black height of v or "move" v towards the root
@@ -110,29 +110,29 @@ void rb_tree::del_rebal(rb_tree_item w, rb_tree_item p)
     //                            / \                 / \
     //                           /   \               /   \
     //                          y     x             x     y
-   
-  
+
+
     if ( w->get_bal()==black )                    // case 2: v and w are black
       { rb_tree_item y = w->child[1-dir];
-        if ( y->get_bal()==red )                  // case 2.b 
+        if ( y->get_bal()==red )                  // case 2.b
            { rotation(u,w,1-dir);
              w->set_bal(u->get_bal());
              u->set_bal(black);
              y->set_bal(black);
              break;
             }
-        else   
-           if ( (y=w->child[dir])->get_bal()==red ) // case 2.c 
+        else
+           if ( (y=w->child[dir])->get_bal()==red ) // case 2.c
               { double_rotation(u,w,y,1-dir);
                 y->set_bal(u->get_bal());
                 u->set_bal(black);
                 break;
               }
-           else 
+           else
               if ( u->get_bal()==red )     // case 2.a2
                  { w->set_bal(red);
                    u->set_bal(black);
-                   break; 
+                   break;
                   }
               else                        // case 2.a1
                  { rotation(u,w,1-dir);
@@ -144,7 +144,7 @@ void rb_tree::del_rebal(rb_tree_item w, rb_tree_item p)
                         dir = (w == u->child[left]) ? left : right;
                        }
                   }
-      }     
+      }
     else                                  // case 3: v ist black, w ist red
       { rb_tree_item x = w->child[dir];
         rb_tree_item y;
@@ -153,22 +153,22 @@ void rb_tree::del_rebal(rb_tree_item w, rb_tree_item p)
             w->child[dir]->set_bal(black);
             break;
            }
-        else 
+        else
            if ( (y = x->child[dir])->get_bal()==red )   // case 3.c
              { rotation(x,y,dir);
-               w->child[dir] = y; 
+               w->child[dir] = y;
                double_rotation(u,w,y,1-dir);
                y->set_bal(black);
                break;
               }
-           else                                     // case 3.a 
+           else                                     // case 3.a
              { rotation(u,w,1-dir);
                w->set_bal(black);
                x->set_bal(red);
                break;
               }
        }
-  
+
    } /* end of loop */
 
 }

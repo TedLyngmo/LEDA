@@ -5,15 +5,15 @@
 +  _vector.c
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
 #include <LEDA/vector.h>
 
-#include <math.h>
+#include <cmath>
 
 void vector::check_dimensions(const vector& vec) const
 { if (d!=vec.d)
@@ -21,16 +21,16 @@ void vector::check_dimensions(const vector& vec) const
  }
 
 
-vector::vector() 
-{ d = 0; 
+vector::vector()
+{ d = 0;
   v = nil;
  }
 
 
-vector::vector(int n) 
-{ 
- if (n<0) error_handler(1,"vector: negative dimension."); 
- d = n; 
+vector::vector(int n)
+{
+ if (n<0) error_handler(1,"vector: negative dimension.");
+ d = n;
  v = nil;
  if (d > 0)
  { if (d < 32)
@@ -43,19 +43,19 @@ vector::vector(int n)
 }
 
 
-vector::~vector() 
-{ if (v) 
-    if (d < 32) 
+vector::~vector()
+{ if (v)
+    if (d < 32)
        deallocate_bytes(v,d*sizeof(double));
     else
        delete[] v;
 }
 
 
-vector::vector(const vector& p) 
-{ d = p.d; 
+vector::vector(const vector& p)
+{ d = p.d;
   v = nil;
-  if (d > 0) 
+  if (d > 0)
   { if (d < 32)
         v = (double*)allocate_bytes(d*sizeof(double));
     else
@@ -66,14 +66,14 @@ vector::vector(const vector& p)
 
 
 
-vector::vector(double x, double y) 
+vector::vector(double x, double y)
 { v = (double*)allocate_bytes(2*sizeof(double));
   d = 2;
   v[0] = x;
   v[1] = y;
  }
 
-vector::vector(double x, double y, double z) 
+vector::vector(double x, double y, double z)
 { v = (double*)allocate_bytes(3*sizeof(double));
   d = 3;
   v[0] = x;
@@ -83,32 +83,32 @@ vector::vector(double x, double y, double z)
 
 double  vector::operator[](int i) const
 { if (i<0 || i>=d)  error_handler(1,"vector: index out of range ");
-  return v[i]; 
+  return v[i];
 }
 
 double& vector::operator[](int i)
 { if (i<0 || i>=d)  error_handler(1,"vector: index out of range ");
-  return v[i]; 
+  return v[i];
 }
 
 
 vector& vector::operator+=(const vector& vec)
 { check_dimensions(vec);
-  register int n = d;
+  int n = d;
   while (n--) v[n] += vec.v[n];
   return *this;
 }
 
 vector& vector::operator-=(const vector& vec)
 { check_dimensions(vec);
-  register int n = d;
+  int n = d;
   while (n--) v[n] -= vec.v[n];
   return *this;
 }
 
 vector vector::operator+(const vector& vec) const
 { check_dimensions(vec);
-  register int n = d;
+  int n = d;
   vector result(n);
   while (n--) result.v[n] = v[n]+vec.v[n];
   return result;
@@ -116,14 +116,14 @@ vector vector::operator+(const vector& vec) const
 
 vector vector::operator-(const vector& vec) const
 { check_dimensions(vec);
-  register int n = d;
+  int n = d;
   vector result(n);
   while (n--) result.v[n] = v[n]-vec.v[n];
   return result;
 }
 
 vector vector::operator-() const  // unary minus
-{ register int n = d;
+{ int n = d;
   vector result(n);
   while (n--) result.v[n] = -v[n];
   return result;
@@ -145,21 +145,21 @@ vector vector::operator/(double x) const
 }
 
 //friend
-vector operator*(double f, const vector& v) { return v*f;     } 
+vector operator*(double f, const vector& v) { return v*f;     }
 
 double vector::operator*(const vector& vec) const
 { check_dimensions(vec);
   double result=0;
-  register int n = d;
+  int n = d;
   while (n--) result = result+v[n]*vec.v[n];
   return result;
 }
 
 vector& vector::operator=(const vector& vec)
-{ register int n = vec.d;
+{ int n = vec.d;
 
   if (n != d)
-  { 
+  {
     if (v)
     { if (d < 32)
           deallocate_bytes(v,d*sizeof(double));
@@ -189,12 +189,12 @@ bool vector::operator==(const vector& vec)  const
  }
 
 
-ostream& operator<<(ostream& s, const vector& v)
+std::ostream& operator<<(std::ostream& s, const vector& v)
 { for (int i=0;i<v.d;i++)  s << string("%7.2f ",v[i]);
   return s;
 }
 
-istream& operator>>(istream& s, vector& x)
+std::istream& operator>>(std::istream& s, vector& x)
 { int i=0;
   while (i<x.d && s >> x.v[i++]);
   return s;
@@ -209,13 +209,13 @@ double vector::angle(const vector& y)  const
   if ( l==0 || yl==0)
     error_handler(1,"angle: zero argument\n");
 
-  return  acos((*this)*y/(l*yl));  
+  return  acos((*this)*y/(l*yl));
 }
 
 
 
 int vector::cmp(const vector& v1, const vector& v2)
-{ register int i;
+{ int i;
 
   if (v1.dim() != v2.dim())
     error_handler(1,"compare(vector,vector): different dimensions\n");
@@ -223,7 +223,7 @@ int vector::cmp(const vector& v1, const vector& v2)
   for(i=0; i < v1.dim() && v1[i]==v2[i]; i++);
 
   if (i == v1.dim()) return 0;
-   
+
   return (v1[i] < v2[i]) ?  -1 : 1;
 }
 

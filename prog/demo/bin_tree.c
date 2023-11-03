@@ -12,12 +12,12 @@ window W;
 
 void draw_node(double x, double y, void*, int bal)
 { W.draw_filled_node(x,y,yellow);
-  W.draw_ctext(x,y,string("%d",bal),violet); 
+  W.draw_ctext(x,y,string("%d",bal),violet);
  }
 
 void draw_leaf(double x, double y, void* key, int)
 { W.draw_filled_rectangle(x-1.4,y-1.4,x+1.4,y+1.4,black);
-  W.draw_ctext(x,y,string("%d",key),white); 
+  W.draw_ctext(x,y,string("%d",key),white);
  }
 
 
@@ -25,7 +25,7 @@ void draw_edge(double x0, double y0, double x1, double y1)
 { W.draw_edge(point(x0,y0),point(x1,y1),blue); }
 
 
-main()
+int main()
 {
   bin_tree* TREE[5];
   string    NAME[5];
@@ -59,23 +59,23 @@ main()
     W.message(NAME[sel]);
 
     bin_tree* T = TREE[sel];
-  
+
     T->clear();
-  
+
     int i;
-  
+
     if (mode==0)
       for(i=0;i<n;i++) T->insert((void*)rand_int(0,99),0);
     else
       for(i=0;i<n;i++) T->insert((void*)i,0);
-  
+
     double dy = (W.ymax()-W.ymin())/10;
-  
+
     T->draw(draw_node,draw_leaf,draw_edge, W.xmin(),W.xmax(),W.ymax()-dy,dy);
-  
+
     W.read_mouse();
-  
+
   }
-  
+
   return 0;
 }

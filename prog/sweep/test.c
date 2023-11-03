@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include <LEDA/graph.h>
 #include <LEDA/integer.h>
 #include <LEDA/rat_point.h>
@@ -32,8 +32,8 @@ cout << string("time = %6.2f sec  ",t);\
 cout << string("%.2f %%",100*float(exact_cmp_count)/cmp_count);\
 newline; }
 
-main()
-{ 
+int main()
+{
   int N  = read_int("N  = ");
   int k  = read_int("k  = ");
   int l = 0;
@@ -61,7 +61,7 @@ main()
       segment s1(point(x1,y1,w1),point(x2,y2,w2));
       seglist1.append(s1);
      }
-  
+
 
 TEST_SWEEP(sweep0,seglist, G, cmp_points_count,exact_cmp_points_count)
 TEST_SWEEP(sweep,seglist,G,rat_point::cmp_count,rat_point::exact_cmp_count)
@@ -74,7 +74,7 @@ TEST_SWEEP(sweep1,seglist1,G1,point::cmp_count,point::exact_cmp_count)
 newline;
 
    }
-  
+
   return 0;
 }
 

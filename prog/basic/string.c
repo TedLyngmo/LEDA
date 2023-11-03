@@ -1,8 +1,8 @@
 #include <LEDA/basic.h>
 #include <LEDA/stream.h>
 
-main()
-{ 
+int main()
+{
 
   file_istream IN(read_string("input from file: "));
 
@@ -20,7 +20,7 @@ main()
     s.read_line(IN);
     s = s.replace_all(s1,s2);
     s = s.del_all(s3);
-    cout << string("[%2d] ",i++) << s;
+    std::cout << string("[%2d] ",i++) << s;
     newline;
    }
   newline;

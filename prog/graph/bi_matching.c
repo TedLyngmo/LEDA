@@ -2,7 +2,7 @@
 #include <LEDA/graph_alg.h>
 
 
-main()
+int main()
 {
 
 GRAPH<int,int> G;
@@ -27,7 +27,7 @@ list<edge> M0 = MAX_CARD_BIPARTITE_MATCHING(G,A,B);
 cout << string("%5.2f sec    |M| = %d\n",used_time(T), M0.length());
 
 /*
-if (Yes("output ? "))  
+if (Yes("output ? "))
    { newline;
      forall(e,M0) { G.print_edge(e); newline; }
      newline;
@@ -40,7 +40,7 @@ list<edge> M1 = MAX_CARD_MATCHING(G);
 cout << string("%5.2f sec    |M| = %d\n",used_time(T), M1.length());
 
 /*
-if (Yes("output ? "))  
+if (Yes("output ? "))
    { newline;
      forall(e,M1) { G.print_edge(e); newline; }
      newline;
@@ -61,7 +61,7 @@ double W = 0;
 
 edge_array<double> weight2(G);
 
-forall_edges(e,G) weight2[e] =  weight1[e]/1000.0; 
+forall_edges(e,G) weight2[e] =  weight1[e]/1000.0;
 
 cout << "MAX_WEIGHT_BIPARTITE_MATCHING <double> ";
 cout.flush();

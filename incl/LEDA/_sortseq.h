@@ -5,9 +5,9 @@
 +  _sortseq.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 
@@ -21,7 +21,7 @@
 //
 // Sorted sequences with implementation parameter:
 //
-//   _sortseq<K,I,seq_impl> 
+//   _sortseq<K,I,seq_impl>
 //
 //------------------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ Sorted Sequences}. Note that the key type $K$ must be linearly ordered.
 
 /*{\Mtext
 {\bf Example}\\
-Using a sorted sequence implemented by skiplists to list all elements in a 
+Using a sorted sequence implemented by skiplists to list all elements in a
 sequence of strings lying lexicographically between two given search strings.
 \begingroup
 \ttbig
@@ -47,8 +47,8 @@ sequence of strings lying lexicographically between two given search strings.
 #include <LEDA/_sortseq.h>
 #include <LEDA/impl/skiplist.h>
 
-main()
-{ 
+int main()
+{
  _sortseq<string,int,skiplist> S;
  string s1,s2;
 
@@ -58,7 +58,7 @@ main()
  { seq_item start = S.locate(s1);
    seq_item stop  = S.locate(s2);
    for (seq_item it = start; it != stop; it = S.succ(it))
-      cout << S.key(it) << endl; 
+      std::cout << S.key(it) << std::endl;
   }
 
 }
@@ -68,7 +68,7 @@ main()
 
 
 
-template <class K, class I, class impl> 
+template <class K, class I, class impl>
 
 class _sortseq : private virtual impl, public sortseq<K,I>
 {
@@ -90,10 +90,10 @@ I inf(seq_item it) const { return LEDA_ACCESS(I,impl::inf(impl::item(it))); }
 seq_item lookup(K y) const { return (seq_item)impl::lookup(Convert(y)); }
 seq_item locate(K y) const { return (seq_item)impl::locate(Convert(y)); }
 
-seq_item locate_succ(K y) const 
+seq_item locate_succ(K y) const
 { return (seq_item)impl::locate_succ(Convert(y)); }
 
-seq_item locate_pred(K y) const 
+seq_item locate_pred(K y) const
 { return (seq_item)impl::locate_pred(Convert(y)); }
 
 seq_item min() const { return (seq_item)impl::min(); }
@@ -111,14 +111,14 @@ seq_item insert(K y,I x)
 seq_item insert_at(seq_item it,K y,I x)
 { return (seq_item)impl::insert_at_item(impl::item(it),Convert(y),Convert(x));}
 
-void reverse_items(seq_item it1, seq_item it2) 
+void reverse_items(seq_item it1, seq_item it2)
 { impl::reverse_items(impl::item(it1),impl::item(it2)); }
 
 void flip_items(seq_item it1, seq_item it2) { reverse_items(it1,it2); }
 
 void del(K y) { impl::del(Convert(y)); }
 void del_item(seq_item it) { impl::del_item(impl::item(it)); }
-void change_inf(seq_item it, I i) 
+void change_inf(seq_item it, I i)
 { impl::change_inf(impl::item(it),Convert(i));}
 
 int  size()  const { return impl::size(); }

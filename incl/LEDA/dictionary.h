@@ -5,26 +5,26 @@
 +  dictionary.h
 +
 +  Copyright (c) 1995  by  Max-Planck-Institut fuer Informatik
-+  Im Stadtwald, 66123 Saarbruecken, Germany     
++  Im Stadtwald, 66123 Saarbruecken, Germany
 +  All rights reserved.
-+ 
++
 *******************************************************************************/
 
 #ifndef LEDA_DICTIONARY_H
 #define LEDA_DICTIONARY_H
 
-#include <LEDA/basic.h>    
+#include <LEDA/basic.h>
 
 
 #define DIC_DEF_IMPL skiplist
-#include <LEDA/impl/skiplist.h> 
+#include <LEDA/impl/skiplist.h>
 typedef skiplist_item dic_item;
 
 /*{\Manpage {dictionary} {K,I} {Dictionaries}}*/
 
-template <class K, class I> 
+template <class K, class I>
 
-class dictionary : public virtual DIC_DEF_IMPL 
+class dictionary : public virtual DIC_DEF_IMPL
 {
 /*{\Mdefinition
 An instance $D$ of the parameterized data type \name\ is a collection
@@ -50,7 +50,7 @@ public:
 /*{\Mcreation D }*/
 
 dictionary() {}
-/*{\Mcreate creates an instance \var\ of type \name\ and initializes it with 
+/*{\Mcreate creates an instance \var\ of type \name\ and initializes it with
             the empty dictionary.}*/
 
 
@@ -58,7 +58,7 @@ dictionary(const dictionary<K,I>& D) : DIC_DEF_IMPL(D) {}
 
 dictionary<K,I>& operator=(const dictionary<K,I>& D)
 { DIC_DEF_IMPL::operator=(D); return *this; }
-         
+
 virtual ~dictionary()   { DIC_DEF_IMPL::clear(); }
 
 
@@ -73,11 +73,11 @@ virtual I inf(dic_item it) const { return LEDA_ACCESS(I,DIC_DEF_IMPL::inf(it));}
 /*{\Mop     returns the information of item $it$.\\
 	    \precond $it$ is an item in \var.}*/
 
-virtual int  defined(K k) const 
+virtual int  defined(K k) const
 { return (lookup(k) == nil) ? false : true; }
 
 virtual dic_item insert(K k, I i)
-{ return DIC_DEF_IMPL::insert(Convert(k),Convert(i)); } 
+{ return DIC_DEF_IMPL::insert(Convert(k),Convert(i)); }
 /*{\Mop      associates the information $i$ with the key $k$.
              If there is an item $\<k,j\>$ in \var\ then $j$ is
              replaced by $i$, else a new item $\<k,i\>$ is added
@@ -92,11 +92,11 @@ virtual I access(K k)  const { return inf(lookup(k));}
 /*{\Mop       returns the information associated with key $k$.
               \precond there is an item with key $k$ in \var.}*/
 
-virtual void  del(K k)          { DIC_DEF_IMPL::del(Convert(k)); } 
+virtual void  del(K k)          { DIC_DEF_IMPL::del(Convert(k)); }
 /*{\Mop       deletes the item with key $k$ from \var\
               (null operation, if no such item exists).}*/
 
-virtual void  del_item(dic_item it) { DIC_DEF_IMPL::del_item(it); } 
+virtual void  del_item(dic_item it) { DIC_DEF_IMPL::del_item(it); }
 /*{\Mop       removes item $it$ from \var.\\
               \precond $it$ is an item in \var.}*/
 
@@ -106,7 +106,7 @@ virtual void change_inf(dic_item it, I i)
               \precond $it$ is an item in \var.}*/
 
 virtual void     clear() { DIC_DEF_IMPL::clear(); }
-/*{\Mop       makes \var\ the empty dictionary.}*/ 
+/*{\Mop       makes \var\ the empty dictionary.}*/
 
 virtual int      size()  const { return DIC_DEF_IMPL::size(); }
 /*{\Mop       returns the size of \var.}*/
@@ -120,10 +120,10 @@ virtual dic_item next_item(dic_item it) const { return DIC_DEF_IMPL::next_item(i
 };
 
 /*{\Mimplementation
-Dictionaries are implemented by randomized search trees \cite{AS89}. Operations 
+Dictionaries are implemented by randomized search trees \cite{AS89}. Operations
 insert, lookup, del\_item, del take time $O(\log n)$, key, inf, empty, size,
-change\_inf take time $O(1)$, and clear takes time $O(n)$. Here $n$ is the 
-current size of the dictionary. The space requirement is $O(n)$.}*/ 
+change\_inf take time $O(1)$, and clear takes time $O(n)$. Here $n$ is the
+current size of the dictionary. The space requirement is $O(n)$.}*/
 
 
 /*{\Mexample
@@ -136,7 +136,7 @@ We count the number of occurrences of each string in a sequence of strings.
 
 #include <LEDA/dictionary.h>
 
-main()
+int main()
 { dictionary<string,int> D;
   string s;
   dic_item it;
@@ -147,7 +147,7 @@ main()
     else D.change_inf(it,D.inf(it)+1);
   }
 
-  forall_items(it,D) cout << D.key(it) << " : " <<  D.inf(it) << endl;
+  forall_items(it,D) std::cout << D.key(it) << " : " <<  D.inf(it) << std::endl;
 
 }
 \endgroup
